@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#E#",
+    "#Q#",
+    "#X#"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:iron_ingot"
+    },
+    "E": {
+      "item": "minecraft:emerald"
+    },
+    "Q": {
+      "item": "minecraft:glass_bottle"
+    },
+    "X": {
+      "item": "minecraft:obsidian"
+    }
+  },
+  "result": {
+    "item": "experienceobelisk:experience_obelisk",
+    "count": 1
+  }
+}
