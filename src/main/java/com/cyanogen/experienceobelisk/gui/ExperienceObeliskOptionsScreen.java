@@ -47,11 +47,11 @@ public class ExperienceObeliskOptionsScreen extends Screen {
 
     @Override
     public boolean keyPressed(int pKeyCode, int pScanCode, int pModifiers) {
-        if (pKeyCode == 256 && this.shouldCloseOnEsc()) {
+        if (pKeyCode == 256 || pKeyCode == 69) {
             this.onClose();
             return true;
         } else {
-            return false;
+            return super.keyPressed(pKeyCode, pScanCode, pModifiers);
         }
     }
 

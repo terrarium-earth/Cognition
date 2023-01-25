@@ -26,7 +26,7 @@ public class XPObeliskTileRenderer extends GeoBlockRenderer<XPObeliskEntity> {
 
             @Override
             public ResourceLocation getAnimationFileLocation(XPObeliskEntity animatable) {
-                return new ResourceLocation(ExperienceObelisk.MOD_ID, "animations/xpobelisk.animation.json");
+                return new ResourceLocation(ExperienceObelisk.MOD_ID, "animations/xpobelisk.anim.json");
             }
         });
     }
