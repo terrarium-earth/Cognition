@@ -25,7 +25,7 @@ public class ExperienceObeliskItem extends BlockItem {
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltip, TooltipFlag pFlag) {
 
         int amount = pStack.getOrCreateTag().getCompound("BlockEntityTag").getInt("Amount");
-        int levels = ExperienceObeliskScreen.xpToLevels(amount);
+        int levels = ExperienceObeliskScreen.xpToLevels(amount / 20);
 
         pTooltip.add(new TranslatableComponent("tooltip.experienceobelisk.experience_obelisk.item_fluid_amount",
                 new TextComponent(amount + " mB").withStyle(ChatFormatting.YELLOW)));

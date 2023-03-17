@@ -100,9 +100,10 @@ public class ExperienceObeliskScreen extends Screen{
         //breaks around 2980000 mB for some reason
 
         int fluidAmount = xpobelisk.getFluidAmount();
+        int XPAmount = fluidAmount / 20;
 
-        int n = fluidAmount - levelsToXP(xpToLevels(fluidAmount)); //remaining xp
-        int m = levelsToXP(xpToLevels(fluidAmount) + 1) - levelsToXP(xpToLevels(fluidAmount)); //xp for next level
+        int n = XPAmount - levelsToXP(xpToLevels(XPAmount)); //remaining xp
+        int m = levelsToXP(xpToLevels(XPAmount) + 1) - levelsToXP(xpToLevels(XPAmount)); //xp for next level
         int p = n * 138 / m;
 
         //render gui texture
@@ -121,7 +122,7 @@ public class ExperienceObeliskScreen extends Screen{
                 this.width / 2 - 77,this.height / 2 - 10, 0xFFFFFF);
         drawCenteredString(new PoseStack(), this.font, fluidAmount + " mB",
                 this.width / 2,this.height / 2 + 35, 0xFFFFFF);
-        drawCenteredString(new PoseStack(), this.font, String.valueOf(xpToLevels(fluidAmount)),
+        drawCenteredString(new PoseStack(), this.font, String.valueOf(xpToLevels(fluidAmount / 20)),
                 this.width / 2,this.height / 2 + 60, 0x4DFF12);
 
         //widgets

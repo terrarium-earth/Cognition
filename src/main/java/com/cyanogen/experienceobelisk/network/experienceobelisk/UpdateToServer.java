@@ -68,24 +68,29 @@ public class UpdateToServer {
                     finalXP = levelsToXP(sender.experienceLevel - XP) + Math.round(sender.experienceProgress *
                             (levelsToXP(sender.experienceLevel - XP + 1) - levelsToXP(sender.experienceLevel - XP)));
 
+                    long addAmount = playerXP - finalXP;
 
                     if (xpobelisk.getSpace() == 0){ }
 
                     //if amount to add exceeds remaining capacity
-                    else if(playerXP - finalXP >= xpobelisk.getSpace()){
-                        sender.giveExperiencePoints(-xpobelisk.fill(16000000));
+                    else if(addAmount * 20 >= xpobelisk.getSpace()){
+                        sender.giveExperiencePoints(-xpobelisk.fill(16000000)); //fill up however much is left and deduct that amount frm player
                     }
 
                     //normal operation
                     else if(sender.experienceLevel >= XP){
 
-                        xpobelisk.fill((int) (playerXP - finalXP));
+                        xpobelisk.fill((int) (addAmount * 20));
                         sender.giveExperienceLevels(-XP);
 
                     }
+                    //if player has less than the required XP
                     else if (playerXP >= 1){
 
-                        sender.giveExperiencePoints(-xpobelisk.fill((int) playerXP));
+                        xpobelisk.fill((int) (playerXP * 20));
+                        sender.setExperiencePoints(0);
+                        sender.setExperienceLevels(0);
+
 
                     }
                 }
@@ -94,14 +99,17 @@ public class UpdateToServer {
 
                 else if(request == Request.DRAIN){
 
-                    int amount = xpobelisk.getFluidAmount();
+                    int amount = xpobelisk.getFluidAmount() / 20;
 
                     finalXP = levelsToXP(sender.experienceLevel + XP) + Math.round(sender.experienceProgress *
                             (levelsToXP(sender.experienceLevel + XP + 1) - levelsToXP(sender.experienceLevel + XP)));
 
-                    if(amount >= finalXP - playerXP){
+                    long addAmount = finalXP - playerXP;
 
-                        xpobelisk.drain((int) (finalXP - playerXP));
+                    //normal operation
+                    if(amount >= addAmount){
+
+                        xpobelisk.drain((int) ((finalXP - playerXP) * 20));
                         sender.giveExperienceLevels(XP);
 
                     }
@@ -116,13 +124,13 @@ public class UpdateToServer {
 
                 else if(request == Request.FILL_ALL){
 
-                    if(playerXP <= xpobelisk.getSpace()){
-                        xpobelisk.fill((int) playerXP);
+                    if(playerXP * 20 <= xpobelisk.getSpace()){
+                        xpobelisk.fill((int) (playerXP * 20));
                         sender.setExperiencePoints(0);
                         sender.setExperienceLevels(0);
                     }
                     else{
-                        sender.giveExperiencePoints(-xpobelisk.getSpace());
+                        sender.giveExperiencePoints(-xpobelisk.getSpace() / 20);
                         xpobelisk.setFluid(16000000);
                     }
 
@@ -130,7 +138,7 @@ public class UpdateToServer {
                 }
                 else if(request == Request.DRAIN_ALL){
 
-                    sender.giveExperiencePoints(xpobelisk.getFluidAmount());
+                    sender.giveExperiencePoints(xpobelisk.getFluidAmount() / 20);
                     xpobelisk.setFluid(0);
                 }
 

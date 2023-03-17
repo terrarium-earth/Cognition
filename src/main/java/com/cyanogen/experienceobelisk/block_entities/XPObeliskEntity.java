@@ -94,10 +94,10 @@ public class XPObeliskEntity extends BlockEntity implements IAnimatable{
             List<Entity> list = level.getEntities(null, area);
 
             for(Entity e : list){
-                if(e instanceof ExperienceOrb orb && xpobelisk.getSpace() > 0 && absorb){
+                if(e instanceof ExperienceOrb orb && xpobelisk.getSpace() > 0 && absorb && level.getGameTime() % 3 == 0){ //check every 3 ticks instead of every tick
 
                     int value = orb.getValue();
-                    xpobelisk.fill(value);
+                    xpobelisk.fill(value * 20); //parity w mob grinding utils
                     e.discard();
 
                 }
