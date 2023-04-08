@@ -1,15 +1,14 @@
 {
-  //items
+
   "item.experienceobelisk.steel": "Tempered Steel",
   "item.experienceobelisk.raw_experience_bucket": "Raw Experience Bucket",
 
-  //blocks
   "block.experienceobelisk.experience_obelisk": "Experience Obelisk",
 
-  //tabs
+  "fluid.experienceobelisk.raw_experience": "Raw Experience",
+
   "itemGroup.experience_obelisk": "Experience Obelisk",
 
-  //tooltips
   "tooltip.experienceobelisk.experience_obelisk.add1": "Store §a1§f XP level",
   "tooltip.experienceobelisk.experience_obelisk.add10": "Store §a10§f XP levels",
   "tooltip.experienceobelisk.experience_obelisk.addAll": "Store §aall§f XP levels",
@@ -24,10 +23,9 @@
   "tooltip.experienceobelisk.experience_obelisk.settings": "Settings...",
   "tooltip.experienceobelisk.experience_obelisk.back": "Back...",
 
-  //buttons
   "button.experienceobelisk.experience_obelisk.settings": "§l⚙§r",
 
-  //fluid
-  "fluid.experienceobelisk.raw_experience": "Raw Experience"
+  "message.experienceobelisk.update_warning_message": "§a[Experience Obelisk]§f Please §cretrieve all§f XP stored in Obelisks before updating to v1.4.0! We will be changing the XP conversion rate, and your XP stores might be affected"
+
 
 }

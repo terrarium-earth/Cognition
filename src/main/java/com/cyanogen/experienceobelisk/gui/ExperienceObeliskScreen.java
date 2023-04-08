@@ -10,7 +10,9 @@ import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.Widget;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.chat.*;
+import net.minecraft.network.chat.Style;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
@@ -99,11 +101,10 @@ public class ExperienceObeliskScreen extends Screen{
 
         //breaks around 2980000 mB for some reason
 
-        int fluidAmount = xpobelisk.getFluidAmount();
-        int XPAmount = fluidAmount / 20;
+        int experiencePoints = xpobelisk.getFluidAmount() / 20;
 
-        int n = XPAmount - levelsToXP(xpToLevels(XPAmount)); //remaining xp
-        int m = levelsToXP(xpToLevels(XPAmount) + 1) - levelsToXP(xpToLevels(XPAmount)); //xp for next level
+        int n = experiencePoints - levelsToXP(xpToLevels(experiencePoints)); //remaining xp
+        int m = levelsToXP(xpToLevels(experiencePoints) + 1) - levelsToXP(xpToLevels(experiencePoints)); //xp for next level
         int p = n * 138 / m;
 
         //render gui texture
@@ -120,9 +121,9 @@ public class ExperienceObeliskScreen extends Screen{
                 this.width / 2 - 77,this.height / 2 - 56, 0xFFFFFF);
         drawString(new PoseStack(), this.font, "Retrieve",
                 this.width / 2 - 77,this.height / 2 - 10, 0xFFFFFF);
-        drawCenteredString(new PoseStack(), this.font, fluidAmount + " mB",
+        drawCenteredString(new PoseStack(), this.font, experiencePoints * 20 + " mB",
                 this.width / 2,this.height / 2 + 35, 0xFFFFFF);
-        drawCenteredString(new PoseStack(), this.font, String.valueOf(xpToLevels(fluidAmount / 20)),
+        drawCenteredString(new PoseStack(), this.font, String.valueOf(xpToLevels(experiencePoints)),
                 this.width / 2,this.height / 2 + 60, 0x4DFF12);
 
         //widgets

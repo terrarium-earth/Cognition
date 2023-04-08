@@ -17,7 +17,6 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
-import com.cyanogen.experienceobelisk.ModCreativeModeTab;
 
 import java.util.function.Supplier;
 import java.util.function.ToIntFunction;
@@ -30,6 +29,7 @@ public class ModBlocksInit {
     //block registrations go here:
     public static final RegistryObject<Block> EXPERIENCE_OBELISK = BLOCKS.register("experience_obelisk", ExperienceObeliskBlock::new);
 
+    //legacy
     public static final RegistryObject<LiquidBlock> RAW_EXPERIENCE = BLOCKS.register("raw_experience",
             () -> new LiquidBlock(ModFluidsInit.RAW_EXPERIENCE_FLOWING, BlockBehaviour.Properties.of(Material.WATER)
                     .lightLevel(new ToIntFunction<>() {
@@ -46,7 +46,21 @@ public class ModBlocksInit {
                     })
             ));
 
-
+    public static final RegistryObject<LiquidBlock> COGNITIVE_ESSENCE = BLOCKS.register("cognitive_essence",
+            () -> new LiquidBlock(ModFluidsInit.RAW_EXPERIENCE_FLOWING, BlockBehaviour.Properties.of(Material.WATER)
+                    .lightLevel(new ToIntFunction<>() {
+                        @Override
+                        public int applyAsInt(BlockState value) {
+                            return 10;
+                        }
+                    })
+                    .emissiveRendering(new BlockBehaviour.StatePredicate() {
+                        @Override
+                        public boolean test(BlockState p_61036_, BlockGetter p_61037_, BlockPos p_61038_) {
+                            return true;
+                        }
+                    })
+            ));
 
     //utility methods to register block and block items at once
     private static <T extends Block> RegistryObject<T> registerBlock(String name, Supplier<T> block, CreativeModeTab tab){

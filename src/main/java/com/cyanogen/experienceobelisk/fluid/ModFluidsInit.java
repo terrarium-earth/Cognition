@@ -23,10 +23,18 @@ public class ModFluidsInit {
             DeferredRegister.create(ForgeRegistries.FLUIDS, ExperienceObelisk.MOD_ID);
 
     //registering fluid
+
+    //legacy
     public static final RegistryObject<FlowingFluid> RAW_EXPERIENCE
             = FLUIDS.register("raw_experience", () -> new ForgeFlowingFluid.Source(ModFluidsInit.RAW_EXPERIENCE_PROPERTIES));
     public static final RegistryObject<FlowingFluid> RAW_EXPERIENCE_FLOWING
             = FLUIDS.register("raw_experience_flowing", () -> new ForgeFlowingFluid.Flowing(ModFluidsInit.RAW_EXPERIENCE_PROPERTIES));
+
+    //new
+    public static final RegistryObject<FlowingFluid> COGNITIVE_ESSENCE
+            = FLUIDS.register("cognitive_essence", () -> new ForgeFlowingFluid.Source(ModFluidsInit.COGNITIVE_ESSENCE_PROPERTIES));
+    public static final RegistryObject<FlowingFluid> COGNITIVE_ESSENCE_FLOWING
+            = FLUIDS.register("cognitive_essence_flowing", () -> new ForgeFlowingFluid.Flowing(ModFluidsInit.COGNITIVE_ESSENCE_PROPERTIES));
 
     //setting properties for raw experience fluid
     public static final ForgeFlowingFluid.Properties RAW_EXPERIENCE_PROPERTIES = new ForgeFlowingFluid.Properties(
@@ -41,6 +49,20 @@ public class ModFluidsInit {
                     .overlay(overlay))
             .bucket(ModItemsInit.RAW_EXPERIENCE_BUCKET)
             .block(ModBlocksInit.RAW_EXPERIENCE);
+
+    public static final ForgeFlowingFluid.Properties COGNITIVE_ESSENCE_PROPERTIES = new ForgeFlowingFluid.Properties(
+            COGNITIVE_ESSENCE,
+            COGNITIVE_ESSENCE_FLOWING,
+            FluidAttributes.builder(flowingTexture, stillTexture)
+                    .density(1000)
+                    .luminosity(10)
+                    .viscosity(1000)
+                    .temperature(300)
+                    .sound(SoundEvents.BUCKET_FILL, SoundEvents.BUCKET_EMPTY)
+                    .overlay(overlay))
+            .bucket(ModItemsInit.COGNITIVE_ESSENCE_BUCKET)
+            .block(ModBlocksInit.COGNITIVE_ESSENCE);
+
 
 public static void register(IEventBus eventBus){
         FLUIDS.register(eventBus);

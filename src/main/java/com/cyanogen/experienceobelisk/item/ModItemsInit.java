@@ -12,8 +12,6 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
-import static net.minecraft.world.item.Items.BUCKET;
-
 public class ModItemsInit {
     public static final DeferredRegister<Item> ITEMS =
             DeferredRegister.create(ForgeRegistries.ITEMS, ExperienceObelisk.MOD_ID);
@@ -21,9 +19,13 @@ public class ModItemsInit {
     public static final RegistryObject<Item> EXPERIENCE_OBELISK_ITEM = ITEMS.register("experience_obelisk",
             () -> new ExperienceObeliskItem(ModBlocksInit.EXPERIENCE_OBELISK.get(), new Item.Properties().tab(ModCreativeModeTab.MOD_TAB)));
 
-    //bucket of experience
+    //legacy
     public static final RegistryObject<BucketItem> RAW_EXPERIENCE_BUCKET = ITEMS.register("raw_experience_bucket",
-            () -> new BucketItem(ModFluidsInit.RAW_EXPERIENCE, new Item.Properties().tab(ModCreativeModeTab.MOD_TAB).rarity(Rarity.UNCOMMON)));
+            () -> new BucketItem(ModFluidsInit.RAW_EXPERIENCE, new Item.Properties().rarity(Rarity.UNCOMMON)));
+
+    //bucket of experience
+    public static final RegistryObject<BucketItem> COGNITIVE_ESSENCE_BUCKET = ITEMS.register("cognitive_essence_bucket",
+            () -> new BucketItem(ModFluidsInit.COGNITIVE_ESSENCE, new Item.Properties().tab(ModCreativeModeTab.MOD_TAB).rarity(Rarity.UNCOMMON)));
 
     public static void register(IEventBus eventBus){
         ITEMS.register(eventBus);

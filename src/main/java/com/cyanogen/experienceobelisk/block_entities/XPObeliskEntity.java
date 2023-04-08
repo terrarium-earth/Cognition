@@ -1,6 +1,7 @@
 package com.cyanogen.experienceobelisk.block_entities;
 
 import com.cyanogen.experienceobelisk.fluid.ModFluidsInit;
+import com.cyanogen.experienceobelisk.network.experienceobelisk.UpdateToServer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -8,10 +9,11 @@ import net.minecraft.network.Connection;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.ExperienceOrb;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.RedstoneLampBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluid;
@@ -73,12 +75,11 @@ public class XPObeliskEntity extends BlockEntity implements IAnimatable{
     public static <T> void tick(Level level, BlockPos pos, BlockState state, T blockEntity) {
 
         level.sendBlockUpdated(pos, state, state, 2);
-
         boolean isRedstonePowered = level.hasNeighborSignal(pos);
 
         BlockEntity entity = level.getBlockEntity(pos);
 
-        if(entity instanceof XPObeliskEntity xpobelisk){
+        if(entity instanceof XPObeliskEntity xpobelisk && level.getGameTime() % 3 == 0){ //check every 3 ticks
 
             boolean absorb = !xpobelisk.isRedstoneEnabled() || isRedstonePowered;
             double radius = xpobelisk.getRadius();
@@ -94,10 +95,10 @@ public class XPObeliskEntity extends BlockEntity implements IAnimatable{
             List<Entity> list = level.getEntities(null, area);
 
             for(Entity e : list){
-                if(e instanceof ExperienceOrb orb && xpobelisk.getSpace() > 0 && absorb && level.getGameTime() % 3 == 0){ //check every 3 ticks instead of every tick
+                if(e instanceof ExperienceOrb orb && xpobelisk.getSpace() > 0 && absorb){
 
                     int value = orb.getValue();
-                    xpobelisk.fill(value * 20); //parity w mob grinding utils
+                    xpobelisk.fill(value);
                     e.discard();
 
                 }
@@ -125,13 +126,19 @@ public class XPObeliskEntity extends BlockEntity implements IAnimatable{
     //-----------FLUID HANDLER-----------//
 
     protected FluidTank tank = xpObeliskTank();
+
     private final LazyOptional<IFluidHandler> handler = LazyOptional.of(() -> tank);
+
     private static final Fluid rawExperience = ModFluidsInit.RAW_EXPERIENCE.get().getSource();
+    private static final Fluid cognitiveEssence = ModFluidsInit.COGNITIVE_ESSENCE.get().getSource();
     public static BlockPos pos;
     public static BlockState state;
 
+    public static final int capacity = 100000000;
+
     private FluidTank xpObeliskTank() {
-        return new FluidTank(16000000){ //1903 levels
+        return new FluidTank(capacity){
+
             @Override
             protected void onContentsChanged()
             {
@@ -147,17 +154,56 @@ public class XPObeliskEntity extends BlockEntity implements IAnimatable{
             }
 
             @Override
-            public boolean isFluidValid(FluidStack stack)
-            {
-                return stack.getFluid() == rawExperience;
+            public boolean isFluidValid(int tank, @Nonnull FluidStack stack) {
+                //return stack.getFluid().is(ModTags.Fluids.EXPERIENCE);
+                return stack.getFluid() == rawExperience || stack.getFluid() == cognitiveEssence;
+
             }
 
             @Override
-            public boolean isFluidValid(int tank, @Nonnull FluidStack stack) {
-                return stack.getFluid() == rawExperience;
+            public int fill(FluidStack resource, FluidAction action) {
+                if(resource.getFluid() == rawExperience){
+                    return super.fill(new FluidStack(cognitiveEssence, resource.getAmount() * 20), action);      //converts fluid when piped in
+                }
+                else{
+                    return super.fill(resource, action);
+                }
+
+            }
+
+            @Override
+            public int getTanks() {
+                return 1;
             }
         };
     }
+
+    public int fill(int amount)
+    {
+        level.sendBlockUpdated(pos, state, state, 2);
+        return tank.fill(new FluidStack(cognitiveEssence, amount), IFluidHandler.FluidAction.EXECUTE);
+    }
+
+    public void drain(int amount)
+    {
+        tank.drain(new FluidStack(cognitiveEssence, amount), IFluidHandler.FluidAction.EXECUTE);
+        level.sendBlockUpdated(pos, state, state, 2);
+    }
+
+    public void setFluid(int amount)
+    {
+        tank.setFluid(new FluidStack(cognitiveEssence, amount));
+        level.sendBlockUpdated(pos, state, state, 2);
+    }
+
+    public int getFluidAmount(){
+        return tank.getFluidAmount();
+    }
+
+    public int getSpace(){ return tank.getSpace(); }
+
+
+    //-----------NBT-----------//
 
     @Override
     public void load(CompoundTag tag)
@@ -167,6 +213,12 @@ public class XPObeliskEntity extends BlockEntity implements IAnimatable{
 
         this.radius = tag.getDouble("Radius");
         this.redstoneEnabled = tag.getBoolean("isRedstoneControllable");
+
+        if(tank.getFluid().getFluid() == rawExperience){
+            int amount = tank.getFluidAmount() * 20;
+            tank.drain(capacity, IFluidHandler.FluidAction.EXECUTE);
+            tank.setFluid(new FluidStack(cognitiveEssence, amount));     //convert fluid on load
+        }
     }
 
     @Override
@@ -216,7 +268,6 @@ public class XPObeliskEntity extends BlockEntity implements IAnimatable{
         }
     }
 
-
     @Override
     @Nonnull
     public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> capability, @Nullable Direction facing)
@@ -227,30 +278,111 @@ public class XPObeliskEntity extends BlockEntity implements IAnimatable{
         //controls which sides can give or receive fluids
     }
 
-    public int fill(int amount)
-    {
-        level.sendBlockUpdated(pos, state, state, 2);
-        return tank.fill(new FluidStack(rawExperience, amount), IFluidHandler.FluidAction.EXECUTE);
+
+
+    //-----------LOGIC-----------//
+
+
+    public static int levelsToXP(int levels){
+        if (levels <= 16) {
+            return (int) (Math.pow(levels, 2) + 6 * levels);
+        } else if (levels >= 17 && levels <= 31) {
+            return (int) (2.5 * Math.pow(levels, 2) - 40.5 * levels + 360);
+        } else if (levels >= 32) {
+            return (int) (4.5 * Math.pow(levels, 2) - 162.5 * levels + 2220);
+        }
+        return 0;
     }
 
-    public void drain(int amount)
-    {
-        tank.drain(new FluidStack(rawExperience, amount), IFluidHandler.FluidAction.EXECUTE);
-        level.sendBlockUpdated(pos, state, state, 2);
-    }
+    public void handleRequest(UpdateToServer.Request request, int XP, ServerPlayer sender){
 
-    public void setFluid(int amount)
-    {
-        tank.setFluid(new FluidStack(rawExperience, amount));
-        level.sendBlockUpdated(pos, state, state, 2);
-    }
+        long playerXP = levelsToXP(sender.experienceLevel) + Math.round(sender.experienceProgress * sender.getXpNeededForNextLevel());
+        long finalXP;
 
-    public int getFluidAmount(){
-        return tank.getFluidAmount();
-    }
+        if(request == UpdateToServer.Request.FILL){
 
-    public int getSpace(){ return tank.getSpace(); }
+            //-----FILLING-----//
+
+            //final amount of experience points the player will have after storing n levels
+            finalXP = levelsToXP(sender.experienceLevel - XP) + Math.round(sender.experienceProgress *
+                    (levelsToXP(sender.experienceLevel - XP + 1) - levelsToXP(sender.experienceLevel - XP)));
+
+            long addAmount = playerXP - finalXP;
+
+            if (this.getSpace() == 0){ }
+
+            //if amount to add exceeds remaining capacity
+            else if(addAmount * 20 >= this.getSpace()){
+                sender.giveExperiencePoints(-this.fill(capacity)); //fill up however much is left and deduct that amount frm player
+            }
+
+            //normal operation
+            else if(sender.experienceLevel >= XP){
+
+                this.fill((int) (addAmount * 20));
+                sender.giveExperienceLevels(-XP);
+
+            }
+            //if player has less than the required XP
+            else if (playerXP >= 1){
+
+                this.fill((int) (playerXP * 20));
+                sender.setExperiencePoints(0);
+                sender.setExperienceLevels(0);
+
+
+            }
+        }
+
+        //-----DRAINING-----//
+
+        else if(request == UpdateToServer.Request.DRAIN){
+
+            int amount = this.getFluidAmount() / 20;
+
+            finalXP = levelsToXP(sender.experienceLevel + XP) + Math.round(sender.experienceProgress *
+                    (levelsToXP(sender.experienceLevel + XP + 1) - levelsToXP(sender.experienceLevel + XP)));
+
+            long addAmount = finalXP - playerXP;
+
+            //normal operation
+            if(amount >= addAmount){
+
+                this.drain((int) ((finalXP - playerXP) * 20));
+                sender.giveExperienceLevels(XP);
+
+            }
+            else if(amount >= 1){
+
+                sender.giveExperiencePoints(amount);
+                this.setFluid(0);
+            }
+        }
+
+        //-----FILL OR DRAIN ALL-----//
+
+        else if(request == UpdateToServer.Request.FILL_ALL){
+
+            if(playerXP * 20 <= this.getSpace()){
+                this.fill((int) (playerXP * 20));
+                sender.setExperiencePoints(0);
+                sender.setExperienceLevels(0);
+            }
+            else{
+                sender.giveExperiencePoints(-this.getSpace() / 20);
+                this.setFluid(capacity);
+            }
+
+
+        }
+        else if(request == UpdateToServer.Request.DRAIN_ALL){
+
+            sender.giveExperiencePoints(this.getFluidAmount() / 20);
+            this.setFluid(0);
+        }
+    }
 
 
 }
+
 

@@ -2,14 +2,12 @@ package com.cyanogen.experienceobelisk.gui;
 
 import com.cyanogen.experienceobelisk.block_entities.XPObeliskEntity;
 import com.cyanogen.experienceobelisk.network.PacketHandler;
-import com.cyanogen.experienceobelisk.network.experienceobelisk.UpdateToServer;
 import com.cyanogen.experienceobelisk.network.experienceobelisk.XPObeliskUpdateRadius;
 import com.cyanogen.experienceobelisk.network.experienceobelisk.XPObeliskUpdateRedstone;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.Button;
-import net.minecraft.client.gui.components.ImageButton;
 import net.minecraft.client.gui.components.Widget;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;

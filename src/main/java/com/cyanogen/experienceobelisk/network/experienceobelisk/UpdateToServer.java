@@ -16,8 +16,11 @@ public class UpdateToServer {
     public static BlockPos pos;
     public static int XP;
     public static Request request;
+
     private long playerXP;
     private long finalXP;
+
+    private final int capacity = 100000000;
 
     public UpdateToServer(BlockPos pos, int XP, Request request) {
         this.pos = pos;
@@ -47,6 +50,7 @@ public class UpdateToServer {
         buffer.writeEnum(request);
     }
 
+    /*
     public boolean handle(Supplier<NetworkEvent.Context> ctx) {
         final var success = new AtomicBoolean(false);
         ctx.get().enqueueWork(() -> {
@@ -58,6 +62,8 @@ public class UpdateToServer {
             playerXP = levelsToXP(sender.experienceLevel) + Math.round(sender.experienceProgress * sender.getXpNeededForNextLevel());
 
             if(serverEntity instanceof XPObeliskEntity xpobelisk){
+
+                xpobelisk.handleRequest(request, XP, sender);
 
                 //-----FILLING-----//
 
@@ -74,7 +80,7 @@ public class UpdateToServer {
 
                     //if amount to add exceeds remaining capacity
                     else if(addAmount * 20 >= xpobelisk.getSpace()){
-                        sender.giveExperiencePoints(-xpobelisk.fill(16000000)); //fill up however much is left and deduct that amount frm player
+                        sender.giveExperiencePoints(-xpobelisk.fill(capacity)); //fill up however much is left and deduct that amount frm player
                     }
 
                     //normal operation
@@ -131,7 +137,7 @@ public class UpdateToServer {
                     }
                     else{
                         sender.giveExperiencePoints(-xpobelisk.getSpace() / 20);
-                        xpobelisk.setFluid(16000000);
+                        xpobelisk.setFluid(capacity);
                     }
 
 
@@ -149,6 +155,30 @@ public class UpdateToServer {
         ctx.get().setPacketHandled(true);
         return success.get();
     }
+
+     */
+
+
+    public boolean handle(Supplier<NetworkEvent.Context> ctx) {
+
+        final var success = new AtomicBoolean(false);
+
+        ctx.get().enqueueWork(() -> {
+            ServerPlayer sender = ctx.get().getSender();
+            assert sender != null;
+            BlockEntity serverEntity = sender.level.getBlockEntity(pos);
+
+            if(serverEntity instanceof XPObeliskEntity xpobelisk){
+
+                xpobelisk.handleRequest(request, XP, sender);
+                success.set(true);
+            }
+
+        });
+        ctx.get().setPacketHandled(true);
+        return success.get();
+    }
+
 
     public static int levelsToXP(int levels){
         if (levels <= 16) {
