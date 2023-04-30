@@ -31,10 +31,10 @@ public class ModFluidsInit {
             = FLUIDS.register("raw_experience_flowing", () -> new ForgeFlowingFluid.Flowing(ModFluidsInit.RAW_EXPERIENCE_PROPERTIES));
 
     //new
-    public static final RegistryObject<FlowingFluid> COGNITIVE_ESSENCE
-            = FLUIDS.register("cognitive_essence", () -> new ForgeFlowingFluid.Source(ModFluidsInit.COGNITIVE_ESSENCE_PROPERTIES));
-    public static final RegistryObject<FlowingFluid> COGNITIVE_ESSENCE_FLOWING
-            = FLUIDS.register("cognitive_essence_flowing", () -> new ForgeFlowingFluid.Flowing(ModFluidsInit.COGNITIVE_ESSENCE_PROPERTIES));
+    public static final RegistryObject<FlowingFluid> COGNITIUM
+            = FLUIDS.register("cognitium", () -> new ForgeFlowingFluid.Source(ModFluidsInit.COGNITIUM_PROPERTIES));
+    public static final RegistryObject<FlowingFluid> COGNITIUM_FLOWING
+            = FLUIDS.register("cognitium_flowing", () -> new ForgeFlowingFluid.Flowing(ModFluidsInit.COGNITIUM_PROPERTIES));
 
     //setting properties for raw experience fluid
     public static final ForgeFlowingFluid.Properties RAW_EXPERIENCE_PROPERTIES = new ForgeFlowingFluid.Properties(
@@ -50,9 +50,9 @@ public class ModFluidsInit {
             .bucket(ModItemsInit.RAW_EXPERIENCE_BUCKET)
             .block(ModBlocksInit.RAW_EXPERIENCE);
 
-    public static final ForgeFlowingFluid.Properties COGNITIVE_ESSENCE_PROPERTIES = new ForgeFlowingFluid.Properties(
-            COGNITIVE_ESSENCE,
-            COGNITIVE_ESSENCE_FLOWING,
+    public static final ForgeFlowingFluid.Properties COGNITIUM_PROPERTIES = new ForgeFlowingFluid.Properties(
+            COGNITIUM,
+            COGNITIUM_FLOWING,
             FluidAttributes.builder(flowingTexture, stillTexture)
                     .density(1000)
                     .luminosity(10)
@@ -60,7 +60,7 @@ public class ModFluidsInit {
                     .temperature(300)
                     .sound(SoundEvents.BUCKET_FILL, SoundEvents.BUCKET_EMPTY)
                     .overlay(overlay))
-            .bucket(ModItemsInit.COGNITIVE_ESSENCE_BUCKET)
+            .bucket(ModItemsInit.COGNITIUM_BUCKET)
             .block(ModBlocksInit.COGNITIVE_ESSENCE);
 
 

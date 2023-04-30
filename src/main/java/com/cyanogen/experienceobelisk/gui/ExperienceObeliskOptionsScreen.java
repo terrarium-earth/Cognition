@@ -31,6 +31,7 @@ public class ExperienceObeliskOptionsScreen extends Screen {
     private Button decreaseRadius;
     private Button currentRadius;
     private Button toggleRedstone;
+    private Button lockFluid;
     private Button back;
 
     private final ResourceLocation texture = new ResourceLocation("experienceobelisk:textures/gui/container/dark_bg2.png");
@@ -106,6 +107,7 @@ public class ExperienceObeliskOptionsScreen extends Screen {
         int s = 2; //spacing
         int y1 = 43;
         int y2 = -3;
+        int y3 = -49;
 
         Style green = Style.EMPTY.withColor(0x45FF5B);
         Style red = Style.EMPTY.withColor(0xFF454B);
@@ -121,6 +123,7 @@ public class ExperienceObeliskOptionsScreen extends Screen {
             status = "Ignored";
             styleStatus = red;
         }
+
 
         decreaseRadius = addRenderableWidget(new Button(this.width / 2 - 56, this.height / 2 - y1, 26, h, new TextComponent("-")
                 .setStyle(red), (onPress) -> {

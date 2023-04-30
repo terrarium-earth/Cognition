@@ -1,11 +1,12 @@
 {
 
-  "item.experienceobelisk.steel": "Tempered Steel",
   "item.experienceobelisk.raw_experience_bucket": "Raw Experience Bucket",
+  "item.experienceobelisk.cognitium_bucket": "Cognitium Bucket",
 
   "block.experienceobelisk.experience_obelisk": "Experience Obelisk",
 
   "fluid.experienceobelisk.raw_experience": "Raw Experience",
+  "fluid.experienceobelisk.cognitium": "Cognitium",
 
   "itemGroup.experience_obelisk": "Experience Obelisk",
 

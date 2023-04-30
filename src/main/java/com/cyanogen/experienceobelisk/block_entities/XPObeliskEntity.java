@@ -1,5 +1,6 @@
 package com.cyanogen.experienceobelisk.block_entities;
 
+import com.cyanogen.experienceobelisk.ModTags;
 import com.cyanogen.experienceobelisk.fluid.ModFluidsInit;
 import com.cyanogen.experienceobelisk.network.experienceobelisk.UpdateToServer;
 import net.minecraft.core.BlockPos;
@@ -12,7 +13,6 @@ import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.ExperienceOrb;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -71,6 +71,7 @@ public class XPObeliskEntity extends BlockEntity implements IAnimatable{
 
     protected boolean redstoneEnabled = false;
     protected double radius = 2.5;
+    protected boolean isLocked = false;
 
     public static <T> void tick(Level level, BlockPos pos, BlockState state, T blockEntity) {
 
@@ -95,10 +96,11 @@ public class XPObeliskEntity extends BlockEntity implements IAnimatable{
             List<Entity> list = level.getEntities(null, area);
 
             for(Entity e : list){
-                if(e instanceof ExperienceOrb orb && xpobelisk.getSpace() > 0 && absorb){
+                if(e instanceof ExperienceOrb orb && xpobelisk.getSpace() > 0 && absorb && e.isAlive()){
 
-                    int value = orb.getValue();
+                    int value = orb.getValue() * 20;
                     xpobelisk.fill(value);
+
                     e.discard();
 
                 }
@@ -130,7 +132,7 @@ public class XPObeliskEntity extends BlockEntity implements IAnimatable{
     private final LazyOptional<IFluidHandler> handler = LazyOptional.of(() -> tank);
 
     private static final Fluid rawExperience = ModFluidsInit.RAW_EXPERIENCE.get().getSource();
-    private static final Fluid cognitiveEssence = ModFluidsInit.COGNITIVE_ESSENCE.get().getSource();
+    private static final Fluid cognitium = ModFluidsInit.COGNITIUM.get().getSource();
     public static BlockPos pos;
     public static BlockState state;
 
@@ -155,15 +157,18 @@ public class XPObeliskEntity extends BlockEntity implements IAnimatable{
 
             @Override
             public boolean isFluidValid(int tank, @Nonnull FluidStack stack) {
-                //return stack.getFluid().is(ModTags.Fluids.EXPERIENCE);
-                return stack.getFluid() == rawExperience || stack.getFluid() == cognitiveEssence;
 
+                return stack.getFluid().is(ModTags.Fluids.EXPERIENCE);
             }
 
+            //Converts fluid when piped in, in case players have stored raw experience in external tanks
             @Override
             public int fill(FluidStack resource, FluidAction action) {
                 if(resource.getFluid() == rawExperience){
-                    return super.fill(new FluidStack(cognitiveEssence, resource.getAmount() * 20), action);      //converts fluid when piped in
+                    return super.fill(new FluidStack(cognitium, resource.getAmount() * 20), action);
+                }
+                else if(resource.getFluid() != cognitium){
+                    return super.fill(new FluidStack(cognitium, resource.getAmount()), action);
                 }
                 else{
                     return super.fill(resource, action);
@@ -181,18 +186,19 @@ public class XPObeliskEntity extends BlockEntity implements IAnimatable{
     public int fill(int amount)
     {
         level.sendBlockUpdated(pos, state, state, 2);
-        return tank.fill(new FluidStack(cognitiveEssence, amount), IFluidHandler.FluidAction.EXECUTE);
+        return tank.fill(new FluidStack(cognitium, amount), IFluidHandler.FluidAction.EXECUTE);
     }
 
     public void drain(int amount)
     {
-        tank.drain(new FluidStack(cognitiveEssence, amount), IFluidHandler.FluidAction.EXECUTE);
+        tank.drain(new FluidStack(cognitium, amount), IFluidHandler.FluidAction.EXECUTE);
         level.sendBlockUpdated(pos, state, state, 2);
     }
 
     public void setFluid(int amount)
     {
-        tank.setFluid(new FluidStack(cognitiveEssence, amount));
+
+        tank.setFluid(new FluidStack(cognitium, amount));
         level.sendBlockUpdated(pos, state, state, 2);
     }
 
@@ -214,10 +220,11 @@ public class XPObeliskEntity extends BlockEntity implements IAnimatable{
         this.radius = tag.getDouble("Radius");
         this.redstoneEnabled = tag.getBoolean("isRedstoneControllable");
 
+        //converts legacy fluid to new fluid on loading of the block entity
         if(tank.getFluid().getFluid() == rawExperience){
             int amount = tank.getFluidAmount() * 20;
             tank.drain(capacity, IFluidHandler.FluidAction.EXECUTE);
-            tank.setFluid(new FluidStack(cognitiveEssence, amount));     //convert fluid on load
+            tank.setFluid(new FluidStack(cognitium, amount));
         }
     }
 

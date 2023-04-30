@@ -1,13 +1,17 @@
 {
   "replace": false,
   "values": [
-    "experienceobelisk:cognitive_essence",
+    "experienceobelisk:cognitium", "experienceobelisk:raw_experience",
     {
       "id": "mob_grinding_utils:fluid_xp",
       "required": false
     },
     {
       "id": "cofh_core:experience",
+      "required": false
+    },
+    {
+      "id": "industrial_foregoing:essence",
       "required": false
     }
   ]
