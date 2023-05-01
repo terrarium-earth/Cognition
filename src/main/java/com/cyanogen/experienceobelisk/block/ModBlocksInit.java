@@ -46,8 +46,8 @@ public class ModBlocksInit {
                     })
             ));
 
-    public static final RegistryObject<LiquidBlock> COGNITIVE_ESSENCE = BLOCKS.register("cognitive_essence",
-            () -> new LiquidBlock(ModFluidsInit.RAW_EXPERIENCE_FLOWING, BlockBehaviour.Properties.of(Material.WATER)
+    public static final RegistryObject<LiquidBlock> COGNITIUM = BLOCKS.register("cognitium",
+            () -> new LiquidBlock(ModFluidsInit.COGNITIUM_FLOWING, BlockBehaviour.Properties.of(Material.WATER)
                     .lightLevel(new ToIntFunction<>() {
                         @Override
                         public int applyAsInt(BlockState value) {

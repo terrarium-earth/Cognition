@@ -44,11 +44,14 @@ public class ExperienceObelisk
     }
 
     private void setup(final FMLCommonSetupEvent event) {
-        MinecraftForge.EVENT_BUS.register(new ModEvents());
+
     }
 
     private void clientSetup(final FMLClientSetupEvent event){
         ItemBlockRenderTypes.setRenderLayer(ModFluidsInit.RAW_EXPERIENCE.get(), RenderType.translucent());
         ItemBlockRenderTypes.setRenderLayer(ModFluidsInit.RAW_EXPERIENCE_FLOWING.get(), RenderType.translucent());
+
+        ItemBlockRenderTypes.setRenderLayer(ModFluidsInit.COGNITIUM.get(), RenderType.translucent());
+        ItemBlockRenderTypes.setRenderLayer(ModFluidsInit.COGNITIUM_FLOWING.get(), RenderType.translucent());
     }
 }

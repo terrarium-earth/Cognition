@@ -67,7 +67,7 @@ public class XPObeliskEntity extends BlockEntity implements IAnimatable{
         return manager;
     }
 
-    //-----------PASSIVE XP-----------//
+    //-----------PASSIVE BEHAVIOR-----------//
 
     protected boolean redstoneEnabled = false;
     protected double radius = 2.5;
@@ -284,7 +284,6 @@ public class XPObeliskEntity extends BlockEntity implements IAnimatable{
         return super.getCapability(capability, facing);
         //controls which sides can give or receive fluids
     }
-
 
 
     //-----------LOGIC-----------//

@@ -61,7 +61,7 @@ public class ModFluidsInit {
                     .sound(SoundEvents.BUCKET_FILL, SoundEvents.BUCKET_EMPTY)
                     .overlay(overlay))
             .bucket(ModItemsInit.COGNITIUM_BUCKET)
-            .block(ModBlocksInit.COGNITIVE_ESSENCE);
+            .block(ModBlocksInit.COGNITIUM);
 
 
 public static void register(IEventBus eventBus){
