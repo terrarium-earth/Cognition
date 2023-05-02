@@ -1,6 +1,7 @@
 package com.cyanogen.experienceobelisk.block_entities;
 
 import com.cyanogen.experienceobelisk.ModTags;
+import com.cyanogen.experienceobelisk.config.Config;
 import com.cyanogen.experienceobelisk.fluid.ModFluidsInit;
 import com.cyanogen.experienceobelisk.network.experienceobelisk.UpdateToServer;
 import net.minecraft.core.BlockPos;
@@ -24,6 +25,7 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.templates.FluidTank;
+import net.minecraftforge.registries.ForgeRegistries;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
 import software.bernie.geckolib3.core.builder.AnimationBuilder;
@@ -158,20 +160,35 @@ public class XPObeliskEntity extends BlockEntity implements IAnimatable{
             @Override
             public boolean isFluidValid(int tank, @Nonnull FluidStack stack) {
 
-                return stack.getFluid().is(ModTags.Fluids.EXPERIENCE);
+                return isFluidValid(stack);
+            }
+
+            @Override
+            public boolean isFluidValid(FluidStack stack) {
+                String fluidName = String.valueOf(ForgeRegistries.FLUIDS.getKey(stack.getFluid()));
+
+                if(stack.getFluid() == rawExperience || stack.getFluid() == cognitium){
+                    return true;
+                }
+                else{
+                    return stack.getFluid().is(ModTags.Fluids.EXPERIENCE) && Config.COMMON.allowedFluids.get().contains(fluidName);
+                }
             }
 
             //Converts fluid when piped in, in case players have stored raw experience in external tanks
             @Override
             public int fill(FluidStack resource, FluidAction action) {
-                if(resource.getFluid() == rawExperience){
-                    return super.fill(new FluidStack(cognitium, resource.getAmount() * 20), action);
-                }
-                else if(resource.getFluid() != cognitium){
-                    return super.fill(new FluidStack(cognitium, resource.getAmount()), action);
+
+                if(isFluidValid(resource)){
+                    if(resource.getFluid() == rawExperience){
+                        return super.fill(new FluidStack(cognitium, resource.getAmount() * 20), action);
+                    }
+                    else{
+                        return super.fill(new FluidStack(cognitium, resource.getAmount()), action);
+                    }
                 }
                 else{
-                    return super.fill(resource, action);
+                    return 0;
                 }
 
             }
