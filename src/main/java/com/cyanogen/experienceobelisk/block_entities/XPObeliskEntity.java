@@ -26,6 +26,7 @@ import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.templates.FluidTank;
 import net.minecraftforge.registries.ForgeRegistries;
+import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
 import software.bernie.geckolib3.core.builder.AnimationBuilder;
@@ -116,6 +117,7 @@ public class XPObeliskEntity extends BlockEntity implements IAnimatable{
 
     public void setRedstoneEnabled(boolean state){
         this.redstoneEnabled = state;
+        this.setChanged();
     }
 
     public double getRadius(){
@@ -124,6 +126,7 @@ public class XPObeliskEntity extends BlockEntity implements IAnimatable{
 
     public void setRadius(double radius){
         this.radius = radius;
+        this.setChanged();
     }
 
 
@@ -146,14 +149,6 @@ public class XPObeliskEntity extends BlockEntity implements IAnimatable{
             @Override
             protected void onContentsChanged()
             {
-                super.onContentsChanged();
-                setChanged();
-            }
-
-            @Override
-            public void setFluid(FluidStack stack)
-            {
-                this.fluid = stack;
                 setChanged();
             }
 
@@ -180,6 +175,7 @@ public class XPObeliskEntity extends BlockEntity implements IAnimatable{
             public int fill(FluidStack resource, FluidAction action) {
 
                 if(isFluidValid(resource)){
+                    setChanged();
                     if(resource.getFluid() == rawExperience){
                         return super.fill(new FluidStack(cognitium, resource.getAmount() * 20), action);
                     }
@@ -190,7 +186,20 @@ public class XPObeliskEntity extends BlockEntity implements IAnimatable{
                 else{
                     return 0;
                 }
+            }
 
+            @NotNull
+            @Override
+            public FluidStack drain(int maxDrain, FluidAction action) {
+                setChanged();
+                return super.drain(maxDrain, action);
+            }
+
+            @Override
+            public void setFluid(FluidStack stack)
+            {
+                this.fluid = stack;
+                setChanged();
             }
 
             @Override
@@ -202,21 +211,17 @@ public class XPObeliskEntity extends BlockEntity implements IAnimatable{
 
     public int fill(int amount)
     {
-        level.sendBlockUpdated(pos, state, state, 2);
         return tank.fill(new FluidStack(cognitium, amount), IFluidHandler.FluidAction.EXECUTE);
     }
 
     public void drain(int amount)
     {
         tank.drain(new FluidStack(cognitium, amount), IFluidHandler.FluidAction.EXECUTE);
-        level.sendBlockUpdated(pos, state, state, 2);
     }
 
     public void setFluid(int amount)
     {
-
         tank.setFluid(new FluidStack(cognitium, amount));
-        level.sendBlockUpdated(pos, state, state, 2);
     }
 
     public int getFluidAmount(){

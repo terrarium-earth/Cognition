@@ -31,6 +31,7 @@ public class Config {
             this.capacity = builder.comment("The fluid capacity of the obelisk. Default = 100000000")
                     .define("Capacity", defaultCapacity);
             builder.pop();
+
         }
 
 
