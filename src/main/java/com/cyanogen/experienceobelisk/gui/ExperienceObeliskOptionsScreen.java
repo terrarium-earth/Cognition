@@ -27,13 +27,6 @@ public class ExperienceObeliskOptionsScreen extends Screen {
     public BlockPos pos;
     public XPObeliskEntity xpobelisk;
 
-    private Button increaseRadius;
-    private Button decreaseRadius;
-    private Button currentRadius;
-    private Button toggleRedstone;
-    private Button lockFluid;
-    private Button back;
-
     private final ResourceLocation texture = new ResourceLocation("experienceobelisk:textures/gui/container/dark_bg2.png");
 
     protected ExperienceObeliskOptionsScreen(Level level, Player player, BlockPos pos, ExperienceObeliskScreen screen) {
@@ -125,7 +118,7 @@ public class ExperienceObeliskOptionsScreen extends Screen {
         }
 
 
-        decreaseRadius = addRenderableWidget(new Button(this.width / 2 - 56, this.height / 2 - y1, 26, h, new TextComponent("-")
+        Button decreaseRadius = addRenderableWidget(new Button(this.width / 2 - 56, this.height / 2 - y1, 26, h, new TextComponent("-")
                 .setStyle(red), (onPress) -> {
 
             PacketHandler.INSTANCE.sendToServer(new XPObeliskUpdateRadius(pos, -0.5));
@@ -134,7 +127,7 @@ public class ExperienceObeliskOptionsScreen extends Screen {
         }));
 
 
-        currentRadius = addRenderableWidget(new Button(this.width / 2 - 25, this.height / 2 - y1, 50, h, new TextComponent(String.valueOf(radius))
+        Button currentRadius = addRenderableWidget(new Button(this.width / 2 - 25, this.height / 2 - y1, 50, h, new TextComponent(String.valueOf(radius))
                 , (onPress) -> {
 
             PacketHandler.INSTANCE.sendToServer(new XPObeliskUpdateRadius(pos, 0));
@@ -148,32 +141,32 @@ public class ExperienceObeliskOptionsScreen extends Screen {
                 }
         ));
 
-        increaseRadius = addRenderableWidget(new Button((int) (this.width / 2 + 30), this.height / 2 - y1, 26, h, new TextComponent("+")
+        Button increaseRadius = addRenderableWidget(new Button((int) (this.width / 2 + 30), this.height / 2 - y1, 26, h, new TextComponent("+")
                 .setStyle(green), (onPress) -> {
 
             PacketHandler.INSTANCE.sendToServer(new XPObeliskUpdateRadius(pos, 0.5));
 
         }));
 
-        toggleRedstone = addRenderableWidget(new Button(this.width / 2 - 25, this.height / 2 - y2, w, h, new TextComponent(status).setStyle(styleStatus), onPress -> {
+        //send packet
+        Button toggleRedstone = addRenderableWidget(new Button(this.width / 2 - 25, this.height / 2 - y2, w, h, new TextComponent(status).setStyle(styleStatus), onPress -> {
 
             //send packet
 
-            if(Objects.equals(status, "Ignored")){
+            if (Objects.equals(status, "Ignored")) {
                 PacketHandler.INSTANCE.sendToServer(new XPObeliskUpdateRedstone(pos, true));
-            }
-            else{
+            } else {
                 PacketHandler.INSTANCE.sendToServer(new XPObeliskUpdateRedstone(pos, false));
             }
 
         }));
 
-        back = addRenderableWidget(new Button(this.width / 2 + 86, this.height / 2 - 77, 14, 20,
+        Button back = addRenderableWidget(new Button(this.width / 2 + 86, this.height / 2 - 77, 14, 20,
                 new TranslatableComponent("button.experienceobelisk.experience_obelisk.settings"), (onPress) -> {
 
-                this.onClose();
+            this.onClose();
 
-        },new Button.OnTooltip(){
+        }, new Button.OnTooltip() {
 
             @Override
             public void onTooltip(Button pButton, PoseStack pPoseStack, int pMouseX, int pMouseY) {

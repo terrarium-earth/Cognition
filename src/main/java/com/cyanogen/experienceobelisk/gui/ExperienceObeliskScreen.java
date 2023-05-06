@@ -26,13 +26,6 @@ public class ExperienceObeliskScreen extends Screen{
     public Player player;
     public BlockPos pos;
     public XPObeliskEntity xpobelisk;
-    private Button add1;
-    private Button add10;
-    private Button addAll;
-    private Button drain1;
-    private Button drain10;
-    private Button drainAll;
-    private Button settings;
 
     private final ResourceLocation texture = new ResourceLocation("experienceobelisk:textures/gui/container/dark_bg2.png");
 
@@ -68,23 +61,21 @@ public class ExperienceObeliskScreen extends Screen{
     public static int levelsToXP(int levels){
         if (levels <= 16) {
             return (int) (Math.pow(levels, 2) + 6 * levels);
-        } else if (levels >= 17 && levels <= 31) {
+        } else if (levels <= 31) {
             return (int) (2.5 * Math.pow(levels, 2) - 40.5 * levels + 360);
-        } else if (levels >= 32) {
+        } else {
             return (int) (4.5 * Math.pow(levels, 2) - 162.5 * levels + 2220);
         }
-        return 0;
     }
 
     public static int xpToLevels(long xp){
         if (xp < 394) {
             return (int) (Math.sqrt(xp + 9) - 3);
-        } else if (xp >= 394 && xp < 1628) {
+        } else if (xp < 1628) {
             return (int) ((Math.sqrt(40 * xp - 7839) + 81) * 0.1);
-        } else if (xp >= 1628) {
+        } else {
             return (int) ((Math.sqrt(72 * xp - 54215) + 325) / 18); //when xp >~2980k, breaks int value limit
         }
-        return 0;
     }
 
     @Override
@@ -151,11 +142,11 @@ public class ExperienceObeliskScreen extends Screen{
         int y1 = 43;
         int y2 = -3;
 
-        settings = addRenderableWidget(new Button(this.width / 2 + 86, this.height / 2 - 77, 14, 20,
+        Button settings = addRenderableWidget(new Button(this.width / 2 + 86, this.height / 2 - 77, 14, 20,
                 new TranslatableComponent("button.experienceobelisk.experience_obelisk.settings"), (onPress) -> {
 
             Minecraft.getInstance().pushGuiLayer(new ExperienceObeliskOptionsScreen(level, player, pos, this));
-        },new Button.OnTooltip(){
+        }, new Button.OnTooltip() {
 
             @Override
             public void onTooltip(Button pButton, PoseStack pPoseStack, int pMouseX, int pMouseY) {
@@ -166,7 +157,7 @@ public class ExperienceObeliskScreen extends Screen{
 
         //deposit
 
-        add1 = addRenderableWidget(new Button((int) (this.width / 2 - 1.5*w - s), this.height / 2 - y1, w, h, new TextComponent("+1")
+        Button add1 = addRenderableWidget(new Button((int) (this.width / 2 - 1.5 * w - s), this.height / 2 - y1, w, h, new TextComponent("+1")
                 .setStyle(green), (onPress) -> {
 
             PacketHandler.INSTANCE.sendToServer(new UpdateToServer(pos, 1, FILL));
@@ -180,8 +171,7 @@ public class ExperienceObeliskScreen extends Screen{
                 }
         ));
 
-
-        add10 = addRenderableWidget(new Button(this.width / 2 - w/2, this.height / 2 - y1, w, h, new TextComponent("+10")
+        Button add10 = addRenderableWidget(new Button(this.width / 2 - w / 2, this.height / 2 - y1, w, h, new TextComponent("+10")
                 .setStyle(green), (onPress) -> {
 
             PacketHandler.INSTANCE.sendToServer(new UpdateToServer(pos, 10, FILL));
@@ -195,7 +185,7 @@ public class ExperienceObeliskScreen extends Screen{
                 }
         ));
 
-        addAll = addRenderableWidget(new Button((int) (this.width / 2 + 0.5*w + s), this.height / 2 - y1, w, h, new TextComponent("+All")
+        Button addAll = addRenderableWidget(new Button((int) (this.width / 2 + 0.5 * w + s), this.height / 2 - y1, w, h, new TextComponent("+All")
                 .setStyle(green), (onPress) -> {
 
             PacketHandler.INSTANCE.sendToServer(new UpdateToServer(pos, 0, FILL_ALL));
@@ -211,7 +201,7 @@ public class ExperienceObeliskScreen extends Screen{
 
 
         //withdraw
-        drain1 = addRenderableWidget(new Button((int) (this.width / 2 - 1.5*w - s), this.height / 2 - y2, w, h, new TextComponent("-1")
+        Button drain1 = addRenderableWidget(new Button((int) (this.width / 2 - 1.5 * w - s), this.height / 2 - y2, w, h, new TextComponent("-1")
                 .setStyle(red), (onPress) -> {
 
             PacketHandler.INSTANCE.sendToServer(new UpdateToServer(pos, 1, DRAIN));
@@ -225,7 +215,7 @@ public class ExperienceObeliskScreen extends Screen{
                 }
         ));
 
-        drain10 = addRenderableWidget(new Button(this.width / 2 - w/2, this.height / 2 - y2, w, h, new TextComponent("-10")
+        Button drain10 = addRenderableWidget(new Button(this.width / 2 - w / 2, this.height / 2 - y2, w, h, new TextComponent("-10")
                 .setStyle(red), (onPress) -> {
 
             PacketHandler.INSTANCE.sendToServer(new UpdateToServer(pos, 10, DRAIN));
@@ -239,7 +229,7 @@ public class ExperienceObeliskScreen extends Screen{
                 }
         ));
 
-        drainAll = addRenderableWidget(new Button((int) (this.width / 2 + 0.5*w + s), this.height / 2 - y2, w, h, new TextComponent("-All")
+        Button drainAll = addRenderableWidget(new Button((int) (this.width / 2 + 0.5 * w + s), this.height / 2 - y2, w, h, new TextComponent("-All")
                 .setStyle(red), (onPress) -> {
 
             PacketHandler.INSTANCE.sendToServer(new UpdateToServer(pos, 0, DRAIN_ALL));

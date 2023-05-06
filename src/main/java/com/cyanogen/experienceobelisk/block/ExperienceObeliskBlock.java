@@ -26,6 +26,7 @@ import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -40,19 +41,9 @@ public class ExperienceObeliskBlock extends Block implements EntityBlock {
                 .destroyTime(1.2f)
                 .requiresCorrectToolForDrops()
                 .explosionResistance(1200f)
-                .lightLevel(new ToIntFunction<BlockState>() {
-                    @Override
-                    public int applyAsInt(BlockState value) {
-                        return 14;
-                    }
-                })
+                .lightLevel(value -> 14)
                 .noOcclusion()
-                .emissiveRendering(new StatePredicate() {
-                    @Override
-                    public boolean test(BlockState state, BlockGetter getter, BlockPos pos) {
-                        return true;
-                    }
-                })
+                .emissiveRendering((state, getter, pos) -> true)
         );
     }
 
@@ -64,11 +55,11 @@ public class ExperienceObeliskBlock extends Block implements EntityBlock {
 
     @Override
     public VoxelShape getCollisionShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
+        shape = shape.optimize();
         return shape;
     }
 
     public ItemStack stack;
-
     @Override
     public void playerWillDestroy(Level pLevel, BlockPos pPos, BlockState pState, Player pPlayer) {
         if (!pLevel.isClientSide) {
@@ -82,7 +73,6 @@ public class ExperienceObeliskBlock extends Block implements EntityBlock {
 
         super.playerWillDestroy(pLevel, pPos, pState, pPlayer);
     }
-
 
     @Override
     public List<ItemStack> getDrops(BlockState pState, LootContext.Builder pBuilder) {

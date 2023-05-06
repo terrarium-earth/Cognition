@@ -1,5 +1,6 @@
 package com.cyanogen.experienceobelisk.block_entities;
 
+import com.cyanogen.experienceobelisk.ExperienceObelisk;
 import com.cyanogen.experienceobelisk.ModTags;
 import com.cyanogen.experienceobelisk.config.Config;
 import com.cyanogen.experienceobelisk.fluid.ModFluidsInit;
@@ -55,8 +56,6 @@ public class XPObeliskEntity extends BlockEntity implements IAnimatable{
 
     public XPObeliskEntity(BlockPos pPos, BlockState pState) {
         super(ModTileEntitiesInit.XPOBELISK_BE.get(), pPos, pState);
-        this.pos = pPos;
-        this.state = pState;
     }
 
     @Override
@@ -74,19 +73,18 @@ public class XPObeliskEntity extends BlockEntity implements IAnimatable{
 
     protected boolean redstoneEnabled = false;
     protected double radius = 2.5;
-    protected boolean isLocked = false;
 
     public static <T> void tick(Level level, BlockPos pos, BlockState state, T blockEntity) {
 
         level.sendBlockUpdated(pos, state, state, 2);
         boolean isRedstonePowered = level.hasNeighborSignal(pos);
 
-        BlockEntity entity = level.getBlockEntity(pos);
+        XPObeliskEntity xpobelisk = (XPObeliskEntity) level.getBlockEntity(pos);
 
-        if(entity instanceof XPObeliskEntity xpobelisk && level.getGameTime() % 3 == 0){ //check every 3 ticks
+        boolean absorb = !xpobelisk.isRedstoneEnabled() || isRedstonePowered;
+        double radius = xpobelisk.getRadius();
 
-            boolean absorb = !xpobelisk.isRedstoneEnabled() || isRedstonePowered;
-            double radius = xpobelisk.getRadius();
+        if(level.getGameTime() % 3 == 0 && absorb){ //check every 3 ticks
 
             AABB area = new AABB(
                     pos.getX() - radius,
@@ -96,16 +94,15 @@ public class XPObeliskEntity extends BlockEntity implements IAnimatable{
                     pos.getY() + radius,
                     pos.getZ() + radius);
 
-            List<Entity> list = level.getEntities(null, area);
+            List<ExperienceOrb> list = level.getEntitiesOfClass(ExperienceOrb.class, area);
 
-            for(Entity e : list){
-                if(e instanceof ExperienceOrb orb && xpobelisk.getSpace() > 0 && absorb && e.isAlive()){
+            for(ExperienceOrb orb : list){
 
-                    int value = orb.getValue() * 20;
+                int value = orb.getValue() * 20;
+                if(xpobelisk.getSpace() >= value && orb.isAlive()){
+
                     xpobelisk.fill(value);
-
-                    e.discard();
-
+                    orb.discard();
                 }
             }
         }
@@ -138,8 +135,6 @@ public class XPObeliskEntity extends BlockEntity implements IAnimatable{
 
     private static final Fluid rawExperience = ModFluidsInit.RAW_EXPERIENCE.get().getSource();
     private static final Fluid cognitium = ModFluidsInit.COGNITIUM.get().getSource();
-    public static BlockPos pos;
-    public static BlockState state;
 
     public static final int capacity = Config.COMMON.capacity.get(); //this is 10^8 by default
 
@@ -154,7 +149,6 @@ public class XPObeliskEntity extends BlockEntity implements IAnimatable{
 
             @Override
             public boolean isFluidValid(int tank, @Nonnull FluidStack stack) {
-
                 return isFluidValid(stack);
             }
 
@@ -209,8 +203,7 @@ public class XPObeliskEntity extends BlockEntity implements IAnimatable{
         };
     }
 
-    public int fill(int amount)
-    {
+    public int fill(int amount){
         return tank.fill(new FluidStack(cognitium, amount), IFluidHandler.FluidAction.EXECUTE);
     }
 
@@ -245,7 +238,6 @@ public class XPObeliskEntity extends BlockEntity implements IAnimatable{
         //converts legacy fluid to new fluid on loading of the block entity
         if(tank.getFluid().getFluid() == rawExperience){
             int amount = tank.getFluidAmount() * 20;
-            tank.drain(capacity, IFluidHandler.FluidAction.EXECUTE);
             tank.setFluid(new FluidStack(cognitium, amount));
         }
     }
@@ -273,12 +265,16 @@ public class XPObeliskEntity extends BlockEntity implements IAnimatable{
         return tag;
     }
 
+
+/*
     //receives and loads nbt data whenever chunk is loaded
     @Override
     public void handleUpdateTag(CompoundTag tag)
     {
         load(tag);
     }
+
+ */
 
     //gets packet to send to client
     @Override
@@ -287,6 +283,7 @@ public class XPObeliskEntity extends BlockEntity implements IAnimatable{
         return ClientboundBlockEntityDataPacket.create(this);
     }
 
+    /*
     //updates client whenever level.sendBlockUpdated is called
     @Override
     public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt)
@@ -296,6 +293,10 @@ public class XPObeliskEntity extends BlockEntity implements IAnimatable{
             load(compoundtag);
         }
     }
+
+     */
+
+    //highly doubt overriding the above two methods are necessary
 
     @Override
     @Nonnull
@@ -314,12 +315,11 @@ public class XPObeliskEntity extends BlockEntity implements IAnimatable{
     public static int levelsToXP(int levels){
         if (levels <= 16) {
             return (int) (Math.pow(levels, 2) + 6 * levels);
-        } else if (levels >= 17 && levels <= 31) {
+        } else if (levels <= 31) {
             return (int) (2.5 * Math.pow(levels, 2) - 40.5 * levels + 360);
-        } else if (levels >= 32) {
+        } else {
             return (int) (4.5 * Math.pow(levels, 2) - 162.5 * levels + 2220);
         }
-        return 0;
     }
 
     public void handleRequest(UpdateToServer.Request request, int XP, ServerPlayer sender){
@@ -409,7 +409,6 @@ public class XPObeliskEntity extends BlockEntity implements IAnimatable{
             this.setFluid(0);
         }
     }
-
 
 }
 
