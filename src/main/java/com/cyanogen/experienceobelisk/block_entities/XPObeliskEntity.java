@@ -320,7 +320,7 @@ public class XPObeliskEntity extends BlockEntity implements IAnimatable{
             long addAmount = (playerXP - finalXP) * 20;
 
             //if amount to add exceeds remaining capacity
-            if(addAmount * 20 >= this.getSpace()){
+            if(addAmount >= this.getSpace()){
                 sender.giveExperiencePoints(-this.fill(this.getSpace()) / 20); //fill up however much is left and deduct that amount frm player
             }
 
@@ -337,7 +337,6 @@ public class XPObeliskEntity extends BlockEntity implements IAnimatable{
                 this.fill((int) (playerXP * 20));
                 sender.setExperiencePoints(0);
                 sender.setExperienceLevels(0);
-
 
             }
         }
