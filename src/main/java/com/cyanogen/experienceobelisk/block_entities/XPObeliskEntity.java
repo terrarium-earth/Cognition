@@ -189,6 +189,13 @@ public class XPObeliskEntity extends BlockEntity implements IAnimatable{
                 return super.drain(maxDrain, action);
             }
 
+            @NotNull
+            @Override
+            public FluidStack drain(FluidStack resource, FluidAction action) {
+                setChanged();
+                return super.drain(resource, action);
+            }
+
             @Override
             public void setFluid(FluidStack stack)
             {
@@ -265,17 +272,6 @@ public class XPObeliskEntity extends BlockEntity implements IAnimatable{
         return tag;
     }
 
-
-/*
-    //receives and loads nbt data whenever chunk is loaded
-    @Override
-    public void handleUpdateTag(CompoundTag tag)
-    {
-        load(tag);
-    }
-
- */
-
     //gets packet to send to client
     @Override
     public Packet<ClientGamePacketListener> getUpdatePacket()
@@ -283,20 +279,6 @@ public class XPObeliskEntity extends BlockEntity implements IAnimatable{
         return ClientboundBlockEntityDataPacket.create(this);
     }
 
-    /*
-    //updates client whenever level.sendBlockUpdated is called
-    @Override
-    public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt)
-    {
-        CompoundTag compoundtag = pkt.getTag();
-        if (compoundtag != null) {
-            load(compoundtag);
-        }
-    }
-
-     */
-
-    //highly doubt overriding the above two methods are necessary
 
     @Override
     @Nonnull
@@ -327,7 +309,7 @@ public class XPObeliskEntity extends BlockEntity implements IAnimatable{
         long playerXP = levelsToXP(sender.experienceLevel) + Math.round(sender.experienceProgress * sender.getXpNeededForNextLevel());
         long finalXP;
 
-        if(request == UpdateToServer.Request.FILL){
+        if(request == UpdateToServer.Request.FILL && this.getSpace() != 0){
 
             //-----FILLING-----//
 
@@ -335,19 +317,17 @@ public class XPObeliskEntity extends BlockEntity implements IAnimatable{
             finalXP = levelsToXP(sender.experienceLevel - XP) + Math.round(sender.experienceProgress *
                     (levelsToXP(sender.experienceLevel - XP + 1) - levelsToXP(sender.experienceLevel - XP)));
 
-            long addAmount = playerXP - finalXP;
-
-            if (this.getSpace() == 0){ }
+            long addAmount = (playerXP - finalXP) * 20;
 
             //if amount to add exceeds remaining capacity
-            else if(addAmount * 20 >= this.getSpace()){
-                sender.giveExperiencePoints(-this.fill(capacity)); //fill up however much is left and deduct that amount frm player
+            if(addAmount * 20 >= this.getSpace()){
+                sender.giveExperiencePoints(-this.fill(this.getSpace()) / 20); //fill up however much is left and deduct that amount frm player
             }
 
             //normal operation
             else if(sender.experienceLevel >= XP){
 
-                this.fill((int) (addAmount * 20));
+                this.fill((int) (addAmount));
                 sender.giveExperienceLevels(-XP);
 
             }
@@ -366,23 +346,23 @@ public class XPObeliskEntity extends BlockEntity implements IAnimatable{
 
         else if(request == UpdateToServer.Request.DRAIN){
 
-            int amount = this.getFluidAmount() / 20;
+            int amount = this.getFluidAmount();
 
             finalXP = levelsToXP(sender.experienceLevel + XP) + Math.round(sender.experienceProgress *
                     (levelsToXP(sender.experienceLevel + XP + 1) - levelsToXP(sender.experienceLevel + XP)));
 
-            long addAmount = finalXP - playerXP;
+            long drainAmount = (finalXP - playerXP) * 20;
 
             //normal operation
-            if(amount >= addAmount){
+            if(amount >= drainAmount){
 
-                this.drain((int) ((finalXP - playerXP) * 20));
+                this.drain((int) drainAmount);
                 sender.giveExperienceLevels(XP);
 
             }
             else if(amount >= 1){
 
-                sender.giveExperiencePoints(amount);
+                sender.giveExperiencePoints(amount / 20);
                 this.setFluid(0);
             }
         }
