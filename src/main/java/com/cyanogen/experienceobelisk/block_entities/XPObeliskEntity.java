@@ -79,30 +79,32 @@ public class XPObeliskEntity extends BlockEntity implements IAnimatable{
         level.sendBlockUpdated(pos, state, state, 2);
         boolean isRedstonePowered = level.hasNeighborSignal(pos);
 
-        XPObeliskEntity xpobelisk = (XPObeliskEntity) level.getBlockEntity(pos);
+        BlockEntity entity = level.getBlockEntity(pos);
 
-        boolean absorb = !xpobelisk.isRedstoneEnabled() || isRedstonePowered;
-        double radius = xpobelisk.getRadius();
+        if(entity instanceof XPObeliskEntity xpobelisk && level.getGameTime() % 3 == 0){ //check every 3 ticks
 
-        if(level.getGameTime() % 3 == 0 && absorb){ //check every 3 ticks
+            boolean absorb = !xpobelisk.isRedstoneEnabled() || isRedstonePowered;
+            double radius = xpobelisk.getRadius();
 
-            AABB area = new AABB(
-                    pos.getX() - radius,
-                    pos.getY() - radius,
-                    pos.getZ() - radius,
-                    pos.getX() + radius,
-                    pos.getY() + radius,
-                    pos.getZ() + radius);
+            if(absorb){
+                AABB area = new AABB(
+                        pos.getX() - radius,
+                        pos.getY() - radius,
+                        pos.getZ() - radius,
+                        pos.getX() + radius,
+                        pos.getY() + radius,
+                        pos.getZ() + radius);
 
-            List<ExperienceOrb> list = level.getEntitiesOfClass(ExperienceOrb.class, area);
+                List<ExperienceOrb> list = level.getEntitiesOfClass(ExperienceOrb.class, area);
 
-            for(ExperienceOrb orb : list){
+                for(ExperienceOrb orb : list){
 
-                int value = orb.getValue() * 20;
-                if(xpobelisk.getSpace() >= value && orb.isAlive()){
+                    int value = orb.getValue() * 20;
+                    if(xpobelisk.getSpace() >= value && orb.isAlive()){
 
-                    xpobelisk.fill(value);
-                    orb.discard();
+                        xpobelisk.fill(value);
+                        orb.discard();
+                    }
                 }
             }
         }
