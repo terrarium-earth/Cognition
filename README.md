@@ -7,3 +7,4 @@ Standalone experience obelisk for convenient XP storage and retrieval
 Please provide:
 - Your crash log, if applicable
 - Video recordings or screenshots of the bug, if possible!
+Thanks for your contribution! 
