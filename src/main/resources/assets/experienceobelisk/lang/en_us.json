@@ -1,11 +1,9 @@
 {
-
-  "item.experienceobelisk.raw_experience_bucket": "Raw Experience Bucket",
   "item.experienceobelisk.cognitium_bucket": "Cognitium Bucket",
+  "item.experienceobelisk.cognitive_crystal": "Cognitive Crystal",
 
   "block.experienceobelisk.experience_obelisk": "Experience Obelisk",
 
-  "fluid.experienceobelisk.raw_experience": "Raw Experience",
   "fluid.experienceobelisk.cognitium": "Cognitium",
 
   "itemGroup.experience_obelisk": "Experience Obelisk",
@@ -24,9 +22,7 @@
   "tooltip.experienceobelisk.experience_obelisk.settings": "Settings...",
   "tooltip.experienceobelisk.experience_obelisk.back": "Back...",
 
-  "button.experienceobelisk.experience_obelisk.settings": "§l⚙§r",
-
-  "message.experienceobelisk.update_warning_message": "§a[Experience Obelisk]§f Please §cretrieve all§f XP stored in Obelisks before updating to v1.4.0! We will be changing the XP conversion rate, and your XP stores might be affected"
+  "button.experienceobelisk.experience_obelisk.settings": "§l⚙§r"
 
 
 }

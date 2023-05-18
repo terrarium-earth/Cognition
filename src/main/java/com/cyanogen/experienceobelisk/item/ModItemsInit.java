@@ -16,10 +16,18 @@ public class ModItemsInit {
     public static final DeferredRegister<Item> ITEMS =
             DeferredRegister.create(ForgeRegistries.ITEMS, ExperienceObelisk.MOD_ID);
 
+    //-----BLOCK ITEMS-----//
+
     public static final RegistryObject<Item> EXPERIENCE_OBELISK_ITEM = ITEMS.register("experience_obelisk",
             () -> new ExperienceObeliskItem(ModBlocksInit.EXPERIENCE_OBELISK.get(), new Item.Properties().tab(ModCreativeModeTab.MOD_TAB)));
 
-    //bucket of experience
+    //-----FUNCTIONAL ITEMS-----//
+
+    public static final RegistryObject<Item> COGNITIVE_CRYSTAL = ITEMS.register("cognitive_crystal",
+            () -> new CognitiveCrystalItem(new Item.Properties().tab(ModCreativeModeTab.MOD_TAB)));
+
+    //-----RECIPE INGREDIENTS, EVERYTHING ELSE-----//
+
     public static final RegistryObject<BucketItem> COGNITIUM_BUCKET = ITEMS.register("cognitium_bucket",
             () -> new BucketItem(ModFluidsInit.COGNITIUM, new Item.Properties().tab(ModCreativeModeTab.MOD_TAB).rarity(Rarity.UNCOMMON)));
 
