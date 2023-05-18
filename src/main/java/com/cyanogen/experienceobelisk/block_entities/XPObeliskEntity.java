@@ -135,7 +135,6 @@ public class XPObeliskEntity extends BlockEntity implements IAnimatable{
 
     private final LazyOptional<IFluidHandler> handler = LazyOptional.of(() -> tank);
 
-    private static final Fluid rawExperience = ModFluidsInit.RAW_EXPERIENCE.get().getSource();
     private static final Fluid cognitium = ModFluidsInit.COGNITIUM.get().getSource();
 
     public static final int capacity = Config.COMMON.capacity.get(); //this is 10^8 by default
@@ -158,7 +157,7 @@ public class XPObeliskEntity extends BlockEntity implements IAnimatable{
             public boolean isFluidValid(FluidStack stack) {
                 String fluidName = String.valueOf(ForgeRegistries.FLUIDS.getKey(stack.getFluid()));
 
-                if(stack.getFluid() == rawExperience || stack.getFluid() == cognitium){
+                if(stack.getFluid() == cognitium){
                     return true;
                 }
                 else{
@@ -172,12 +171,7 @@ public class XPObeliskEntity extends BlockEntity implements IAnimatable{
 
                 if(isFluidValid(resource)){
                     setChanged();
-                    if(resource.getFluid() == rawExperience){
-                        return super.fill(new FluidStack(cognitium, resource.getAmount() * 20), action);
-                    }
-                    else{
-                        return super.fill(new FluidStack(cognitium, resource.getAmount()), action);
-                    }
+                    return super.fill(new FluidStack(cognitium, resource.getAmount() * 20), action);
                 }
                 else{
                     return 0;
@@ -243,12 +237,6 @@ public class XPObeliskEntity extends BlockEntity implements IAnimatable{
 
         this.radius = tag.getDouble("Radius");
         this.redstoneEnabled = tag.getBoolean("isRedstoneControllable");
-
-        //converts legacy fluid to new fluid on loading of the block entity
-        if(tank.getFluid().getFluid() == rawExperience){
-            int amount = tank.getFluidAmount() * 20;
-            tank.setFluid(new FluidStack(cognitium, amount));
-        }
     }
 
     @Override

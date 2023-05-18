@@ -29,23 +29,6 @@ public class ModBlocksInit {
     //block registrations go here:
     public static final RegistryObject<Block> EXPERIENCE_OBELISK = BLOCKS.register("experience_obelisk", ExperienceObeliskBlock::new);
 
-    //legacy
-    public static final RegistryObject<LiquidBlock> RAW_EXPERIENCE = BLOCKS.register("raw_experience",
-            () -> new LiquidBlock(ModFluidsInit.RAW_EXPERIENCE_FLOWING, BlockBehaviour.Properties.of(Material.WATER)
-                    .lightLevel(new ToIntFunction<>() {
-                        @Override
-                        public int applyAsInt(BlockState value) {
-                            return 10;
-                        }
-                    })
-                    .emissiveRendering(new BlockBehaviour.StatePredicate() {
-                        @Override
-                        public boolean test(BlockState p_61036_, BlockGetter p_61037_, BlockPos p_61038_) {
-                            return true;
-                        }
-                    })
-            ));
-
     public static final RegistryObject<LiquidBlock> COGNITIUM = BLOCKS.register("cognitium",
             () -> new LiquidBlock(ModFluidsInit.COGNITIUM_FLOWING, BlockBehaviour.Properties.of(Material.WATER)
                     .lightLevel(new ToIntFunction<>() {

@@ -23,33 +23,11 @@ public class ModFluidsInit {
             DeferredRegister.create(ForgeRegistries.FLUIDS, ExperienceObelisk.MOD_ID);
 
     //registering fluid
-    //.....
 
-    //legacy
-    public static final RegistryObject<FlowingFluid> RAW_EXPERIENCE
-            = FLUIDS.register("raw_experience", () -> new ForgeFlowingFluid.Source(ModFluidsInit.RAW_EXPERIENCE_PROPERTIES));
-    public static final RegistryObject<FlowingFluid> RAW_EXPERIENCE_FLOWING
-            = FLUIDS.register("raw_experience_flowing", () -> new ForgeFlowingFluid.Flowing(ModFluidsInit.RAW_EXPERIENCE_PROPERTIES));
-
-    //new
     public static final RegistryObject<FlowingFluid> COGNITIUM
             = FLUIDS.register("cognitium", () -> new ForgeFlowingFluid.Source(ModFluidsInit.COGNITIUM_PROPERTIES));
     public static final RegistryObject<FlowingFluid> COGNITIUM_FLOWING
             = FLUIDS.register("cognitium_flowing", () -> new ForgeFlowingFluid.Flowing(ModFluidsInit.COGNITIUM_PROPERTIES));
-
-    //setting properties for raw experience fluid
-    public static final ForgeFlowingFluid.Properties RAW_EXPERIENCE_PROPERTIES = new ForgeFlowingFluid.Properties(
-            RAW_EXPERIENCE,
-            RAW_EXPERIENCE_FLOWING,
-            FluidAttributes.builder(flowingTexture, stillTexture)
-                    .density(1000)
-                    .luminosity(10)
-                    .viscosity(1000)
-                    .temperature(300)
-                    .sound(SoundEvents.BUCKET_FILL, SoundEvents.BUCKET_EMPTY)
-                    .overlay(overlay))
-            .bucket(ModItemsInit.RAW_EXPERIENCE_BUCKET)
-            .block(ModBlocksInit.RAW_EXPERIENCE);
 
     public static final ForgeFlowingFluid.Properties COGNITIUM_PROPERTIES = new ForgeFlowingFluid.Properties(
             COGNITIUM,

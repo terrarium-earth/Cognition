@@ -19,10 +19,6 @@ public class ModItemsInit {
     public static final RegistryObject<Item> EXPERIENCE_OBELISK_ITEM = ITEMS.register("experience_obelisk",
             () -> new ExperienceObeliskItem(ModBlocksInit.EXPERIENCE_OBELISK.get(), new Item.Properties().tab(ModCreativeModeTab.MOD_TAB)));
 
-    //legacy
-    public static final RegistryObject<BucketItem> RAW_EXPERIENCE_BUCKET = ITEMS.register("raw_experience_bucket",
-            () -> new BucketItem(ModFluidsInit.RAW_EXPERIENCE, new Item.Properties().rarity(Rarity.UNCOMMON)));
-
     //bucket of experience
     public static final RegistryObject<BucketItem> COGNITIUM_BUCKET = ITEMS.register("cognitium_bucket",
             () -> new BucketItem(ModFluidsInit.COGNITIUM, new Item.Properties().tab(ModCreativeModeTab.MOD_TAB).rarity(Rarity.UNCOMMON)));
