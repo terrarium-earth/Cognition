@@ -23,6 +23,7 @@ public class ModFluidsInit {
             DeferredRegister.create(ForgeRegistries.FLUIDS, ExperienceObelisk.MOD_ID);
 
     //registering fluid
+    //.....
 
     //legacy
     public static final RegistryObject<FlowingFluid> RAW_EXPERIENCE
