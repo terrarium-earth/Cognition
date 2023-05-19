@@ -1,5 +1,6 @@
 package com.cyanogen.experienceobelisk.item;
 
+import com.cyanogen.experienceobelisk.config.Config;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.InteractionHand;
@@ -57,7 +58,7 @@ public class CognitiveCrystalItem extends Item {
         if(entity instanceof Player player && isActive){
 
             BlockPos pos = player.blockPosition();
-            double radius = 3.5;
+            double radius = Config.COMMON.range.get();
             AABB area = new AABB(
                     pos.getX() - radius,
                     pos.getY() - radius,

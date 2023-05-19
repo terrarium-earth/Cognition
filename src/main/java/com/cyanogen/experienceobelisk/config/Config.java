@@ -12,9 +12,11 @@ public class Config {
 
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> allowedFluids;
         public final ForgeConfigSpec.ConfigValue<Integer> capacity;
+        public final ForgeConfigSpec.ConfigValue<Double> range;
 
         public List<String> defaultValues = new ArrayList<>();
         public int defaultCapacity = 100000000;
+        public double defaultRange = 4.0;
 
         public Common(ForgeConfigSpec.Builder builder){
 
@@ -30,6 +32,11 @@ public class Config {
             builder.push("Experience Obelisk Capacity");
             this.capacity = builder.comment("The fluid capacity of the obelisk. Default = 100000000")
                     .define("Capacity", defaultCapacity);
+            builder.pop();
+
+            builder.push("Cognitive Crystal Range");
+            this.range = builder.comment("The maximum range of the cognitive crystal. Accepts decimals. Default = 4.0")
+                    .define("Range", defaultRange);
             builder.pop();
 
         }
