@@ -2,7 +2,7 @@ package com.cyanogen.experienceobelisk.renderer;
 
 import com.cyanogen.experienceobelisk.ExperienceObelisk;
 import com.cyanogen.experienceobelisk.block_entities.ModTileEntitiesInit;
-import com.cyanogen.experienceobelisk.block_entities.XPObeliskTileRenderer;
+import com.cyanogen.experienceobelisk.block_entities.ExperienceObeliskTileRenderer;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -19,7 +19,7 @@ public class RendererInit {
     //registering geckolib geoblock custom renderer for xp obelisk block entity
     @SubscribeEvent
     public static void registerRenderers(final EntityRenderersEvent.RegisterRenderers event) {
-        event.registerBlockEntityRenderer(ModTileEntitiesInit.XPOBELISK_BE.get(), XPObeliskTileRenderer::new);
+        event.registerBlockEntityRenderer(ModTileEntitiesInit.EXPERIENCEOBELISK_BE.get(), ExperienceObeliskTileRenderer::new);
         LOGGER.info("Entity Renderer registered");
     }
 }

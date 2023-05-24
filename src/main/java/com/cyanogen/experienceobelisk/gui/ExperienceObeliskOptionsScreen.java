@@ -1,9 +1,9 @@
 package com.cyanogen.experienceobelisk.gui;
 
-import com.cyanogen.experienceobelisk.block_entities.XPObeliskEntity;
+import com.cyanogen.experienceobelisk.block_entities.ExperienceObeliskEntity;
 import com.cyanogen.experienceobelisk.network.PacketHandler;
-import com.cyanogen.experienceobelisk.network.experienceobelisk.XPObeliskUpdateRadius;
-import com.cyanogen.experienceobelisk.network.experienceobelisk.XPObeliskUpdateRedstone;
+import com.cyanogen.experienceobelisk.network.experienceobelisk.UpdateRadius;
+import com.cyanogen.experienceobelisk.network.experienceobelisk.UpdateRedstone;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
@@ -25,7 +25,7 @@ public class ExperienceObeliskOptionsScreen extends Screen {
     public Level level;
     public Player player;
     public BlockPos pos;
-    public XPObeliskEntity xpobelisk;
+    public ExperienceObeliskEntity xpobelisk;
 
     private final ResourceLocation texture = new ResourceLocation("experienceobelisk:textures/gui/container/dark_bg2.png");
 
@@ -121,7 +121,7 @@ public class ExperienceObeliskOptionsScreen extends Screen {
         Button decreaseRadius = addRenderableWidget(new Button(this.width / 2 - 56, this.height / 2 - y1, 26, h, new TextComponent("-")
                 .setStyle(red), (onPress) -> {
 
-            PacketHandler.INSTANCE.sendToServer(new XPObeliskUpdateRadius(pos, -0.5));
+            PacketHandler.INSTANCE.sendToServer(new UpdateRadius(pos, -0.5));
 
 
         }));
@@ -130,7 +130,7 @@ public class ExperienceObeliskOptionsScreen extends Screen {
         Button currentRadius = addRenderableWidget(new Button(this.width / 2 - 25, this.height / 2 - y1, 50, h, new TextComponent(String.valueOf(radius))
                 , (onPress) -> {
 
-            PacketHandler.INSTANCE.sendToServer(new XPObeliskUpdateRadius(pos, 0));
+            PacketHandler.INSTANCE.sendToServer(new UpdateRadius(pos, 0));
 
         },
                 new Button.OnTooltip() {
@@ -144,7 +144,7 @@ public class ExperienceObeliskOptionsScreen extends Screen {
         Button increaseRadius = addRenderableWidget(new Button((int) (this.width / 2 + 30), this.height / 2 - y1, 26, h, new TextComponent("+")
                 .setStyle(green), (onPress) -> {
 
-            PacketHandler.INSTANCE.sendToServer(new XPObeliskUpdateRadius(pos, 0.5));
+            PacketHandler.INSTANCE.sendToServer(new UpdateRadius(pos, 0.5));
 
         }));
 
@@ -154,9 +154,9 @@ public class ExperienceObeliskOptionsScreen extends Screen {
             //send packet
 
             if (Objects.equals(status, "Ignored")) {
-                PacketHandler.INSTANCE.sendToServer(new XPObeliskUpdateRedstone(pos, true));
+                PacketHandler.INSTANCE.sendToServer(new UpdateRedstone(pos, true));
             } else {
-                PacketHandler.INSTANCE.sendToServer(new XPObeliskUpdateRedstone(pos, false));
+                PacketHandler.INSTANCE.sendToServer(new UpdateRedstone(pos, false));
             }
 
         }));

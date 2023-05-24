@@ -1,9 +1,10 @@
 package com.cyanogen.experienceobelisk.block;
 
 import com.cyanogen.experienceobelisk.block_entities.ModTileEntitiesInit;
-import com.cyanogen.experienceobelisk.block_entities.XPObeliskEntity;
-import com.cyanogen.experienceobelisk.gui.GuiWrapper;
+import com.cyanogen.experienceobelisk.block_entities.ExperienceObeliskEntity;
+import com.cyanogen.experienceobelisk.gui.ExperienceObeliskScreen;
 import com.cyanogen.experienceobelisk.item.ModItemsInit;
+import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -26,12 +27,10 @@ import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.ToIntFunction;
 
 public class ExperienceObeliskBlock extends Block implements EntityBlock {
 
@@ -64,7 +63,7 @@ public class ExperienceObeliskBlock extends Block implements EntityBlock {
     public void playerWillDestroy(Level pLevel, BlockPos pPos, BlockState pState, Player pPlayer) {
         if (!pLevel.isClientSide) {
             BlockEntity blockentity = pLevel.getBlockEntity(pPos);
-            if (blockentity instanceof XPObeliskEntity entity && pPlayer.hasCorrectToolForDrops(pState)) {
+            if (blockentity instanceof ExperienceObeliskEntity entity && pPlayer.hasCorrectToolForDrops(pState)) {
 
                 stack = new ItemStack(ModItemsInit.EXPERIENCE_OBELISK_ITEM.get(), 1);
                 entity.saveToItem(stack);
@@ -86,7 +85,7 @@ public class ExperienceObeliskBlock extends Block implements EntityBlock {
     @Override
     public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
         if(pLevel.isClientSide()){
-            GuiWrapper.openGUI(pState, pLevel, pPos, pPlayer);
+            Minecraft.getInstance().setScreen(new ExperienceObeliskScreen(pLevel, pPlayer, pPos));
         }
         return InteractionResult.CONSUME;
     }
@@ -94,7 +93,7 @@ public class ExperienceObeliskBlock extends Block implements EntityBlock {
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level pLevel, BlockState pState, BlockEntityType<T> pBlockEntityType) {
-        return pBlockEntityType == ModTileEntitiesInit.XPOBELISK_BE.get() ? XPObeliskEntity::tick : null;
+        return pBlockEntityType == ModTileEntitiesInit.EXPERIENCEOBELISK_BE.get() ? ExperienceObeliskEntity::tick : null;
     }
 
     @Override
@@ -106,7 +105,7 @@ public class ExperienceObeliskBlock extends Block implements EntityBlock {
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
-        return ModTileEntitiesInit.XPOBELISK_BE.get().create(pPos, pState);
+        return ModTileEntitiesInit.EXPERIENCEOBELISK_BE.get().create(pPos, pState);
     }
 
 }

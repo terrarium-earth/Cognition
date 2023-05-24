@@ -1,8 +1,8 @@
 package com.cyanogen.experienceobelisk.gui;
 
-import com.cyanogen.experienceobelisk.block_entities.XPObeliskEntity;
+import com.cyanogen.experienceobelisk.block_entities.ExperienceObeliskEntity;
 import com.cyanogen.experienceobelisk.network.PacketHandler;
-import com.cyanogen.experienceobelisk.network.experienceobelisk.UpdateToServer;
+import com.cyanogen.experienceobelisk.network.experienceobelisk.UpdateContents;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
@@ -17,7 +17,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 
-import static com.cyanogen.experienceobelisk.network.experienceobelisk.UpdateToServer.Request.*;
+import static com.cyanogen.experienceobelisk.network.experienceobelisk.UpdateContents.Request.*;
 
 
 public class ExperienceObeliskScreen extends Screen{
@@ -25,7 +25,7 @@ public class ExperienceObeliskScreen extends Screen{
     public Level level;
     public Player player;
     public BlockPos pos;
-    public XPObeliskEntity xpobelisk;
+    public ExperienceObeliskEntity xpobelisk;
 
     private final ResourceLocation texture = new ResourceLocation("experienceobelisk:textures/gui/container/dark_bg2.png");
 
@@ -34,7 +34,7 @@ public class ExperienceObeliskScreen extends Screen{
         this.level = level;
         this.player = player;
         this.pos = pos;
-        this.xpobelisk = (XPObeliskEntity) level.getBlockEntity(pos);
+        this.xpobelisk = (ExperienceObeliskEntity) level.getBlockEntity(pos);
     }
 
     @Override
@@ -160,7 +160,7 @@ public class ExperienceObeliskScreen extends Screen{
         Button add1 = addRenderableWidget(new Button((int) (this.width / 2 - 1.5 * w - s), this.height / 2 - y1, w, h, new TextComponent("+1")
                 .setStyle(green), (onPress) -> {
 
-            PacketHandler.INSTANCE.sendToServer(new UpdateToServer(pos, 1, FILL));
+            PacketHandler.INSTANCE.sendToServer(new UpdateContents(pos, 1, FILL));
 
         },
                 new Button.OnTooltip() {
@@ -174,7 +174,7 @@ public class ExperienceObeliskScreen extends Screen{
         Button add10 = addRenderableWidget(new Button(this.width / 2 - w / 2, this.height / 2 - y1, w, h, new TextComponent("+10")
                 .setStyle(green), (onPress) -> {
 
-            PacketHandler.INSTANCE.sendToServer(new UpdateToServer(pos, 10, FILL));
+            PacketHandler.INSTANCE.sendToServer(new UpdateContents(pos, 10, FILL));
 
         },
                 new Button.OnTooltip() {
@@ -188,7 +188,7 @@ public class ExperienceObeliskScreen extends Screen{
         Button addAll = addRenderableWidget(new Button((int) (this.width / 2 + 0.5 * w + s), this.height / 2 - y1, w, h, new TextComponent("+All")
                 .setStyle(green), (onPress) -> {
 
-            PacketHandler.INSTANCE.sendToServer(new UpdateToServer(pos, 0, FILL_ALL));
+            PacketHandler.INSTANCE.sendToServer(new UpdateContents(pos, 0, FILL_ALL));
 
         },
                 new Button.OnTooltip() {
@@ -204,7 +204,7 @@ public class ExperienceObeliskScreen extends Screen{
         Button drain1 = addRenderableWidget(new Button((int) (this.width / 2 - 1.5 * w - s), this.height / 2 - y2, w, h, new TextComponent("-1")
                 .setStyle(red), (onPress) -> {
 
-            PacketHandler.INSTANCE.sendToServer(new UpdateToServer(pos, 1, DRAIN));
+            PacketHandler.INSTANCE.sendToServer(new UpdateContents(pos, 1, DRAIN));
 
         },
                 new Button.OnTooltip() {
@@ -218,7 +218,7 @@ public class ExperienceObeliskScreen extends Screen{
         Button drain10 = addRenderableWidget(new Button(this.width / 2 - w / 2, this.height / 2 - y2, w, h, new TextComponent("-10")
                 .setStyle(red), (onPress) -> {
 
-            PacketHandler.INSTANCE.sendToServer(new UpdateToServer(pos, 10, DRAIN));
+            PacketHandler.INSTANCE.sendToServer(new UpdateContents(pos, 10, DRAIN));
 
         },
                 new Button.OnTooltip() {
@@ -232,7 +232,7 @@ public class ExperienceObeliskScreen extends Screen{
         Button drainAll = addRenderableWidget(new Button((int) (this.width / 2 + 0.5 * w + s), this.height / 2 - y2, w, h, new TextComponent("-All")
                 .setStyle(red), (onPress) -> {
 
-            PacketHandler.INSTANCE.sendToServer(new UpdateToServer(pos, 0, DRAIN_ALL));
+            PacketHandler.INSTANCE.sendToServer(new UpdateContents(pos, 0, DRAIN_ALL));
 
         },
                 new Button.OnTooltip() {

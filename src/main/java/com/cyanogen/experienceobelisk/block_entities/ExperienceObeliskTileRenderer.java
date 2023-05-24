@@ -10,29 +10,29 @@ import net.minecraft.resources.ResourceLocation;
 import software.bernie.geckolib3.model.AnimatedGeoModel;
 import software.bernie.geckolib3.renderers.geo.GeoBlockRenderer;
 
-public class XPObeliskTileRenderer extends GeoBlockRenderer<XPObeliskEntity> {
-    public XPObeliskTileRenderer(BlockEntityRendererProvider.Context rendererDispatcherIn) {
-        super(rendererDispatcherIn, new AnimatedGeoModel<XPObeliskEntity>() {
+public class ExperienceObeliskTileRenderer extends GeoBlockRenderer<ExperienceObeliskEntity> {
+    public ExperienceObeliskTileRenderer(BlockEntityRendererProvider.Context rendererDispatcherIn) {
+        super(rendererDispatcherIn, new AnimatedGeoModel<ExperienceObeliskEntity>() {
             //render setup for geckolib animated model
             @Override
-            public ResourceLocation getModelLocation(XPObeliskEntity animatable) {
+            public ResourceLocation getModelLocation(ExperienceObeliskEntity animatable) {
                 return new ResourceLocation(ExperienceObelisk.MOD_ID, "geo/xpobelisk.geo.json");
             }
 
             @Override
-            public ResourceLocation getTextureLocation(XPObeliskEntity entity) {
+            public ResourceLocation getTextureLocation(ExperienceObeliskEntity entity) {
                 return new ResourceLocation(ExperienceObelisk.MOD_ID, "textures/custom_models/wholetexture.png");
             }
 
             @Override
-            public ResourceLocation getAnimationFileLocation(XPObeliskEntity animatable) {
+            public ResourceLocation getAnimationFileLocation(ExperienceObeliskEntity animatable) {
                 return new ResourceLocation(ExperienceObelisk.MOD_ID, "animations/xpobelisk.anim.json");
             }
         });
     }
 
     @Override
-    public RenderType getRenderType(XPObeliskEntity animatable, float partialTicks, PoseStack stack,
+    public RenderType getRenderType(ExperienceObeliskEntity animatable, float partialTicks, PoseStack stack,
                                     MultiBufferSource renderTypeBuffer, VertexConsumer vertexBuilder, int packedLightIn,
                                     ResourceLocation textureLocation) {
         return RenderType.entityTranslucent(getTextureLocation(animatable));

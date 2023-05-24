@@ -1,6 +1,6 @@
 package com.cyanogen.experienceobelisk.network.experienceobelisk;
 
-import com.cyanogen.experienceobelisk.block_entities.XPObeliskEntity;
+import com.cyanogen.experienceobelisk.block_entities.ExperienceObeliskEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
@@ -10,17 +10,17 @@ import net.minecraftforge.network.NetworkEvent;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Supplier;
 
-public class XPObeliskUpdateRadius {
+public class UpdateRadius {
 
     public static BlockPos pos;
     public static double changeInRadius;
 
-    public XPObeliskUpdateRadius(BlockPos pos, double changeInRadius) {
+    public UpdateRadius(BlockPos pos, double changeInRadius) {
         this.pos = pos;
         this.changeInRadius = changeInRadius;
     }
 
-    public XPObeliskUpdateRadius(FriendlyByteBuf buffer) {
+    public UpdateRadius(FriendlyByteBuf buffer) {
 
         pos = buffer.readBlockPos();
         changeInRadius = buffer.readDouble();
@@ -42,7 +42,7 @@ public class XPObeliskUpdateRadius {
 
             BlockEntity serverEntity = sender.level.getBlockEntity(pos);
 
-            if(serverEntity instanceof XPObeliskEntity xpobelisk){
+            if(serverEntity instanceof ExperienceObeliskEntity xpobelisk){
 
                 double finalRadius = xpobelisk.getRadius() + changeInRadius;
 

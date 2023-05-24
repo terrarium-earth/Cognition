@@ -33,6 +33,11 @@ public class CognitiveCrystalItem extends Item {
     }
 
     @Override
+    public int getItemStackLimit(ItemStack stack) {
+        return 1;
+    }
+
+    @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
 
         ItemStack stack = player.getItemInHand(hand);

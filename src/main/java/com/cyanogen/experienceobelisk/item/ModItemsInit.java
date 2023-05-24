@@ -21,6 +21,9 @@ public class ModItemsInit {
     public static final RegistryObject<Item> EXPERIENCE_OBELISK_ITEM = ITEMS.register("experience_obelisk",
             () -> new ExperienceObeliskItem(ModBlocksInit.EXPERIENCE_OBELISK.get(), new Item.Properties().tab(ModCreativeModeTab.MOD_TAB)));
 
+    public static final RegistryObject<Item> EXPERIENCE_FOUNTAIN_ITEM = ITEMS.register("experience_fountain",
+            () -> new Item(new Item.Properties().tab(ModCreativeModeTab.MOD_TAB)));
+
     //-----FUNCTIONAL ITEMS-----//
 
     public static final RegistryObject<Item> COGNITIVE_CRYSTAL = ITEMS.register("cognitive_crystal",
@@ -30,6 +33,8 @@ public class ModItemsInit {
 
     public static final RegistryObject<BucketItem> COGNITIUM_BUCKET = ITEMS.register("cognitium_bucket",
             () -> new BucketItem(ModFluidsInit.COGNITIUM, new Item.Properties().tab(ModCreativeModeTab.MOD_TAB).rarity(Rarity.UNCOMMON)));
+
+
 
     public static void register(IEventBus eventBus){
         ITEMS.register(eventBus);

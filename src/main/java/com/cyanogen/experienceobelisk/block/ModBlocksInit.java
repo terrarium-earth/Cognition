@@ -26,23 +26,21 @@ public class ModBlocksInit {
     public static final DeferredRegister<Block> BLOCKS =
             DeferredRegister.create(ForgeRegistries.BLOCKS, ExperienceObelisk.MOD_ID);
 
-    //block registrations go here:
+    //-----FUNCTIONAL BLOCKS-----//
+
     public static final RegistryObject<Block> EXPERIENCE_OBELISK = BLOCKS.register("experience_obelisk", ExperienceObeliskBlock::new);
+    public static final RegistryObject<Block> EXPERIENCE_FOUNTAIN = BLOCKS.register("experience_fountain", ExperienceFountainBlock::new);
+
+    //-----DECORATIVE / CRAFTING-----//
+
+
+
+    //-----FLUID BLOCKS-----//
 
     public static final RegistryObject<LiquidBlock> COGNITIUM = BLOCKS.register("cognitium",
             () -> new LiquidBlock(ModFluidsInit.COGNITIUM_FLOWING, BlockBehaviour.Properties.of(Material.WATER)
-                    .lightLevel(new ToIntFunction<>() {
-                        @Override
-                        public int applyAsInt(BlockState value) {
-                            return 10;
-                        }
-                    })
-                    .emissiveRendering(new BlockBehaviour.StatePredicate() {
-                        @Override
-                        public boolean test(BlockState p_61036_, BlockGetter p_61037_, BlockPos p_61038_) {
-                            return true;
-                        }
-                    })
+                    .lightLevel(value -> 10)
+                    .emissiveRendering((p_61036_, p_61037_, p_61038_) -> true)
             ));
 
     //utility methods to register block and block items at once

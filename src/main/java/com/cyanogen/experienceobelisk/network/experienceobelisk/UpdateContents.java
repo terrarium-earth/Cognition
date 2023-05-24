@@ -1,6 +1,6 @@
 package com.cyanogen.experienceobelisk.network.experienceobelisk;
 
-import com.cyanogen.experienceobelisk.block_entities.XPObeliskEntity;
+import com.cyanogen.experienceobelisk.block_entities.ExperienceObeliskEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
@@ -11,13 +11,13 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Supplier;
 
 
-public class UpdateToServer {
+public class UpdateContents {
 
     public static BlockPos pos;
     public static int XP;
     public static Request request;
 
-    public UpdateToServer(BlockPos pos, int XP, Request request) {
+    public UpdateContents(BlockPos pos, int XP, Request request) {
         this.pos = pos;
         this.XP = XP;
         this.request = request;
@@ -30,7 +30,7 @@ public class UpdateToServer {
         DRAIN_ALL
     }
 
-    public UpdateToServer(FriendlyByteBuf buffer) {
+    public UpdateContents(FriendlyByteBuf buffer) {
 
         pos = buffer.readBlockPos();
         XP = buffer.readInt();
@@ -54,7 +54,7 @@ public class UpdateToServer {
             assert sender != null;
             BlockEntity serverEntity = sender.level.getBlockEntity(pos);
 
-            if(serverEntity instanceof XPObeliskEntity xpobelisk){
+            if(serverEntity instanceof ExperienceObeliskEntity xpobelisk){
 
                 xpobelisk.handleRequest(request, XP, sender);
                 success.set(true);

@@ -1,19 +1,16 @@
 package com.cyanogen.experienceobelisk.block_entities;
 
-import com.cyanogen.experienceobelisk.ExperienceObelisk;
 import com.cyanogen.experienceobelisk.ModTags;
 import com.cyanogen.experienceobelisk.config.Config;
 import com.cyanogen.experienceobelisk.fluid.ModFluidsInit;
-import com.cyanogen.experienceobelisk.network.experienceobelisk.UpdateToServer;
+import com.cyanogen.experienceobelisk.network.experienceobelisk.UpdateContents;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.Connection;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.ExperienceOrb;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -41,7 +38,7 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 
-public class XPObeliskEntity extends BlockEntity implements IAnimatable{
+public class ExperienceObeliskEntity extends BlockEntity implements IAnimatable{
 
     //-----------ANIMATIONS-----------//
 
@@ -54,8 +51,8 @@ public class XPObeliskEntity extends BlockEntity implements IAnimatable{
         return PlayState.CONTINUE;
     }
 
-    public XPObeliskEntity(BlockPos pPos, BlockState pState) {
-        super(ModTileEntitiesInit.XPOBELISK_BE.get(), pPos, pState);
+    public ExperienceObeliskEntity(BlockPos pPos, BlockState pState) {
+        super(ModTileEntitiesInit.EXPERIENCEOBELISK_BE.get(), pPos, pState);
     }
 
     @Override
@@ -81,7 +78,7 @@ public class XPObeliskEntity extends BlockEntity implements IAnimatable{
 
         BlockEntity entity = level.getBlockEntity(pos);
 
-        if(entity instanceof XPObeliskEntity xpobelisk && level.getGameTime() % 3 == 0){ //check every 3 ticks
+        if(entity instanceof ExperienceObeliskEntity xpobelisk && level.getGameTime() % 3 == 0){ //check every 3 ticks
 
             boolean absorb = !xpobelisk.isRedstoneEnabled() || isRedstonePowered;
             double radius = xpobelisk.getRadius();
@@ -294,12 +291,12 @@ public class XPObeliskEntity extends BlockEntity implements IAnimatable{
         }
     }
 
-    public void handleRequest(UpdateToServer.Request request, int XP, ServerPlayer sender){
+    public void handleRequest(UpdateContents.Request request, int XP, ServerPlayer sender){
 
         long playerXP = levelsToXP(sender.experienceLevel) + Math.round(sender.experienceProgress * sender.getXpNeededForNextLevel());
         long finalXP;
 
-        if(request == UpdateToServer.Request.FILL && this.getSpace() != 0){
+        if(request == UpdateContents.Request.FILL && this.getSpace() != 0){
 
             //-----FILLING-----//
 
@@ -333,7 +330,7 @@ public class XPObeliskEntity extends BlockEntity implements IAnimatable{
 
         //-----DRAINING-----//
 
-        else if(request == UpdateToServer.Request.DRAIN){
+        else if(request == UpdateContents.Request.DRAIN){
 
             int amount = this.getFluidAmount();
 
@@ -358,7 +355,7 @@ public class XPObeliskEntity extends BlockEntity implements IAnimatable{
 
         //-----FILL OR DRAIN ALL-----//
 
-        else if(request == UpdateToServer.Request.FILL_ALL){
+        else if(request == UpdateContents.Request.FILL_ALL){
 
             if(playerXP * 20 <= this.getSpace()){
                 this.fill((int) (playerXP * 20));
@@ -372,7 +369,7 @@ public class XPObeliskEntity extends BlockEntity implements IAnimatable{
 
 
         }
-        else if(request == UpdateToServer.Request.DRAIN_ALL){
+        else if(request == UpdateContents.Request.DRAIN_ALL){
 
             sender.giveExperiencePoints(this.getFluidAmount() / 20);
             this.setFluid(0);

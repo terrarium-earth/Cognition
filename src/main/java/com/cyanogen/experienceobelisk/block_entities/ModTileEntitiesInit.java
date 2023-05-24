@@ -12,11 +12,13 @@ public class ModTileEntitiesInit {
     private static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES =
             DeferredRegister.create(ForgeRegistries.BLOCK_ENTITIES, ExperienceObelisk.MOD_ID);
 
-    //registering a new block entity, binding it to EXPERIENCE_OBELISK
+    private static com.mojang.datafixers.types.Type<?> Type;
 
-    public static final RegistryObject<BlockEntityType<XPObeliskEntity>> XPOBELISK_BE = BLOCK_ENTITIES.register("experienceobelisk_be",
-            ()-> BlockEntityType.Builder.of(XPObeliskEntity::new, ModBlocksInit.EXPERIENCE_OBELISK.get()).build(null));
+    public static final RegistryObject<BlockEntityType<ExperienceObeliskEntity>> EXPERIENCEOBELISK_BE = BLOCK_ENTITIES.register("experienceobelisk_be",
+            ()-> BlockEntityType.Builder.of(ExperienceObeliskEntity::new, ModBlocksInit.EXPERIENCE_OBELISK.get()).build(Type));
 
+    public static final RegistryObject<BlockEntityType<ExperienceFountainEntity>> EXPERIENCEFOUNTAIN_BE = BLOCK_ENTITIES.register("experiencefountain_be",
+            ()-> BlockEntityType.Builder.of(ExperienceFountainEntity::new, ModBlocksInit.EXPERIENCE_FOUNTAIN.get()).build(Type));
 
     public static void register(IEventBus eventBus){
         BLOCK_ENTITIES.register(eventBus);

@@ -1,9 +1,9 @@
 package com.cyanogen.experienceobelisk.network;
 
 import com.cyanogen.experienceobelisk.ExperienceObelisk;
-import com.cyanogen.experienceobelisk.network.experienceobelisk.UpdateToServer;
-import com.cyanogen.experienceobelisk.network.experienceobelisk.XPObeliskUpdateRadius;
-import com.cyanogen.experienceobelisk.network.experienceobelisk.XPObeliskUpdateRedstone;
+import com.cyanogen.experienceobelisk.network.experienceobelisk.UpdateContents;
+import com.cyanogen.experienceobelisk.network.experienceobelisk.UpdateRadius;
+import com.cyanogen.experienceobelisk.network.experienceobelisk.UpdateRedstone;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.network.NetworkRegistry;
 import net.minecraftforge.network.simple.SimpleChannel;
@@ -22,22 +22,22 @@ public final class PacketHandler {
         int index = 0;
 
         INSTANCE.registerMessage(index++,
-                UpdateToServer.class,
-                UpdateToServer::encode,
-                UpdateToServer::new,
-                UpdateToServer::handle);
+                UpdateContents.class,
+                UpdateContents::encode,
+                UpdateContents::new,
+                UpdateContents::handle);
 
         INSTANCE.registerMessage(index++,
-                XPObeliskUpdateRadius.class,
-                XPObeliskUpdateRadius::encode,
-                XPObeliskUpdateRadius::new,
-                XPObeliskUpdateRadius::handle);
+                UpdateRadius.class,
+                UpdateRadius::encode,
+                UpdateRadius::new,
+                UpdateRadius::handle);
 
         INSTANCE.registerMessage(index++,
-                XPObeliskUpdateRedstone.class,
-                XPObeliskUpdateRedstone::encode,
-                XPObeliskUpdateRedstone::new,
-                XPObeliskUpdateRedstone::handle);
+                UpdateRedstone.class,
+                UpdateRedstone::encode,
+                UpdateRedstone::new,
+                UpdateRedstone::handle);
 
     }
 

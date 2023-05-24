@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "G#G",
+    "#E#",
+    "G#G"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:quartz"
+    },
+    "E": {
+      "item": "minecraft:emerald"
+    },
+    "G": {
+      "item": "minecraft:gold_nugget"
+    }
+  },
+  "result": {
+    "item": "experienceobelisk:cognitive_crystal",
+    "count": 1
+  }
+}
