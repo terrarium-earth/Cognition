@@ -46,7 +46,9 @@ public class ExperienceObeliskEntity extends BlockEntity implements IAnimatable{
     private <E extends BlockEntity & IAnimatable> PlayState predicate(AnimationEvent<E> event) {
         AnimationController controller = event.getController();
         controller.transitionLengthTicks = 0;
-        controller.setAnimation(new AnimationBuilder().addAnimation("xpobelisk.idle", true));
+        controller.setAnimation(new AnimationBuilder().addAnimation("idle", true));
+
+        //todo: play faster animation when vacuum function is active
 
         return PlayState.CONTINUE;
     }
@@ -168,7 +170,7 @@ public class ExperienceObeliskEntity extends BlockEntity implements IAnimatable{
 
                 if(isFluidValid(resource)){
                     setChanged();
-                    return super.fill(new FluidStack(cognitium, resource.getAmount() * 20), action);
+                    return super.fill(resource, action);
                 }
                 else{
                     return 0;

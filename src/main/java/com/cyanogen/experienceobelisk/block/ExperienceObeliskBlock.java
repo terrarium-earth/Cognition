@@ -1,7 +1,7 @@
 package com.cyanogen.experienceobelisk.block;
 
-import com.cyanogen.experienceobelisk.block_entities.ModTileEntitiesInit;
 import com.cyanogen.experienceobelisk.block_entities.ExperienceObeliskEntity;
+import com.cyanogen.experienceobelisk.block_entities.ModTileEntitiesInit;
 import com.cyanogen.experienceobelisk.gui.ExperienceObeliskScreen;
 import com.cyanogen.experienceobelisk.item.ModItemsInit;
 import net.minecraft.client.Minecraft;
@@ -40,7 +40,7 @@ public class ExperienceObeliskBlock extends Block implements EntityBlock {
                 .destroyTime(1.2f)
                 .requiresCorrectToolForDrops()
                 .explosionResistance(1200f)
-                .lightLevel(value -> 14)
+                .lightLevel(value -> 8)
                 .noOcclusion()
                 .emissiveRendering((state, getter, pos) -> true)
         );

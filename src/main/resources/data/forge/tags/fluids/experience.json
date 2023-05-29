@@ -1,7 +1,7 @@
 {
   "replace": false,
   "values": [
-    "experienceobelisk:cognitium", "experienceobelisk:raw_experience",
+    "experienceobelisk:cognitium",
     {
       "id": "mob_grinding_utils:fluid_xp",
       "required": false
