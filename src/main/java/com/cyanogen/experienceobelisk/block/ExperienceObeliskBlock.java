@@ -40,7 +40,7 @@ public class ExperienceObeliskBlock extends Block implements EntityBlock {
                 .destroyTime(1.2f)
                 .requiresCorrectToolForDrops()
                 .explosionResistance(1200f)
-                .lightLevel(value -> Config.COMMON.lightLevel.get())
+                .lightLevel(value -> 10)
                 .noOcclusion()
                 .emissiveRendering((state, getter, pos) -> true)
         );
