@@ -1,17 +1,13 @@
 {
-  //items
   "item.experienceobelisk.raw_experience_bucket": "Ведро сырого опыта",
   "item.experienceobelisk.cognitium_bucket": "Ведро когнитиума",
 
-  //blocks
   "block.experienceobelisk.experience_obelisk": "Обелиск опыта",
   "block.experienceobelisk.raw_experience": "Сырой опыт",
   "block.experienceobelisk.cognitium": "Когнитиум",
 
-  //tabs
   "itemGroup.experience_obelisk": "Обелиск опыта",
 
-  //tooltips
   "tooltip.experienceobelisk.experience_obelisk.add1": "Хранить §a1§f уровень опыта",
   "tooltip.experienceobelisk.experience_obelisk.add10": "Хранить §a10§f уровней опыта",
   "tooltip.experienceobelisk.experience_obelisk.addAll": "Хранить §aвсе§f уровни опыта",
@@ -26,14 +22,11 @@
   "tooltip.experienceobelisk.experience_obelisk.settings": "Настройки...",
   "tooltip.experienceobelisk.experience_obelisk.back": "Назад...",
 
-  //buttons
   "button.experienceobelisk.experience_obelisk.settings": "§l⚙§r",
 
-  //fluid
   "fluid.experienceobelisk.raw_experience": "Сырой опыт",
   "fluid.experienceobelisk.cognitium": "Когнитиум",
 
-  //fluid type
   "fluid_type.experienceobelisk.raw_experience": "Сырой опыт",
   "fluid_type.experienceobelisk.cognitium": "Когнитиум"
 }
