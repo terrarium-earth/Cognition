@@ -12,9 +12,11 @@ public class Config {
 
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> allowedFluids;
         public final ForgeConfigSpec.ConfigValue<Integer> capacity;
+        public final ForgeConfigSpec.ConfigValue<Integer> lightLevel;
 
         public List<String> defaultValues = new ArrayList<>();
         public int defaultCapacity = 100000000;
+        public int defaultLightLevel = 10;
 
         public Common(ForgeConfigSpec.Builder builder){
 
@@ -30,6 +32,11 @@ public class Config {
             builder.push("Experience Obelisk Capacity");
             this.capacity = builder.comment("The fluid capacity of the obelisk. Default = 100000000")
                     .define("Capacity", defaultCapacity);
+            builder.pop();
+
+            builder.push("Experience Obelisk Light Level");
+            this.lightLevel = builder.comment("The light level of the obelisk block. Default = 10")
+                    .define("LightLevel", defaultLightLevel);
             builder.pop();
 
         }
