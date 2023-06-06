@@ -138,6 +138,7 @@ public class XPObeliskEntity extends BlockEntity implements IAnimatable{
     public static final int capacity = Config.COMMON.capacity.get(); //this is 10^8 by default
 
     private FluidTank xpObeliskTank() {
+
         return new FluidTank(capacity){
 
             @Override

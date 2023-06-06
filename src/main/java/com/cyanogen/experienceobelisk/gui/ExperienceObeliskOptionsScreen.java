@@ -117,41 +117,33 @@ public class ExperienceObeliskOptionsScreen extends Screen {
             styleStatus = red;
         }
 
+        //decrease radius
+        addRenderableWidget(new Button(this.width / 2 - 56, this.height / 2 - y1, 26, h,
+                new TextComponent("-").setStyle(red),
 
-        Button decreaseRadius = addRenderableWidget(new Button(this.width / 2 - 56, this.height / 2 - y1, 26, h, new TextComponent("-")
-                .setStyle(red), (onPress) -> {
+                (onPress) ->
+                        PacketHandler.INSTANCE.sendToServer(new XPObeliskUpdateRadius(pos, -0.5))));
 
-            PacketHandler.INSTANCE.sendToServer(new XPObeliskUpdateRadius(pos, -0.5));
+        //reset radius
+        addRenderableWidget(new Button(this.width / 2 - 25, this.height / 2 - y1, 50, h,
+                new TextComponent(String.valueOf(radius)),
 
+                (onPress) ->
+                        PacketHandler.INSTANCE.sendToServer(new XPObeliskUpdateRadius(pos, 0)),
 
-        }));
-
-
-        Button currentRadius = addRenderableWidget(new Button(this.width / 2 - 25, this.height / 2 - y1, 50, h, new TextComponent(String.valueOf(radius))
-                , (onPress) -> {
-
-            PacketHandler.INSTANCE.sendToServer(new XPObeliskUpdateRadius(pos, 0));
-
-        },
-                new Button.OnTooltip() {
-                    @Override
-                    public void onTooltip(Button pButton, PoseStack pPoseStack, int pMouseX, int pMouseY) {
-                        renderTooltip(pPoseStack, new TranslatableComponent("tooltip.experienceobelisk.experience_obelisk.radius"), pMouseX, pMouseY);
-                    }
-                }
+                (pButton, pPoseStack, pMouseX, pMouseY) ->
+                        renderTooltip(pPoseStack, new TranslatableComponent("tooltip.experienceobelisk.experience_obelisk.radius"), pMouseX, pMouseY)
         ));
 
-        Button increaseRadius = addRenderableWidget(new Button((int) (this.width / 2 + 30), this.height / 2 - y1, 26, h, new TextComponent("+")
-                .setStyle(green), (onPress) -> {
+        //increase radius
+        addRenderableWidget(new Button(this.width / 2 + 30, this.height / 2 - y1, 26, h,
+                new TextComponent("+").setStyle(green),
 
-            PacketHandler.INSTANCE.sendToServer(new XPObeliskUpdateRadius(pos, 0.5));
+                (onPress) ->
+                        PacketHandler.INSTANCE.sendToServer(new XPObeliskUpdateRadius(pos, 0.5))));
 
-        }));
-
-        //send packet
-        Button toggleRedstone = addRenderableWidget(new Button(this.width / 2 - 25, this.height / 2 - y2, w, h, new TextComponent(status).setStyle(styleStatus), onPress -> {
-
-            //send packet
+        //toggle redstone
+        addRenderableWidget(new Button(this.width / 2 - 25, this.height / 2 - y2, w, h, new TextComponent(status).setStyle(styleStatus), onPress -> {
 
             if (Objects.equals(status, "Ignored")) {
                 PacketHandler.INSTANCE.sendToServer(new XPObeliskUpdateRedstone(pos, true));
@@ -161,18 +153,15 @@ public class ExperienceObeliskOptionsScreen extends Screen {
 
         }));
 
-        Button back = addRenderableWidget(new Button(this.width / 2 + 86, this.height / 2 - 77, 14, 20,
-                new TranslatableComponent("button.experienceobelisk.experience_obelisk.settings"), (onPress) -> {
+        //go back
+        addRenderableWidget(new Button(this.width / 2 + 91, this.height / 2 - 78, 20, 20,
+                new TranslatableComponent("button.experienceobelisk.experience_obelisk.back"),
 
-            this.onClose();
+                (onPress) ->
+                        this.onClose(),
 
-        }, new Button.OnTooltip() {
-
-            @Override
-            public void onTooltip(Button pButton, PoseStack pPoseStack, int pMouseX, int pMouseY) {
-                renderTooltip(pPoseStack, new TranslatableComponent("tooltip.experienceobelisk.experience_obelisk.back"), pMouseX, pMouseY);
-            }
-        }));
+                (pButton, pPoseStack, pMouseX, pMouseY) ->
+                        renderTooltip(pPoseStack, new TranslatableComponent("tooltip.experienceobelisk.experience_obelisk.back"), pMouseX, pMouseY)));
 
 
     }

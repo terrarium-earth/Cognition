@@ -31,10 +31,7 @@ public class Config {
             this.capacity = builder.comment("The fluid capacity of the obelisk. Default = 100000000, Max = 2147483647")
                     .define("Capacity", defaultCapacity);
             builder.pop();
-
         }
-
-
     }
 
     public static final Common COMMON;
