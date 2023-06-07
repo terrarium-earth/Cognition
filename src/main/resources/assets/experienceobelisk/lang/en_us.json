@@ -9,6 +9,13 @@
 
   "itemGroup.experience_obelisk": "Experience Obelisk",
 
+  "title.experienceobelisk.experience_obelisk": "Experience Obelisk",
+  "title.experienceobelisk.experience_obelisk.store": "Store",
+  "title.experienceobelisk.experience_obelisk.retrieve": "Retrieve",
+  "title.experienceobelisk.experience_obelisk.settings": "Settings",
+  "title.experienceobelisk.experience_obelisk.radius": "Radius",
+  "title.experienceobelisk.experience_obelisk.redstone": "Redstone",
+
   "tooltip.experienceobelisk.experience_obelisk.add1": "Store §a1§f XP level",
   "tooltip.experienceobelisk.experience_obelisk.add10": "Store §a10§f XP levels",
   "tooltip.experienceobelisk.experience_obelisk.addAll": "Store §aall§f XP levels",
@@ -24,6 +31,8 @@
   "tooltip.experienceobelisk.experience_obelisk.back": "Back...",
 
   "button.experienceobelisk.experience_obelisk.settings": "§l▶§r",
-  "button.experienceobelisk.experience_obelisk.back": "§l◀§r"
+  "button.experienceobelisk.experience_obelisk.back": "§l◀§r",
+  "button.experienceobelisk.experience_obelisk.ignored": "§cIgnored§r",
+  "button.experienceobelisk.experience_obelisk.enabled": "§aEnabled§r"
 
 }

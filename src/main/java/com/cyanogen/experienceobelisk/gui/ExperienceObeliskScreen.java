@@ -106,11 +106,11 @@ public class ExperienceObeliskScreen extends Screen{
         blit(pPoseStack, this.width / 2 - 138 / 2, this.height / 2 + 50, 0, 173, p, 5, textureWidth, textureHeight);
 
         //descriptors & info
-        drawCenteredString(new PoseStack(), this.font, "Experience Obelisk",
+        drawCenteredString(new PoseStack(), this.font, new TranslatableComponent("title.experienceobelisk.experience_obelisk"),
                 this.width / 2,this.height / 2 - 76, 0xFFFFFF);
-        drawString(new PoseStack(), this.font, "Store",
+        drawString(new PoseStack(), this.font, new TranslatableComponent("title.experienceobelisk.experience_obelisk.store"),
                 this.width / 2 - 77,this.height / 2 - 56, 0xFFFFFF);
-        drawString(new PoseStack(), this.font, "Retrieve",
+        drawString(new PoseStack(), this.font, new TranslatableComponent("title.experienceobelisk.experience_obelisk.retrieve"),
                 this.width / 2 - 77,this.height / 2 - 10, 0xFFFFFF);
         drawCenteredString(new PoseStack(), this.font, experiencePoints * 20 + " mB",
                 this.width / 2,this.height / 2 + 35, 0xFFFFFF);

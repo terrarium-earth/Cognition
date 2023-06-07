@@ -76,11 +76,11 @@ public class ExperienceObeliskOptionsScreen extends Screen {
         setupWidgetElements();
 
         //descriptors & info
-        drawCenteredString(new PoseStack(), this.font, "Settings",
+        drawCenteredString(new PoseStack(), this.font, new TranslatableComponent("title.experienceobelisk.experience_obelisk.settings"),
                 this.width / 2,this.height / 2 - 76, 0xFFFFFF);
-        drawString(new PoseStack(), this.font, "Radius",
+        drawString(new PoseStack(), this.font, new TranslatableComponent("title.experienceobelisk.experience_obelisk.radius"),
                 this.width / 2 - 77,this.height / 2 - 56, 0xFFFFFF);
-        drawString(new PoseStack(), this.font, "Redstone",
+        drawString(new PoseStack(), this.font, new TranslatableComponent("title.experienceobelisk.experience_obelisk.redstone"),
                 this.width / 2 - 77,this.height / 2 - 10, 0xFFFFFF);
 
 
@@ -106,15 +106,12 @@ public class ExperienceObeliskOptionsScreen extends Screen {
         Style red = Style.EMPTY.withColor(0xFF454B);
         double radius = xpobelisk.getRadius();
 
-        String status;
-        Style styleStatus;
+        TranslatableComponent status;
         if(xpobelisk.isRedstoneEnabled()){
-            status = "Enabled";
-            styleStatus = green;
+            status = new TranslatableComponent("button.experienceobelisk.experience_obelisk.enabled");
         }
         else{
-            status = "Ignored";
-            styleStatus = red;
+            status = new TranslatableComponent("button.experienceobelisk.experience_obelisk.ignored");
         }
 
         //decrease radius
@@ -143,9 +140,9 @@ public class ExperienceObeliskOptionsScreen extends Screen {
                         PacketHandler.INSTANCE.sendToServer(new XPObeliskUpdateRadius(pos, 0.5))));
 
         //toggle redstone
-        addRenderableWidget(new Button(this.width / 2 - 25, this.height / 2 - y2, w, h, new TextComponent(status).setStyle(styleStatus), onPress -> {
+        addRenderableWidget(new Button(this.width / 2 - 25, this.height / 2 - y2, w, h, status, onPress -> {
 
-            if (Objects.equals(status, "Ignored")) {
+            if (status.getKey().equals("button.experienceobelisk.experience_obelisk.ignored")) {
                 PacketHandler.INSTANCE.sendToServer(new XPObeliskUpdateRedstone(pos, true));
             } else {
                 PacketHandler.INSTANCE.sendToServer(new XPObeliskUpdateRedstone(pos, false));

@@ -1,0 +1,38 @@
+{
+  "item.experienceobelisk.raw_experience_bucket": "原料经验桶",
+  "item.experienceobelisk.cognitium_bucket": "认知精桶",
+
+  "block.experienceobelisk.experience_obelisk": "经验方尖碑",
+
+  "fluid.experienceobelisk.raw_experience": "原料经验",
+  "fluid.experienceobelisk.cognitium": "认知精",
+
+  "itemGroup.experience_obelisk": "经验方尖碑",
+
+  "title.experienceobelisk.experience_obelisk": "经验方尖碑",
+  "title.experienceobelisk.experience_obelisk.store": "储蓄",
+  "title.experienceobelisk.experience_obelisk.retrieve": "取回",
+  "title.experienceobelisk.experience_obelisk.settings": "设置",
+  "title.experienceobelisk.experience_obelisk.radius": "活动范围",
+  "title.experienceobelisk.experience_obelisk.redstone": "红石",
+
+  "tooltip.experienceobelisk.experience_obelisk.add1": "储蓄 §a1§f 级经验",
+  "tooltip.experienceobelisk.experience_obelisk.add10": "储蓄 §a10§f 级经验",
+  "tooltip.experienceobelisk.experience_obelisk.addAll": "储蓄 §a全部的§f 经验",
+  "tooltip.experienceobelisk.experience_obelisk.drain1": "取回 §c1§f 级经验",
+  "tooltip.experienceobelisk.experience_obelisk.drain10": "取回 §c10§f 级经验",
+  "tooltip.experienceobelisk.experience_obelisk.drainAll": "取回 §c全部的§f 经验",
+
+  "tooltip.experienceobelisk.experience_obelisk.item_fluid_amount": "§7液体数量:§r %s",
+  "tooltip.experienceobelisk.experience_obelisk.item_levels": "%s §7级§r",
+
+  "tooltip.experienceobelisk.experience_obelisk.radius": "§6重置§f活动范围",
+  "tooltip.experienceobelisk.experience_obelisk.settings": "设置...",
+  "tooltip.experienceobelisk.experience_obelisk.back": "回去...",
+
+  "button.experienceobelisk.experience_obelisk.settings": "§l▶§r",
+  "button.experienceobelisk.experience_obelisk.back": "§l◀§r",
+  "button.experienceobelisk.experience_obelisk.ignored": "§c禁用§r",
+  "button.experienceobelisk.experience_obelisk.enabled": "§a启用§r"
+
+}
