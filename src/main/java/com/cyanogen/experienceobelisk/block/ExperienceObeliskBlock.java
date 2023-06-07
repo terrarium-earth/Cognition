@@ -2,7 +2,6 @@ package com.cyanogen.experienceobelisk.block;
 
 import com.cyanogen.experienceobelisk.block_entities.ModTileEntitiesInit;
 import com.cyanogen.experienceobelisk.block_entities.XPObeliskEntity;
-import com.cyanogen.experienceobelisk.config.Config;
 import com.cyanogen.experienceobelisk.gui.GuiWrapper;
 import com.cyanogen.experienceobelisk.item.ModItemsInit;
 import net.minecraft.core.BlockPos;

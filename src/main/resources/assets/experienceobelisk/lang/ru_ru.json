@@ -1,0 +1,28 @@
+{
+  "item.experienceobelisk.raw_experience_bucket": "Ведро сырого опыта",
+  "item.experienceobelisk.cognitium_bucket": "Ведро когнитиума",
+
+  "block.experienceobelisk.experience_obelisk": "Обелиск опыта",
+
+  "fluid.experienceobelisk.raw_experience": "Сырой опыт",
+  "fluid.experienceobelisk.cognitium": "Когнитиум",
+
+  "itemGroup.experience_obelisk": "Обелиск опыта",
+
+  "tooltip.experienceobelisk.experience_obelisk.add1": "Хранить §a1§f уровень опыта",
+  "tooltip.experienceobelisk.experience_obelisk.add10": "Хранить §a10§f уровней опыта",
+  "tooltip.experienceobelisk.experience_obelisk.addAll": "Хранить §aвсе§f уровни опыта",
+  "tooltip.experienceobelisk.experience_obelisk.drain1": "Хранить §c1§f уровень опыта",
+  "tooltip.experienceobelisk.experience_obelisk.drain10": "Хранить §c10§f уровней опыта",
+  "tooltip.experienceobelisk.experience_obelisk.drainAll": "Хранить §cвсе§f уровни опыта",
+
+  "tooltip.experienceobelisk.experience_obelisk.item_fluid_amount": "§7Количество жидкости:§r %s",
+  "tooltip.experienceobelisk.experience_obelisk.item_levels": "§7Уровней:§r %s",
+
+  "tooltip.experienceobelisk.experience_obelisk.radius": "§6Сброс§f радиуса по умолчанию",
+  "tooltip.experienceobelisk.experience_obelisk.settings": "Настройки...",
+  "tooltip.experienceobelisk.experience_obelisk.back": "Назад...",
+
+  "button.experienceobelisk.experience_obelisk.settings": "§l▶§r",
+  "button.experienceobelisk.experience_obelisk.back": "§l◀§r"
+}
