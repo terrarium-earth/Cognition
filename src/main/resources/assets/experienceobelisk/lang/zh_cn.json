@@ -13,7 +13,7 @@
   "title.experienceobelisk.experience_obelisk.store": "储蓄",
   "title.experienceobelisk.experience_obelisk.retrieve": "取回",
   "title.experienceobelisk.experience_obelisk.settings": "设置",
-  "title.experienceobelisk.experience_obelisk.radius": "活动范围",
+  "title.experienceobelisk.experience_obelisk.radius": "有效范围",
   "title.experienceobelisk.experience_obelisk.redstone": "红石",
 
   "tooltip.experienceobelisk.experience_obelisk.add1": "储蓄 §a1§f 级经验",
@@ -26,7 +26,7 @@
   "tooltip.experienceobelisk.experience_obelisk.item_fluid_amount": "§7液体数量:§r %s",
   "tooltip.experienceobelisk.experience_obelisk.item_levels": "%s §7级§r",
 
-  "tooltip.experienceobelisk.experience_obelisk.radius": "§6重置§f活动范围",
+  "tooltip.experienceobelisk.experience_obelisk.radius": "§6重置§f有效范围",
   "tooltip.experienceobelisk.experience_obelisk.settings": "设置...",
   "tooltip.experienceobelisk.experience_obelisk.back": "回去...",
 
