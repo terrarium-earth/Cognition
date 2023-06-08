@@ -12,9 +12,9 @@
   "tooltip.experienceobelisk.experience_obelisk.add1": "Хранить §a1§f уровень опыта",
   "tooltip.experienceobelisk.experience_obelisk.add10": "Хранить §a10§f уровней опыта",
   "tooltip.experienceobelisk.experience_obelisk.addAll": "Хранить §aвсе§f уровни опыта",
-  "tooltip.experienceobelisk.experience_obelisk.drain1": "Хранить §c1§f уровень опыта",
-  "tooltip.experienceobelisk.experience_obelisk.drain10": "Хранить §c10§f уровней опыта",
-  "tooltip.experienceobelisk.experience_obelisk.drainAll": "Хранить §cвсе§f уровни опыта",
+  "tooltip.experienceobelisk.experience_obelisk.drain1": "Извлечь §c1§f уровень опыта",
+  "tooltip.experienceobelisk.experience_obelisk.drain10": "Извлечь §c10§f уровней опыта",
+  "tooltip.experienceobelisk.experience_obelisk.drainAll": "Извлечь §cвсе§f уровни опыта",
 
   "tooltip.experienceobelisk.experience_obelisk.item_fluid_amount": "§7Количество жидкости:§r %s",
   "tooltip.experienceobelisk.experience_obelisk.item_levels": "§7Уровней:§r %s",
