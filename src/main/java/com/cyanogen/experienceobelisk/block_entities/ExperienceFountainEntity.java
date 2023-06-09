@@ -27,41 +27,38 @@ public class ExperienceFountainEntity extends BlockEntity {
 
         if(entity instanceof ExperienceFountainEntity fountain && fountain.isBound && fountain.activityState != 0){
 
-            System.out.println("aaaaa");
-
             BlockEntity boundEntity = level.getBlockEntity(fountain.getBoundPos());
 
-            if(boundEntity instanceof ExperienceObeliskEntity obelisk && !level.isClientSide){
+            if(boundEntity instanceof ExperienceObeliskEntity obelisk && !level.isClientSide && obelisk.getFluidAmount() > 0){
 
                 ServerLevel server = (ServerLevel) level;
-                ExperienceOrb orb;
-
-                System.out.println("bbbbb");
+                ExperienceOrb orb = new ExperienceOrb(server, pos.getX() + 0.5, pos.getY() + 0.7, pos.getZ() + 0.5, 0);
 
                 if(fountain.activityState == 1 && time % 20 == 0){ //slow
 
                     if(obelisk.getFluidAmount() >= 200){
-                        orb = new ExperienceOrb(server, pos.getX() + 0.5, pos.getY() + 0.7, pos.getZ() + 0.5, 10);
+                        orb.value = 10;
                         obelisk.drain(200);
                     }
                     else{
-                        orb = new ExperienceOrb(server, pos.getX() + 0.5, pos.getY() + 0.7, pos.getZ() + 0.5, obelisk.getFluidAmount() / 20);
+                        orb.value = obelisk.getFluidAmount();
                         obelisk.setFluid(0);
                     }
+
                     orb.setDeltaMovement(0,0.1,0);
                     server.addFreshEntity(orb);
-
                 }
                 else if(fountain.activityState == 2 && time % 5 == 0){ //fast
 
                     if(obelisk.getFluidAmount() >= 1000){
-                        orb = new ExperienceOrb(server, pos.getX() + 0.5, pos.getY() + 0.7, pos.getZ() + 0.5, 50);
+                        orb.value = 50;
                         obelisk.drain(1000);
                     }
                     else{
-                        orb = new ExperienceOrb(server, pos.getX() + 0.5, pos.getY() + 0.7, pos.getZ() + 0.5, obelisk.getFluidAmount() / 20);
+                        orb.value = obelisk.getFluidAmount();
                         obelisk.setFluid(0);
                     }
+
                     orb.setDeltaMovement(0,0.1,0);
                     server.addFreshEntity(orb);
                 }

@@ -35,7 +35,7 @@ public class Config {
             builder.pop();
 
             builder.push("Cognitive Crystal Range");
-            this.range = builder.comment("The maximum range of the cognitive crystal. Accepts decimals. Default = 4.0")
+            this.range = builder.comment("The range of the cognitive crystal. Accepts decimals. Default = 4.0")
                     .define("Range", defaultRange);
             builder.pop();
 
