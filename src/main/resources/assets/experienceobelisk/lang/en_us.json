@@ -22,7 +22,12 @@
   "tooltip.experienceobelisk.experience_obelisk.settings": "Settings...",
   "tooltip.experienceobelisk.experience_obelisk.back": "Back...",
 
-  "button.experienceobelisk.experience_obelisk.settings": "§l⚙§r"
+  "button.experienceobelisk.experience_obelisk.settings": "§l⚙§r",
 
-
+  "message.experienceobelisk.binding_wand.select_obelisk": "Obelisk position saved",
+  "message.experienceobelisk.binding_wand.bind_target": "Target bound to obelisk at: %s",
+  "message.experienceobelisk.binding_wand.obelisk_too_far": "§cThe obelisk is too far away",
+  "message.experienceobelisk.binding_wand.obelisk_doesnt_exist": "§cThe obelisk at the position no longer exists",
+  "message.experienceobelisk.binding_wand.obelisk_not_selected": "§cYou have not selected an obelisk",
+  "message.experienceobelisk.binding_wand.reveal_bound_pos": "This block is bound to: %s"
 }

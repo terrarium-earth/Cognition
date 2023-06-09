@@ -22,12 +22,15 @@ public class ModItemsInit {
             () -> new ExperienceObeliskItem(ModBlocksInit.EXPERIENCE_OBELISK.get(), new Item.Properties().tab(ModCreativeModeTab.MOD_TAB)));
 
     public static final RegistryObject<Item> EXPERIENCE_FOUNTAIN_ITEM = ITEMS.register("experience_fountain",
-            () -> new Item(new Item.Properties().tab(ModCreativeModeTab.MOD_TAB)));
+            () -> new ExperienceFountainItem(ModBlocksInit.EXPERIENCE_FOUNTAIN.get(), new Item.Properties().tab(ModCreativeModeTab.MOD_TAB)));
 
     //-----FUNCTIONAL ITEMS-----//
 
     public static final RegistryObject<Item> COGNITIVE_CRYSTAL = ITEMS.register("cognitive_crystal",
             () -> new CognitiveCrystalItem(new Item.Properties().tab(ModCreativeModeTab.MOD_TAB)));
+
+    public static final RegistryObject<Item> BINDING_WAND = ITEMS.register("binding_wand",
+            () -> new BindingWandItem(new Item.Properties().tab(ModCreativeModeTab.MOD_TAB)));
 
     //-----RECIPE INGREDIENTS, EVERYTHING ELSE-----//
 
