@@ -6,6 +6,7 @@ import com.cyanogen.experienceobelisk.item.ModItemsInit;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -47,17 +48,24 @@ public class ExperienceFountainBlock extends Block implements EntityBlock {
         BlockEntity entity = level.getBlockEntity(pos);
         ItemStack heldItem = player.getItemInHand(hand);
 
-        if(entity instanceof ExperienceFountainEntity fountain && !heldItem.is(ModItemsInit.BINDING_WAND.get())){
-            fountain.cycleActivityState();
-            TextComponent message = new TextComponent("Experience Fountain set to: ");
+        if(entity instanceof ExperienceFountainEntity fountain){
 
-            switch (fountain.getActivityState()) {
-                case 0 -> message.append(new TextComponent("Off").withStyle(ChatFormatting.RED));
-                case 1 -> message.append(new TextComponent("Slow").withStyle(ChatFormatting.YELLOW));
-                case 2 -> message.append(new TextComponent("Fast").withStyle(ChatFormatting.GREEN));
+            if(heldItem.is(ModItemsInit.BINDING_WAND.get())){
+                player.displayClientMessage(new TranslatableComponent("message.experienceobelisk.binding_wand.reveal_bound_pos",
+                        new TextComponent(fountain.getBoundPos().toShortString()).withStyle(ChatFormatting.GREEN)), true);
             }
-            player.displayClientMessage(message, true);
-            level.sendBlockUpdated(pos, state, state, 2);
+            else{
+                fountain.cycleActivityState();
+                TextComponent message = new TextComponent("Experience Fountain set to: ");
+
+                switch (fountain.getActivityState()) {
+                    case 0 -> message.append(new TextComponent("Off").withStyle(ChatFormatting.RED));
+                    case 1 -> message.append(new TextComponent("Slow").withStyle(ChatFormatting.YELLOW));
+                    case 2 -> message.append(new TextComponent("Fast").withStyle(ChatFormatting.GREEN));
+                }
+                player.displayClientMessage(message, true);
+                level.sendBlockUpdated(pos, state, state, 2);
+            }
 
         }
         return InteractionResult.CONSUME;

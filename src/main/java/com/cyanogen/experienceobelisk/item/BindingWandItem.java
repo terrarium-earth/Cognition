@@ -80,14 +80,9 @@ public class BindingWandItem extends Item {
                 return InteractionResult.CONSUME;
             }
         }
-        else if(player != null && entity instanceof ExperienceFountainEntity fountain){
-
-            BlockPos boundPos = fountain.getBoundPos();
-
-            player.displayClientMessage(new TranslatableComponent("message.experienceobelisk.binding_wand.reveal_bound_pos",
-                    new TextComponent(boundPos.toShortString()).withStyle(ChatFormatting.GREEN)), true);
-        }
         return super.useOn(context);
+
+
     }
 
 

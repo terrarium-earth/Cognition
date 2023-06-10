@@ -46,15 +46,15 @@ public class ExperienceObeliskBlock extends Block implements EntityBlock {
         );
     }
 
-    //crystal
-    VoxelShape shape1 = Shapes.create(new AABB(6 / 16D,0 / 16D,6 / 16D,10 / 16D,16 / 16D,10 / 16D));
+    //rotating cube
+    VoxelShape shape1 = Shapes.create(new AABB(6.7 / 16D,14 / 16D,6.7 / 16D,9.3 / 16D,15.5 / 16D,9.3 / 16D));
     //base
-    VoxelShape shape2 = Shapes.create(new AABB(0 / 16D,0 / 16D,0 / 16D,16 / 16D,2 / 16D,16 / 16D));
+    VoxelShape shape2 = Shapes.create(new AABB(1 / 16D,0 / 16D,1 / 16D,15 / 16D,4.2 / 16D,15 / 16D));
+
     VoxelShape shape = Shapes.join(shape1, shape2, BooleanOp.OR);
 
     @Override
-    public VoxelShape getCollisionShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
-        shape = shape.optimize();
+    public VoxelShape getShape(BlockState p_60555_, BlockGetter p_60556_, BlockPos p_60557_, CollisionContext p_60558_) {
         return shape;
     }
 
