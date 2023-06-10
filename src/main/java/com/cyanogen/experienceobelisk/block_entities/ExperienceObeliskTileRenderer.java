@@ -16,17 +16,17 @@ public class ExperienceObeliskTileRenderer extends GeoBlockRenderer<ExperienceOb
             //render setup for geckolib animated model
             @Override
             public ResourceLocation getModelLocation(ExperienceObeliskEntity animatable) {
-                return new ResourceLocation(ExperienceObelisk.MOD_ID, "geo/experienceobelisk.geo.json");
+                return new ResourceLocation(ExperienceObelisk.MOD_ID, "geo/experience_obelisk.geo.json");
             }
 
             @Override
             public ResourceLocation getTextureLocation(ExperienceObeliskEntity entity) {
-                return new ResourceLocation(ExperienceObelisk.MOD_ID, "textures/custom_models/experienceobelisk/experienceobelisk.png");
+                return new ResourceLocation(ExperienceObelisk.MOD_ID, "textures/custom_models/experience_obelisk.png");
             }
 
             @Override
             public ResourceLocation getAnimationFileLocation(ExperienceObeliskEntity animatable) {
-                return new ResourceLocation(ExperienceObelisk.MOD_ID, "animations/experienceobelisk/model.animation.slow.json");
+                return new ResourceLocation(ExperienceObelisk.MOD_ID, "animations/experience_obelisk.json");
             }
         });
     }

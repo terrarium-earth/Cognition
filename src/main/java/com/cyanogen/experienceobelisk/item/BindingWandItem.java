@@ -70,7 +70,7 @@ public class BindingWandItem extends Item {
                     }
                     else{
                         player.displayClientMessage(new TranslatableComponent("message.experienceobelisk.binding_wand.obelisk_doesnt_exist",
-                                new TextComponent(obeliskPos.toShortString()).withStyle(ChatFormatting.GREEN)), true);
+                                new TextComponent(obeliskPos.toShortString())).withStyle(ChatFormatting.RED), true);
                     }
                 }
                 else{

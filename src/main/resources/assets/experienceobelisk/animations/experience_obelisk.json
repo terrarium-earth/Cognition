@@ -218,7 +218,52 @@
 					}
 				}
 			}
+		},
+		"idle.inactive": {
+			"loop": true,
+			"animation_length": 6.04167,
+			"bones": {
+				"Squishywashere": {
+					"rotation": {
+						"0.0": {
+							"vector": [0, 0, 0]
+						},
+						"6.0417": {
+							"vector": [360, 360, 360]
+						}
+					}
+				},
+				"particle2": {
+					"position": {
+						"vector": [-8, 0, 0]
+					}
+				},
+				"rightparticle2": {
+					"position": {
+						"vector": [-8, 0, 0]
+					}
+				},
+				"rightparticle3": {
+					"position": {
+						"vector": [-8, 0, 0]
+					}
+				},
+				"particle": {
+					"position": {
+						"vector": [7, 0, 0]
+					}
+				},
+				"leftparticle2": {
+					"position": {
+						"vector": [7, 0, 0]
+					}
+				},
+				"leftparticle3": {
+					"position": {
+						"vector": [8, 0, 0]
+					}
+				}
+			}
 		}
-	},
-	"geckolib_format_version": 2
+	}
 }

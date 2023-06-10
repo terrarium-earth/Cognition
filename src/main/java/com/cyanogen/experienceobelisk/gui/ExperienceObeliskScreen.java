@@ -27,7 +27,7 @@ public class ExperienceObeliskScreen extends Screen{
     public BlockPos pos;
     public ExperienceObeliskEntity xpobelisk;
 
-    private final ResourceLocation texture = new ResourceLocation("experienceobelisk:textures/gui/container/dark_bg2.png");
+    private final ResourceLocation texture = new ResourceLocation("experienceobelisk:textures/gui/screens/experience_obelisk.png");
 
     public ExperienceObeliskScreen(Level level, Player player, BlockPos pos) {
         super(new TextComponent("Experience Obelisk"));

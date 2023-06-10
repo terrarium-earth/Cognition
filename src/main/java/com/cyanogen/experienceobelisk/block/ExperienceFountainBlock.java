@@ -59,11 +59,8 @@ public class ExperienceFountainBlock extends Block implements EntityBlock {
             player.displayClientMessage(message, true);
             level.sendBlockUpdated(pos, state, state, 2);
 
-            return InteractionResult.CONSUME;
         }
-        else{
-            return InteractionResult.PASS;
-        }
+        return InteractionResult.CONSUME;
     }
 
 
