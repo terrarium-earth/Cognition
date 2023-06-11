@@ -41,7 +41,7 @@ public class ExperienceFountainEntity extends BlockEntity {
                         obelisk.drain(200);
                     }
                     else{
-                        orb.value = obelisk.getFluidAmount();
+                        orb.value = obelisk.getFluidAmount() / 20;
                         obelisk.setFluid(0);
                     }
 
@@ -55,7 +55,7 @@ public class ExperienceFountainEntity extends BlockEntity {
                         obelisk.drain(1000);
                     }
                     else{
-                        orb.value = obelisk.getFluidAmount();
+                        orb.value = obelisk.getFluidAmount() / 20;
                         obelisk.setFluid(0);
                     }
 

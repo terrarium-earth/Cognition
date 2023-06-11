@@ -1,8 +1,14 @@
 {
+  "item.experienceobelisk.binding_wand": "Binding Wand",
   "item.experienceobelisk.cognitium_bucket": "Cognitium Bucket",
+  "item.experienceobelisk.cognitive_alloy": "Cognitive Alloy",
+  "item.experienceobelisk.cognitive_amalgam": "Cognitive Amalgam",
   "item.experienceobelisk.cognitive_crystal": "Cognitive Crystal",
+  "item.experienceobelisk.cognitive_flux": "Cognitive Flux",
 
   "block.experienceobelisk.experience_obelisk": "Experience Obelisk",
+  "block.experienceobelisk.experience_fountain": "Experience Fountain",
+  "block.experienceobelisk.spell_dispeller": "Spell Dispeller",
 
   "fluid.experienceobelisk.cognitium": "Cognitium",
 

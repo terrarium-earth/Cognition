@@ -27,6 +27,11 @@ public class BindingWandItem extends Item {
     }
 
     @Override
+    public boolean isFoil(ItemStack p_41453_) {
+        return true;
+    }
+
+    @Override
     public InteractionResult useOn(UseOnContext context) {
 
         Level level = context.getLevel();
