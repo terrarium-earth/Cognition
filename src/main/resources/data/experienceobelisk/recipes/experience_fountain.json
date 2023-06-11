@@ -1,7 +1,7 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "#E#",
+    " E ",
     "#Q#",
     "#X#"
   ],
@@ -13,14 +13,14 @@
       "item": "experienceobelisk:cognitive_crystal"
     },
     "Q": {
-      "item": "minecraft:glass_bottle"
+      "item": "minecraft:piston"
     },
     "X": {
       "item": "minecraft:obsidian"
     }
   },
   "result": {
-    "item": "experienceobelisk:experience_obelisk",
+    "item": "experienceobelisk:experience_fountain",
     "count": 1
   }
 }

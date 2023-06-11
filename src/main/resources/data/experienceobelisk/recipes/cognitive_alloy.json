@@ -10,11 +10,11 @@
       "item": "experienceobelisk:cognitive_amalgam"
     },
     "E": {
-      "item": "minecraft:emerald"
+      "item": "minecraft:iron_ingot"
     }
   },
   "result": {
-    "item": "experienceobelisk:cognitive_crystal",
+    "item": "experienceobelisk:cognitive_alloy",
     "count": 1
   }
 }

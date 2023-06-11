@@ -37,7 +37,14 @@ public class ModItemsInit {
     public static final RegistryObject<BucketItem> COGNITIUM_BUCKET = ITEMS.register("cognitium_bucket",
             () -> new BucketItem(ModFluidsInit.COGNITIUM, new Item.Properties().tab(ModCreativeModeTab.MOD_TAB).rarity(Rarity.UNCOMMON)));
 
+    public static final RegistryObject<Item> COGNITIVE_FLUX = ITEMS.register("cognitive_flux",
+            () -> new Item(new Item.Properties().tab(ModCreativeModeTab.MOD_TAB)));
 
+    public static final RegistryObject<Item> COGNITIVE_AMALGAM = ITEMS.register("cognitive_amalgam",
+            () -> new Item(new Item.Properties().tab(ModCreativeModeTab.MOD_TAB)));
+
+    public static final RegistryObject<Item> COGNITIVE_ALLOY = ITEMS.register("cognitive_alloy",
+            () -> new Item(new Item.Properties().tab(ModCreativeModeTab.MOD_TAB)));
 
     public static void register(IEventBus eventBus){
         ITEMS.register(eventBus);
