@@ -1,7 +1,7 @@
 package com.cyanogen.experienceobelisk.item;
 
-import com.cyanogen.experienceobelisk.block_entities.ExperienceFountainEntity;
 import com.cyanogen.experienceobelisk.block_entities.ExperienceObeliskEntity;
+import com.cyanogen.experienceobelisk.block_entities.ExperienceReceivingEntity;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -19,11 +19,6 @@ public class BindingWandItem extends Item {
 
     public BindingWandItem(Properties p_41383_) {
         super(p_41383_);
-    }
-
-    @Override
-    public ItemStack getDefaultInstance() {
-        return super.getDefaultInstance();
     }
 
     @Override
@@ -54,7 +49,7 @@ public class BindingWandItem extends Item {
 
                 return InteractionResult.CONSUME;
             }
-            else if(entity instanceof ExperienceFountainEntity fountain ){
+            else if(entity instanceof ExperienceReceivingEntity receivingEntity){
 
                 if(tag.contains("boundX")){     //check if wand has an obelisk stored
 
@@ -63,8 +58,8 @@ public class BindingWandItem extends Item {
                     if(level.getBlockEntity(obeliskPos) instanceof ExperienceObeliskEntity){       //check if obelisk at location still exists
 
                         if(pos.distSqr(obeliskPos) <= 320){     //check if obelisk is within the effective radius
-                            fountain.setBoundPos(obeliskPos);
-                            fountain.setBound();
+                            receivingEntity.setBoundPos(obeliskPos);
+                            receivingEntity.setBound();
 
                             player.displayClientMessage(new TranslatableComponent("message.experienceobelisk.binding_wand.bind_target",
                                     new TextComponent(obeliskPos.toShortString()).withStyle(ChatFormatting.GREEN)), true);
@@ -87,9 +82,7 @@ public class BindingWandItem extends Item {
         }
         return super.useOn(context);
 
-
     }
-
 
 
 }

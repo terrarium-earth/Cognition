@@ -1,9 +1,9 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "#E#",
-    "#P#",
-    "#X#"
+    "  E",
+    " # ",
+    "#  "
   ],
   "key": {
     "#": {
@@ -11,16 +11,10 @@
     },
     "E": {
       "item": "experienceobelisk:cognitive_crystal"
-    },
-    "P": {
-      "item": "minecraft:piston"
-    },
-    "X": {
-      "item": "minecraft:repeater"
     }
   },
   "result": {
-    "item": "experienceobelisk:precision_dispeller",
+    "item": "experienceobelisk:binding_wand",
     "count": 1
   }
 }

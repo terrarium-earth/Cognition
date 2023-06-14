@@ -24,5 +24,4 @@ public class ModTileEntitiesInit {
         BLOCK_ENTITIES.register(eventBus);
     }
 
-
 }

@@ -24,6 +24,9 @@ public class ModItemsInit {
     public static final RegistryObject<Item> EXPERIENCE_FOUNTAIN_ITEM = ITEMS.register("experience_fountain",
             () -> new ExperienceFountainItem(ModBlocksInit.EXPERIENCE_FOUNTAIN.get(), new Item.Properties().tab(ModCreativeModeTab.MOD_TAB)));
 
+    public static final RegistryObject<Item> PRECISION_DISPELLER_ITEM = ITEMS.register("precision_dispeller",
+            () -> new PrecisionDispellerItem(ModBlocksInit.PRECISION_DISPELLER.get(), new Item.Properties().tab(ModCreativeModeTab.MOD_TAB)));
+
     //-----FUNCTIONAL ITEMS-----//
 
     public static final RegistryObject<Item> COGNITIVE_CRYSTAL = ITEMS.register("cognitive_crystal",

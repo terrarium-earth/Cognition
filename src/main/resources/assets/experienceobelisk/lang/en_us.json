@@ -20,6 +20,8 @@
   "title.experienceobelisk.experience_obelisk.settings": "Settings",
   "title.experienceobelisk.experience_obelisk.radius": "Radius",
   "title.experienceobelisk.experience_obelisk.redstone": "Redstone",
+  "title.experienceobelisk.precision_dispeller": "Precision Dispeller",
+  "title.experienceobelisk.precision_dispeller.inventory": "Inventory",
 
   "tooltip.experienceobelisk.experience_obelisk.add1": "Store §a1§f XP level",
   "tooltip.experienceobelisk.experience_obelisk.add10": "Store §a10§f XP levels",
@@ -30,6 +32,8 @@
 
   "tooltip.experienceobelisk.experience_obelisk.item_fluid_amount": "§7Fluid Amount:§r %s",
   "tooltip.experienceobelisk.experience_obelisk.item_levels": "%s §7Levels§r",
+  "tooltip.experienceobelisk.cognitive_crystal.active": "§7Currently §aactive",
+  "tooltip.experienceobelisk.cognitive_crystal.inactive": "§7Currently §cinactive",
 
   "tooltip.experienceobelisk.experience_obelisk.radius": "§6Reset§f radius to default",
   "tooltip.experienceobelisk.experience_obelisk.settings": "Settings...",

@@ -127,7 +127,6 @@ public class ExperienceObeliskScreen extends Screen{
 
     }
 
-
     //buttons and whatnot go here
     private void setupWidgetElements() {
 

@@ -18,8 +18,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 
-import java.util.Objects;
-
 public class ExperienceObeliskOptionsScreen extends Screen {
 
     public Level level;

@@ -2,16 +2,13 @@ package com.cyanogen.experienceobelisk.block_entities;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
-import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.ExperienceOrb;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class ExperienceFountainEntity extends BlockEntity {
+public class ExperienceFountainEntity extends ExperienceReceivingEntity {
 
     public ExperienceFountainEntity(BlockPos pPos, BlockState pState) {
         super(ModTileEntitiesInit.EXPERIENCEFOUNTAIN_BE.get(), pPos, pState);
@@ -68,18 +65,7 @@ public class ExperienceFountainEntity extends BlockEntity {
 
     //-----------NBT-----------//
 
-    private int boundX;
-    private int boundY;
-    private int boundZ;
-
     private int activityState = 0;  //0 - off, 1 - slow, 2 - fast
-
-    public boolean isBound = false;
-
-    public void setBound(){
-        this.isBound = true;
-        setChanged();
-    }
 
     public int getActivityState(){
         return activityState;
@@ -93,26 +79,10 @@ public class ExperienceFountainEntity extends BlockEntity {
         setChanged();
     }
 
-    public void setBoundPos(BlockPos pos){
-        this.boundX = pos.getX();
-        this.boundY = pos.getY();
-        this.boundZ = pos.getZ();
-        setChanged();
-    }
-
-    public BlockPos getBoundPos(){
-        return new BlockPos(boundX, boundY, boundZ);
-    }
-
     @Override
     public void load(CompoundTag tag)
     {
         super.load(tag);
-
-        this.isBound = tag.getBoolean("isBound");
-        this.boundX = tag.getInt("BoundX");
-        this.boundY = tag.getInt("BoundY");
-        this.boundZ = tag.getInt("BoundZ");
         this.activityState = tag.getInt("ActivityState");
     }
 
@@ -120,11 +90,6 @@ public class ExperienceFountainEntity extends BlockEntity {
     protected void saveAdditional(CompoundTag tag)
     {
         super.saveAdditional(tag);
-
-        tag.putBoolean("isBound", isBound);
-        tag.putInt("BoundX", boundX);
-        tag.putInt("BoundY", boundY);
-        tag.putInt("BoundZ", boundZ);
         tag.putInt("ActivityState", activityState);
     }
 
@@ -133,20 +98,8 @@ public class ExperienceFountainEntity extends BlockEntity {
     public CompoundTag getUpdateTag()
     {
         CompoundTag tag = super.getUpdateTag();
-
-        tag.putBoolean("isBound", isBound);
-        tag.putInt("BoundX", boundX);
-        tag.putInt("BoundY", boundY);
-        tag.putInt("BoundZ", boundZ);
         tag.putInt("ActivityState", activityState);
 
         return tag;
-    }
-
-    //gets packet to send to client
-    @Override
-    public Packet<ClientGamePacketListener> getUpdatePacket()
-    {
-        return ClientboundBlockEntityDataPacket.create(this);
     }
 }

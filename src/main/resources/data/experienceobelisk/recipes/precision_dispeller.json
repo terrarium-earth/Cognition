@@ -13,14 +13,14 @@
       "item": "experienceobelisk:cognitive_crystal"
     },
     "P": {
-      "item": "minecraft:piston"
+      "item": "minecraft:grindstone"
     },
     "X": {
-      "item": "minecraft:repeater"
+      "item": "minecraft:golden_apple"
     }
   },
   "result": {
-    "item": "experienceobelisk:precision_dispeller",
+    "item": "experienceobelisk:experience_fountain",
     "count": 1
   }
 }
