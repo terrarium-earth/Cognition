@@ -26,6 +26,13 @@ public class PrecisionDispellerMenu extends AbstractContainerMenu {
             public boolean mayPlace(@NotNull ItemStack p_40231_) {
                 return false;
             }
+
+            @Override
+            public void onTake(Player pPlayer, ItemStack pStack) {
+                this.container.setItem(0, ItemStack.EMPTY);
+                setChanged();
+                super.onTake(pPlayer, pStack);
+            }
         });
 
         addPlayerInventory(inventory);
