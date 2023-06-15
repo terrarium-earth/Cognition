@@ -7,11 +7,11 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 public class PrecisionDispellerMenu extends AbstractContainerMenu {
 
-    SimpleContainer inputSlot = new SimpleContainer(1);
-    SimpleContainer resultSlot = new SimpleContainer(1);
+    SimpleContainer container = new SimpleContainer(2);
 
     public PrecisionDispellerMenu(int id, Inventory inventory, FriendlyByteBuf data) {
         this(id, inventory, inventory.player);
@@ -20,10 +20,10 @@ public class PrecisionDispellerMenu extends AbstractContainerMenu {
     public PrecisionDispellerMenu(int id, Inventory inventory, Player player) {
         super(ModMenusInit.PRECISION_DISPELLER_MENU.get(), id);
 
-        this.addSlot(new Slot(this.inputSlot, 0, 17, 17));
-        this.addSlot(new Slot(this.resultSlot, 0, 17, 52){
+        this.addSlot(new Slot(this.container, 0, 17, 18));
+        this.addSlot(new Slot(this.container, 1, 17, 52){
             @Override
-            public boolean mayPlace(ItemStack p_40231_) {
+            public boolean mayPlace(@NotNull ItemStack p_40231_) {
                 return false;
             }
         });
@@ -35,7 +35,7 @@ public class PrecisionDispellerMenu extends AbstractContainerMenu {
     @Override
     public void removed(Player player) {
 
-        ItemStack item = inputSlot.getItem(0);
+        ItemStack item = container.getItem(0);
 
         if(!player.addItem(item)){
             player.drop(item, false);
@@ -62,4 +62,6 @@ public class PrecisionDispellerMenu extends AbstractContainerMenu {
     public boolean stillValid(Player player) {
         return true;
     }
+
+
 }
