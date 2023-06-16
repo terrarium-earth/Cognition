@@ -2,12 +2,15 @@ package com.cyanogen.experienceobelisk.block;
 
 import com.cyanogen.experienceobelisk.gui.PrecisionDispellerMenu;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.SimpleMenuProvider;
+import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -39,9 +42,10 @@ public class PrecisionDispellerBlock extends Block{
         }
     }
 
+
     @Nullable
     @Override
-    public MenuProvider getMenuProvider(BlockState p_60563_, Level p_60564_, BlockPos p_60565_) {
+    public MenuProvider getMenuProvider(BlockState state, Level level, BlockPos pos) {
         return new SimpleMenuProvider(PrecisionDispellerMenu::new, new TextComponent("Precision Dispeller"));
     }
 }

@@ -1,4 +1,4 @@
-package com.cyanogen.experienceobelisk.network.experienceobelisk;
+package com.cyanogen.experienceobelisk.network.experience_obelisk;
 
 import com.cyanogen.experienceobelisk.block_entities.ExperienceObeliskEntity;
 import net.minecraft.core.BlockPos;

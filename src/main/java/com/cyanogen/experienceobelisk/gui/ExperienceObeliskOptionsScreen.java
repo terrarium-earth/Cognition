@@ -2,8 +2,8 @@ package com.cyanogen.experienceobelisk.gui;
 
 import com.cyanogen.experienceobelisk.block_entities.ExperienceObeliskEntity;
 import com.cyanogen.experienceobelisk.network.PacketHandler;
-import com.cyanogen.experienceobelisk.network.experienceobelisk.UpdateRadius;
-import com.cyanogen.experienceobelisk.network.experienceobelisk.UpdateRedstone;
+import com.cyanogen.experienceobelisk.network.experience_obelisk.UpdateRadius;
+import com.cyanogen.experienceobelisk.network.experience_obelisk.UpdateRedstone;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;

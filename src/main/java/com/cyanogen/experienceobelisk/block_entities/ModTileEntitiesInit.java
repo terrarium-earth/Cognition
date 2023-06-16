@@ -20,6 +20,9 @@ public class ModTileEntitiesInit {
     public static final RegistryObject<BlockEntityType<ExperienceFountainEntity>> EXPERIENCEFOUNTAIN_BE = BLOCK_ENTITIES.register("experiencefountain_be",
             ()-> BlockEntityType.Builder.of(ExperienceFountainEntity::new, ModBlocksInit.EXPERIENCE_FOUNTAIN.get()).build(Type));
 
+    public static final RegistryObject<BlockEntityType<PrecisionDispellerEntity>> PRECISIONDISPELLER_BE = BLOCK_ENTITIES.register("precisiondispeller_be",
+            ()-> BlockEntityType.Builder.of(PrecisionDispellerEntity::new, ModBlocksInit.PRECISION_DISPELLER.get()).build(Type));
+
     public static void register(IEventBus eventBus){
         BLOCK_ENTITIES.register(eventBus);
     }

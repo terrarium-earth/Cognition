@@ -3,7 +3,7 @@ package com.cyanogen.experienceobelisk.block_entities;
 import com.cyanogen.experienceobelisk.ModTags;
 import com.cyanogen.experienceobelisk.config.Config;
 import com.cyanogen.experienceobelisk.fluid.ModFluidsInit;
-import com.cyanogen.experienceobelisk.network.experienceobelisk.UpdateContents;
+import com.cyanogen.experienceobelisk.network.experience_obelisk.UpdateContents;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;

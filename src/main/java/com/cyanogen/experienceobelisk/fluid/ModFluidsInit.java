@@ -15,8 +15,8 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
 public class ModFluidsInit {
-    public static final ResourceLocation flowingTexture = new ResourceLocation("experienceobelisk:particles/green");
-    public static final ResourceLocation stillTexture = new ResourceLocation("experienceobelisk:particles/green");
+    public static final ResourceLocation flowingTexture = new ResourceLocation("experience_obelisk:particles/green");
+    public static final ResourceLocation stillTexture = new ResourceLocation("experience_obelisk:particles/green");
     public static final ResourceLocation overlay = new ResourceLocation("block/water_overlay");
 
     public static final DeferredRegister<Fluid> FLUIDS =

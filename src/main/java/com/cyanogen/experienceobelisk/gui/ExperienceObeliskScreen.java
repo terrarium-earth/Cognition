@@ -2,7 +2,7 @@ package com.cyanogen.experienceobelisk.gui;
 
 import com.cyanogen.experienceobelisk.block_entities.ExperienceObeliskEntity;
 import com.cyanogen.experienceobelisk.network.PacketHandler;
-import com.cyanogen.experienceobelisk.network.experienceobelisk.UpdateContents;
+import com.cyanogen.experienceobelisk.network.experience_obelisk.UpdateContents;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
@@ -17,7 +17,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 
-import static com.cyanogen.experienceobelisk.network.experienceobelisk.UpdateContents.Request.*;
+import static com.cyanogen.experienceobelisk.network.experience_obelisk.UpdateContents.Request.*;
 
 
 public class ExperienceObeliskScreen extends Screen{

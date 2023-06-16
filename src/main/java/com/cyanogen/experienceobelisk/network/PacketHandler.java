@@ -1,9 +1,10 @@
 package com.cyanogen.experienceobelisk.network;
 
 import com.cyanogen.experienceobelisk.ExperienceObelisk;
-import com.cyanogen.experienceobelisk.network.experienceobelisk.UpdateContents;
-import com.cyanogen.experienceobelisk.network.experienceobelisk.UpdateRadius;
-import com.cyanogen.experienceobelisk.network.experienceobelisk.UpdateRedstone;
+import com.cyanogen.experienceobelisk.network.experience_obelisk.UpdateContents;
+import com.cyanogen.experienceobelisk.network.experience_obelisk.UpdateRadius;
+import com.cyanogen.experienceobelisk.network.experience_obelisk.UpdateRedstone;
+import com.cyanogen.experienceobelisk.network.precision_dispeller.UpdateSlots;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.network.NetworkRegistry;
 import net.minecraftforge.network.simple.SimpleChannel;
@@ -38,6 +39,12 @@ public final class PacketHandler {
                 UpdateRedstone::encode,
                 UpdateRedstone::new,
                 UpdateRedstone::handle);
+
+        INSTANCE.registerMessage(index++,
+                UpdateSlots.class,
+                UpdateSlots::encode,
+                UpdateSlots::new,
+                UpdateSlots::handle);
 
     }
 

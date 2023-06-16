@@ -1,4 +1,4 @@
-package com.cyanogen.experienceobelisk.network.experienceobelisk;
+package com.cyanogen.experienceobelisk.network.experience_obelisk;
 
 import com.cyanogen.experienceobelisk.block_entities.ExperienceObeliskEntity;
 import net.minecraft.core.BlockPos;
@@ -10,27 +10,27 @@ import net.minecraftforge.network.NetworkEvent;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Supplier;
 
-public class UpdateRadius {
+public class UpdateRedstone {
 
     public static BlockPos pos;
-    public static double changeInRadius;
+    public static boolean isControllable;
 
-    public UpdateRadius(BlockPos pos, double changeInRadius) {
+    public UpdateRedstone(BlockPos pos, boolean isControllable) {
         this.pos = pos;
-        this.changeInRadius = changeInRadius;
+        this.isControllable = isControllable;
     }
 
-    public UpdateRadius(FriendlyByteBuf buffer) {
+    public UpdateRedstone(FriendlyByteBuf buffer) {
 
         pos = buffer.readBlockPos();
-        changeInRadius = buffer.readDouble();
+        isControllable = buffer.readBoolean();
 
     }
 
     public void encode(FriendlyByteBuf buffer){
 
         buffer.writeBlockPos(pos);
-        buffer.writeDouble(changeInRadius);
+        buffer.writeBoolean(isControllable);
 
     }
 
@@ -44,15 +44,7 @@ public class UpdateRadius {
 
             if(serverEntity instanceof ExperienceObeliskEntity xpobelisk){
 
-                double finalRadius = xpobelisk.getRadius() + changeInRadius;
-
-                if(changeInRadius == 0){
-                    xpobelisk.setRadius(2.5); //set to default
-                }
-                else if(finalRadius >= 1 && finalRadius <= 5){
-                    xpobelisk.setRadius(finalRadius);
-                }
-
+                xpobelisk.setRedstoneEnabled(isControllable);
             }
 
             success.set(true);
