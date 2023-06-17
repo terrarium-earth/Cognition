@@ -39,6 +39,9 @@
   "tooltip.experienceobelisk.experience_obelisk.settings": "Settings...",
   "tooltip.experienceobelisk.experience_obelisk.back": "Back...",
 
+  "tooltip.experienceobelisk.precision_dispeller.curse": "§7Costs §c100 §7XP",
+  "tooltip.experienceobelisk.precision_dispeller.enchantment": "§7Gives §a100 §7XP",
+
   "button.experienceobelisk.experience_obelisk.settings": "§l▶§r",
   "button.experienceobelisk.experience_obelisk.back": "§l◀§r",
   "button.experienceobelisk.experience_obelisk.ignored": "§cIgnored§r",

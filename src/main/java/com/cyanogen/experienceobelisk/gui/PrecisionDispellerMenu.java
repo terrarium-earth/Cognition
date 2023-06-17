@@ -42,6 +42,11 @@ public class PrecisionDispellerMenu extends AbstractContainerMenu {
                 container.setItem(1, ItemStack.EMPTY);
                 super.onTake(pPlayer, pStack);
             }
+
+            @Override
+            public int getMaxStackSize() {
+                return 1;
+            }
         });
         this.addSlot(new Slot(this.container, 1, 17, 52){
             @Override
@@ -57,11 +62,15 @@ public class PrecisionDispellerMenu extends AbstractContainerMenu {
                 pPlayer.playSound(SoundEvents.GRINDSTONE_USE, 1, 1);
                 super.onTake(pPlayer, pStack);
             }
+
+            @Override
+            public int getMaxStackSize() {
+                return 1;
+            }
         });
 
         addPlayerInventory(inventory);
         addPlayerHotbar(inventory);
-
     }
 
     public void handleExperience(ItemStack inputItem, ItemStack outputItem, Level level){
@@ -85,13 +94,11 @@ public class PrecisionDispellerMenu extends AbstractContainerMenu {
                 }
                 else{
                     int points = rarityToInt(removed.getRarity()) * enchLevel * 10; //adjust value later
-                    ExperienceOrb orb = new ExperienceOrb(server, player.getX(), player.getY(), player.getZ(), points);
+                    ExperienceOrb orb = new ExperienceOrb(server, pos.getX(), pos.getY() + 0.5, pos.getZ(), points);
                     server.addFreshEntity(orb);
 
                 }
             }
-
-
         }
     }
 
@@ -142,17 +149,26 @@ public class PrecisionDispellerMenu extends AbstractContainerMenu {
         return player.position().distanceTo(Vec3.atCenterOf(this.pos)) < 7;
     }
 
+
     public ItemStack quickMoveStack(Player pPlayer, int pIndex) {
         ItemStack itemstack = ItemStack.EMPTY;
         Slot slot = this.slots.get(pIndex);
-        if (slot.hasItem()) {
+
+        if(slot.hasItem()) {
+            if(pIndex == 0){
+                container.setItem(1, ItemStack.EMPTY);
+            }
+            else if(pIndex == 1){
+                container.setItem(0, ItemStack.EMPTY);
+            }
+
             ItemStack itemstack1 = slot.getItem();
             itemstack = itemstack1.copy();
-            if (pIndex < this.container.getContainerSize()) {
-                if (!this.moveItemStackTo(itemstack1, this.container.getContainerSize(), this.slots.size(), true)) {
+            if (pIndex < 2) {
+                if (!this.moveItemStackTo(itemstack1, 2, this.slots.size(), true)) {
                     return ItemStack.EMPTY;
                 }
-            } else if (!this.moveItemStackTo(itemstack1, 0, this.container.getContainerSize(), false)) {
+            } else if (!this.moveItemStackTo(itemstack1, 0, 2, false)) {
                 return ItemStack.EMPTY;
             }
 
@@ -162,7 +178,6 @@ public class PrecisionDispellerMenu extends AbstractContainerMenu {
                 slot.setChanged();
             }
         }
-
         return itemstack;
     }
 
