@@ -16,11 +16,11 @@
       "item": "minecraft:grindstone"
     },
     "X": {
-      "item": "minecraft:golden_apple"
+      "item": "minecraft:obsidian"
     }
   },
   "result": {
-    "item": "experienceobelisk:experience_fountain",
+    "item": "experienceobelisk:precision_dispeller",
     "count": 1
   }
 }

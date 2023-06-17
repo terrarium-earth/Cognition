@@ -36,16 +36,7 @@ public class PrecisionDispellerScreen extends AbstractContainerScreen<PrecisionD
         super(menu, inventory, component);
     }
 
-    @Override
-    public Component getTitle() {
-        return super.getTitle();
-    }
-
-    @Override
-    protected void renderLabels(PoseStack pPoseStack, int pMouseX, int pMouseY) {
-        this.font.draw(pPoseStack, this.title, (float)this.titleLabelX, (float)this.titleLabelY, 0xFFFFFF);
-        this.font.draw(pPoseStack, this.inventoryTitle, (float)this.inventoryLabelX, (float)this.inventoryLabelY, 0xFFFFFF);
-    }
+    //-----SELECTABLE PANEL-----//
 
     enum Status{
         UNHOVERED,
@@ -74,20 +65,8 @@ public class PrecisionDispellerScreen extends AbstractContainerScreen<PrecisionD
             this.isVisible = isVisible;
         }
 
-        public void setPosition(int x1, int x2, int y1, int y2){
-            this.x1 = x1; this.x2 = x2; this.y1 = y1; this.y2 = y2;
-        }
-
-        public void setVisibility(boolean visibility){
-            this.isVisible = visibility;
-        }
-
         public boolean isHovered(double mouseX, double mouseY){
             return mouseX > x1 && mouseX < x2 && mouseY > y1 && mouseY < y2;
-        }
-
-        public void setStatus(Status status){
-            this.status = status;
         }
 
         public void renderPanel(PoseStack posestack){
@@ -122,6 +101,14 @@ public class PrecisionDispellerScreen extends AbstractContainerScreen<PrecisionD
 
     public ArrayList<SelectablePanel> selectablePanels = new ArrayList<>();
     public int selectedIndex = -1;
+
+    //-----RENDERING-----//
+
+    @Override
+    protected void renderLabels(PoseStack pPoseStack, int pMouseX, int pMouseY) {
+        this.font.draw(pPoseStack, this.title, (float)this.titleLabelX, (float)this.titleLabelY, 0xFFFFFF);
+        this.font.draw(pPoseStack, this.inventoryTitle, (float)this.inventoryLabelX, (float)this.inventoryLabelY, 0xFFFFFF);
+    }
 
     public void render(PoseStack pPoseStack, int pMouseX, int pMouseY, float pPartialTick) {
 
@@ -178,10 +165,10 @@ public class PrecisionDispellerScreen extends AbstractContainerScreen<PrecisionD
             for(SelectablePanel panel : selectablePanels){
 
                 if(selectablePanels.indexOf(panel) == selectedIndex){
-                    panel.setStatus(Status.SELECTED);
+                    panel.status = Status.SELECTED;
                 }
                 else if(panel.isHovered(pMouseX, pMouseY)){
-                    panel.setStatus(Status.HOVERED);
+                    panel.status = Status.HOVERED;
                 }
 
                 if(panel.isVisible){
@@ -307,45 +294,52 @@ public class PrecisionDispellerScreen extends AbstractContainerScreen<PrecisionD
             clickedDelta = (int) pMouseY - (y + scrollButtonPos);
         }
         else{
-            for(SelectablePanel panel : selectablePanels){
-                if(panel.isHovered(pMouseX, pMouseY) && panel.isVisible){
-                    selectedIndex = selectablePanels.indexOf(panel);
-
-                    ItemStack inputItem = menu.container.getItem(0);
-                    Map<Enchantment, Integer> map = EnchantmentHelper.getEnchantments(inputItem);
-                    map.remove(panel.enchantment);
-                    ItemStack outputItem = inputItem.copy();
-
-                    if(inputItem.is(Items.ENCHANTED_BOOK)){
-                        if(map.isEmpty()){
-                            outputItem = new ItemStack(Items.BOOK, 1);
-                        }
-                        else{
-                            for(Map.Entry<Enchantment,Integer> entry : map.entrySet()){
-                                outputItem = new ItemStack(Items.ENCHANTED_BOOK,1);
-                                EnchantedBookItem.addEnchantment(outputItem, new EnchantmentInstance(entry.getKey(), entry.getValue()));
-                            }
-                        }
-                    }
-                    else{
-                        EnchantmentHelper.setEnchantments(map, outputItem);
-
-                        int repairCost = outputItem.getBaseRepairCost();
-                        repairCost = (repairCost - 1) / 2;
-
-                        if(repairCost < 1 || !outputItem.isEnchanted()){
-                            repairCost = 0;
-                        }
-
-                        outputItem.setRepairCost(repairCost);
-                    }
-
-                    PacketHandler.INSTANCE.sendToServer(new UpdateSlots(this.menu.containerId, 1, outputItem));
-                    Minecraft.getInstance().getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK, 1.0F));
-                }
-            }
+           mouseClickedOnPanel(pMouseX, pMouseY);
         }
         return true;
+    }
+
+
+    //----HANDLE SELECTION-----//
+
+    public void mouseClickedOnPanel(double pMouseX, double pMouseY){
+        for(SelectablePanel panel : selectablePanels){
+            if(panel.isHovered(pMouseX, pMouseY) && panel.isVisible){
+                selectedIndex = selectablePanels.indexOf(panel);
+
+                ItemStack inputItem = menu.container.getItem(0);
+                Map<Enchantment, Integer> map = EnchantmentHelper.getEnchantments(inputItem);
+                map.remove(panel.enchantment);
+                ItemStack outputItem = inputItem.copy();
+
+                if(inputItem.is(Items.ENCHANTED_BOOK)){
+                    if(map.isEmpty()){
+                        outputItem = new ItemStack(Items.BOOK, 1);
+                    }
+                    else{
+                        for(Map.Entry<Enchantment,Integer> entry : map.entrySet()){
+                            outputItem = new ItemStack(Items.ENCHANTED_BOOK,1);
+                            EnchantedBookItem.addEnchantment(outputItem, new EnchantmentInstance(entry.getKey(), entry.getValue()));
+                        }
+                    }
+                }
+                else{
+                    EnchantmentHelper.setEnchantments(map, outputItem);
+
+                    int repairCost = outputItem.getBaseRepairCost();
+                    repairCost = (repairCost - 1) / 2;
+
+                    if(repairCost < 1 || !outputItem.isEnchanted()){
+                        repairCost = 0;
+                    }
+
+                    outputItem.setRepairCost(repairCost);
+                }
+
+                PacketHandler.INSTANCE.sendToServer(new UpdateSlots(this.menu.containerId, 1, outputItem));
+                Minecraft.getInstance().getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK, 1.0F));
+            }
+        }
     }
 
 }

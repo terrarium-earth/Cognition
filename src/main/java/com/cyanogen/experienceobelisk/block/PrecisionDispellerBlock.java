@@ -25,7 +25,7 @@ public class PrecisionDispellerBlock extends Block{
                 .strength(9f)
                 .destroyTime(1.2f)
                 .requiresCorrectToolForDrops()
-                .explosionResistance(8f)
+                .explosionResistance(1200f)
                 .noOcclusion()
                 .emissiveRendering((state, getter, pos) -> true)
         );

@@ -29,6 +29,8 @@ public class PrecisionDispellerMenu extends AbstractContainerMenu {
         this(id, inventory, inventory.player, new BlockPos(0,0,0));
     }
 
+    //-----SLOTS-----//
+
     public PrecisionDispellerMenu(int id, Inventory inventory, Player player, BlockPos pos) {
 
         super(ModMenusInit.PRECISION_DISPELLER_MENU.get(), id);
@@ -37,6 +39,7 @@ public class PrecisionDispellerMenu extends AbstractContainerMenu {
         this.pos = pos;
 
         this.addSlot(new Slot(this.container, 0, 17, 18){
+
             @Override
             public void onTake(Player pPlayer, ItemStack pStack) {
                 container.setItem(1, ItemStack.EMPTY);
@@ -49,6 +52,7 @@ public class PrecisionDispellerMenu extends AbstractContainerMenu {
             }
         });
         this.addSlot(new Slot(this.container, 1, 17, 52){
+
             @Override
             public boolean mayPlace(ItemStack pStack) {
                 return false;
@@ -72,6 +76,22 @@ public class PrecisionDispellerMenu extends AbstractContainerMenu {
         addPlayerInventory(inventory);
         addPlayerHotbar(inventory);
     }
+
+    private void addPlayerInventory(Inventory playerInventory) {
+        for (int i = 0; i < 3; ++i) {
+            for (int l = 0; l < 9; ++l) {
+                this.addSlot(new Slot(playerInventory, l + i * 9 + 9, 8 + l * 18, 84 + i * 18));
+            }
+        }
+    }
+
+    private void addPlayerHotbar(Inventory playerInventory) {
+        for (int i = 0; i < 9; ++i) {
+            this.addSlot(new Slot(playerInventory, i, 8 + i * 18, 142));
+        }
+    }
+
+    //-----BEHAVIOR-----//
 
     public void handleExperience(ItemStack inputItem, ItemStack outputItem, Level level){
         if(!level.isClientSide){
@@ -113,35 +133,15 @@ public class PrecisionDispellerMenu extends AbstractContainerMenu {
         return output;
     }
 
-    @Override
-    public void addSlotListener(ContainerListener pListener) {
-        super.addSlotListener(pListener);
-    }
 
     @Override
     public void removed(Player player) {
 
         ItemStack item = container.getItem(0);
-
         if(!player.addItem(item)){
             player.drop(item, false);
         }
         super.removed(player);
-    }
-
-
-    private void addPlayerInventory(Inventory playerInventory) {
-        for (int i = 0; i < 3; ++i) {
-            for (int l = 0; l < 9; ++l) {
-                this.addSlot(new Slot(playerInventory, l + i * 9 + 9, 8 + l * 18, 84 + i * 18));
-            }
-        }
-    }
-
-    private void addPlayerHotbar(Inventory playerInventory) {
-        for (int i = 0; i < 9; ++i) {
-            this.addSlot(new Slot(playerInventory, i, 8 + i * 18, 142));
-        }
     }
 
     @Override
