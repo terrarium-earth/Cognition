@@ -11,6 +11,7 @@ import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
@@ -57,8 +58,9 @@ public class PrecisionDispellerScreen extends AbstractContainerScreen<PrecisionD
         public int y1;
         public int y2;
         public Status status;
+        boolean isVisible;
 
-        private SelectablePanel(int x1, int y1, Enchantment e, MutableComponent c, Status s){
+        private SelectablePanel(int x1, int y1, Enchantment e, MutableComponent c, Status s, boolean isVisible){
             this.enchantment = e;
             this.x1 = x1;
             this.y1 = y1;
@@ -66,10 +68,15 @@ public class PrecisionDispellerScreen extends AbstractContainerScreen<PrecisionD
             this.y2 = y1 + 17;
             this.displayComponent = c;
             this.status = s;
+            this.isVisible = isVisible;
         }
 
         public void setPosition(int x1, int x2, int y1, int y2){
             this.x1 = x1; this.x2 = x2; this.y1 = y1; this.y2 = y2;
+        }
+
+        public void setVisibility(boolean visibility){
+            this.isVisible = visibility;
         }
 
         public boolean isHovered(double mouseX, double mouseY){
@@ -89,7 +96,8 @@ public class PrecisionDispellerScreen extends AbstractContainerScreen<PrecisionD
         }
 
         public void renderText(PoseStack posestack, Font font){
-            drawString(posestack, font, displayComponent, x1 + 4, y1 + 4, 0xFFFFFF);
+          //  drawString(posestack, font, displayComponent, x1 + 4, y1 + 4, 0xFFFFFF);
+            font.draw(posestack, displayComponent, x1 + 4, y1 + 4, 0xFFFFFF);
         }
     }
 
@@ -120,7 +128,7 @@ public class PrecisionDispellerScreen extends AbstractContainerScreen<PrecisionD
         }
         else{
             scrollButtonPos = 18;
-            blit(pPoseStack, x + 153, y + scrollButtonPos, 187, 0, 9, 13, 256, 256);
+            blit(pPoseStack, x + 153, y + 18, 187, 0, 9, 13, 256, 256);
         }
 
         if(inputStack.isEnchanted()){
@@ -139,7 +147,19 @@ public class PrecisionDispellerScreen extends AbstractContainerScreen<PrecisionD
                     displayName = fullName.copy().withStyle(ChatFormatting.WHITE);
                 }
 
-                selectablePanels.add(new SelectablePanel(x + 49, y + 18 + 17 * index, entry.getKey(), displayName, Status.UNHOVERED));
+                int n = enchantmentMap.size() - 3;
+                int b = scrollButtonPos - 18;
+
+                if(n > 0){
+                    offset = -b * 17 * n / 38;
+                }
+                System.out.println("size: " + n + " " + "scrollpos: " + b + " " + "offset: " + offset);
+
+                int xpos = x + 49;
+                int ypos = y + 18 + 17 * index + offset;
+                boolean visibility = ypos > y + 1 && ypos < y + 69;
+
+                selectablePanels.add(new SelectablePanel(xpos, ypos, entry.getKey(), displayName, Status.UNHOVERED, visibility));
 
                 index++;
             }
@@ -153,21 +173,48 @@ public class PrecisionDispellerScreen extends AbstractContainerScreen<PrecisionD
                 else if(panel.isHovered(pMouseX, pMouseY)){
                     panel.setStatus(Status.HOVERED);
                 }
-                panel.renderPanel(pPoseStack);
-                //why does putting blit and drawstring in the same for loop make all this zalgo text
+
+                if(panel.isVisible){
+                    panel.renderPanel(pPoseStack);
+                }
             }
 
+            //rendering labels
             for(SelectablePanel panel : selectablePanels){
-                panel.renderText(pPoseStack, font);
-                //i hate this
+                if(panel.isVisible){
+                    panel.renderText(pPoseStack, font);
+                }
             }
+
+            //covering up
+            RenderSystem.setShaderTexture(0, texture);
+            blit(pPoseStack, x + 49, y + 1, 49, 1, 102, 17, 256, 256);
+            blit(pPoseStack, x + 49, y + 69, 49, 69, 102, 17, 256, 256);
         }
         else{
             selectedIndex = -1;
+            offset = 0;
         }
 
         super.render(pPoseStack, pMouseX, pMouseY, pPartialTick);
         this.renderTooltip(pPoseStack, pMouseX, pMouseY);
+    }
+
+    @Override
+    protected void renderTooltip(PoseStack pPoseStack, int pX, int pY) {
+
+        for(SelectablePanel panel : selectablePanels){
+            if(panel.isHovered(pX, pY) && panel.isVisible){
+                if(panel.enchantment.isCurse()){
+                    this.renderTooltip(pPoseStack, new TextComponent("Costs 100 XP"), pX, pY);
+                }
+                else{
+                    this.renderTooltip(pPoseStack, new TextComponent("Gives 100 XP"), pX, pY);
+                }
+            }
+        }
+
+        super.renderTooltip(pPoseStack, pX, pY); //renders the item being selected
     }
 
     @Override
@@ -176,6 +223,7 @@ public class PrecisionDispellerScreen extends AbstractContainerScreen<PrecisionD
     }
 
     int scrollButtonPos = 18;
+    int offset = 0;
     boolean scrollClicked = false;
     boolean scrollEnabled = false;
     int clickedDelta = -1;
@@ -187,15 +235,16 @@ public class PrecisionDispellerScreen extends AbstractContainerScreen<PrecisionD
         int y = (this.height - this.imageHeight) / 2;
 
         if(pMouseX >= x + 48 && pMouseX <= x + 162 && pMouseY >= y + 17 && pMouseY <= y + 69 && scrollEnabled){
-            scrollButtonPos = scrollButtonPos - 3 * (int) pDelta;
-
-            if(scrollButtonPos > 56){
-                scrollButtonPos = 56;
-            }
-            else if(scrollButtonPos < 18){
-                scrollButtonPos = 18;
-            }
+            scrollButtonPos = scrollButtonPos - 4 * (int) pDelta;
         }
+
+        if(scrollButtonPos > 56){
+            scrollButtonPos = 56;
+        }
+        else if(scrollButtonPos < 18){
+            scrollButtonPos = 18;
+        }
+
         return super.mouseScrolled(pMouseX, pMouseY, pDelta);
     }
 
@@ -243,7 +292,7 @@ public class PrecisionDispellerScreen extends AbstractContainerScreen<PrecisionD
         }
         else{
             for(SelectablePanel panel : selectablePanels){
-                if(panel.isHovered(pMouseX, pMouseY)){
+                if(panel.isHovered(pMouseX, pMouseY) && panel.isVisible){
                     selectedIndex = selectablePanels.indexOf(panel);
 
                     ItemStack inputItem = menu.container.getItem(0);
@@ -251,6 +300,15 @@ public class PrecisionDispellerScreen extends AbstractContainerScreen<PrecisionD
                     map.remove(panel.enchantment);
                     ItemStack outputItem = inputItem.copy();
                     EnchantmentHelper.setEnchantments(map, outputItem);
+
+                    int repairCost = outputItem.getBaseRepairCost();
+                    repairCost = (repairCost - 1) / 2;
+
+                    if(repairCost < 1 || !outputItem.isEnchanted()){
+                        repairCost = 0;
+                    }
+
+                    outputItem.setRepairCost(repairCost);
 
                     PacketHandler.INSTANCE.sendToServer(new UpdateSlots(this.menu.containerId, 1, outputItem));
                     Minecraft.getInstance().getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK, 1.0F));

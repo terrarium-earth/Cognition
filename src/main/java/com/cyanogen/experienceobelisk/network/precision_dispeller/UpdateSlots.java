@@ -1,14 +1,8 @@
 package com.cyanogen.experienceobelisk.network.precision_dispeller;
 
-import com.cyanogen.experienceobelisk.block.ModBlocksInit;
-import com.cyanogen.experienceobelisk.block.PrecisionDispellerBlock;
-import com.cyanogen.experienceobelisk.block_entities.ExperienceObeliskEntity;
-import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.network.NetworkEvent;
 
 import java.util.concurrent.atomic.AtomicBoolean;

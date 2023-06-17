@@ -1,5 +1,6 @@
 package com.cyanogen.experienceobelisk.gui;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
@@ -14,6 +15,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
 
 import java.util.Map;
 
@@ -21,16 +23,18 @@ public class PrecisionDispellerMenu extends AbstractContainerMenu {
 
     SimpleContainer container = new SimpleContainer(2);
     Player player;
+    BlockPos pos;
 
     public PrecisionDispellerMenu(int id, Inventory inventory, FriendlyByteBuf data) {
-        this(id, inventory, inventory.player);
+        this(id, inventory, inventory.player, new BlockPos(0,0,0));
     }
 
-    public PrecisionDispellerMenu(int id, Inventory inventory, Player player) {
+    public PrecisionDispellerMenu(int id, Inventory inventory, Player player, BlockPos pos) {
 
         super(ModMenusInit.PRECISION_DISPELLER_MENU.get(), id);
 
         this.player = player;
+        this.pos = pos;
 
         this.addSlot(new Slot(this.container, 0, 17, 18){
             @Override
@@ -135,8 +139,31 @@ public class PrecisionDispellerMenu extends AbstractContainerMenu {
 
     @Override
     public boolean stillValid(Player player) {
-        return true;
+        return player.position().distanceTo(Vec3.atCenterOf(this.pos)) < 7;
     }
 
+    public ItemStack quickMoveStack(Player pPlayer, int pIndex) {
+        ItemStack itemstack = ItemStack.EMPTY;
+        Slot slot = this.slots.get(pIndex);
+        if (slot.hasItem()) {
+            ItemStack itemstack1 = slot.getItem();
+            itemstack = itemstack1.copy();
+            if (pIndex < this.container.getContainerSize()) {
+                if (!this.moveItemStackTo(itemstack1, this.container.getContainerSize(), this.slots.size(), true)) {
+                    return ItemStack.EMPTY;
+                }
+            } else if (!this.moveItemStackTo(itemstack1, 0, this.container.getContainerSize(), false)) {
+                return ItemStack.EMPTY;
+            }
+
+            if (itemstack1.isEmpty()) {
+                slot.set(ItemStack.EMPTY);
+            } else {
+                slot.setChanged();
+            }
+        }
+
+        return itemstack;
+    }
 
 }

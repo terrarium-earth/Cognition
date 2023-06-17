@@ -7,7 +7,6 @@ import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.MenuProvider;
-import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -46,6 +45,20 @@ public class PrecisionDispellerBlock extends Block{
     @Nullable
     @Override
     public MenuProvider getMenuProvider(BlockState state, Level level, BlockPos pos) {
-        return new SimpleMenuProvider(PrecisionDispellerMenu::new, new TextComponent("Precision Dispeller"));
+
+        return new MenuProvider() {
+            @Override
+            public Component getDisplayName() {
+                return new TextComponent("Precision Dispeller");
+            }
+
+            @Nullable
+            @Override
+            public AbstractContainerMenu createMenu(int pContainerId, Inventory pPlayerInventory, Player pPlayer) {
+                return new PrecisionDispellerMenu(pContainerId, pPlayerInventory, pPlayer, pos);
+            }
+        };
+
+        //return new SimpleMenuProvider(PrecisionDispellerMenu::new, new TextComponent("Precision Dispeller"));
     }
 }
