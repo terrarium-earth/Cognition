@@ -4,11 +4,13 @@ import com.cyanogen.experienceobelisk.network.PacketHandler;
 import com.cyanogen.experienceobelisk.network.precision_dispeller.UpdateSlots;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
@@ -26,6 +28,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import static com.cyanogen.experienceobelisk.gui.ExperienceObeliskScreen.levelsToXP;
+import static com.cyanogen.experienceobelisk.gui.ExperienceObeliskScreen.xpToLevels;
+
 public class PrecisionDispellerScreen extends AbstractContainerScreen<PrecisionDispellerMenu> {
 
     private final ResourceLocation texture = new ResourceLocation("experienceobelisk:textures/gui/screens/precision_dispeller.png");
@@ -35,6 +40,9 @@ public class PrecisionDispellerScreen extends AbstractContainerScreen<PrecisionD
     public PrecisionDispellerScreen(PrecisionDispellerMenu menu, Inventory inventory, Component component) {
         super(menu, inventory, component);
     }
+
+    long playerXP = levelsToXP(menu.player.experienceLevel) + Math.round(menu.player.experienceProgress * menu.player.getXpNeededForNextLevel());
+    //not sure if need to get serverside player to query xp; iirc server updates should be automatically synced
 
     //-----SELECTABLE PANEL-----//
 
@@ -46,7 +54,7 @@ public class PrecisionDispellerScreen extends AbstractContainerScreen<PrecisionD
 
     private static class SelectablePanel{
         public Enchantment enchantment;
-        public String displayText;
+        public int level;
         public int x1;
         public int x2;
         public int y1;
@@ -54,13 +62,13 @@ public class PrecisionDispellerScreen extends AbstractContainerScreen<PrecisionD
         public Status status;
         boolean isVisible;
 
-        private SelectablePanel(int x1, int y1, Enchantment e, String c, Status s, boolean isVisible){
+        private SelectablePanel(int x1, int y1, Enchantment e, int level, Status s, boolean isVisible){
             this.enchantment = e;
             this.x1 = x1;
             this.y1 = y1;
             this.x2 = x1 + 102;
             this.y2 = y1 + 17;
-            this.displayText = c;
+            this.level = level;
             this.status = s;
             this.isVisible = isVisible;
         }
@@ -77,16 +85,19 @@ public class PrecisionDispellerScreen extends AbstractContainerScreen<PrecisionD
             }
         }
 
+        public String getFullName(){
+            Component fullName = enchantment.getFullname(level);
+            return fullName.copy().getString();
+        }
+
         public void renderText(PoseStack posestack, Font font){
+            String text = getFullName();
 
-            String text = displayText;
-
-            if(font.width(displayText) > 90){
+            if(font.width(text) > 90){
                 while(font.width(text) > 90){
                     text = text.substring(0, text.length() - 1);
                 }
                 text = text + "...";
-
             }
 
             if(enchantment.isCurse()){
@@ -143,9 +154,6 @@ public class PrecisionDispellerScreen extends AbstractContainerScreen<PrecisionD
             //populating selectablePanels
             for(Map.Entry<Enchantment, Integer> entry : enchantmentMap.entrySet()){
 
-                Component fullName = entry.getKey().getFullname(entry.getValue());
-                String displayText = fullName.copy().getString();
-
                 int n = enchantmentMap.size() - 3;
                 int b = scrollButtonPos - 18;
 
@@ -157,7 +165,7 @@ public class PrecisionDispellerScreen extends AbstractContainerScreen<PrecisionD
                 int ypos = y + 18 + 17 * index + offset;
                 boolean visibility = ypos > y + 1 && ypos < y + 69;
 
-                selectablePanels.add(new SelectablePanel(xpos, ypos, entry.getKey(), displayText, Status.UNHOVERED, visibility));
+                selectablePanels.add(new SelectablePanel(xpos, ypos, entry.getKey(), entry.getValue(), Status.UNHOVERED, visibility));
                 index++;
             }
 
@@ -204,20 +212,29 @@ public class PrecisionDispellerScreen extends AbstractContainerScreen<PrecisionD
             if(panel.isHovered(pX, pY) && panel.isVisible && !panel.status.equals(Status.SELECTED)){
 
                 List<Component> tooltipList = new ArrayList<>();
-                tooltipList.add(new TextComponent(panel.displayText));
+                tooltipList.add(new TextComponent(panel.getFullName()));
 
                 if(panel.enchantment.isCurse()){
+
                     tooltipList.add(new TranslatableComponent("tooltip.experienceobelisk.precision_dispeller.curse"));
-                    this.renderTooltip(pPoseStack, tooltipList, Optional.empty(), pX, pY);
+
+                    if(playerXP < 1395){
+                        tooltipList.add(new TranslatableComponent("tooltip.experienceobelisk.precision_dispeller.insufficient_xp"));
+                    }
                 }
                 else{
-                    tooltipList.add(new TranslatableComponent("tooltip.experienceobelisk.precision_dispeller.enchantment"));
-                    this.renderTooltip(pPoseStack, tooltipList, Optional.empty(), pX, pY);
+                    int points = panel.enchantment.getMinCost(panel.level);
+                    int levels = xpToLevels(points);
+
+                    MutableComponent pts = new TextComponent(String.valueOf(points)).withStyle(ChatFormatting.GREEN);
+                    MutableComponent lvls = new TextComponent(String.valueOf(levels)).withStyle(ChatFormatting.GREEN);
+                    tooltipList.add(new TranslatableComponent("tooltip.experienceobelisk.precision_dispeller.enchantment", pts, lvls));
                 }
+                this.renderTooltip(pPoseStack, tooltipList, Optional.empty(), pX, pY);
             }
         }
 
-        super.renderTooltip(pPoseStack, pX, pY); //renders the item being selected
+        super.renderTooltip(pPoseStack, pX, pY);
     }
 
     @Override
@@ -304,7 +321,10 @@ public class PrecisionDispellerScreen extends AbstractContainerScreen<PrecisionD
 
     public void mouseClickedOnPanel(double pMouseX, double pMouseY){
         for(SelectablePanel panel : selectablePanels){
-            if(panel.isHovered(pMouseX, pMouseY) && panel.isVisible){
+
+           boolean invalid = panel.enchantment.isCurse() && playerXP < 1395 && !menu.player.isCreative();
+
+            if(panel.isHovered(pMouseX, pMouseY) && panel.isVisible && !invalid){
                 selectedIndex = selectablePanels.indexOf(panel);
 
                 ItemStack inputItem = menu.container.getItem(0);
@@ -317,8 +337,8 @@ public class PrecisionDispellerScreen extends AbstractContainerScreen<PrecisionD
                         outputItem = new ItemStack(Items.BOOK, 1);
                     }
                     else{
+                        outputItem = new ItemStack(Items.ENCHANTED_BOOK,1);
                         for(Map.Entry<Enchantment,Integer> entry : map.entrySet()){
-                            outputItem = new ItemStack(Items.ENCHANTED_BOOK,1);
                             EnchantedBookItem.addEnchantment(outputItem, new EnchantmentInstance(entry.getKey(), entry.getValue()));
                         }
                     }

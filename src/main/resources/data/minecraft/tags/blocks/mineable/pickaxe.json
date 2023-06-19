@@ -1,6 +1,8 @@
 {
   "replace": false,
   "values": [
-    "experienceobelisk:experience_obelisk"
+    "experienceobelisk:experience_obelisk",
+    "experienceobelisk:experience_fountain",
+    "experienceobelisk:precision_dispeller"
   ]
 }

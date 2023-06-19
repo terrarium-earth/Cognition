@@ -1,6 +1,7 @@
 package com.cyanogen.experienceobelisk.block;
 
 import com.cyanogen.experienceobelisk.block_entities.ExperienceFountainEntity;
+import com.cyanogen.experienceobelisk.block_entities.ExperienceObeliskEntity;
 import com.cyanogen.experienceobelisk.block_entities.ModTileEntitiesInit;
 import com.cyanogen.experienceobelisk.item.ModItemsInit;
 import net.minecraft.ChatFormatting;
@@ -21,12 +22,16 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Material;
+import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ExperienceFountainBlock extends Block implements EntityBlock {
 
@@ -73,8 +78,32 @@ public class ExperienceFountainBlock extends Block implements EntityBlock {
 
     VoxelShape shape = Shapes.create(new AABB(0 / 16D,0 / 16D,0 / 16D,16 / 16D,9 / 16D,16 / 16D));
     @Override
-    public VoxelShape getCollisionShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
+    public VoxelShape getShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
         return shape;
+    }
+
+    public ItemStack stack;
+    @Override
+    public void playerWillDestroy(Level pLevel, BlockPos pPos, BlockState pState, Player pPlayer) {
+        if (!pLevel.isClientSide) {
+            BlockEntity blockentity = pLevel.getBlockEntity(pPos);
+            if (blockentity instanceof ExperienceFountainEntity entity && pPlayer.hasCorrectToolForDrops(pState)) {
+
+                stack = new ItemStack(ModItemsInit.EXPERIENCE_FOUNTAIN_ITEM.get(), 1);
+                entity.saveToItem(stack);
+            }
+        }
+
+        super.playerWillDestroy(pLevel, pPos, pState, pPlayer);
+    }
+
+    @Override
+    public List<ItemStack> getDrops(BlockState pState, LootContext.Builder pBuilder) {
+        List<ItemStack> drops = new ArrayList<>();
+        if(stack != null){
+            drops.add(stack);
+        }
+        return drops;
     }
 
 
@@ -86,8 +115,6 @@ public class ExperienceFountainBlock extends Block implements EntityBlock {
         return pBlockEntityType == ModTileEntitiesInit.EXPERIENCEFOUNTAIN_BE.get() ? ExperienceFountainEntity::tick : null;
     }
 
-
-    //block entity
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {

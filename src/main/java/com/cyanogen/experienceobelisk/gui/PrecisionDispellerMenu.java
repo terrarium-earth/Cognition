@@ -9,7 +9,6 @@ import net.minecraft.world.entity.ExperienceOrb;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.inventory.ContainerListener;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
@@ -110,27 +109,16 @@ public class PrecisionDispellerMenu extends AbstractContainerMenu {
 
             if(removed != null){
                 if(removed.isCurse()){
-                    player.giveExperiencePoints(-100); //adjust value later
+                    player.giveExperiencePoints(-1395); //30 base levels
                 }
                 else{
-                    int points = rarityToInt(removed.getRarity()) * enchLevel * 10; //adjust value later
+                    int points = removed.getMinCost(enchLevel);
                     ExperienceOrb orb = new ExperienceOrb(server, pos.getX(), pos.getY() + 0.5, pos.getZ(), points);
                     server.addFreshEntity(orb);
 
                 }
             }
         }
-    }
-
-    public int rarityToInt(Enchantment.Rarity rarity){
-
-        int output = 1;
-        switch(rarity){
-            case UNCOMMON -> output = 2;
-            case RARE -> output = 3;
-            case VERY_RARE -> output = 4;
-        }
-        return output;
     }
 
 

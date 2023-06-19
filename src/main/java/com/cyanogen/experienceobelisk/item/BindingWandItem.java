@@ -11,6 +11,7 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.SwordItem;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -24,6 +25,11 @@ public class BindingWandItem extends Item {
     @Override
     public boolean isFoil(ItemStack p_41453_) {
         return true;
+    }
+
+    @Override
+    public boolean canPerformAction(ItemStack stack, net.minecraftforge.common.ToolAction toolAction) {
+        return net.minecraftforge.common.ToolActions.DEFAULT_SWORD_ACTIONS.contains(toolAction);
     }
 
     @Override
@@ -51,7 +57,11 @@ public class BindingWandItem extends Item {
             }
             else if(entity instanceof ExperienceReceivingEntity receivingEntity){
 
-                if(tag.contains("boundX")){     //check if wand has an obelisk stored
+                if(receivingEntity.isBound){
+                    receivingEntity.setUnbound();
+                    player.displayClientMessage(new TranslatableComponent("message.experienceobelisk.binding_wand.unbind_target"), true);
+                }
+                else if(tag.contains("boundX")){     //check if wand has an obelisk stored
 
                     BlockPos obeliskPos = new BlockPos(tag.getInt("boundX"), tag.getInt("boundY"), tag.getInt("boundZ"));
 

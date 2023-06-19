@@ -29,18 +29,18 @@
   "tooltip.experienceobelisk.experience_obelisk.drain1": "Retrieve §c1§f XP level",
   "tooltip.experienceobelisk.experience_obelisk.drain10": "Retrieve §c10§f XP levels",
   "tooltip.experienceobelisk.experience_obelisk.drainAll": "Retrieve §call§f XP levels",
-
-  "tooltip.experienceobelisk.experience_obelisk.item_fluid_amount": "§7Fluid Amount:§r %s",
-  "tooltip.experienceobelisk.experience_obelisk.item_levels": "%s §7Levels§r",
-  "tooltip.experienceobelisk.cognitive_crystal.active": "§7Currently §aactive",
-  "tooltip.experienceobelisk.cognitive_crystal.inactive": "§7Currently §cinactive",
-
   "tooltip.experienceobelisk.experience_obelisk.radius": "§6Reset§f radius to default",
   "tooltip.experienceobelisk.experience_obelisk.settings": "Settings...",
   "tooltip.experienceobelisk.experience_obelisk.back": "Back...",
+  "tooltip.experienceobelisk.experience_obelisk.item_fluid_amount": "§7Fluid Amount:§r %s",
+  "tooltip.experienceobelisk.experience_obelisk.item_levels": "%s §7Levels§r",
 
-  "tooltip.experienceobelisk.precision_dispeller.curse": "§7Costs §c100 §7XP",
-  "tooltip.experienceobelisk.precision_dispeller.enchantment": "§7Gives §a100 §7XP",
+  "tooltip.experienceobelisk.cognitive_crystal.active": "§7Currently §aactive",
+  "tooltip.experienceobelisk.cognitive_crystal.inactive": "§7Currently §cinactive",
+
+  "tooltip.experienceobelisk.precision_dispeller.curse": "§7Costs §c1395 §7XP / §c30 §7base levels",
+  "tooltip.experienceobelisk.precision_dispeller.enchantment": "§7Gives %s §7XP / %s §7base levels",
+  "tooltip.experienceobelisk.precision_dispeller.insufficient_xp": "§6Insufficient XP!",
 
   "button.experienceobelisk.experience_obelisk.settings": "§l▶§r",
   "button.experienceobelisk.experience_obelisk.back": "§l◀§r",
@@ -49,6 +49,7 @@
 
   "message.experienceobelisk.binding_wand.select_obelisk": "Obelisk position saved",
   "message.experienceobelisk.binding_wand.bind_target": "Target bound to obelisk at %s",
+  "message.experienceobelisk.binding_wand.unbind_target": "Target unbound",
   "message.experienceobelisk.binding_wand.obelisk_too_far": "§cThe obelisk is too far away",
   "message.experienceobelisk.binding_wand.obelisk_doesnt_exist": "§cThe obelisk at %s §cno longer exists",
   "message.experienceobelisk.binding_wand.obelisk_not_selected": "§cYou have not selected an obelisk with this wand",

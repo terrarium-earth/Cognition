@@ -4,6 +4,7 @@ import com.cyanogen.experienceobelisk.ExperienceObelisk;
 import com.cyanogen.experienceobelisk.ModCreativeModeTab;
 import com.cyanogen.experienceobelisk.block.ModBlocksInit;
 import com.cyanogen.experienceobelisk.fluid.ModFluidsInit;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Rarity;
