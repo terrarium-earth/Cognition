@@ -1,7 +1,6 @@
 package com.cyanogen.experienceobelisk.block;
 
 import com.cyanogen.experienceobelisk.block_entities.ExperienceFountainEntity;
-import com.cyanogen.experienceobelisk.block_entities.ExperienceObeliskEntity;
 import com.cyanogen.experienceobelisk.block_entities.ModTileEntitiesInit;
 import com.cyanogen.experienceobelisk.item.ModItemsInit;
 import net.minecraft.ChatFormatting;

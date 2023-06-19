@@ -42,7 +42,6 @@ public class PrecisionDispellerScreen extends AbstractContainerScreen<PrecisionD
     }
 
     long playerXP = levelsToXP(menu.player.experienceLevel) + Math.round(menu.player.experienceProgress * menu.player.getXpNeededForNextLevel());
-    //not sure if need to get serverside player to query xp; iirc server updates should be automatically synced
 
     //-----SELECTABLE PANEL-----//
 
@@ -140,7 +139,7 @@ public class PrecisionDispellerScreen extends AbstractContainerScreen<PrecisionD
         scrollEnabled = enchantmentMap.size() > 3;
 
         //render scroll button
-        if(inputStack.isEnchanted() || inputStack.is(Items.ENCHANTED_BOOK) && scrollEnabled){
+        if((inputStack.isEnchanted() || inputStack.is(Items.ENCHANTED_BOOK)) && scrollEnabled){
             blit(pPoseStack, x + 153, y + scrollButtonPos, 177, 0, 9, 13, 256, 256);
         }
         else{
