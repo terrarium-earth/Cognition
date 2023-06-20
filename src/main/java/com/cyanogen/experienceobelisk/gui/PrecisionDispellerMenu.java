@@ -11,7 +11,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
@@ -115,7 +114,7 @@ public class PrecisionDispellerMenu extends AbstractContainerMenu {
                 }
                 else{
                     int points = removed.getMinCost(enchLevel);
-                    ExperienceOrb orb = new ExperienceOrb(server, pos.getX(), pos.getY() + 0.5, pos.getZ(), points);
+                    ExperienceOrb orb = new ExperienceOrb(server, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, points);
                     server.addFreshEntity(orb);
 
                 }

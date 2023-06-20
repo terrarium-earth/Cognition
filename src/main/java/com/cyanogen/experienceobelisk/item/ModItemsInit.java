@@ -27,6 +27,9 @@ public class ModItemsInit {
     public static final RegistryObject<Item> PRECISION_DISPELLER_ITEM = ITEMS.register("precision_dispeller",
             () -> new PrecisionDispellerItem(ModBlocksInit.PRECISION_DISPELLER.get(), new Item.Properties().tab(ModCreativeModeTab.MOD_TAB)));
 
+    public static final RegistryObject<Item> AURAL_PROJECTOR_ITEM = ITEMS.register("aural_projector",
+            () -> new AuralProjectorItem(ModBlocksInit.AURAL_PROJECTOR.get(), new Item.Properties().tab(ModCreativeModeTab.MOD_TAB)));
+
     //-----FUNCTIONAL ITEMS-----//
 
     public static final RegistryObject<Item> COGNITIVE_CRYSTAL = ITEMS.register("cognitive_crystal",

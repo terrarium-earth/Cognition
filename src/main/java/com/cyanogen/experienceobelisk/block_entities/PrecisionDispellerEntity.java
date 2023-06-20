@@ -10,4 +10,6 @@ public class PrecisionDispellerEntity extends BlockEntity {
         super(ModTileEntitiesInit.PRECISIONDISPELLER_BE.get(), pPos, pBlockState);
     }
 
+    //in case I decide to implement an animated block model
+
 }

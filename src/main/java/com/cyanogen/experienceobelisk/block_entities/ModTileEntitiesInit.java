@@ -23,6 +23,9 @@ public class ModTileEntitiesInit {
     public static final RegistryObject<BlockEntityType<PrecisionDispellerEntity>> PRECISIONDISPELLER_BE = BLOCK_ENTITIES.register("precisiondispeller_be",
             ()-> BlockEntityType.Builder.of(PrecisionDispellerEntity::new, ModBlocksInit.PRECISION_DISPELLER.get()).build(Type));
 
+    public static final RegistryObject<BlockEntityType<AuralProjectorEntity>> AURALPROJECTOR_BE = BLOCK_ENTITIES.register("auralprojector_be",
+            ()-> BlockEntityType.Builder.of(AuralProjectorEntity::new, ModBlocksInit.AURAL_PROJECTOR.get()).build(Type));
+
     public static void register(IEventBus eventBus){
         BLOCK_ENTITIES.register(eventBus);
     }

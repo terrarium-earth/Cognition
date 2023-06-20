@@ -1,6 +1,7 @@
 package com.cyanogen.experienceobelisk.block;
 
 import com.cyanogen.experienceobelisk.ExperienceObelisk;
+import com.cyanogen.experienceobelisk.ModCreativeModeTab;
 import com.cyanogen.experienceobelisk.fluid.ModFluidsInit;
 import com.cyanogen.experienceobelisk.item.ModItemsInit;
 import net.minecraft.world.item.BlockItem;
@@ -27,10 +28,11 @@ public class ModBlocksInit {
     public static final RegistryObject<Block> EXPERIENCE_OBELISK = BLOCKS.register("experience_obelisk", ExperienceObeliskBlock::new);
     public static final RegistryObject<Block> EXPERIENCE_FOUNTAIN = BLOCKS.register("experience_fountain", ExperienceFountainBlock::new);
     public static final RegistryObject<Block> PRECISION_DISPELLER = BLOCKS.register("precision_dispeller", PrecisionDispellerBlock::new);
+    public static final RegistryObject<Block> AURAL_PROJECTOR = BLOCKS.register("aural_projector", AuralProjectorBlock::new);
 
     //-----DECORATIVE / CRAFTING-----//
 
-
+    public static final RegistryObject<Block> COGNITIVE_ALLOY_BLOCK = registerBlock("cognitive_alloy_block", CognitiveAlloyBlock::new, ModCreativeModeTab.MOD_TAB);
 
     //-----FLUID BLOCKS-----//
 
@@ -40,7 +42,9 @@ public class ModBlocksInit {
                     .emissiveRendering((p_61036_, p_61037_, p_61038_) -> true)
             ));
 
-    //utility methods to register block and block items at once
+
+    //----utility methods to register block and block items at once-----//
+
     private static <T extends Block> RegistryObject<T> registerBlock(String name, Supplier<T> block, CreativeModeTab tab){
         RegistryObject<T> toReturn = BLOCKS.register(name, block);
         registerBlockItem(name, toReturn, tab);
@@ -52,6 +56,7 @@ public class ModBlocksInit {
         return ModItemsInit.ITEMS.register(name, () -> new BlockItem(block.get(),
                 new Item.Properties().tab(tab)));
     }
+
     public static void register(IEventBus eventBus){
         BLOCKS.register(eventBus);
     }
