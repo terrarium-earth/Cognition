@@ -1,0 +1,7 @@
+{
+    "parent": "minecraft:block/cube_all",
+    "textures": {
+        "all": "experienceobelisk:block/cognitive_alloy_block"
+    }
+}
+

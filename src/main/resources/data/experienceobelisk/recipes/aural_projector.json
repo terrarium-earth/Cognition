@@ -13,14 +13,14 @@
       "item": "experienceobelisk:cognitive_crystal"
     },
     "A": {
-      "item": "minecraft:piston"
+      "item": "minecraft:soul_campfire"
     },
     "B": {
-      "item": "minecraft:repeater"
+      "item": "minecraft:redstone_lamp"
     }
   },
   "result": {
-    "item": "experienceobelisk:experience_fountain",
+    "item": "experienceobelisk:aural_projector",
     "count": 1
   }
 }

@@ -1,22 +1,25 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "#E#",
-    "#P#",
-    "#X#"
+    "#A#",
+    "BGB",
+    "#C#"
   ],
   "key": {
     "#": {
       "item": "experienceobelisk:cognitive_alloy"
     },
-    "E": {
-      "item": "experienceobelisk:cognitive_crystal"
+    "A": {
+      "item": "minecraft:golden_apple"
     },
-    "P": {
+    "B": {
+      "item": "minecraft:book"
+    },
+    "C": {
+      "item": "minecraft:diamond"
+    },
+    "G": {
       "item": "minecraft:grindstone"
-    },
-    "X": {
-      "item": "minecraft:block_of_gold"
     }
   },
   "result": {

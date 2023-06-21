@@ -3,6 +3,8 @@
   "values": [
     "experienceobelisk:experience_obelisk",
     "experienceobelisk:experience_fountain",
-    "experienceobelisk:precision_dispeller"
+    "experienceobelisk:precision_dispeller",
+    "experienceobelisk:aural_projector",
+    "experienceobelisk:cognitive_alloy_block"
   ]
 }

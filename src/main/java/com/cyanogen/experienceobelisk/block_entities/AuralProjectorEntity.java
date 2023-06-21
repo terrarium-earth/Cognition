@@ -29,9 +29,8 @@ public class AuralProjectorEntity extends ExperienceReceivingEntity {
                     && projector.isActive){
 
                 obelisk.drain(1);
-            }
-            else{
-                projector.isActive = false;
+                level.sendBlockUpdated(obelisk.getBlockPos(), obelisk.getBlockState(), obelisk.getBlockState(), 2);
+                //1mB per tick, 20mB = 1xp per second
             }
         }
     }
@@ -67,6 +66,10 @@ public class AuralProjectorEntity extends ExperienceReceivingEntity {
     //-----------NBT-----------//
 
     private boolean isActive = true;
+
+    public boolean isActive(){
+        return isActive;
+    }
 
     public void toggleActivity(){
         isActive = !isActive;

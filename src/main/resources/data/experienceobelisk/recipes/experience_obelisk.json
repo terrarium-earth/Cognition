@@ -1,21 +1,21 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "#E#",
-    "#Q#",
-    "#X#"
+    "#X#",
+    "#A#",
+    "#B#"
   ],
   "key": {
     "#": {
       "item": "experienceobelisk:cognitive_alloy"
     },
-    "E": {
+    "X": {
       "item": "experienceobelisk:cognitive_crystal"
     },
-    "Q": {
+    "A": {
       "item": "minecraft:glass_bottle"
     },
-    "X": {
+    "B": {
       "item": "minecraft:obsidian"
     }
   },
