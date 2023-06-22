@@ -48,27 +48,10 @@ public class AuralProjectorBlock extends Block implements EntityBlock {
         BlockEntity entity = level.getBlockEntity(pos);
         ItemStack heldItem = player.getItemInHand(hand);
 
-        if(entity instanceof AuralProjectorEntity projector){
+        if(entity instanceof AuralProjectorEntity projector && heldItem.is(ModItemsInit.BINDING_WAND.get())){
 
-            if(heldItem.is(ModItemsInit.BINDING_WAND.get())){
-                player.displayClientMessage(new TranslatableComponent("message.experienceobelisk.binding_wand.reveal_bound_pos",
-                        new TextComponent(projector.getBoundPos().toShortString()).withStyle(ChatFormatting.GREEN)), true);
-            }
-            else{
-
-                TextComponent message;
-                if(projector.isActive()){
-                    message = new TextComponent("Aural Projector deactivated");
-                }
-                else{
-                    message = new TextComponent("Aural Projector activated");
-                }
-                projector.toggleActivity();
-
-                player.displayClientMessage(message, true);
-                level.sendBlockUpdated(pos, state, state, 2);
-            }
-
+            player.displayClientMessage(new TranslatableComponent("message.experienceobelisk.binding_wand.reveal_bound_pos",
+                    new TextComponent(projector.getBoundPos().toShortString()).withStyle(ChatFormatting.GREEN)), true);
         }
         return InteractionResult.CONSUME;
     }

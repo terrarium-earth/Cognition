@@ -23,6 +23,8 @@ public class AuralProjectorEntity extends ExperienceReceivingEntity {
 
         if(level.getBlockEntity(pos) instanceof AuralProjectorEntity projector){
 
+            projector.isActive = level.hasNeighborSignal(pos);
+
             if(projector.isBound
                     && level.getBlockEntity(projector.getBoundPos()) instanceof ExperienceObeliskEntity obelisk
                     && obelisk.getFluidAmount() > 0
@@ -65,16 +67,7 @@ public class AuralProjectorEntity extends ExperienceReceivingEntity {
 
     //-----------NBT-----------//
 
-    private boolean isActive = true;
-
-    public boolean isActive(){
-        return isActive;
-    }
-
-    public void toggleActivity(){
-        isActive = !isActive;
-        setChanged();
-    }
+    private boolean isActive = false;
 
     @Override
     public void load(CompoundTag tag)
