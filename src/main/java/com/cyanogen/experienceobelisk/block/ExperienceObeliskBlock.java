@@ -2,8 +2,9 @@ package com.cyanogen.experienceobelisk.block;
 
 import com.cyanogen.experienceobelisk.block_entities.ModTileEntitiesInit;
 import com.cyanogen.experienceobelisk.block_entities.XPObeliskEntity;
-import com.cyanogen.experienceobelisk.gui.GuiWrapper;
+import com.cyanogen.experienceobelisk.gui.ExperienceObeliskScreen;
 import com.cyanogen.experienceobelisk.item.ModItemsInit;
+import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -84,7 +85,7 @@ public class ExperienceObeliskBlock extends Block implements EntityBlock {
     @Override
     public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
         if(pLevel.isClientSide()){
-            GuiWrapper.openGUI(pState, pLevel, pPos, pPlayer);
+            Minecraft.getInstance().setScreen(new ExperienceObeliskScreen(pLevel, pPlayer, pPos));
         }
         return InteractionResult.CONSUME;
     }

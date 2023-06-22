@@ -133,7 +133,6 @@ public class ExperienceObeliskScreen extends Screen{
 
     }
 
-
     //buttons and whatnot go here
     private void setupWidgetElements() {
 
@@ -152,7 +151,7 @@ public class ExperienceObeliskScreen extends Screen{
                 new TranslatableComponent("button.experienceobelisk.experience_obelisk.settings"),
 
                 (onPress) ->
-                        Minecraft.getInstance().pushGuiLayer(new ExperienceObeliskOptionsScreen(level, player, pos, this)),
+                        Minecraft.getInstance().setScreen(new ExperienceObeliskOptionsScreen(level, player, pos, this)),
 
                 (pButton, pPoseStack, pMouseX, pMouseY) ->
                         renderTooltip(pPoseStack, new TranslatableComponent("tooltip.experienceobelisk.experience_obelisk.settings"), pMouseX, pMouseY)));

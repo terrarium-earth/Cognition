@@ -27,6 +27,7 @@ public class ExperienceObeliskOptionsScreen extends Screen {
     public Player player;
     public BlockPos pos;
     public XPObeliskEntity xpobelisk;
+    public ExperienceObeliskScreen screen;
 
     private final ResourceLocation texture = new ResourceLocation("experienceobelisk:textures/gui/container/dark_bg2.png");
 
@@ -35,6 +36,7 @@ public class ExperienceObeliskOptionsScreen extends Screen {
         this.level = level;
         this.player = player;
         this.pos = pos;
+        this.screen = screen;
         this.xpobelisk = screen.xpobelisk;
     }
 
@@ -64,6 +66,8 @@ public class ExperienceObeliskOptionsScreen extends Screen {
         if(player.position().distanceTo(Vec3.atCenterOf(pos)) > 7){
             this.onClose();
         }
+
+        renderBackground(pPoseStack);
 
         RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
         RenderSystem.setShaderTexture(0, texture);
@@ -160,7 +164,7 @@ public class ExperienceObeliskOptionsScreen extends Screen {
                 new TranslatableComponent("button.experienceobelisk.experience_obelisk.back"),
 
                 (onPress) ->
-                        this.onClose(),
+                        Minecraft.getInstance().setScreen(new ExperienceObeliskScreen(level, player, pos)),
 
                 (pButton, pPoseStack, pMouseX, pMouseY) ->
                         renderTooltip(pPoseStack, new TranslatableComponent("tooltip.experienceobelisk.experience_obelisk.back"), pMouseX, pMouseY)));
