@@ -16,6 +16,7 @@ import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
 
 import static com.cyanogen.experienceobelisk.network.experienceobelisk.UpdateToServer.Request.*;
 
@@ -80,6 +81,11 @@ public class ExperienceObeliskScreen extends Screen{
 
     @Override
     public void render(PoseStack pPoseStack, int pMouseX, int pMouseY, float pPartialTick) {
+
+        if(player.position().distanceTo(Vec3.atCenterOf(pos)) > 7){
+            this.onClose();
+        }
+
         renderBackground(pPoseStack);
 
         RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
