@@ -41,8 +41,6 @@ public class PrecisionDispellerScreen extends AbstractContainerScreen<PrecisionD
         super(menu, inventory, component);
     }
 
-    long playerXP = levelsToXP(menu.player.experienceLevel) + Math.round(menu.player.experienceProgress * menu.player.getXpNeededForNextLevel());
-
     //-----SELECTABLE PANEL-----//
 
     enum Status{
@@ -207,6 +205,8 @@ public class PrecisionDispellerScreen extends AbstractContainerScreen<PrecisionD
     @Override
     protected void renderTooltip(PoseStack pPoseStack, int pX, int pY) {
 
+        long playerXP = levelsToXP(menu.player.experienceLevel) + Math.round(menu.player.experienceProgress * menu.player.getXpNeededForNextLevel());
+
         for(SelectablePanel panel : selectablePanels){
             if(panel.isHovered(pX, pY) && panel.isVisible && !panel.status.equals(Status.SELECTED)){
 
@@ -319,43 +319,55 @@ public class PrecisionDispellerScreen extends AbstractContainerScreen<PrecisionD
     //----HANDLE SELECTION-----//
 
     public void mouseClickedOnPanel(double pMouseX, double pMouseY){
+        
+        long playerXP = levelsToXP(menu.player.experienceLevel) + Math.round(menu.player.experienceProgress * menu.player.getXpNeededForNextLevel());
+
         for(SelectablePanel panel : selectablePanels){
 
            boolean invalid = panel.enchantment.isCurse() && playerXP < 1395 && !menu.player.isCreative();
 
             if(panel.isHovered(pMouseX, pMouseY) && panel.isVisible && !invalid){
-                selectedIndex = selectablePanels.indexOf(panel);
 
-                ItemStack inputItem = menu.container.getItem(0);
-                Map<Enchantment, Integer> map = EnchantmentHelper.getEnchantments(inputItem);
-                map.remove(panel.enchantment);
-                ItemStack outputItem = inputItem.copy();
-
-                if(inputItem.is(Items.ENCHANTED_BOOK)){
-                    if(map.isEmpty()){
-                        outputItem = new ItemStack(Items.BOOK, 1);
-                    }
-                    else{
-                        outputItem = new ItemStack(Items.ENCHANTED_BOOK,1);
-                        for(Map.Entry<Enchantment,Integer> entry : map.entrySet()){
-                            EnchantedBookItem.addEnchantment(outputItem, new EnchantmentInstance(entry.getKey(), entry.getValue()));
-                        }
-                    }
+                if(selectedIndex == selectablePanels.indexOf(panel)){
+                    selectedIndex = -1;
+                    PacketHandler.INSTANCE.sendToServer(new UpdateSlots(this.menu.containerId, 1, ItemStack.EMPTY));
                 }
                 else{
-                    EnchantmentHelper.setEnchantments(map, outputItem);
+                    selectedIndex = selectablePanels.indexOf(panel);
 
-                    int repairCost = outputItem.getBaseRepairCost();
-                    repairCost = (repairCost - 1) / 2;
+                    ItemStack inputItem = menu.container.getItem(0);
+                    Map<Enchantment, Integer> map = EnchantmentHelper.getEnchantments(inputItem);
+                    map.remove(panel.enchantment);
+                    ItemStack outputItem;
 
-                    if(repairCost < 1 || !outputItem.isEnchanted()){
-                        repairCost = 0;
+                    if(inputItem.is(Items.ENCHANTED_BOOK)){
+                        if(map.isEmpty()){
+                            outputItem = new ItemStack(Items.BOOK, 1);
+                        }
+                        else{
+                            outputItem = new ItemStack(Items.ENCHANTED_BOOK,1);
+                            for(Map.Entry<Enchantment,Integer> entry : map.entrySet()){
+                                EnchantedBookItem.addEnchantment(outputItem, new EnchantmentInstance(entry.getKey(), entry.getValue()));
+                            }
+                        }
+                    }
+                    else{
+                        outputItem = inputItem.copy();
+                        EnchantmentHelper.setEnchantments(map, outputItem);
+
+                        int repairCost = outputItem.getBaseRepairCost();
+                        repairCost = (repairCost - 1) / 2;
+
+                        if(repairCost < 1 || !outputItem.isEnchanted()){
+                            repairCost = 0;
+                        }
+
+                        outputItem.setRepairCost(repairCost);
                     }
 
-                    outputItem.setRepairCost(repairCost);
+                    PacketHandler.INSTANCE.sendToServer(new UpdateSlots(this.menu.containerId, 1, outputItem));
                 }
 
-                PacketHandler.INSTANCE.sendToServer(new UpdateSlots(this.menu.containerId, 1, outputItem));
                 Minecraft.getInstance().getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK, 1.0F));
             }
         }

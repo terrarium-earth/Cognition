@@ -100,8 +100,10 @@ public class PrecisionDispellerMenu extends AbstractContainerMenu {
             int enchLevel = 0;
 
             Map<Enchantment, Integer> map = EnchantmentHelper.getEnchantments(inputItem);
+            Map<Enchantment, Integer> map2 = EnchantmentHelper.getEnchantments(outputItem);
+
             for(Map.Entry<Enchantment, Integer> entry : map.entrySet()){
-                if(EnchantmentHelper.getItemEnchantmentLevel(entry.getKey(), outputItem) == 0){
+                if(!map2.containsKey(entry.getKey())){
                     removed = entry.getKey();
                     enchLevel = entry.getValue();
                     break;
@@ -109,6 +111,7 @@ public class PrecisionDispellerMenu extends AbstractContainerMenu {
             }
 
             if(removed != null){
+
                 if(removed.isCurse()){
                     player.giveExperiencePoints(-1395); //30 base levels
                 }
