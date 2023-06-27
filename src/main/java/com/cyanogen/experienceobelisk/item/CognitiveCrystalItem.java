@@ -1,10 +1,12 @@
 package com.cyanogen.experienceobelisk.item;
 
 import com.cyanogen.experienceobelisk.config.Config;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.Entity;
@@ -16,7 +18,6 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
@@ -28,6 +29,8 @@ public class CognitiveCrystalItem extends Item {
     public CognitiveCrystalItem(Properties p_41383_) {
         super(p_41383_);
     }
+
+    public double radius = Config.COMMON.range.get();
 
     @Override
     public @NotNull ItemStack getDefaultInstance() {
@@ -64,10 +67,11 @@ public class CognitiveCrystalItem extends Item {
 
         boolean isActive = stack.getOrCreateTag().getBoolean("isActive");
 
-        if(entity instanceof Player player && isActive){
+        if(entity instanceof Player player && isActive && !level.isClientSide && level.getGameTime() % 3 ==0){
+
+            ServerLevel server = (ServerLevel) level;
 
             BlockPos pos = player.blockPosition();
-            double radius = Config.COMMON.range.get();
             AABB area = new AABB(
                     pos.getX() - radius,
                     pos.getY() - radius,
@@ -80,7 +84,7 @@ public class CognitiveCrystalItem extends Item {
 
             for(ExperienceOrb orb : list){
                 if(orb.isAlive()){
-                    player.giveExperiencePoints(orb.getValue());
+                    server.addFreshEntity(new ExperienceOrb(server, player.getX(), player.getY(), player.getZ(), orb.value));
                 }
                 orb.discard();
             }
@@ -91,7 +95,7 @@ public class CognitiveCrystalItem extends Item {
     //-----CUSTOM HOVER TEXT-----//
 
     @Override
-    public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltip, TooltipFlag pFlag) {
+    public void appendHoverText(ItemStack pStack, Level pLevel, List<Component> pTooltip, TooltipFlag pFlag) {
 
         boolean isActive = pStack.getOrCreateTag().getBoolean("isActive");
 

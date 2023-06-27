@@ -76,7 +76,7 @@ public class ExperienceObeliskItem extends BlockItem implements IAnimatable{
         int levels = ExperienceObeliskScreen.xpToLevels(amount / 20);
 
         pTooltip.add(new TranslatableComponent("tooltip.experienceobelisk.experience_obelisk.item_fluid_amount",
-                new TextComponent(amount + " mB").withStyle(ChatFormatting.YELLOW)));
+                new TextComponent(amount + " mB").withStyle(ChatFormatting.GOLD)));
 
         pTooltip.add(new TranslatableComponent("tooltip.experienceobelisk.experience_obelisk.item_levels",
                 new TextComponent(String.valueOf(levels)).withStyle(ChatFormatting.GREEN)));

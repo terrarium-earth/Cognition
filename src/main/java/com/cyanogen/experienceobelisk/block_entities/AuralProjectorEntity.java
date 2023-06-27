@@ -1,7 +1,6 @@
 package com.cyanogen.experienceobelisk.block_entities;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.ExperienceOrb;
 import net.minecraft.world.entity.LivingEntity;
@@ -19,20 +18,24 @@ public class AuralProjectorEntity extends ExperienceReceivingEntity {
         super(ModTileEntitiesInit.AURALPROJECTOR_BE.get(), pPos, pBlockState);
     }
 
+    private boolean isActive = false;
+
     public static <T> void tick(Level level, BlockPos pos, BlockState state, T blockEntity) {
 
         if(level.getBlockEntity(pos) instanceof AuralProjectorEntity projector){
 
-            projector.isActive = level.hasNeighborSignal(pos);
+            BlockEntity e = level.getBlockEntity(projector.getBoundPos());
 
-            if(projector.isBound
-                    && level.getBlockEntity(projector.getBoundPos()) instanceof ExperienceObeliskEntity obelisk
-                    && obelisk.getFluidAmount() > 0
-                    && projector.isActive){
+            projector.isActive = level.hasNeighborSignal(pos)
+                    && projector.isBound
+                    && e instanceof ExperienceObeliskEntity obelisk
+                    && obelisk.getFluidAmount() > 0;
 
-                obelisk.drain(1);
+            if(level.getGameTime() % 10 == 0 && projector.isActive && e != null){
+
+                ExperienceObeliskEntity obelisk = (ExperienceObeliskEntity) e;
+                obelisk.drain(4);
                 level.sendBlockUpdated(obelisk.getBlockPos(), obelisk.getBlockState(), obelisk.getBlockState(), 2);
-                //1mB per tick, 20mB = 1xp per second
             }
         }
     }
@@ -43,53 +46,29 @@ public class AuralProjectorEntity extends ExperienceReceivingEntity {
         Level level = deceased.getLevel();
         BlockPos pos = deceased.blockPosition();
 
-        int radiusX = 5;
-        int radiusY = 3;
-        int radiusZ = 5;
+        if(!c.isEmpty() && level.isLoaded(pos) && !level.isClientSide){
 
-        BlockPos firstPos = pos.west(radiusX).below(radiusY).north(radiusZ);
-        BlockPos secondPos = pos.east(radiusX).above(radiusY).south(radiusZ);
+            int radiusX = 4;
+            int radiusY = 2;
+            int radiusZ = 4;
 
-        Iterable<BlockPos> iterable = BlockPos.betweenClosed(firstPos, secondPos);
+            BlockPos firstPos = pos.west(radiusX).below(radiusY).north(radiusZ);
+            BlockPos secondPos = pos.east(radiusX).above(radiusY).south(radiusZ);
 
-        for(BlockPos position : iterable){
-            BlockEntity e = level.getBlockEntity(position);
-            if(e instanceof AuralProjectorEntity projector && projector.isActive){
-                event.setCanceled(true);
-                int size = c.size();
+            Iterable<BlockPos> iterable = BlockPos.betweenClosed(firstPos, secondPos);
 
-                ServerLevel server = (ServerLevel) level;
-                server.addFreshEntity(new ExperienceOrb(server, deceased.getX(), deceased.getY(), deceased.getZ(), 4 * size));
-                break;
-           }
+            for(BlockPos position : iterable){
+                BlockEntity e = level.getBlockEntity(position);
+                if(e instanceof AuralProjectorEntity projector && projector.isActive){
+                    event.setCanceled(true);
+                    int size = c.size();
+
+                    ServerLevel server = (ServerLevel) level;
+                    server.addFreshEntity(new ExperienceOrb(server, deceased.getX(), deceased.getY(), deceased.getZ(), 10 * size));
+                    break;
+                }
+            }
         }
     }
 
-    //-----------NBT-----------//
-
-    private boolean isActive = false;
-
-    @Override
-    public void load(CompoundTag tag)
-    {
-        super.load(tag);
-        this.isActive = tag.getBoolean("IsActive");
-    }
-
-    @Override
-    protected void saveAdditional(CompoundTag tag)
-    {
-        super.saveAdditional(tag);
-        tag.putBoolean("IsActive", isActive);
-    }
-
-    //sends CompoundTag out with nbt data
-    @Override
-    public CompoundTag getUpdateTag()
-    {
-        CompoundTag tag = super.getUpdateTag();
-        tag.putBoolean("IsActive", isActive);
-
-        return tag;
-    }
 }

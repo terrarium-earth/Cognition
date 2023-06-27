@@ -3,6 +3,7 @@ package com.cyanogen.experienceobelisk;
 import com.cyanogen.experienceobelisk.block.ModBlocksInit;
 import com.cyanogen.experienceobelisk.block_entities.ModTileEntitiesInit;
 import com.cyanogen.experienceobelisk.config.Config;
+import com.cyanogen.experienceobelisk.enchantment.ModEnchantmentsInit;
 import com.cyanogen.experienceobelisk.event.EventHandler;
 import com.cyanogen.experienceobelisk.fluid.ModFluidsInit;
 import com.cyanogen.experienceobelisk.gui.ModMenusInit;
@@ -28,7 +29,6 @@ import software.bernie.geckolib3.GeckoLib;
 
 public class ExperienceObelisk
 {
-    private static final Logger LOGGER = LogManager.getLogger();
     public static final String MOD_ID = "experienceobelisk";
 
     public ExperienceObelisk() {
@@ -42,6 +42,7 @@ public class ExperienceObelisk
         ModTileEntitiesInit.register(eventBus);
         ModFluidsInit.register(eventBus);
         ModMenusInit.register(eventBus);
+        ModEnchantmentsInit.register(eventBus);
 
         GeckoLib.initialize();
         PacketHandler.init();

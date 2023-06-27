@@ -41,7 +41,6 @@ public class PrecisionDispellerBlock extends Block{
         }
     }
 
-
     @Nullable
     @Override
     public MenuProvider getMenuProvider(BlockState state, Level level, BlockPos pos) {
@@ -59,6 +58,5 @@ public class PrecisionDispellerBlock extends Block{
             }
         };
 
-        //return new SimpleMenuProvider(PrecisionDispellerMenu::new, new TextComponent("Precision Dispeller"));
     }
 }

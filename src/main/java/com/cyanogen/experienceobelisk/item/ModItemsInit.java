@@ -33,7 +33,7 @@ public class ModItemsInit {
     //-----FUNCTIONAL ITEMS-----//
 
     public static final RegistryObject<Item> COGNITIVE_CRYSTAL = ITEMS.register("cognitive_crystal",
-            () -> new CognitiveCrystalItem(new Item.Properties().tab(ModCreativeModeTab.MOD_TAB)));
+            () -> new CognitiveCrystalItem(new Item.Properties().tab(ModCreativeModeTab.MOD_TAB).rarity(Rarity.RARE)));
 
     public static final RegistryObject<Item> BINDING_WAND = ITEMS.register("binding_wand",
             () -> new BindingWandItem(new Item.Properties().tab(ModCreativeModeTab.MOD_TAB)));
@@ -41,7 +41,7 @@ public class ModItemsInit {
     //-----RECIPE INGREDIENTS, EVERYTHING ELSE-----//
 
     public static final RegistryObject<BucketItem> COGNITIUM_BUCKET = ITEMS.register("cognitium_bucket",
-            () -> new BucketItem(ModFluidsInit.COGNITIUM, new Item.Properties().tab(ModCreativeModeTab.MOD_TAB).rarity(Rarity.UNCOMMON)));
+            () -> new BucketItem(ModFluidsInit.COGNITIUM, new Item.Properties().tab(ModCreativeModeTab.MOD_TAB)));
 
     public static final RegistryObject<Item> COGNITIVE_FLUX = ITEMS.register("cognitive_flux",
             () -> new Item(new Item.Properties().tab(ModCreativeModeTab.MOD_TAB)));

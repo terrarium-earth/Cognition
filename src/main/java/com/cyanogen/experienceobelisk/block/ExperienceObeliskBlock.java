@@ -27,6 +27,8 @@ import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -87,9 +89,14 @@ public class ExperienceObeliskBlock extends Block implements EntityBlock {
     @Override
     public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
         if(pLevel.isClientSide()){
-            Minecraft.getInstance().setScreen(new ExperienceObeliskScreen(pLevel, pPlayer, pPos));
+            openGUI(pLevel, pPlayer, pPos);
         }
         return InteractionResult.CONSUME;
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    public void openGUI(Level level, Player player, BlockPos pos){
+        Minecraft.getInstance().setScreen(new ExperienceObeliskScreen(level, player, pos));
     }
 
     @Nullable

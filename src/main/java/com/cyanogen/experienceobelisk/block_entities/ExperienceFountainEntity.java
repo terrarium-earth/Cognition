@@ -46,21 +46,7 @@ public class ExperienceFountainEntity extends ExperienceReceivingEntity {
                     orb.setDeltaMovement(0,0.1,0);
                     server.addFreshEntity(orb);
                 }
-                else if(fountain.activityState == 2 && time % 10 == 0){ //fast
-
-                    if(obelisk.getFluidAmount() >= 400){
-                        orb.value = 20;
-                        obelisk.drain(400);
-                    }
-                    else{
-                        orb.value = obelisk.getFluidAmount() / 20;
-                        obelisk.setFluid(0);
-                    }
-
-                    orb.setDeltaMovement(0,0.1,0);
-                    server.addFreshEntity(orb);
-                }
-                else if(fountain.activityState == 3 && time % 5 == 0){ //fast
+                else if(fountain.activityState == 2 && time % 5 == 0){ //fast
 
                     if(obelisk.getFluidAmount() >= 1000){
                         orb.value = 50;
@@ -80,7 +66,7 @@ public class ExperienceFountainEntity extends ExperienceReceivingEntity {
 
     //-----------NBT-----------//
 
-    private int activityState = 1;  //1 - slow, 2 - medium, 3 - fast
+    private int activityState = 0;
 
     public int getActivityState(){
         return activityState;
@@ -88,8 +74,8 @@ public class ExperienceFountainEntity extends ExperienceReceivingEntity {
 
     public void cycleActivityState(){
         activityState = activityState + 1;
-        if(activityState > 3){
-            activityState = 1;
+        if(activityState > 2){
+            activityState = 0;
         }
         setChanged();
     }

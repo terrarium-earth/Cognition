@@ -1,5 +1,5 @@
 {
-  "item.experienceobelisk.binding_wand": "Binding Wand",
+  "item.experienceobelisk.binding_wand": "Soul Receptor",
   "item.experienceobelisk.cognitium_bucket": "Cognitium Bucket",
   "item.experienceobelisk.cognitive_alloy": "Cognitive Alloy",
   "item.experienceobelisk.cognitive_amalgam": "Cognitive Amalgam",
@@ -8,7 +8,9 @@
 
   "block.experienceobelisk.experience_obelisk": "Experience Obelisk",
   "block.experienceobelisk.experience_fountain": "Experience Fountain",
-  "block.experienceobelisk.spell_dispeller": "Spell Dispeller",
+  "block.experienceobelisk.precision_dispeller": "Precision Dispeller",
+  "block.experienceobelisk.aural_projector": "Aural Projector",
+  "block.experienceobelisk.cognitive_alloy_block": "Block of Cognitive Alloy",
 
   "fluid.experienceobelisk.cognitium": "Cognitium",
 
@@ -53,5 +55,8 @@
   "message.experienceobelisk.binding_wand.obelisk_too_far": "§cThe obelisk is too far away",
   "message.experienceobelisk.binding_wand.obelisk_doesnt_exist": "§cThe obelisk at %s §cno longer exists",
   "message.experienceobelisk.binding_wand.obelisk_not_selected": "§cYou have not selected an obelisk with this wand",
-  "message.experienceobelisk.binding_wand.reveal_bound_pos": "This block is bound to the obelisk at %s"
+  "message.experienceobelisk.binding_wand.reveal_bound_pos": "This block is bound to the obelisk at %s",
+
+  "enchantment.experienceobelisk.athena_blessing": "Blessing of Athena",
+  "enchantment.experienceobelisk.athena_blessing.desc": "Tool decomposes into experience when broken"
 }
