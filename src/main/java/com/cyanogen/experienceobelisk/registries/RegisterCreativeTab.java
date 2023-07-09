@@ -1,14 +1,13 @@
-package com.cyanogen.experienceobelisk;
+package com.cyanogen.experienceobelisk.registries;
 
-import com.cyanogen.experienceobelisk.block.ModBlocksInit;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 
-public class ModCreativeModeTab {
+public class RegisterCreativeTab {
     public static final CreativeModeTab MOD_TAB = new CreativeModeTab("experience_obelisk") {
         @Override
         public ItemStack makeIcon() {
-            return new ItemStack(ModBlocksInit.EXPERIENCE_OBELISK.get());
+            return new ItemStack(RegisterBlocks.EXPERIENCE_OBELISK.get());
         }
     };
 }

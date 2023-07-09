@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "AGA",
+    "GCG",
+    "AGA"
+  ],
+  "key": {
+    "A": {
+      "item": "experienceobelisk:cognitive_amalgam"
+    },
+    "G": {
+      "item": "minecraft:glowstone"
+    },
+    "C": {
+      "item": "experienceobelisk:cognitive_crystal"
+    }
+  },
+  "result": {
+    "item": "experienceobelisk:cognitive_crystal",
+    "count": 1
+  }
+}

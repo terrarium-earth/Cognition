@@ -1,10 +1,12 @@
 {
-  "item.experienceobelisk.binding_wand": "Soul Receptor",
+  "item.experienceobelisk.attunement_staff": "Staff of Attunement",
   "item.experienceobelisk.cognitium_bucket": "Cognitium Bucket",
   "item.experienceobelisk.cognitive_alloy": "Cognitive Alloy",
   "item.experienceobelisk.cognitive_amalgam": "Cognitive Amalgam",
   "item.experienceobelisk.cognitive_crystal": "Cognitive Crystal",
   "item.experienceobelisk.cognitive_flux": "Cognitive Flux",
+  "item.experienceobelisk.absorption_core": "Absorption Core",
+  "item.experienceobelisk.effusion_core": "Effusion Core",
 
   "block.experienceobelisk.experience_obelisk": "Experience Obelisk",
   "block.experienceobelisk.experience_fountain": "Experience Fountain",
@@ -37,8 +39,8 @@
   "tooltip.experienceobelisk.experience_obelisk.item_fluid_amount": "§7Fluid Amount:§r %s",
   "tooltip.experienceobelisk.experience_obelisk.item_levels": "%s §7Levels§r",
 
-  "tooltip.experienceobelisk.cognitive_crystal.active": "§7Currently §aactive",
-  "tooltip.experienceobelisk.cognitive_crystal.inactive": "§7Currently §cinactive",
+  "tooltip.experienceobelisk.enlightened_amulet.active": "§7Currently §aactive",
+  "tooltip.experienceobelisk.enlightened_amulet.inactive": "§7Currently §cinactive",
 
   "tooltip.experienceobelisk.precision_dispeller.curse": "§7Costs §c1395 §7XP / §c30 §7base levels",
   "tooltip.experienceobelisk.precision_dispeller.enchantment": "§7Gives %s §7XP / %s §7base levels",

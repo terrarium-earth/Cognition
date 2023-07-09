@@ -1,6 +1,6 @@
 package com.cyanogen.experienceobelisk.item;
 
-import com.cyanogen.experienceobelisk.block_entities.ExperienceObeliskItemRenderer;
+import com.cyanogen.experienceobelisk.renderer.ExperienceObeliskItemRenderer;
 import com.cyanogen.experienceobelisk.gui.ExperienceObeliskScreen;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;

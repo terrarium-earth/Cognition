@@ -12,6 +12,7 @@ import net.minecraft.world.level.block.state.BlockState;
 public class ExperienceReceivingEntity extends BlockEntity {
 
     //Generic block entity for appliances that use XP
+    //Currently only used by the fountain, but will be used for other blocks in the future
 
     public ExperienceReceivingEntity(BlockEntityType<?> p_155228_, BlockPos p_155229_, BlockState p_155230_) {
         super(p_155228_, p_155229_, p_155230_);

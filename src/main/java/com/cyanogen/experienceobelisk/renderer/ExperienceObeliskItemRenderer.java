@@ -1,4 +1,4 @@
-package com.cyanogen.experienceobelisk.block_entities;
+package com.cyanogen.experienceobelisk.renderer;
 
 import com.cyanogen.experienceobelisk.ExperienceObelisk;
 import com.cyanogen.experienceobelisk.item.ExperienceObeliskItem;

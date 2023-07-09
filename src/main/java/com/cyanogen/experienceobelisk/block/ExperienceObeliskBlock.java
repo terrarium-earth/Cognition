@@ -1,9 +1,9 @@
 package com.cyanogen.experienceobelisk.block;
 
 import com.cyanogen.experienceobelisk.block_entities.ExperienceObeliskEntity;
-import com.cyanogen.experienceobelisk.block_entities.ModTileEntitiesInit;
+import com.cyanogen.experienceobelisk.registries.RegisterBlockEntities;
 import com.cyanogen.experienceobelisk.gui.ExperienceObeliskScreen;
-import com.cyanogen.experienceobelisk.item.ModItemsInit;
+import com.cyanogen.experienceobelisk.registries.RegisterItems;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
@@ -69,7 +69,7 @@ public class ExperienceObeliskBlock extends Block implements EntityBlock {
             BlockEntity blockentity = pLevel.getBlockEntity(pPos);
             if (blockentity instanceof ExperienceObeliskEntity entity && pPlayer.hasCorrectToolForDrops(pState)) {
 
-                stack = new ItemStack(ModItemsInit.EXPERIENCE_OBELISK_ITEM.get(), 1);
+                stack = new ItemStack(RegisterItems.EXPERIENCE_OBELISK_ITEM.get(), 1);
                 entity.saveToItem(stack);
             }
         }
@@ -102,7 +102,7 @@ public class ExperienceObeliskBlock extends Block implements EntityBlock {
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level pLevel, BlockState pState, BlockEntityType<T> pBlockEntityType) {
-        return pBlockEntityType == ModTileEntitiesInit.EXPERIENCEOBELISK_BE.get() ? ExperienceObeliskEntity::tick : null;
+        return pBlockEntityType == RegisterBlockEntities.EXPERIENCEOBELISK_BE.get() ? ExperienceObeliskEntity::tick : null;
     }
 
     @Override
@@ -114,7 +114,7 @@ public class ExperienceObeliskBlock extends Block implements EntityBlock {
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
-        return ModTileEntitiesInit.EXPERIENCEOBELISK_BE.get().create(pPos, pState);
+        return RegisterBlockEntities.EXPERIENCEOBELISK_BE.get().create(pPos, pState);
     }
 
 }

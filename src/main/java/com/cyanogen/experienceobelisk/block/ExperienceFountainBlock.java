@@ -1,8 +1,8 @@
 package com.cyanogen.experienceobelisk.block;
 
 import com.cyanogen.experienceobelisk.block_entities.ExperienceFountainEntity;
-import com.cyanogen.experienceobelisk.block_entities.ModTileEntitiesInit;
-import com.cyanogen.experienceobelisk.item.ModItemsInit;
+import com.cyanogen.experienceobelisk.registries.RegisterBlockEntities;
+import com.cyanogen.experienceobelisk.registries.RegisterItems;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.TextComponent;
@@ -53,7 +53,7 @@ public class ExperienceFountainBlock extends Block implements EntityBlock {
 
         if(entity instanceof ExperienceFountainEntity fountain){
 
-            if(heldItem.is(ModItemsInit.BINDING_WAND.get())){
+            if(heldItem.is(RegisterItems.ATTUNEMENT_STAFF.get())){
                 player.displayClientMessage(new TranslatableComponent("message.experienceobelisk.binding_wand.reveal_bound_pos",
                         new TextComponent(fountain.getBoundPos().toShortString()).withStyle(ChatFormatting.GREEN)), true);
             }
@@ -88,7 +88,7 @@ public class ExperienceFountainBlock extends Block implements EntityBlock {
             BlockEntity blockentity = pLevel.getBlockEntity(pPos);
             if (blockentity instanceof ExperienceFountainEntity entity && pPlayer.hasCorrectToolForDrops(pState)) {
 
-                stack = new ItemStack(ModItemsInit.EXPERIENCE_FOUNTAIN_ITEM.get(), 1);
+                stack = new ItemStack(RegisterItems.EXPERIENCE_FOUNTAIN_ITEM.get(), 1);
                 entity.saveToItem(stack);
             }
         }
@@ -111,13 +111,13 @@ public class ExperienceFountainBlock extends Block implements EntityBlock {
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level pLevel, BlockState pState, BlockEntityType<T> pBlockEntityType) {
-        return pBlockEntityType == ModTileEntitiesInit.EXPERIENCEFOUNTAIN_BE.get() ? ExperienceFountainEntity::tick : null;
+        return pBlockEntityType == RegisterBlockEntities.EXPERIENCEFOUNTAIN_BE.get() ? ExperienceFountainEntity::tick : null;
     }
 
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
-        return ModTileEntitiesInit.EXPERIENCEFOUNTAIN_BE.get().create(pPos, pState);
+        return RegisterBlockEntities.EXPERIENCEFOUNTAIN_BE.get().create(pPos, pState);
     }
 
 }

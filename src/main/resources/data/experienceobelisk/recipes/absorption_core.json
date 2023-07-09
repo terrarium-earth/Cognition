@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "AOA",
+    "OCO",
+    "AOA"
+  ],
+  "key": {
+    "A": {
+      "item": "experienceobelisk:cognitive_amalgam"
+    },
+    "O": {
+      "item": "minecraft:obsidian"
+    },
+    "C": {
+      "item": "experienceobelisk:cognitive_crystal"
+    }
+  },
+  "result": {
+    "item": "experienceobelisk:absorption_core",
+    "count": 1
+  }
+}

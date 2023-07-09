@@ -16,7 +16,7 @@ public class Config {
 
         public List<String> defaultValues = new ArrayList<>();
         public int defaultCapacity = 100000000;
-        public double defaultRange = 4.0;
+        public double defaultRange = 5.0;
 
         public Common(ForgeConfigSpec.Builder builder){
 
@@ -26,6 +26,7 @@ public class Config {
 
             builder.push("Allowed Experience Fluids");
             this.allowedFluids = builder.comment("Add IDs of fluids you want the obelisk to support here in the form mod_id:fluid_name")
+                    .comment("Fluids have to be tagged forge:experience")
                     .define("AllowedFluids", defaultValues);
             builder.pop();
 
@@ -35,7 +36,7 @@ public class Config {
             builder.pop();
 
             builder.push("Cognitive Crystal Range");
-            this.range = builder.comment("The range of the cognitive crystal. Accepts decimals. Default = 4.0")
+            this.range = builder.comment("The range of the cognitive crystal. Accepts decimals. Default = 5.0")
                     .define("Range", defaultRange);
             builder.pop();
 

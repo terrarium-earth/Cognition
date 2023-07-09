@@ -5,24 +5,19 @@ import com.cyanogen.experienceobelisk.block_entities.ExperienceReceivingEntity;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import org.jetbrains.annotations.Nullable;
 
-import java.util.List;
+public class AttunementStaffItem extends Item {
 
-public class BindingWandItem extends Item {
-
-    public BindingWandItem(Properties p_41383_) {
+    public AttunementStaffItem(Properties p_41383_) {
         super(p_41383_);
     }
 

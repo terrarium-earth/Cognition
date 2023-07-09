@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " AC",
+    " S ",
+    "S  "
+  ],
+  "key": {
+    "S": {
+      "item": "minecraft:stick"
+    },
+    "C": {
+      "item": "experienceobelisk:cognitive_crystal"
+    },
+    "A": {
+      "item": "experienceobelisk:cognitive_amalgam"
+    }
+  },
+  "result": {
+    "item": "experienceobelisk:attunement_staff",
+    "count": 1
+  }
+}

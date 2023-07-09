@@ -1,5 +1,6 @@
 package com.cyanogen.experienceobelisk.gui;
 
+import com.cyanogen.experienceobelisk.registries.RegisterMenus;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerLevel;
@@ -32,7 +33,7 @@ public class PrecisionDispellerMenu extends AbstractContainerMenu {
 
     public PrecisionDispellerMenu(int id, Inventory inventory, Player player, BlockPos pos) {
 
-        super(ModMenusInit.PRECISION_DISPELLER_MENU.get(), id);
+        super(RegisterMenus.PRECISION_DISPELLER_MENU.get(), id);
 
         this.player = player;
         this.pos = pos;

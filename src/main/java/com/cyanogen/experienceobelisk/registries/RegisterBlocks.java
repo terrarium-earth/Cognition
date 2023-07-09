@@ -1,9 +1,10 @@
-package com.cyanogen.experienceobelisk.block;
+package com.cyanogen.experienceobelisk.registries;
 
 import com.cyanogen.experienceobelisk.ExperienceObelisk;
-import com.cyanogen.experienceobelisk.ModCreativeModeTab;
-import com.cyanogen.experienceobelisk.fluid.ModFluidsInit;
-import com.cyanogen.experienceobelisk.item.ModItemsInit;
+import com.cyanogen.experienceobelisk.block.CognitiveAlloyBlock;
+import com.cyanogen.experienceobelisk.block.ExperienceFountainBlock;
+import com.cyanogen.experienceobelisk.block.ExperienceObeliskBlock;
+import com.cyanogen.experienceobelisk.block.PrecisionDispellerBlock;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
@@ -19,7 +20,7 @@ import net.minecraftforge.registries.RegistryObject;
 import java.util.function.Supplier;
 
 
-public class ModBlocksInit {
+public class RegisterBlocks {
     public static final DeferredRegister<Block> BLOCKS =
             DeferredRegister.create(ForgeRegistries.BLOCKS, ExperienceObelisk.MOD_ID);
 
@@ -28,16 +29,15 @@ public class ModBlocksInit {
     public static final RegistryObject<Block> EXPERIENCE_OBELISK = BLOCKS.register("experience_obelisk", ExperienceObeliskBlock::new);
     public static final RegistryObject<Block> EXPERIENCE_FOUNTAIN = BLOCKS.register("experience_fountain", ExperienceFountainBlock::new);
     public static final RegistryObject<Block> PRECISION_DISPELLER = BLOCKS.register("precision_dispeller", PrecisionDispellerBlock::new);
-    public static final RegistryObject<Block> AURAL_PROJECTOR = BLOCKS.register("aural_projector", AuralProjectorBlock::new);
 
     //-----DECORATIVE / CRAFTING-----//
 
-    public static final RegistryObject<Block> COGNITIVE_ALLOY_BLOCK = registerBlock("cognitive_alloy_block", CognitiveAlloyBlock::new, ModCreativeModeTab.MOD_TAB);
+    public static final RegistryObject<Block> COGNITIVE_ALLOY_BLOCK = registerBlock("cognitive_alloy_block", CognitiveAlloyBlock::new, RegisterCreativeTab.MOD_TAB);
 
     //-----FLUID BLOCKS-----//
 
     public static final RegistryObject<LiquidBlock> COGNITIUM = BLOCKS.register("cognitium",
-            () -> new LiquidBlock(ModFluidsInit.COGNITIUM_FLOWING, BlockBehaviour.Properties.of(Material.WATER)
+            () -> new LiquidBlock(RegisterFluids.COGNITIUM_FLOWING, BlockBehaviour.Properties.of(Material.WATER)
                     .lightLevel(value -> 10)
                     .emissiveRendering((p_61036_, p_61037_, p_61038_) -> true)
             ));
@@ -53,7 +53,7 @@ public class ModBlocksInit {
 
     private static <T extends Block> RegistryObject<Item> registerBlockItem(String name, RegistryObject<T> block,
                                                                             CreativeModeTab tab) {
-        return ModItemsInit.ITEMS.register(name, () -> new BlockItem(block.get(),
+        return RegisterItems.ITEMS.register(name, () -> new BlockItem(block.get(),
                 new Item.Properties().tab(tab)));
     }
 

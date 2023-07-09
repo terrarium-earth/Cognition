@@ -1,9 +1,10 @@
 package com.cyanogen.experienceobelisk.block_entities;
 
-import com.cyanogen.experienceobelisk.ModTags;
+import com.cyanogen.experienceobelisk.registries.RegisterTags;
 import com.cyanogen.experienceobelisk.config.Config;
-import com.cyanogen.experienceobelisk.fluid.ModFluidsInit;
+import com.cyanogen.experienceobelisk.registries.RegisterFluids;
 import com.cyanogen.experienceobelisk.network.experience_obelisk.UpdateContents;
+import com.cyanogen.experienceobelisk.registries.RegisterBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -63,7 +64,7 @@ public class ExperienceObeliskEntity extends BlockEntity implements IAnimatable{
     }
 
     public ExperienceObeliskEntity(BlockPos pPos, BlockState pState) {
-        super(ModTileEntitiesInit.EXPERIENCEOBELISK_BE.get(), pPos, pState);
+        super(RegisterBlockEntities.EXPERIENCEOBELISK_BE.get(), pPos, pState);
     }
 
     @Override
@@ -143,7 +144,7 @@ public class ExperienceObeliskEntity extends BlockEntity implements IAnimatable{
 
     private final LazyOptional<IFluidHandler> handler = LazyOptional.of(() -> tank);
 
-    private static final Fluid cognitium = ModFluidsInit.COGNITIUM.get().getSource();
+    private static final Fluid cognitium = RegisterFluids.COGNITIUM.get().getSource();
 
     public static final int capacity = Config.COMMON.capacity.get(); //this is 10^8 by default
 
@@ -169,7 +170,7 @@ public class ExperienceObeliskEntity extends BlockEntity implements IAnimatable{
                     return true;
                 }
                 else{
-                    return stack.getFluid().is(ModTags.Fluids.EXPERIENCE) && Config.COMMON.allowedFluids.get().contains(fluidName);
+                    return stack.getFluid().is(RegisterTags.Fluids.EXPERIENCE) && Config.COMMON.allowedFluids.get().contains(fluidName);
                 }
             }
 

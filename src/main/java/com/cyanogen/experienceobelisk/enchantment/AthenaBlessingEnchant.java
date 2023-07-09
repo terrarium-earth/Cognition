@@ -1,5 +1,6 @@
 package com.cyanogen.experienceobelisk.enchantment;
 
+import com.cyanogen.experienceobelisk.registries.RegisterEnchantments;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -21,7 +22,7 @@ import java.util.Map;
 
 public class AthenaBlessingEnchant extends Enchantment {
 
-    protected AthenaBlessingEnchant(Rarity pRarity, EnchantmentCategory pCategory, EquipmentSlot[] pApplicableSlots) {
+    public AthenaBlessingEnchant(Rarity pRarity, EnchantmentCategory pCategory, EquipmentSlot[] pApplicableSlots) {
         super(pRarity, pCategory, pApplicableSlots);
     }
 
@@ -104,7 +105,7 @@ public class AthenaBlessingEnchant extends Enchantment {
 
         BlockPos pos = event.getPlayer().blockPosition();
 
-        int level = EnchantmentHelper.getItemEnchantmentLevel(ModEnchantmentsInit.ATHENA_BLESSING.get(), item);
+        int level = EnchantmentHelper.getItemEnchantmentLevel(RegisterEnchantments.ATHENA_BLESSING.get(), item);
 
         if(level == 1 && !l.isClientSide){
             ServerLevel server = (ServerLevel) l;
@@ -112,7 +113,7 @@ public class AthenaBlessingEnchant extends Enchantment {
             int bonusXP = 0;
 
             for(Map.Entry<Enchantment, Integer> entry : EnchantmentHelper.getEnchantments(item).entrySet()){
-                if(entry.getKey() != ModEnchantmentsInit.ATHENA_BLESSING.get()){
+                if(entry.getKey() != RegisterEnchantments.ATHENA_BLESSING.get()){
                     bonusXP = bonusXP + entry.getValue();
                 }
             }

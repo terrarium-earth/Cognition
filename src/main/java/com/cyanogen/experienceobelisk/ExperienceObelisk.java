@@ -1,14 +1,14 @@
 package com.cyanogen.experienceobelisk;
 
-import com.cyanogen.experienceobelisk.block.ModBlocksInit;
-import com.cyanogen.experienceobelisk.block_entities.ModTileEntitiesInit;
+import com.cyanogen.experienceobelisk.registries.RegisterBlocks;
+import com.cyanogen.experienceobelisk.registries.RegisterBlockEntities;
 import com.cyanogen.experienceobelisk.config.Config;
-import com.cyanogen.experienceobelisk.enchantment.ModEnchantmentsInit;
+import com.cyanogen.experienceobelisk.registries.RegisterEnchantments;
 import com.cyanogen.experienceobelisk.event.EventHandler;
-import com.cyanogen.experienceobelisk.fluid.ModFluidsInit;
-import com.cyanogen.experienceobelisk.gui.ModMenusInit;
+import com.cyanogen.experienceobelisk.registries.RegisterFluids;
+import com.cyanogen.experienceobelisk.registries.RegisterMenus;
 import com.cyanogen.experienceobelisk.gui.PrecisionDispellerScreen;
-import com.cyanogen.experienceobelisk.item.ModItemsInit;
+import com.cyanogen.experienceobelisk.registries.RegisterItems;
 import com.cyanogen.experienceobelisk.network.PacketHandler;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
@@ -21,8 +21,6 @@ import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import software.bernie.geckolib3.GeckoLib;
 
 @Mod(ExperienceObelisk.MOD_ID)
@@ -37,12 +35,12 @@ public class ExperienceObelisk
         eventBus.addListener(this::setup);
         eventBus.addListener(this::clientSetup);
 
-        ModItemsInit.register(eventBus);
-        ModBlocksInit.register(eventBus);
-        ModTileEntitiesInit.register(eventBus);
-        ModFluidsInit.register(eventBus);
-        ModMenusInit.register(eventBus);
-        ModEnchantmentsInit.register(eventBus);
+        RegisterItems.register(eventBus);
+        RegisterBlocks.register(eventBus);
+        RegisterBlockEntities.register(eventBus);
+        RegisterFluids.register(eventBus);
+        RegisterMenus.register(eventBus);
+        RegisterEnchantments.register(eventBus);
 
         GeckoLib.initialize();
         PacketHandler.init();
@@ -58,9 +56,9 @@ public class ExperienceObelisk
 
     private void clientSetup(final FMLClientSetupEvent event){
 
-        MenuScreens.register(ModMenusInit.PRECISION_DISPELLER_MENU.get(), PrecisionDispellerScreen::new);
+        MenuScreens.register(RegisterMenus.PRECISION_DISPELLER_MENU.get(), PrecisionDispellerScreen::new);
 
-        ItemBlockRenderTypes.setRenderLayer(ModFluidsInit.COGNITIUM.get(), RenderType.translucent());
-        ItemBlockRenderTypes.setRenderLayer(ModFluidsInit.COGNITIUM_FLOWING.get(), RenderType.translucent());
+        ItemBlockRenderTypes.setRenderLayer(RegisterFluids.COGNITIUM.get(), RenderType.translucent());
+        ItemBlockRenderTypes.setRenderLayer(RegisterFluids.COGNITIUM_FLOWING.get(), RenderType.translucent());
     }
 }

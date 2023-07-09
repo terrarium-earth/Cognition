@@ -1,5 +1,6 @@
 package com.cyanogen.experienceobelisk.block_entities;
 
+import com.cyanogen.experienceobelisk.registries.RegisterBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
@@ -11,7 +12,7 @@ import net.minecraft.world.level.block.state.BlockState;
 public class ExperienceFountainEntity extends ExperienceReceivingEntity {
 
     public ExperienceFountainEntity(BlockPos pPos, BlockState pState) {
-        super(ModTileEntitiesInit.EXPERIENCEFOUNTAIN_BE.get(), pPos, pState);
+        super(RegisterBlockEntities.EXPERIENCEFOUNTAIN_BE.get(), pPos, pState);
     }
 
     //-----------PASSIVE BEHAVIOR-----------//
