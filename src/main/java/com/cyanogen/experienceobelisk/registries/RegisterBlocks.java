@@ -1,10 +1,7 @@
 package com.cyanogen.experienceobelisk.registries;
 
 import com.cyanogen.experienceobelisk.ExperienceObelisk;
-import com.cyanogen.experienceobelisk.block.CognitiveAlloyBlock;
-import com.cyanogen.experienceobelisk.block.ExperienceFountainBlock;
-import com.cyanogen.experienceobelisk.block.ExperienceObeliskBlock;
-import com.cyanogen.experienceobelisk.block.PrecisionDispellerBlock;
+import com.cyanogen.experienceobelisk.block.*;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
@@ -33,6 +30,7 @@ public class RegisterBlocks {
     //-----DECORATIVE / CRAFTING-----//
 
     public static final RegistryObject<Block> COGNITIVE_ALLOY_BLOCK = registerBlock("cognitive_alloy_block", CognitiveAlloyBlock::new, RegisterCreativeTab.MOD_TAB);
+    public static final RegistryObject<Block> COGNITIVE_CRYSTAL_BLOCK = registerBlock("cognitive_crystal_block", CognitiveCrystalBlock::new, RegisterCreativeTab.MOD_TAB);
 
     //-----FLUID BLOCKS-----//
 

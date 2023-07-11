@@ -1,22 +1,19 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "#X#",
-    "#A#",
-    "#B#"
+    "   ",
+    "RPR",
+    "RER"
   ],
   "key": {
-    "#": {
+    "R": {
       "item": "experienceobelisk:cognitive_alloy"
     },
-    "X": {
-      "item": "experienceobelisk:cognitive_crystal"
-    },
-    "A": {
+    "P": {
       "item": "minecraft:piston"
     },
-    "B": {
-      "item": "minecraft:repeater"
+    "E": {
+      "item": "experienceobelisk:effusion_core"
     }
   },
   "result": {

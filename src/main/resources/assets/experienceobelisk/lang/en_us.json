@@ -51,13 +51,13 @@
   "button.experienceobelisk.experience_obelisk.ignored": "§cIgnored§r",
   "button.experienceobelisk.experience_obelisk.enabled": "§aEnabled§r",
 
-  "message.experienceobelisk.binding_wand.select_obelisk": "Obelisk position saved",
-  "message.experienceobelisk.binding_wand.bind_target": "Target bound to obelisk at %s",
-  "message.experienceobelisk.binding_wand.unbind_target": "Target unbound",
-  "message.experienceobelisk.binding_wand.obelisk_too_far": "§cThe obelisk is too far away",
-  "message.experienceobelisk.binding_wand.obelisk_doesnt_exist": "§cThe obelisk at %s §cno longer exists",
-  "message.experienceobelisk.binding_wand.obelisk_not_selected": "§cYou have not selected an obelisk with this wand",
-  "message.experienceobelisk.binding_wand.reveal_bound_pos": "This block is bound to the obelisk at %s",
+  "message.experienceobelisk.binding_wand.bind_obelisk": "§a[✔]§r Obelisk position saved",
+  "message.experienceobelisk.binding_wand.unbind_obelisk": "§a[✔]§r Obelisk position forgotten",
+  "message.experienceobelisk.binding_wand.bind_target": "§a[✔]§r Target bound to obelisk at %s",
+  "message.experienceobelisk.binding_wand.unbind_target": "§a[✔]§r Target unbound",
+  "message.experienceobelisk.binding_wand.obelisk_too_far": "§c[✖]§r The obelisk is too far away",
+  "message.experienceobelisk.binding_wand.obelisk_doesnt_exist": "§c[✖]§f The obelisk at %s §fno longer exists",
+  "message.experienceobelisk.binding_wand.reveal_bound_pos": "§b[ⓘ]§r This block is bound to the obelisk at %s",
 
   "enchantment.experienceobelisk.athena_blessing": "Blessing of Athena",
   "enchantment.experienceobelisk.athena_blessing.desc": "Tool decomposes into experience when broken"

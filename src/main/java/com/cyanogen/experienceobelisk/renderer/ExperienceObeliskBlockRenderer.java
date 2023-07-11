@@ -11,10 +11,11 @@ import net.minecraft.resources.ResourceLocation;
 import software.bernie.geckolib3.model.AnimatedGeoModel;
 import software.bernie.geckolib3.renderers.geo.GeoBlockRenderer;
 
-public class ExperienceObeliskTileRenderer extends GeoBlockRenderer<ExperienceObeliskEntity> {
-    public ExperienceObeliskTileRenderer(BlockEntityRendererProvider.Context rendererDispatcherIn) {
+public class ExperienceObeliskBlockRenderer extends GeoBlockRenderer<ExperienceObeliskEntity> {
+
+    public ExperienceObeliskBlockRenderer(BlockEntityRendererProvider.Context rendererDispatcherIn) {
         super(rendererDispatcherIn, new AnimatedGeoModel<ExperienceObeliskEntity>() {
-            //render setup for geckolib animated model
+
             @Override
             public ResourceLocation getModelLocation(ExperienceObeliskEntity animatable) {
                 return new ResourceLocation(ExperienceObelisk.MOD_ID, "geo/experience_obelisk.geo.json");

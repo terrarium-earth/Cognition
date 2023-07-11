@@ -13,6 +13,7 @@ import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.ExperienceOrb;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -303,9 +304,13 @@ public class ExperienceObeliskEntity extends BlockEntity implements IAnimatable{
         }
     }
 
+    public static long getTotalXP(Player player){
+        return levelsToXP(player.experienceLevel) + Math.round(player.experienceProgress * player.getXpNeededForNextLevel());
+    }
+
     public void handleRequest(UpdateContents.Request request, int XP, ServerPlayer sender){
 
-        long playerXP = levelsToXP(sender.experienceLevel) + Math.round(sender.experienceProgress * sender.getXpNeededForNextLevel());
+        long playerXP = getTotalXP(sender);
         long finalXP;
 
         if(request == UpdateContents.Request.FILL && this.getSpace() != 0){

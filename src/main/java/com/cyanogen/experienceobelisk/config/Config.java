@@ -16,7 +16,7 @@ public class Config {
 
         public List<String> defaultValues = new ArrayList<>();
         public int defaultCapacity = 100000000;
-        public double defaultRange = 5.0;
+        public double defaultRange = 8.0;
 
         public Common(ForgeConfigSpec.Builder builder){
 
@@ -36,7 +36,7 @@ public class Config {
             builder.pop();
 
             builder.push("Cognitive Crystal Range");
-            this.range = builder.comment("The range of the cognitive crystal. Accepts decimals. Default = 5.0")
+            this.range = builder.comment("The range of the cognitive crystal. Accepts decimals. Default = 8.0")
                     .define("Range", defaultRange);
             builder.pop();
 

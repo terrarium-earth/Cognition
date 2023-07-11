@@ -58,7 +58,7 @@ public class AthenaBlessingEnchant extends Enchantment {
 
     @Override
     public boolean isTreasureOnly() {
-        return true;
+        return false;
     }
 
     @Override
@@ -89,9 +89,7 @@ public class AthenaBlessingEnchant extends Enchantment {
 
     @Override
     protected boolean checkCompatibility(Enchantment pOther) {
-
         return pOther != this;
-
     }
 
     public static void itemDestroyed(PlayerDestroyItemEvent event) {
