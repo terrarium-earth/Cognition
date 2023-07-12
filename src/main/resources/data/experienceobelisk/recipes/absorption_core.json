@@ -2,7 +2,7 @@
   "type": "minecraft:crafting_shaped",
   "pattern": [
     "AOA",
-    "OCO",
+    "OPO",
     "AOA"
   ],
   "key": {
@@ -12,8 +12,8 @@
     "O": {
       "item": "minecraft:obsidian"
     },
-    "C": {
-      "item": "experienceobelisk:cognitive_crystal"
+    "P": {
+      "item": "minecraft:ender_pearl"
     }
   },
   "result": {

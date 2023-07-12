@@ -25,12 +25,14 @@ public class AstuteArtifactItem extends Item {
         ItemStack item = context.getItemInHand();
 
         if(level.getBlockState(pos).getBlock() instanceof GrindstoneBlock && player != null){
-            level.removeBlock(pos, false);
             level.setBlockAndUpdate(pos, RegisterBlocks.PRECISION_DISPELLER.get().defaultBlockState());
+
             player.playSound(SoundEvents.ARMOR_EQUIP_DIAMOND, 1, 1);
             item.shrink(1);
+            return InteractionResult.sidedSuccess(level.isClientSide);
         }
-
-        return super.useOn(context);
+        else{
+            return super.useOn(context);
+        }
     }
 }

@@ -2,12 +2,12 @@
   "type": "minecraft:crafting_shaped",
   "pattern": [
     " AC",
-    " S ",
-    "S  "
+    " R ",
+    "R  "
   ],
   "key": {
-    "S": {
-      "item": "minecraft:stick"
+    "R": {
+      "item": "experienceobelisk:cognitive_alloy"
     },
     "C": {
       "item": "experienceobelisk:cognitive_crystal"

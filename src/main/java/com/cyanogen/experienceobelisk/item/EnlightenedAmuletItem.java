@@ -6,33 +6,25 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ExperienceOrb;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.item.Wearable;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class EnlightenedAmuletItem extends Item implements Wearable {
+public class EnlightenedAmuletItem extends Item{
 
     public EnlightenedAmuletItem(Properties pProperties) {
         super(pProperties);
-    }
-
-    @Nullable
-    @Override
-    public EquipmentSlot getEquipmentSlot(ItemStack stack) {
-        return EquipmentSlot.byName("necklace");    //bauble compatibility here
     }
 
     public double radius = Config.COMMON.range.get();
@@ -57,6 +49,7 @@ public class EnlightenedAmuletItem extends Item implements Wearable {
 
         if(player.isShiftKeyDown()){
             tag.putBoolean("isActive", !tag.getBoolean("isActive"));
+            player.playSound(SoundEvents.EXPERIENCE_ORB_PICKUP, 1f,1f);
         }
 
         return super.use(level, player, hand);

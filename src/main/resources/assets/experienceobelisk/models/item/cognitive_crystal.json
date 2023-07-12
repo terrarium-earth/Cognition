@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "minecraft:item/emerald"
+    "layer0": "experienceobelisk:item/cognitive_crystal"
   }
 }

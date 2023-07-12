@@ -25,21 +25,7 @@ public class RegisterItems {
     public static final RegistryObject<Item> PRECISION_DISPELLER_ITEM = ITEMS.register("precision_dispeller",
             () -> new PrecisionDispellerItem(RegisterBlocks.PRECISION_DISPELLER.get(), new Item.Properties().tab(RegisterCreativeTab.MOD_TAB)));
 
-    //-----FUNCTIONAL ITEMS-----//
-
-    public static final RegistryObject<Item> ENLIGHTENED_AMULET = ITEMS.register("enlightened_amulet",
-            () -> new EnlightenedAmuletItem(new Item.Properties().tab(RegisterCreativeTab.MOD_TAB).rarity(Rarity.RARE)));
-
-    public static final RegistryObject<Item> ASTUTE_ARTIFACT = ITEMS.register("astute_artifact",
-            () -> new AstuteArtifactItem(new Item.Properties().tab(RegisterCreativeTab.MOD_TAB).rarity(Rarity.RARE)));
-
-    public static final RegistryObject<Item> ATTUNEMENT_STAFF = ITEMS.register("attunement_staff",
-            () -> new AttunementStaffItem(new Item.Properties().tab(RegisterCreativeTab.MOD_TAB)));
-
     //-----RECIPE INGREDIENTS, EVERYTHING ELSE-----//
-
-    public static final RegistryObject<BucketItem> COGNITIUM_BUCKET = ITEMS.register("cognitium_bucket",
-            () -> new BucketItem(RegisterFluids.COGNITIUM, new Item.Properties().tab(RegisterCreativeTab.MOD_TAB)));
 
     public static final RegistryObject<Item> COGNITIVE_FLUX = ITEMS.register("cognitive_flux",
             () -> new Item(new Item.Properties().tab(RegisterCreativeTab.MOD_TAB)));
@@ -58,6 +44,20 @@ public class RegisterItems {
 
     public static final RegistryObject<Item> EFFUSION_CORE = ITEMS.register("effusion_core",
             () -> new Item(new Item.Properties().tab(RegisterCreativeTab.MOD_TAB)));
+
+    //-----FUNCTIONAL ITEMS-----//
+
+    public static final RegistryObject<Item> ATTUNEMENT_STAFF = ITEMS.register("attunement_staff",
+            () -> new AttunementStaffItem(new Item.Properties().tab(RegisterCreativeTab.MOD_TAB)));
+
+    public static final RegistryObject<Item> ENLIGHTENED_AMULET = ITEMS.register("enlightened_amulet",
+            () -> new EnlightenedAmuletItem(new Item.Properties().tab(RegisterCreativeTab.MOD_TAB).rarity(Rarity.RARE)));
+
+    public static final RegistryObject<Item> ASTUTE_ARTIFACT = ITEMS.register("astute_artifact",
+            () -> new AstuteArtifactItem(new Item.Properties().tab(RegisterCreativeTab.MOD_TAB).rarity(Rarity.RARE)));
+
+    public static final RegistryObject<BucketItem> COGNITIUM_BUCKET = ITEMS.register("cognitium_bucket",
+            () -> new BucketItem(RegisterFluids.COGNITIUM, new Item.Properties().tab(RegisterCreativeTab.MOD_TAB)));
 
     public static void register(IEventBus eventBus){
         ITEMS.register(eventBus);

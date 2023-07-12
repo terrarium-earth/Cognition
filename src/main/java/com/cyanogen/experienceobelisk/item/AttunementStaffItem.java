@@ -13,8 +13,10 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.ExperienceOrb;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.DyeItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -27,11 +29,11 @@ public class AttunementStaffItem extends Item {
     }
 
     @Override
-    public boolean isFoil(ItemStack pStack) {
-        return pStack.getOrCreateTag().contains("boundX");
+    public int getItemStackLimit(ItemStack stack) {
+        return 1;
     }
 
-    public void summonOrbs(Level pLevel, Player pPlayer, Vec3 clickLocation) {
+    public InteractionResult summonOrbs(Level pLevel, Player pPlayer, Vec3 clickLocation, InteractionHand hand) {
         long totalXP = ExperienceObeliskEntity.getTotalXP(pPlayer);
         int value = (int) Math.floor(Math.random() * 7 + 1);    //random value from 1 to 7
 
@@ -39,12 +41,18 @@ public class AttunementStaffItem extends Item {
             value = (int) totalXP;
         }
 
-        if(!pLevel.isClientSide && totalXP != 0){
-            ServerLevel server = (ServerLevel) pLevel;
-            server.addFreshEntity(new ExperienceOrb(server, clickLocation.x, clickLocation.y, clickLocation.z, value));
-            pPlayer.giveExperiencePoints(-value);
-        }
+        if(totalXP != 0){
+            if(!pLevel.isClientSide){
+                ServerLevel server = (ServerLevel) pLevel;
+                server.addFreshEntity(new ExperienceOrb(server, clickLocation.x, clickLocation.y, clickLocation.z, value));
+                pPlayer.giveExperiencePoints(-value);
+            }
 
+            return InteractionResult.sidedSuccess(pLevel.isClientSide);
+        }
+        else{
+            return InteractionResult.PASS;
+        }
     }
 
     @Override
@@ -77,8 +85,7 @@ public class AttunementStaffItem extends Item {
 
                     player.displayClientMessage(new TranslatableComponent("message.experienceobelisk.binding_wand.bind_obelisk"), true);
                 }
-
-                return InteractionResult.CONSUME;
+                return InteractionResult.sidedSuccess(level.isClientSide);
             }
             else if(entity instanceof ExperienceReceivingEntity receivingEntity){
 
@@ -108,12 +115,11 @@ public class AttunementStaffItem extends Item {
                                 new TextComponent(obeliskPos.toShortString())).withStyle(ChatFormatting.RED), true);
                     }
                 }
-
-                return InteractionResult.CONSUME;
+                return InteractionResult.sidedSuccess(level.isClientSide);
             }
         }
         else if(player != null){
-            summonOrbs(level, player, clickLocation);
+            return summonOrbs(level, player, clickLocation, context.getHand());
         }
         return super.useOn(context);
 

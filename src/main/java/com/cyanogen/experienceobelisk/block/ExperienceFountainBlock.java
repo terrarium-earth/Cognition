@@ -53,7 +53,7 @@ public class ExperienceFountainBlock extends Block implements EntityBlock {
 
         if(entity instanceof ExperienceFountainEntity fountain){
 
-            if(heldItem.is(RegisterItems.ATTUNEMENT_STAFF.get())){
+            if(heldItem.is(RegisterItems.ATTUNEMENT_STAFF.get()) && fountain.isBound){
                 player.displayClientMessage(new TranslatableComponent("message.experienceobelisk.binding_wand.reveal_bound_pos",
                         new TextComponent(fountain.getBoundPos().toShortString()).withStyle(ChatFormatting.GREEN)), true);
             }
