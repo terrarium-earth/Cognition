@@ -12,8 +12,8 @@
     "C": {
       "item": "experienceobelisk:cognitive_crystal"
     },
-    "#": {
-      "item": "experienceobelisk:absorption_core"
+    "O": {
+      "item": "minecraft:obsidian"
     }
   },
   "result": {

@@ -39,12 +39,6 @@ public class RegisterItems {
     public static final RegistryObject<Item> COGNITIVE_CRYSTAL = ITEMS.register("cognitive_crystal",
             () -> new Item(new Item.Properties().tab(RegisterCreativeTab.MOD_TAB)));
 
-    public static final RegistryObject<Item> ABSORPTION_CORE = ITEMS.register("absorption_core",
-            () -> new Item(new Item.Properties().tab(RegisterCreativeTab.MOD_TAB)));
-
-    public static final RegistryObject<Item> EFFUSION_CORE = ITEMS.register("effusion_core",
-            () -> new Item(new Item.Properties().tab(RegisterCreativeTab.MOD_TAB)));
-
     //-----FUNCTIONAL ITEMS-----//
 
     public static final RegistryObject<Item> ATTUNEMENT_STAFF = ITEMS.register("attunement_staff",

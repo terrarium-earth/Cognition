@@ -12,8 +12,8 @@
     "P": {
       "item": "minecraft:piston"
     },
-    "E": {
-      "item": "experienceobelisk:effusion_core"
+    "C": {
+      "item": "experienceobelisk:cognitive_crystal"
     }
   },
   "result": {
