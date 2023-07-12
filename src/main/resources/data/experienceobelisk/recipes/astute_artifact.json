@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ARA",
+    "RDR",
+    "ARA"
+  ],
+  "key": {
+    "A": {
+      "item": "experienceobelisk:cognitive_amalgam"
+    },
+    "R": {
+      "item": "experienceobelisk:cognitive_alloy"
+    },
+    "D": {
+      "item": "minecraft:diamond"
+    }
+  },
+  "result": {
+    "item": "experienceobelisk:astute_artifact",
+    "count": 1
+  }
+}
