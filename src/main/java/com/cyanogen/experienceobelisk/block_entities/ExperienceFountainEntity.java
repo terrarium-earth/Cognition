@@ -1,8 +1,10 @@
 package com.cyanogen.experienceobelisk.block_entities;
 
 import com.cyanogen.experienceobelisk.registries.RegisterBlockEntities;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.ExperienceOrb;
 import net.minecraft.world.level.Level;
@@ -19,45 +21,40 @@ public class ExperienceFountainEntity extends ExperienceReceivingEntity {
 
     public static <T> void tick(Level level, BlockPos pos, BlockState state, T blockEntity) {
 
-        long time = level.getGameTime();
-
         BlockEntity entity = level.getBlockEntity(pos);
-        boolean hasSignal = level.hasNeighborSignal(pos);
 
-        if(entity instanceof ExperienceFountainEntity fountain && fountain.isBound && hasSignal){
+        if(entity instanceof ExperienceFountainEntity fountain && fountain.isBound && level.hasNeighborSignal(pos)){
 
             BlockEntity boundEntity = level.getBlockEntity(fountain.getBoundPos());
 
             if(boundEntity instanceof ExperienceObeliskEntity obelisk && !level.isClientSide && obelisk.getFluidAmount() > 0){
 
-                ServerLevel server = (ServerLevel) level;
-                ExperienceOrb orb = new ExperienceOrb(server, pos.getX() + 0.5, pos.getY() + 0.7, pos.getZ() + 0.5, 0);
+                int value = 4;
+                int interval = 20;
 
-                if(fountain.activityState == 1 && time % 20 == 0){ //slow
-
-                    if(obelisk.getFluidAmount() >= 200){
-                        orb.value = 10;
-                        obelisk.drain(200);
+                switch (fountain.getActivityState()) {
+                    case 1 -> {
+                        value = 20;
+                        interval = 10;
                     }
-                    else{
-                        orb.value = obelisk.getFluidAmount() / 20;
-                        obelisk.setFluid(0);
+                    case 2 -> {
+                        value = 100;
+                        interval = 5;
                     }
-
-                    orb.setDeltaMovement(0,0.1,0);
-                    server.addFreshEntity(orb);
+                    case 3 -> {
+                        value = 1000;
+                        interval = 2;
+                    }
                 }
-                else if(fountain.activityState == 2 && time % 5 == 0){ //fast
 
-                    if(obelisk.getFluidAmount() >= 1000){
-                        orb.value = 50;
-                        obelisk.drain(1000);
-                    }
-                    else{
-                        orb.value = obelisk.getFluidAmount() / 20;
-                        obelisk.setFluid(0);
-                    }
+                if(value > obelisk.getFluidAmount() / 20){
+                    value = obelisk.getFluidAmount() / 20;
+                }
 
+                if(level.getGameTime() % interval == 0){
+                    ServerLevel server = (ServerLevel) level;
+                    ExperienceOrb orb = new ExperienceOrb(server, pos.getX() + 0.5, pos.getY() + 0.7, pos.getZ() + 0.5, value);
+                    obelisk.drain(value * 20);
                     orb.setDeltaMovement(0,0.1,0);
                     server.addFreshEntity(orb);
                 }
@@ -75,7 +72,7 @@ public class ExperienceFountainEntity extends ExperienceReceivingEntity {
 
     public void cycleActivityState(){
         activityState = activityState + 1;
-        if(activityState > 2){
+        if(activityState > 3){
             activityState = 0;
         }
         setChanged();

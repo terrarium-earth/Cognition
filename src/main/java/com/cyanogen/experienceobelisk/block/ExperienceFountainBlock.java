@@ -62,9 +62,10 @@ public class ExperienceFountainBlock extends Block implements EntityBlock {
                 TextComponent message = new TextComponent("Experience Fountain set to: ");
 
                 switch (fountain.getActivityState()) {
-                    case 0 -> message.append(new TextComponent("Off").withStyle(ChatFormatting.RED));
-                    case 1 -> message.append(new TextComponent("Slow").withStyle(ChatFormatting.YELLOW));
+                    case 0 -> message.append(new TextComponent("Slow").withStyle(ChatFormatting.RED));
+                    case 1 -> message.append(new TextComponent("Moderate").withStyle(ChatFormatting.YELLOW));
                     case 2 -> message.append(new TextComponent("Fast").withStyle(ChatFormatting.GREEN));
+                    case 3 -> message.append(new TextComponent("Hyperspeed").withStyle(ChatFormatting.LIGHT_PURPLE));
                 }
                 player.displayClientMessage(message, true);
                 level.sendBlockUpdated(pos, state, state, 2);

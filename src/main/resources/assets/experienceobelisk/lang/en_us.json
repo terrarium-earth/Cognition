@@ -5,13 +5,12 @@
   "item.experienceobelisk.cognitive_amalgam": "Cognitive Amalgam",
   "item.experienceobelisk.cognitive_crystal": "Cognitive Crystal",
   "item.experienceobelisk.cognitive_flux": "Cognitive Flux",
-  "item.experienceobelisk.absorption_core": "Absorption Core",
-  "item.experienceobelisk.effusion_core": "Effusion Core",
+  "item.experienceobelisk.astute_artifact": "Astute Artifact",
+  "item.experienceobelisk.enlightened_amulet": "Enlightened Amulet",
 
   "block.experienceobelisk.experience_obelisk": "Experience Obelisk",
   "block.experienceobelisk.experience_fountain": "Experience Fountain",
   "block.experienceobelisk.precision_dispeller": "Precision Dispeller",
-  "block.experienceobelisk.aural_projector": "Aural Projector",
   "block.experienceobelisk.cognitive_alloy_block": "Block of Cognitive Alloy",
 
   "fluid.experienceobelisk.cognitium": "Cognitium",

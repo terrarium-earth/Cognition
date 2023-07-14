@@ -65,6 +65,8 @@ minecraft {
             // Comma-separated list of namespaces to load gametests from. Empty = all namespaces.
             property 'forge.enabledGameTestNamespaces', 'experienceobelisk'
 
+            property 'mixin.env.remapRefMap', 'true'
+            property 'mixin.env.refMapRemappingFile', "${buildDir}/createSrgToMcp/output.srg"
             mods {
                 examplemod {
                     source sourceSets.main
@@ -82,6 +84,8 @@ minecraft {
             // Comma-separated list of namespaces to load gametests from. Empty = all namespaces.
             property 'forge.enabledGameTestNamespaces', 'experienceobelisk'
 
+            property 'mixin.env.remapRefMap', 'true'
+            property 'mixin.env.refMapRemappingFile', "${buildDir}/createSrgToMcp/output.srg"
             mods {
                 examplemod {
                     source sourceSets.main
@@ -143,13 +147,16 @@ repositories {
     // Put repositories for dependencies here
     // ForgeGradle automatically adds the Forge maven and Maven Central for you
     maven { url 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/' }
-
+    maven {
+        url = "https://maven.theillusivec4.top/"
+    }
 }
 
 dependencies {
-
-    minecraft 'net.minecraftforge:forge:1.18.2-40.0.5'
+    minecraft 'net.minecraftforge:forge:1.18.2-40.2.0'
     implementation fg.deobf('software.bernie.geckolib:geckolib-forge-1.18:3.0.27')
+    runtimeOnly fg.deobf("top.theillusivec4.curios:curios-forge:1.18.2-5.0.9.1")
+    compileOnly fg.deobf("top.theillusivec4.curios:curios-forge:1.18.2-5.0.9.1:api")
 }
 
 // Example for how to get properties into the manifest for reading at runtime.

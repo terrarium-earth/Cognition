@@ -17,6 +17,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
+import net.minecraftforge.fml.ModList;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -49,7 +50,7 @@ public class EnlightenedAmuletItem extends Item{
 
         if(player.isShiftKeyDown()){
             tag.putBoolean("isActive", !tag.getBoolean("isActive"));
-            player.playSound(SoundEvents.EXPERIENCE_ORB_PICKUP, 1f,1f);
+            player.playSound(SoundEvents.EXPERIENCE_ORB_PICKUP, 0.6f,1f);
         }
 
         return super.use(level, player, hand);

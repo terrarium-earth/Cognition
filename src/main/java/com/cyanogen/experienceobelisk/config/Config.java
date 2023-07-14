@@ -31,12 +31,12 @@ public class Config {
             builder.pop();
 
             builder.push("Experience Obelisk Capacity");
-            this.capacity = builder.comment("The fluid capacity of the obelisk. Default = 100000000")
+            this.capacity = builder.comment("The fluid capacity of the obelisk in mB. Default = 100000000. This is ~1072 levels' worth")
                     .define("Capacity", defaultCapacity);
             builder.pop();
 
             builder.push("Cognitive Crystal Range");
-            this.range = builder.comment("The range of the cognitive crystal. Accepts decimals. Default = 8.0")
+            this.range = builder.comment("The range of the enlightened amulet. Accepts decimals. Default = 8.0")
                     .define("Range", defaultRange);
             builder.pop();
 
