@@ -10,11 +10,37 @@ import net.minecraft.world.entity.ExperienceOrb;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import software.bernie.geckolib3.core.IAnimatable;
+import software.bernie.geckolib3.core.PlayState;
+import software.bernie.geckolib3.core.builder.AnimationBuilder;
+import software.bernie.geckolib3.core.controller.AnimationController;
+import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
+import software.bernie.geckolib3.core.manager.AnimationData;
+import software.bernie.geckolib3.core.manager.AnimationFactory;
 
-public class ExperienceFountainEntity extends ExperienceReceivingEntity {
+public class ExperienceFountainEntity extends ExperienceReceivingEntity implements IAnimatable {
 
     public ExperienceFountainEntity(BlockPos pPos, BlockState pState) {
         super(RegisterBlockEntities.EXPERIENCEFOUNTAIN_BE.get(), pPos, pState);
+    }
+
+    //-----------ANIMATIONS-----------//
+
+    private <E extends BlockEntity & IAnimatable> PlayState predicate(AnimationEvent<E> event) {
+        AnimationController controller = event.getController();
+        controller.transitionLengthTicks = 0;
+
+        return PlayState.CONTINUE;
+    }
+
+    @Override
+    public void registerControllers(AnimationData data) {
+        data.addAnimationController(new AnimationController(this, "controller", 0, this::predicate));
+    }
+
+    @Override
+    public AnimationFactory getFactory() {
+        return new AnimationFactory(this);
     }
 
     //-----------PASSIVE BEHAVIOR-----------//
@@ -101,4 +127,6 @@ public class ExperienceFountainEntity extends ExperienceReceivingEntity {
 
         return tag;
     }
+
+
 }

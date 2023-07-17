@@ -42,6 +42,10 @@ import java.util.List;
 
 public class ExperienceObeliskEntity extends BlockEntity implements IAnimatable{
 
+    public ExperienceObeliskEntity(BlockPos pPos, BlockState pState) {
+        super(RegisterBlockEntities.EXPERIENCEOBELISK_BE.get(), pPos, pState);
+    }
+
     //-----------ANIMATIONS-----------//
 
     //events that control what animation is being played
@@ -62,10 +66,6 @@ public class ExperienceObeliskEntity extends BlockEntity implements IAnimatable{
         }
 
         return PlayState.CONTINUE;
-    }
-
-    public ExperienceObeliskEntity(BlockPos pPos, BlockState pState) {
-        super(RegisterBlockEntities.EXPERIENCEOBELISK_BE.get(), pPos, pState);
     }
 
     @Override

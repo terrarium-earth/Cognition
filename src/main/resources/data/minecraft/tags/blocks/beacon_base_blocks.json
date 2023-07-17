@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-    "experienceobelisk:cognitive_alloy_block"
+    "experienceobelisk:cognitive_alloy_block",
+    "experienceobelisk:cognitive_crystal_block"
   ]
 }

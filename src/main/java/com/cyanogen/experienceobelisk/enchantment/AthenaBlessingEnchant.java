@@ -108,19 +108,20 @@ public class AthenaBlessingEnchant extends Enchantment {
         if(level == 1 && !l.isClientSide){
             ServerLevel server = (ServerLevel) l;
 
-            int bonusXP = 0;
+            int durabilityBonus = Math.min(item.getMaxDamage(), 8000);
+            int totalLevels = 0;
 
             for(Map.Entry<Enchantment, Integer> entry : EnchantmentHelper.getEnchantments(item).entrySet()){
                 if(entry.getKey() != RegisterEnchantments.ATHENA_BLESSING.get()){
-                    bonusXP = bonusXP + entry.getValue();
+                    totalLevels = totalLevels + entry.getValue();
                 }
             }
 
-            double total_xp = item.getMaxDamage() * (0.5 + Math.random() / 2) * (1 + bonusXP / 5f);
-            int count = (int) Math.floor(3 + Math.random()*4);
-            int value = (int) Math.round(total_xp / count);
+            double enchantmentBonus = Math.pow(1.177, Math.min(totalLevels, 50)) / 4 + 1;
+            double xpReturn = durabilityBonus * (0.5 + Math.random() / 2) * enchantmentBonus;
 
-            System.out.println(total_xp +" "+ count +" "+ value);
+            int count = (int) Math.floor(3 + Math.random()*8);
+            int value = (int) Math.round(xpReturn / count);
 
             for(int i = 0; i <= count; i++){
                 ExperienceOrb orb = new ExperienceOrb(server, pos.getX(), pos.getY(), pos.getZ(), value);
