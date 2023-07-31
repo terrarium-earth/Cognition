@@ -91,7 +91,7 @@ public class ExperienceObeliskEntity extends BlockEntity implements IAnimatable{
 
         BlockEntity entity = level.getBlockEntity(pos);
 
-        if(entity instanceof ExperienceObeliskEntity xpobelisk && level.getGameTime() % 3 == 0){ //check every 3 ticks
+        if(blockEntity instanceof ExperienceObeliskEntity xpobelisk && level.getGameTime() % 3 == 0){ //check every 3 ticks
 
             boolean absorb = !xpobelisk.isRedstoneEnabled() || isRedstonePowered;
             double radius = xpobelisk.getRadius();

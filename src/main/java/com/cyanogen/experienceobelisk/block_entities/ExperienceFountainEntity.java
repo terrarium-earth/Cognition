@@ -49,7 +49,7 @@ public class ExperienceFountainEntity extends ExperienceReceivingEntity implemen
 
         BlockEntity entity = level.getBlockEntity(pos);
 
-        if(entity instanceof ExperienceFountainEntity fountain && fountain.isBound && level.hasNeighborSignal(pos)){
+        if(blockEntity instanceof ExperienceFountainEntity fountain && fountain.isBound && level.hasNeighborSignal(pos)){
 
             BlockEntity boundEntity = level.getBlockEntity(fountain.getBoundPos());
 
