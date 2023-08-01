@@ -25,7 +25,7 @@ public class ModItemsInit {
 
     //bucket of experience
     public static final RegistryObject<BucketItem> COGNITIUM_BUCKET = ITEMS.register("cognitium_bucket",
-            () -> new BucketItem(ModFluidsInit.COGNITIUM, new Item.Properties().tab(ModCreativeModeTab.MOD_TAB).rarity(Rarity.UNCOMMON)));
+            () -> new BucketItem(ModFluidsInit.COGNITIUM, new Item.Properties().tab(ModCreativeModeTab.MOD_TAB).rarity(Rarity.UNCOMMON).stacksTo(1)));
 
     public static void register(IEventBus eventBus){
         ITEMS.register(eventBus);

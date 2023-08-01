@@ -20,17 +20,14 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import software.bernie.geckolib3.GeckoLib;
 
-// The value here should match an entry in the META-INF/mods.toml file
 @Mod(ExperienceObelisk.MOD_ID)
 
 public class ExperienceObelisk
 {
-    // Directly reference a log4j logger.
-    private static final Logger LOGGER = LogManager.getLogger();
     public static final String MOD_ID = "experienceobelisk";
 
     public ExperienceObelisk() {
-        // Register the setup method for modloading
+
         IEventBus eventBus = FMLJavaModLoadingContext.get().getModEventBus();
         eventBus.addListener(this::setup);
         eventBus.addListener(this::clientSetup);
@@ -44,7 +41,6 @@ public class ExperienceObelisk
 
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Config.COMMON_SPEC);
 
-        // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
     }
 

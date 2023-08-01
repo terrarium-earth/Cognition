@@ -90,22 +90,36 @@ public class ExperienceObeliskBlock extends Block implements EntityBlock {
     public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
 
         ItemStack heldItem = pPlayer.getItemInHand(pHand);
+        ItemStack cognitiumBucket = new ItemStack(ModItemsInit.COGNITIUM_BUCKET.get(), 1);
 
         if(pLevel.getBlockEntity(pPos) instanceof XPObeliskEntity obelisk){
 
             if(heldItem.is(Items.BUCKET) && obelisk.getFluidAmount() >= 1000){
-                heldItem.shrink(1);
-                pPlayer.addItem(new ItemStack(ModItemsInit.COGNITIUM_BUCKET.get(), 1));
-                obelisk.drain(1000);
 
+                if(!pPlayer.isCreative()){
+                    heldItem.shrink(1);
+
+                    if(heldItem.isEmpty()){
+                        pPlayer.setItemInHand(pHand, cognitiumBucket);
+                    }
+                    else if(!pPlayer.addItem(cognitiumBucket)){     //if player inventory is full
+                        pPlayer.drop(cognitiumBucket, false);
+                    }
+
+                }
+
+                obelisk.drain(1000);
                 pPlayer.playSound(SoundEvents.BUCKET_FILL, 1f, 1f);
                 return InteractionResult.sidedSuccess(true);
             }
             else if(heldItem.is(ModItemsInit.COGNITIUM_BUCKET.get()) && obelisk.getSpace() >= 1000){
-                heldItem.shrink(1);
-                pPlayer.addItem(new ItemStack(Items.BUCKET, 1));
-                obelisk.fill(1000);
 
+                if(!pPlayer.isCreative()){
+                    heldItem.shrink(1);
+                    pPlayer.setItemInHand(pHand, new ItemStack(Items.BUCKET, 1));
+                }
+
+                obelisk.fill(1000);
                 pPlayer.playSound(SoundEvents.BUCKET_EMPTY, 1f, 1f);
                 return InteractionResult.sidedSuccess(true);
             }
