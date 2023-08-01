@@ -34,8 +34,8 @@ public class ExperienceObelisk
         IEventBus eventBus = FMLJavaModLoadingContext.get().getModEventBus();
         eventBus.addListener(this::setup);
         eventBus.addListener(this::clientSetup);
-        ModItemsInit.register(eventBus);
 
+        ModItemsInit.register(eventBus);
         ModBlocksInit.register(eventBus);
         ModTileEntitiesInit.register(eventBus);
         ModFluidsInit.register(eventBus);
