@@ -6,6 +6,7 @@ import com.cyanogen.experienceobelisk.block.ModBlocksInit;
 import com.cyanogen.experienceobelisk.fluid.ModFluidsInit;
 import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.Rarity;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
