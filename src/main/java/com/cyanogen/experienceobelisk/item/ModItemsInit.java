@@ -21,11 +21,11 @@ public class ModItemsInit {
 
     //legacy
     public static final RegistryObject<BucketItem> RAW_EXPERIENCE_BUCKET = ITEMS.register("raw_experience_bucket",
-            () -> new BucketItem(ModFluidsInit.RAW_EXPERIENCE, new Item.Properties().rarity(Rarity.UNCOMMON)));
+            () -> new BucketItem(ModFluidsInit.RAW_EXPERIENCE, new Item.Properties().rarity(Rarity.UNCOMMON).stacksTo(1).craftRemainder(Items.BUCKET)));
 
     //bucket of experience
     public static final RegistryObject<BucketItem> COGNITIUM_BUCKET = ITEMS.register("cognitium_bucket",
-            () -> new BucketItem(ModFluidsInit.COGNITIUM, new Item.Properties().tab(ModCreativeModeTab.MOD_TAB).rarity(Rarity.UNCOMMON).stacksTo(1)));
+            () -> new BucketItem(ModFluidsInit.COGNITIUM, new Item.Properties().tab(ModCreativeModeTab.MOD_TAB).rarity(Rarity.UNCOMMON).stacksTo(1).craftRemainder(Items.BUCKET)));
 
     public static void register(IEventBus eventBus){
         ITEMS.register(eventBus);
