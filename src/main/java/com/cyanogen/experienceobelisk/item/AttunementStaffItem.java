@@ -33,6 +33,7 @@ public class AttunementStaffItem extends Item {
         return 1;
     }
 
+    /*
     public InteractionResult summonOrbs(Level pLevel, Player pPlayer, Vec3 clickLocation, InteractionHand hand) {
         long totalXP = ExperienceObeliskEntity.getTotalXP(pPlayer);
         int value = (int) Math.floor(Math.random() * 7 + 1);    //random value from 1 to 7
@@ -54,6 +55,8 @@ public class AttunementStaffItem extends Item {
             return InteractionResult.PASS;
         }
     }
+
+     */
 
     @Override
     public InteractionResult useOn(UseOnContext context) {
@@ -118,9 +121,7 @@ public class AttunementStaffItem extends Item {
                 return InteractionResult.sidedSuccess(level.isClientSide);
             }
         }
-        else if(player != null){
-            return summonOrbs(level, player, clickLocation, context.getHand());
-        }
+
         return super.useOn(context);
 
     }
