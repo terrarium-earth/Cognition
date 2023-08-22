@@ -4,6 +4,7 @@ import com.cyanogen.experienceobelisk.ExperienceObelisk;
 import com.cyanogen.experienceobelisk.item.*;
 import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.Rarity;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
@@ -51,7 +52,7 @@ public class RegisterItems {
             () -> new AstuteArtifactItem(new Item.Properties().tab(RegisterCreativeTab.MOD_TAB).rarity(Rarity.RARE)));
 
     public static final RegistryObject<BucketItem> COGNITIUM_BUCKET = ITEMS.register("cognitium_bucket",
-            () -> new BucketItem(RegisterFluids.COGNITIUM, new Item.Properties().tab(RegisterCreativeTab.MOD_TAB)));
+            () -> new BucketItem(RegisterFluids.COGNITIUM, new Item.Properties().tab(RegisterCreativeTab.MOD_TAB).craftRemainder(Items.BUCKET)));
 
     public static void register(IEventBus eventBus){
         ITEMS.register(eventBus);
