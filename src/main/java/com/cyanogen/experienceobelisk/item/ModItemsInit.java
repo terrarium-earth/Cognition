@@ -6,6 +6,7 @@ import com.cyanogen.experienceobelisk.block.ModBlocksInit;
 import com.cyanogen.experienceobelisk.fluid.ModFluidsInit;
 import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.Rarity;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
@@ -21,11 +22,11 @@ public class ModItemsInit {
 
     //legacy
     public static final RegistryObject<BucketItem> RAW_EXPERIENCE_BUCKET = ITEMS.register("raw_experience_bucket",
-            () -> new BucketItem(ModFluidsInit.RAW_EXPERIENCE, new Item.Properties().rarity(Rarity.UNCOMMON)));
+            () -> new BucketItem(ModFluidsInit.RAW_EXPERIENCE, new Item.Properties().rarity(Rarity.UNCOMMON).stacksTo(1).craftRemainder(Items.BUCKET)));
 
     //bucket of experience
     public static final RegistryObject<BucketItem> COGNITIUM_BUCKET = ITEMS.register("cognitium_bucket",
-            () -> new BucketItem(ModFluidsInit.COGNITIUM, new Item.Properties().tab(ModCreativeModeTab.MOD_TAB).rarity(Rarity.UNCOMMON).stacksTo(1)));
+            () -> new BucketItem(ModFluidsInit.COGNITIUM, new Item.Properties().tab(ModCreativeModeTab.MOD_TAB).rarity(Rarity.UNCOMMON).stacksTo(1).craftRemainder(Items.BUCKET)));
 
     public static void register(IEventBus eventBus){
         ITEMS.register(eventBus);
