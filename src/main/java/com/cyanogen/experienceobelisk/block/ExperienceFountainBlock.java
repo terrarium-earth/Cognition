@@ -1,16 +1,20 @@
 package com.cyanogen.experienceobelisk.block;
 
 import com.cyanogen.experienceobelisk.block_entities.ExperienceFountainEntity;
+import com.cyanogen.experienceobelisk.block_entities.ExperienceObeliskEntity;
 import com.cyanogen.experienceobelisk.registries.RegisterBlockEntities;
 import com.cyanogen.experienceobelisk.registries.RegisterItems;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -52,28 +56,117 @@ public class ExperienceFountainBlock extends Block implements EntityBlock {
         BlockEntity entity = level.getBlockEntity(pos);
         ItemStack heldItem = player.getItemInHand(hand);
 
+        List<Item> acceptedItems = new ArrayList<>();
+        acceptedItems.add(Items.BUCKET);
+        acceptedItems.add(RegisterItems.COGNITIUM_BUCKET.get());
+        acceptedItems.add(Items.EXPERIENCE_BOTTLE);
+        acceptedItems.add(Items.GLASS_BOTTLE);
+
         if(entity instanceof ExperienceFountainEntity fountain){
 
-            if(heldItem.is(RegisterItems.ATTUNEMENT_STAFF.get()) && fountain.isBound){
-                player.displayClientMessage(new TranslatableComponent("message.experienceobelisk.binding_wand.reveal_bound_pos",
-                        new TextComponent(fountain.getBoundPos().toShortString()).withStyle(ChatFormatting.GREEN)), true);
-            }
-            else{
-                fountain.cycleActivityState();
-                TextComponent message = new TextComponent("Experience Fountain set to: ");
+            if(fountain.isBound){
 
-                switch (fountain.getActivityState()) {
-                    case 0 -> message.append(new TextComponent("Slow").withStyle(ChatFormatting.RED));
-                    case 1 -> message.append(new TextComponent("Moderate").withStyle(ChatFormatting.YELLOW));
-                    case 2 -> message.append(new TextComponent("Fast").withStyle(ChatFormatting.GREEN));
-                    case 3 -> message.append(new TextComponent("Hyperspeed").withStyle(ChatFormatting.LIGHT_PURPLE));
+                BlockPos boundPos = fountain.getBoundPos();
+                BlockEntity e = level.getBlockEntity(boundPos);
+
+                if(heldItem.is(RegisterItems.ATTUNEMENT_STAFF.get())){
+                    player.displayClientMessage(new TranslatableComponent("message.experienceobelisk.binding_wand.reveal_bound_pos",
+                            new TextComponent(boundPos.toShortString()).withStyle(ChatFormatting.GREEN)), true);
+
+                    return InteractionResult.sidedSuccess(true);
                 }
-                player.displayClientMessage(message, true);
-                level.sendBlockUpdated(pos, state, state, 2);
+                else if(acceptedItems.contains(heldItem.getItem()) && e instanceof ExperienceObeliskEntity obelisk){
+                    handleExperienceItem(heldItem, player, hand, obelisk);
+                    return InteractionResult.sidedSuccess(true);
+                }
             }
+
+            fountain.cycleActivityState();
+            TextComponent message = new TextComponent("Experience Fountain set to: ");
+
+            switch (fountain.getActivityState()) {
+                case 0 -> message.append(new TextComponent("Slow").withStyle(ChatFormatting.RED));
+                case 1 -> message.append(new TextComponent("Moderate").withStyle(ChatFormatting.YELLOW));
+                case 2 -> message.append(new TextComponent("Fast").withStyle(ChatFormatting.GREEN));
+                case 3 -> message.append(new TextComponent("Hyperspeed").withStyle(ChatFormatting.LIGHT_PURPLE));
+            }
+            player.displayClientMessage(message, true);
+            level.sendBlockUpdated(pos, state, state, 2);
 
         }
         return InteractionResult.CONSUME;
+    }
+
+    public void handleExperienceItem(ItemStack heldItem, Player player, InteractionHand hand, ExperienceObeliskEntity obelisk){
+
+        Item cognitiumBucketItem = RegisterItems.COGNITIUM_BUCKET.get();
+        ItemStack cognitiumBucket = new ItemStack(cognitiumBucketItem, 1);
+        ItemStack experienceBottle = new ItemStack(Items.EXPERIENCE_BOTTLE, 1);
+        ItemStack glassBottle = new ItemStack(Items.GLASS_BOTTLE, 1);
+
+        if(heldItem.is(Items.BUCKET) && obelisk.getFluidAmount() >= 1000){
+
+            if(!player.isCreative()){
+                heldItem.shrink(1);
+
+                if(heldItem.isEmpty()){
+                    player.setItemInHand(hand, cognitiumBucket);
+                }
+                else if(!player.addItem(cognitiumBucket)){     //if player inventory is full
+                    player.drop(cognitiumBucket, false);
+                }
+
+            }
+
+            obelisk.drain(1000);
+            player.playSound(SoundEvents.BUCKET_FILL, 1f, 1f);
+        }
+        else if(heldItem.is(cognitiumBucketItem) && obelisk.getSpace() >= 1000){
+
+            if(!player.isCreative()){
+                heldItem.shrink(1);
+                player.setItemInHand(hand, new ItemStack(Items.BUCKET, 1));
+            }
+
+            obelisk.fill(1000);
+            player.playSound(SoundEvents.BUCKET_EMPTY, 1f, 1f);
+        }
+        else if(heldItem.is(Items.GLASS_BOTTLE) && obelisk.getFluidAmount() >= 140){
+
+            if(!player.isCreative()){
+                heldItem.shrink(1);
+
+                if(heldItem.isEmpty()){
+                    player.setItemInHand(hand, experienceBottle);
+                }
+                else if(!player.addItem(experienceBottle)){     //if player inventory is full
+                    player.drop(experienceBottle, false);
+                }
+
+            }
+
+            obelisk.drain(140);
+            player.playSound(SoundEvents.BOTTLE_FILL, 1f, 1f);
+        }
+        else if(heldItem.is(Items.EXPERIENCE_BOTTLE) && obelisk.getSpace() >= 140){
+
+            if(!player.isCreative()){
+                heldItem.shrink(1);
+
+                if(heldItem.isEmpty()){
+                    player.setItemInHand(hand, glassBottle);
+                }
+                else if(!player.addItem(glassBottle)){     //if player inventory is full
+                    player.drop(glassBottle, false);
+                }
+            }
+
+            obelisk.fill(140);
+            player.playSound(SoundEvents.BOTTLE_EMPTY, 1f, 1f);
+        }
+
+        //potentially wanna make it so any fluid container item works
+
     }
 
 
