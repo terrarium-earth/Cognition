@@ -7,9 +7,11 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.ExperienceOrb;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
 import software.bernie.geckolib3.core.builder.AnimationBuilder;
@@ -17,6 +19,8 @@ import software.bernie.geckolib3.core.controller.AnimationController;
 import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
+
+import java.util.List;
 
 public class ExperienceFountainEntity extends ExperienceReceivingEntity implements IAnimatable {
 
@@ -47,13 +51,20 @@ public class ExperienceFountainEntity extends ExperienceReceivingEntity implemen
 
     public static <T> void tick(Level level, BlockPos pos, BlockState state, T blockEntity) {
 
-        BlockEntity entity = level.getBlockEntity(pos);
-
-        if(blockEntity instanceof ExperienceFountainEntity fountain && fountain.isBound && level.hasNeighborSignal(pos)){
+        if(blockEntity instanceof ExperienceFountainEntity fountain && fountain.isBound){
 
             BlockEntity boundEntity = level.getBlockEntity(fountain.getBoundPos());
+            boolean hasPlayerAbove = false;
 
-            if(boundEntity instanceof ExperienceObeliskEntity obelisk && !level.isClientSide && obelisk.getFluidAmount() > 0){
+            List<Player> playerList = level.getEntitiesOfClass(Player.class, new AABB(pos, pos.east().south().above()));
+            if(!playerList.isEmpty()){
+                hasPlayerAbove = true;
+            }
+
+            if(boundEntity instanceof ExperienceObeliskEntity obelisk
+                    && !level.isClientSide
+                    && obelisk.getFluidAmount() > 0
+                    && (level.hasNeighborSignal(pos) || hasPlayerAbove)){
 
                 int value = 4;
                 int interval = 20;
@@ -81,7 +92,7 @@ public class ExperienceFountainEntity extends ExperienceReceivingEntity implemen
                     ServerLevel server = (ServerLevel) level;
                     ExperienceOrb orb = new ExperienceOrb(server, pos.getX() + 0.5, pos.getY() + 0.7, pos.getZ() + 0.5, value);
                     obelisk.drain(value * 20);
-                    orb.setDeltaMovement(0,0.1,0);
+                    orb.setDeltaMovement(0,0.1 + 0.5 * Math.random(),0);
                     server.addFreshEntity(orb);
                 }
             }
