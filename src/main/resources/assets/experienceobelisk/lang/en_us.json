@@ -6,6 +6,8 @@
 
   "fluid.experienceobelisk.raw_experience": "Raw Experience",
   "fluid.experienceobelisk.cognitium": "Cognitium",
+  "fluid_type.experienceobelisk.raw_experience": "Raw Experience",
+  "fluid_type.experienceobelisk.cognitium": "Cognitium",
 
   "itemGroup.experience_obelisk": "Experience Obelisk",
 
