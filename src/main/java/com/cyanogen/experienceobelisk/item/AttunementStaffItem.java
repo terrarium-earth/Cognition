@@ -7,20 +7,13 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.InteractionResultHolder;
-import net.minecraft.world.entity.ExperienceOrb;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.DyeItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.phys.Vec3;
 
 public class AttunementStaffItem extends Item {
 
@@ -33,37 +26,11 @@ public class AttunementStaffItem extends Item {
         return 1;
     }
 
-    /*
-    public InteractionResult summonOrbs(Level pLevel, Player pPlayer, Vec3 clickLocation, InteractionHand hand) {
-        long totalXP = ExperienceObeliskEntity.getTotalXP(pPlayer);
-        int value = (int) Math.floor(Math.random() * 7 + 1);    //random value from 1 to 7
-
-        if(totalXP < value){
-            value = (int) totalXP;
-        }
-
-        if(totalXP != 0){
-            if(!pLevel.isClientSide){
-                ServerLevel server = (ServerLevel) pLevel;
-                server.addFreshEntity(new ExperienceOrb(server, clickLocation.x, clickLocation.y, clickLocation.z, value));
-                pPlayer.giveExperiencePoints(-value);
-            }
-
-            return InteractionResult.sidedSuccess(pLevel.isClientSide);
-        }
-        else{
-            return InteractionResult.PASS;
-        }
-    }
-
-     */
-
     @Override
     public InteractionResult useOn(UseOnContext context) {
 
         Level level = context.getLevel();
         BlockPos pos = context.getClickedPos();
-        Vec3 clickLocation = context.getClickLocation();
         BlockEntity entity = level.getBlockEntity(pos);
         ItemStack stack = context.getItemInHand();
         Player player = context.getPlayer();
@@ -125,6 +92,5 @@ public class AttunementStaffItem extends Item {
         return super.useOn(context);
 
     }
-
 
 }
