@@ -13,8 +13,10 @@
   "block.experienceobelisk.precision_dispeller": "Precision Dispeller",
   "block.experienceobelisk.cognitive_alloy_block": "Block of Cognitive Alloy",
   "block.experienceobelisk.cognitive_crystal_block": "Block of Cognitive Crystal",
+  "block.experienceobelisk.cognitium": "Cognitium",
 
   "fluid.experienceobelisk.cognitium": "Cognitium",
+  "fluid_type.experienceobelisk.cognitium": "Cognitium",
 
   "itemGroup.experience_obelisk": "Experience Obelisk",
 
