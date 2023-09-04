@@ -175,7 +175,6 @@ public class ExperienceObeliskEntity extends BlockEntity implements IAnimatable{
                 }
             }
 
-            //Converts fluid when piped in, in case players have stored raw experience in external tanks
             @Override
             public int fill(FluidStack resource, FluidAction action) {
 

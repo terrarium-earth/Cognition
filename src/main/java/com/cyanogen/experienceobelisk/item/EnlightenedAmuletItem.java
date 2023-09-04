@@ -68,8 +68,6 @@ public class EnlightenedAmuletItem extends Item{
 
         if(entity instanceof Player player && isActive && !level.isClientSide && level.getGameTime() % 3 ==0){
 
-            ServerLevel server = (ServerLevel) level;
-
             BlockPos pos = player.blockPosition();
             AABB area = new AABB(
                     pos.getX() - radius,
@@ -83,9 +81,10 @@ public class EnlightenedAmuletItem extends Item{
 
             for(ExperienceOrb orb : list){
                 if(orb.isAlive()){
-                    server.addFreshEntity(new ExperienceOrb(server, player.getX(), player.getY(), player.getZ(), orb.value));
+                    player.giveExperiencePoints(orb.value);
+                    orb.discard();
                 }
-                orb.discard();
+
             }
         }
         super.inventoryTick(stack, level, entity, p_41407_, p_41408_);
