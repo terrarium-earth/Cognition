@@ -2,19 +2,20 @@
   "type": "minecraft:crafting_shaped",
   "pattern": [
     "   ",
-    "RPR",
-    "RCR"
+    "RCR",
+    "RIR"
   ],
   "key": {
     "R": {
       "item": "experienceobelisk:cognitive_alloy"
     },
-    "P": {
-      "item": "minecraft:piston"
-    },
     "C": {
       "item": "experienceobelisk:cognitive_crystal"
+    },
+    "I": {
+      "item": "minecraft:repeater"
     }
+
   },
   "result": {
     "item": "experienceobelisk:experience_fountain",
