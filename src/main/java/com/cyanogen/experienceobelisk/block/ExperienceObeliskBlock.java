@@ -1,8 +1,8 @@
 package com.cyanogen.experienceobelisk.block;
 
 import com.cyanogen.experienceobelisk.block_entities.ExperienceObeliskEntity;
-import com.cyanogen.experienceobelisk.registries.RegisterBlockEntities;
 import com.cyanogen.experienceobelisk.gui.ExperienceObeliskScreen;
+import com.cyanogen.experienceobelisk.registries.RegisterBlockEntities;
 import com.cyanogen.experienceobelisk.registries.RegisterItems;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;

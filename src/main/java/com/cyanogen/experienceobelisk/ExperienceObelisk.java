@@ -1,15 +1,10 @@
 package com.cyanogen.experienceobelisk;
 
-import com.cyanogen.experienceobelisk.registries.RegisterBlocks;
-import com.cyanogen.experienceobelisk.registries.RegisterBlockEntities;
 import com.cyanogen.experienceobelisk.config.Config;
-import com.cyanogen.experienceobelisk.registries.RegisterEnchantments;
 import com.cyanogen.experienceobelisk.event.EventHandler;
-import com.cyanogen.experienceobelisk.registries.RegisterFluids;
-import com.cyanogen.experienceobelisk.registries.RegisterMenus;
 import com.cyanogen.experienceobelisk.gui.PrecisionDispellerScreen;
-import com.cyanogen.experienceobelisk.registries.RegisterItems;
 import com.cyanogen.experienceobelisk.network.PacketHandler;
+import com.cyanogen.experienceobelisk.registries.*;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;

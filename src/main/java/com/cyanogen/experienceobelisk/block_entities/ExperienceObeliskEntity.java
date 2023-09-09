@@ -1,10 +1,10 @@
 package com.cyanogen.experienceobelisk.block_entities;
 
-import com.cyanogen.experienceobelisk.registries.RegisterTags;
 import com.cyanogen.experienceobelisk.config.Config;
-import com.cyanogen.experienceobelisk.registries.RegisterFluids;
 import com.cyanogen.experienceobelisk.network.experience_obelisk.UpdateContents;
 import com.cyanogen.experienceobelisk.registries.RegisterBlockEntities;
+import com.cyanogen.experienceobelisk.registries.RegisterFluids;
+import com.cyanogen.experienceobelisk.registries.RegisterTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;

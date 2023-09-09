@@ -1,7 +1,6 @@
 package com.cyanogen.experienceobelisk.event;
 
 import com.cyanogen.experienceobelisk.enchantment.AthenaBlessingEnchant;
-import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.player.PlayerDestroyItemEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 

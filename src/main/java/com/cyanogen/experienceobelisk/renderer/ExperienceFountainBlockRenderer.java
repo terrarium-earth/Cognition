@@ -2,7 +2,6 @@ package com.cyanogen.experienceobelisk.renderer;
 
 import com.cyanogen.experienceobelisk.ExperienceObelisk;
 import com.cyanogen.experienceobelisk.block_entities.ExperienceFountainEntity;
-import com.cyanogen.experienceobelisk.block_entities.ExperienceObeliskEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -15,7 +14,7 @@ import software.bernie.geckolib3.renderers.geo.GeoBlockRenderer;
 public class ExperienceFountainBlockRenderer extends GeoBlockRenderer<ExperienceFountainEntity> {
 
     public ExperienceFountainBlockRenderer(BlockEntityRendererProvider.Context rendererDispatcherIn) {
-        super(rendererDispatcherIn, new AnimatedGeoModel<ExperienceFountainEntity>() {
+        super(rendererDispatcherIn, new AnimatedGeoModel<>() {
 
             @Override
             public ResourceLocation getModelLocation(ExperienceFountainEntity animatable) {
