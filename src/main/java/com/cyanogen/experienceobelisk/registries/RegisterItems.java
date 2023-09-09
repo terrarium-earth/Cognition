@@ -2,8 +2,14 @@ package com.cyanogen.experienceobelisk.registries;
 
 import com.cyanogen.experienceobelisk.ExperienceObelisk;
 import com.cyanogen.experienceobelisk.item.*;
+import com.google.common.collect.ImmutableMultimap;
+import com.google.common.collect.Multimap;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -16,7 +22,7 @@ public class RegisterItems {
     public static Tier COGNITIVE = new Tier() {
         @Override
         public int getUses() {
-            return 500;
+            return 550;
         }
 
         @Override
@@ -44,6 +50,7 @@ public class RegisterItems {
             return Ingredient.of(COGNITIVE_ALLOY.get());
         }
     };
+    public static AttributeModifier range = new AttributeModifier("experienceobelisk:range",1.0, AttributeModifier.Operation.ADDITION);
 
     //-----BLOCK ITEMS-----//
 
@@ -87,23 +94,56 @@ public class RegisterItems {
     //-----TOOLSETS-----//
 
     public static final RegistryObject<Item> COGNITIVE_SWORD = ITEMS.register("cognitive_sword",
-            () -> new SwordItem(COGNITIVE, 3, -2.4f, new Item.Properties().tab(RegisterCreativeTab.MOD_TAB)));
+            () -> new SwordItem(COGNITIVE, 3, -2.4f, new Item.Properties().tab(RegisterCreativeTab.MOD_TAB)){
+                @Override
+                public Multimap<Attribute, AttributeModifier> getDefaultAttributeModifiers(EquipmentSlot slot) {
+                    return addRangeAttributeModifier(super.getDefaultAttributeModifiers(slot), slot);
+                }
+            });
 
     public static final RegistryObject<Item> COGNITIVE_AXE = ITEMS.register("cognitive_axe",
-            () -> new AxeItem(COGNITIVE, 6, -3.1f, new Item.Properties().tab(RegisterCreativeTab.MOD_TAB)));
+            () -> new AxeItem(COGNITIVE, 6, -3.1f, new Item.Properties().tab(RegisterCreativeTab.MOD_TAB)){
+                @Override
+                public Multimap<Attribute, AttributeModifier> getDefaultAttributeModifiers(EquipmentSlot slot) {
+                    return addRangeAttributeModifier(super.getDefaultAttributeModifiers(slot), slot);
+                }
+            });
 
     public static final RegistryObject<Item> COGNITIVE_PICKAXE = ITEMS.register("cognitive_pickaxe",
-            () -> new PickaxeItem(COGNITIVE, 1, -2.8f, new Item.Properties().tab(RegisterCreativeTab.MOD_TAB)));
+            () -> new PickaxeItem(COGNITIVE, 1, -2.8f, new Item.Properties().tab(RegisterCreativeTab.MOD_TAB)){
+                @Override
+                public Multimap<Attribute, AttributeModifier> getDefaultAttributeModifiers(EquipmentSlot slot) {
+                    return addRangeAttributeModifier(super.getDefaultAttributeModifiers(slot), slot);
+                }
+            });
 
     public static final RegistryObject<Item> COGNITIVE_SHOVEL = ITEMS.register("cognitive_shovel",
-            () -> new ShovelItem(COGNITIVE, 1.5f, -3f, new Item.Properties().tab(RegisterCreativeTab.MOD_TAB)));
+            () -> new ShovelItem(COGNITIVE, 1.5f, -3f, new Item.Properties().tab(RegisterCreativeTab.MOD_TAB)){
+                @Override
+                public Multimap<Attribute, AttributeModifier> getDefaultAttributeModifiers(EquipmentSlot slot) {
+                    return addRangeAttributeModifier(super.getDefaultAttributeModifiers(slot), slot);
+                }
+            });
 
     public static final RegistryObject<Item> COGNITIVE_HOE = ITEMS.register("cognitive_hoe",
-            () -> new HoeItem(COGNITIVE, -2, -1, new Item.Properties().tab(RegisterCreativeTab.MOD_TAB)));
+            () -> new HoeItem(COGNITIVE, -2, -1, new Item.Properties().tab(RegisterCreativeTab.MOD_TAB)){
+                @Override
+                public Multimap<Attribute, AttributeModifier> getDefaultAttributeModifiers(EquipmentSlot slot) {
+                    return addRangeAttributeModifier(super.getDefaultAttributeModifiers(slot), slot);
+                }
+            });
+
+    public static Multimap<Attribute, AttributeModifier> addRangeAttributeModifier(Multimap<Attribute, AttributeModifier> multimap, EquipmentSlot slot){
+
+        ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
+        builder.putAll(multimap);
+        if(slot.equals(EquipmentSlot.MAINHAND) && !multimap.containsValue(range)){
+            builder.put(ForgeMod.REACH_DISTANCE.get(), range);
+        }
+        return builder.build();
+    }
 
     public static void register(IEventBus eventBus){
         ITEMS.register(eventBus);
     }
-
-
 }
