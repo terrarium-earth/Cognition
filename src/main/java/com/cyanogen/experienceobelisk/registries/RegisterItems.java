@@ -101,8 +101,8 @@ public class RegisterItems {
                 }
             });
 
-    public static final RegistryObject<Item> COGNITIVE_AXE = ITEMS.register("cognitive_axe",
-            () -> new AxeItem(COGNITIVE, 6, -3.1f, new Item.Properties().tab(RegisterCreativeTab.MOD_TAB)){
+    public static final RegistryObject<Item> COGNITIVE_SHOVEL = ITEMS.register("cognitive_shovel",
+            () -> new ShovelItem(COGNITIVE, 1.5f, -3f, new Item.Properties().tab(RegisterCreativeTab.MOD_TAB)){
                 @Override
                 public Multimap<Attribute, AttributeModifier> getDefaultAttributeModifiers(EquipmentSlot slot) {
                     return addRangeAttributeModifier(super.getDefaultAttributeModifiers(slot), slot);
@@ -117,8 +117,8 @@ public class RegisterItems {
                 }
             });
 
-    public static final RegistryObject<Item> COGNITIVE_SHOVEL = ITEMS.register("cognitive_shovel",
-            () -> new ShovelItem(COGNITIVE, 1.5f, -3f, new Item.Properties().tab(RegisterCreativeTab.MOD_TAB)){
+    public static final RegistryObject<Item> COGNITIVE_AXE = ITEMS.register("cognitive_axe",
+            () -> new AxeItem(COGNITIVE, 6, -3.1f, new Item.Properties().tab(RegisterCreativeTab.MOD_TAB)){
                 @Override
                 public Multimap<Attribute, AttributeModifier> getDefaultAttributeModifiers(EquipmentSlot slot) {
                     return addRangeAttributeModifier(super.getDefaultAttributeModifiers(slot), slot);
