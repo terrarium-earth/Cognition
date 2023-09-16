@@ -1,19 +1,19 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "ARA",
-    "RDR",
-    "ARA"
+    " #E",
+    "#F#",
+    "E# "
   ],
   "key": {
-    "A": {
+    "#": {
+      "item": "experienceobelisk:cognitive_crystal"
+    },
+    "E": {
       "item": "experienceobelisk:cognitive_amalgam"
     },
-    "R": {
+    "F": {
       "item": "experienceobelisk:cognitive_alloy"
-    },
-    "D": {
-      "item": "minecraft:diamond"
     }
   },
   "result": {
