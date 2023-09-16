@@ -14,7 +14,7 @@ import software.bernie.geckolib3.renderers.geo.GeoItemRenderer;
 public class ExperienceObeliskItemRenderer extends GeoItemRenderer<ExperienceObeliskItem> {
 
     public ExperienceObeliskItemRenderer() {
-        super(new AnimatedGeoModel<ExperienceObeliskItem>() {
+        super(new AnimatedGeoModel<>() {
             @Override
             public ResourceLocation getModelLocation(ExperienceObeliskItem object) {
                 return new ResourceLocation(ExperienceObelisk.MOD_ID, "geo/experience_obelisk.geo.json");

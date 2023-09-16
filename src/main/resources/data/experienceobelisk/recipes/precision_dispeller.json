@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:smithing",
+  "base": {
+    "item": "minecraft:grindstone"
+  },
+  "addition": {
+    "item": "experienceobelisk:astute_artifact"
+  },
+  "result": {
+    "item": "experienceobelisk:precision_dispeller"
+  }
+}
