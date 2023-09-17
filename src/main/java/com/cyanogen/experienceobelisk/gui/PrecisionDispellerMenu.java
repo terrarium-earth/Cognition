@@ -1,6 +1,9 @@
 package com.cyanogen.experienceobelisk.gui;
 
+import com.cyanogen.experienceobelisk.block_entities.PrecisionDispellerEntity;
+import com.cyanogen.experienceobelisk.network.PacketHandler;
 import com.cyanogen.experienceobelisk.registries.RegisterMenus;
+import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerLevel;
@@ -14,8 +17,11 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.network.PacketDistributor;
 
 import java.util.Map;
 
@@ -60,9 +66,22 @@ public class PrecisionDispellerMenu extends AbstractContainerMenu {
 
             @Override
             public void onTake(Player pPlayer, ItemStack pStack) {
-                handleExperience(container.getItem(0), pStack, player.level);
-                container.setItem(0, ItemStack.EMPTY);
+                Level level = player.level;
 
+                if(level.isClientSide){
+
+                    handleAnimation(level, pos);
+                }
+                else{
+                    if(level.getBlockEntity(pos) instanceof PrecisionDispellerEntity entity){
+                        entity.pendingAnimation = true;
+                        //entity.setChanged();
+                        level.sendBlockUpdated(pos, level.getBlockState(pos), level.getBlockState(pos), 2);
+                    }
+                    handleExperience(container.getItem(0), pStack, player.level);
+                }
+
+                container.setItem(0, ItemStack.EMPTY);
                 pPlayer.playSound(SoundEvents.GRINDSTONE_USE, 1, 1);
                 super.onTake(pPlayer, pStack);
             }
@@ -94,35 +113,39 @@ public class PrecisionDispellerMenu extends AbstractContainerMenu {
     //-----BEHAVIOR-----//
 
     public void handleExperience(ItemStack inputItem, ItemStack outputItem, Level level){
-        if(!level.isClientSide){
 
-            ServerLevel server = (ServerLevel) level;
-            Enchantment removed = null;
-            int enchLevel = 0;
+        ServerLevel server = (ServerLevel) level;
+        Enchantment removed = null;
+        int enchLevel = 0;
 
-            Map<Enchantment, Integer> map = EnchantmentHelper.getEnchantments(inputItem);
-            Map<Enchantment, Integer> map2 = EnchantmentHelper.getEnchantments(outputItem);
+        Map<Enchantment, Integer> map = EnchantmentHelper.getEnchantments(inputItem);
+        Map<Enchantment, Integer> map2 = EnchantmentHelper.getEnchantments(outputItem);
 
-            for(Map.Entry<Enchantment, Integer> entry : map.entrySet()){
-                if(!map2.containsKey(entry.getKey())){
-                    removed = entry.getKey();
-                    enchLevel = entry.getValue();
-                    break;
-                }
+        for(Map.Entry<Enchantment, Integer> entry : map.entrySet()){
+            if(!map2.containsKey(entry.getKey())){
+                removed = entry.getKey();
+                enchLevel = entry.getValue();
+                break;
             }
+        }
 
-            if(removed != null){
+        if(removed != null){
 
-                if(removed.isCurse()){
-                    player.giveExperiencePoints(-1395); //30 base levels
-                }
-                else{
-                    int points = removed.getMinCost(enchLevel);
-                    ExperienceOrb orb = new ExperienceOrb(server, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, points);
-                    server.addFreshEntity(orb);
-
-                }
+            if(removed.isCurse()){
+                player.giveExperiencePoints(-1395); //30 base levels
             }
+            else{
+                int points = removed.getMinCost(enchLevel);
+                ExperienceOrb orb = new ExperienceOrb(server, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, points);
+                server.addFreshEntity(orb);
+
+            }
+        }
+    }
+
+    public void handleAnimation(Level level, BlockPos pos){
+        if(level.getBlockEntity(pos) instanceof PrecisionDispellerEntity dispeller){
+            dispeller.queueAnimation();
         }
     }
 
