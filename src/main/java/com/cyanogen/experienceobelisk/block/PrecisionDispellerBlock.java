@@ -78,7 +78,7 @@ public class PrecisionDispellerBlock extends FaceAttachedHorizontalDirectionalBl
             public Component getDisplayName() {
                 return new TextComponent("Precision Dispeller");
             }
-            
+
             @Override
             public AbstractContainerMenu createMenu(int pContainerId, Inventory pPlayerInventory, Player pPlayer) {
                 return new PrecisionDispellerMenu(pContainerId, pPlayerInventory, pPlayer, pos);
