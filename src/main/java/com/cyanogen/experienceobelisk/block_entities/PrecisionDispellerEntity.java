@@ -21,6 +21,7 @@ import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class PrecisionDispellerEntity extends BlockEntity implements IAnimatable{
 
@@ -33,17 +34,22 @@ public class PrecisionDispellerEntity extends BlockEntity implements IAnimatable
 
     //-----------ANIMATIONS-----------//
 
+    private int ticks = 0;
+
     private <E extends BlockEntity & IAnimatable> PlayState predicate(AnimationEvent<E> event) {
         AnimationController controller = event.getController();
         controller.transitionLengthTicks = 0;
 
-
         if(controller.getAnimationState() == AnimationState.Stopped && pendingAnimation){
-            controller.setAnimation(new AnimationBuilder().addAnimation("use", false));
+            controller.setAnimation(new AnimationBuilder()
+                    .addAnimation("use", false)
+                    .addAnimation("static", false));
             System.out.println("animation playing");
             pendingAnimation = false;
             controller.markNeedsReload();
         }
+
+
 
         return PlayState.CONTINUE;
     }

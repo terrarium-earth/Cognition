@@ -17,6 +17,16 @@
 					}
 				}
 			}
+		},
+		"static": {
+			"animation_length": 2,
+			"bones": {
+				"wheel": {
+					"rotation": {
+						"vector": [0, 0, 0]
+					}
+				}
+			}
 		}
 	}
 }
