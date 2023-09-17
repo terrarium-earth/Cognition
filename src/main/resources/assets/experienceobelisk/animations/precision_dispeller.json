@@ -19,7 +19,7 @@
 			}
 		},
 		"static": {
-			"animation_length": 2,
+			"animation_length": 0.1,
 			"bones": {
 				"wheel": {
 					"rotation": {

@@ -34,8 +34,6 @@ public class PrecisionDispellerEntity extends BlockEntity implements IAnimatable
 
     //-----------ANIMATIONS-----------//
 
-    private int ticks = 0;
-
     private <E extends BlockEntity & IAnimatable> PlayState predicate(AnimationEvent<E> event) {
         AnimationController controller = event.getController();
         controller.transitionLengthTicks = 0;
@@ -48,8 +46,6 @@ public class PrecisionDispellerEntity extends BlockEntity implements IAnimatable
             pendingAnimation = false;
             controller.markNeedsReload();
         }
-
-
 
         return PlayState.CONTINUE;
     }

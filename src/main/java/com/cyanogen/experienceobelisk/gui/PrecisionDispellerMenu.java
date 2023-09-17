@@ -68,16 +68,8 @@ public class PrecisionDispellerMenu extends AbstractContainerMenu {
             public void onTake(Player pPlayer, ItemStack pStack) {
                 Level level = player.level;
 
-                if(level.isClientSide){
-
+                if(!level.isClientSide){
                     handleAnimation(level, pos);
-                }
-                else{
-                    if(level.getBlockEntity(pos) instanceof PrecisionDispellerEntity entity){
-                        entity.pendingAnimation = true;
-                        //entity.setChanged();
-                        level.sendBlockUpdated(pos, level.getBlockState(pos), level.getBlockState(pos), 2);
-                    }
                     handleExperience(container.getItem(0), pStack, player.level);
                 }
 
@@ -145,7 +137,8 @@ public class PrecisionDispellerMenu extends AbstractContainerMenu {
 
     public void handleAnimation(Level level, BlockPos pos){
         if(level.getBlockEntity(pos) instanceof PrecisionDispellerEntity dispeller){
-            dispeller.queueAnimation();
+            dispeller.pendingAnimation = true;
+            level.sendBlockUpdated(pos, level.getBlockState(pos), level.getBlockState(pos), 2);
         }
     }
 
@@ -176,6 +169,7 @@ public class PrecisionDispellerMenu extends AbstractContainerMenu {
             }
             else if(pIndex == 1){
                 container.setItem(0, ItemStack.EMPTY);
+                handleAnimation(player.level, pos);
             }
 
             ItemStack itemstack1 = slot.getItem();

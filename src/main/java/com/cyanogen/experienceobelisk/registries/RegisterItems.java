@@ -85,10 +85,10 @@ public class RegisterItems<T> {
             () -> new AttunementStaffItem(new Item.Properties().tab(RegisterCreativeTab.MOD_TAB)));
 
     public static final RegistryObject<Item> ENLIGHTENED_AMULET = ITEMS.register("enlightened_amulet",
-            () -> new EnlightenedAmuletItem(new Item.Properties().tab(RegisterCreativeTab.MOD_TAB).rarity(Rarity.RARE)));
+            () -> new EnlightenedAmuletItem(new Item.Properties().tab(RegisterCreativeTab.MOD_TAB)));
 
     public static final RegistryObject<Item> ASTUTE_ARTIFACT = ITEMS.register("astute_artifact",
-            () -> new AstuteArtifactItem(new Item.Properties().tab(RegisterCreativeTab.MOD_TAB).rarity(Rarity.RARE)));
+            () -> new Item(new Item.Properties().tab(RegisterCreativeTab.MOD_TAB)));
 
     public static final RegistryObject<BucketItem> COGNITIUM_BUCKET = ITEMS.register("cognitium_bucket",
             () -> new BucketItem(RegisterFluids.COGNITIUM, new Item.Properties().tab(RegisterCreativeTab.MOD_TAB).craftRemainder(Items.BUCKET)));
