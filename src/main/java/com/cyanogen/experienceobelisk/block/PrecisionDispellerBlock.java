@@ -5,7 +5,6 @@ import com.cyanogen.experienceobelisk.registries.RegisterBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.MenuProvider;
@@ -76,7 +75,7 @@ public class PrecisionDispellerBlock extends FaceAttachedHorizontalDirectionalBl
         return new MenuProvider() {
             @Override
             public Component getDisplayName() {
-                return new TextComponent("Precision Dispeller");
+                return Component.literal("Precision Dispeller");
             }
 
             @Override

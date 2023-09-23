@@ -11,9 +11,8 @@ import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.Widget;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
@@ -32,7 +31,7 @@ public class ExperienceObeliskScreen extends Screen{
     private final ResourceLocation texture = new ResourceLocation("experienceobelisk:textures/gui/screens/experience_obelisk.png");
 
     public ExperienceObeliskScreen(Level level, Player player, BlockPos pos) {
-        super(new TextComponent("Experience Obelisk"));
+        super(Component.literal("Experience Obelisk"));
         this.level = level;
         this.player = player;
         this.pos = pos;
@@ -114,11 +113,11 @@ public class ExperienceObeliskScreen extends Screen{
         blit(pPoseStack, this.width / 2 - 138 / 2, this.height / 2 + 50, 0, 173, p, 5, textureWidth, textureHeight);
 
         //descriptors & info
-        drawCenteredString(new PoseStack(), this.font, new TranslatableComponent("title.experienceobelisk.experience_obelisk"),
+        drawCenteredString(new PoseStack(), this.font, Component.translatable("title.experienceobelisk.experience_obelisk"),
                 this.width / 2,this.height / 2 - 76, 0xFFFFFF);
-        drawString(new PoseStack(), this.font, new TranslatableComponent("title.experienceobelisk.experience_obelisk.store"),
+        drawString(new PoseStack(), this.font, Component.translatable("title.experienceobelisk.experience_obelisk.store"),
                 this.width / 2 - 77,this.height / 2 - 56, 0xFFFFFF);
-        drawString(new PoseStack(), this.font, new TranslatableComponent("title.experienceobelisk.experience_obelisk.retrieve"),
+        drawString(new PoseStack(), this.font, Component.translatable("title.experienceobelisk.experience_obelisk.retrieve"),
                 this.width / 2 - 77,this.height / 2 - 10, 0xFFFFFF);
         drawCenteredString(new PoseStack(), this.font, experiencePoints * 20 + " mB",
                 this.width / 2,this.height / 2 + 35, 0xFFFFFF);
@@ -148,79 +147,82 @@ public class ExperienceObeliskScreen extends Screen{
         int y1 = 43;
         int y2 = -3;
 
+        //settings
+
         addRenderableWidget(new Button(this.width / 2 + 91, this.height / 2 - 78, 20, 20,
-                new TranslatableComponent("button.experienceobelisk.experience_obelisk.settings"),
+                Component.translatable("button.experienceobelisk.experience_obelisk.settings"),
 
                 (onPress) ->
                         Minecraft.getInstance().setScreen(new ExperienceObeliskOptionsScreen(level, player, pos, this)),
 
                 (pButton, pPoseStack, pMouseX, pMouseY) ->
-                        renderTooltip(pPoseStack, new TranslatableComponent("tooltip.experienceobelisk.experience_obelisk.settings"), pMouseX, pMouseY)));
+                        renderTooltip(pPoseStack, Component.translatable("tooltip.experienceobelisk.experience_obelisk.settings"), pMouseX, pMouseY)));
 
 
         //deposit
 
-        addRenderableWidget(new Button((int) (this.width / 2 - 1.5 * w - s), this.height / 2 - y1, w, h,
-                new TextComponent("+1").setStyle(green),
+        addRenderableWidget(new Button((int) (this.width / 2 - 1.5*w - s), this.height / 2 - y1, w, h,
+                Component.literal("+1").setStyle(green),
 
                 (onPress) ->
                         PacketHandler.INSTANCE.sendToServer(new UpdateContents(pos, 1, FILL)),
 
                 (pButton, pPoseStack, pMouseX, pMouseY) ->
-                        renderTooltip(pPoseStack, new TranslatableComponent("tooltip.experienceobelisk.experience_obelisk.add1"), pMouseX, pMouseY)
+                        renderTooltip(pPoseStack, Component.translatable("tooltip.experienceobelisk.experience_obelisk.add1"), pMouseX, pMouseY)
         ));
 
-        addRenderableWidget(new Button(this.width / 2 - w / 2, this.height / 2 - y1, w, h,
-                new TextComponent("+10").setStyle(green),
+
+        addRenderableWidget(new Button(this.width / 2 - w/2, this.height / 2 - y1, w, h,
+                Component.literal("+10").setStyle(green),
 
                 (onPress) ->
                         PacketHandler.INSTANCE.sendToServer(new UpdateContents(pos, 10, FILL)),
 
                 (pButton, pPoseStack, pMouseX, pMouseY) ->
-                        renderTooltip(pPoseStack, new TranslatableComponent("tooltip.experienceobelisk.experience_obelisk.add10"), pMouseX, pMouseY)
+                        renderTooltip(pPoseStack, Component.translatable("tooltip.experienceobelisk.experience_obelisk.add10"), pMouseX, pMouseY)
         ));
 
-        addRenderableWidget(new Button((int) (this.width / 2 + 0.5 * w + s), this.height / 2 - y1, w, h,
-                new TextComponent("+All").setStyle(green),
+        addRenderableWidget(new Button((int) (this.width / 2 + 0.5*w + s), this.height / 2 - y1, w, h,
+                Component.literal("+All").setStyle(green),
 
                 (onPress) ->
                         PacketHandler.INSTANCE.sendToServer(new UpdateContents(pos, 0, FILL_ALL)),
 
                 (pButton, pPoseStack, pMouseX, pMouseY) ->
-                        renderTooltip(pPoseStack, new TranslatableComponent("tooltip.experienceobelisk.experience_obelisk.addAll"), pMouseX, pMouseY)
+                        renderTooltip(pPoseStack, Component.translatable("tooltip.experienceobelisk.experience_obelisk.addAll"), pMouseX, pMouseY)
         ));
 
 
         //withdraw
 
-        addRenderableWidget(new Button((int) (this.width / 2 - 1.5 * w - s), this.height / 2 - y2, w, h,
-                new TextComponent("-1").setStyle(red),
+        addRenderableWidget(new Button((int) (this.width / 2 - 1.5*w - s), this.height / 2 - y2, w, h,
+                Component.literal("-1").setStyle(red),
 
                 (onPress) ->
                         PacketHandler.INSTANCE.sendToServer(new UpdateContents(pos, 1, DRAIN)),
 
                 (pButton, pPoseStack, pMouseX, pMouseY) ->
-                        renderTooltip(pPoseStack, new TranslatableComponent("tooltip.experienceobelisk.experience_obelisk.drain1"), pMouseX, pMouseY)
+                        renderTooltip(pPoseStack, Component.translatable("tooltip.experienceobelisk.experience_obelisk.drain1"), pMouseX, pMouseY)
         ));
 
-        addRenderableWidget(new Button(this.width / 2 - w / 2, this.height / 2 - y2, w, h,
-                new TextComponent("-10").setStyle(red),
+        addRenderableWidget(new Button(this.width / 2 - w/2, this.height / 2 - y2, w, h,
+                Component.literal("-10").setStyle(red),
 
                 (onPress) ->
                         PacketHandler.INSTANCE.sendToServer(new UpdateContents(pos, 10, DRAIN)),
 
                 (pButton, pPoseStack, pMouseX, pMouseY) ->
-                        renderTooltip(pPoseStack, new TranslatableComponent("tooltip.experienceobelisk.experience_obelisk.drain10"), pMouseX, pMouseY)
+                        renderTooltip(pPoseStack, Component.translatable("tooltip.experienceobelisk.experience_obelisk.drain10"), pMouseX, pMouseY)
         ));
 
-        addRenderableWidget(new Button((int) (this.width / 2 + 0.5 * w + s), this.height / 2 - y2, w, h,
-                new TextComponent("-All").setStyle(red),
+        addRenderableWidget(new Button((int) (this.width / 2 + 0.5*w + s), this.height / 2 - y2, w, h,
+                Component.literal("-All").setStyle(red),
 
                 (onPress) ->
                         PacketHandler.INSTANCE.sendToServer(new UpdateContents(pos, 0, DRAIN_ALL)),
 
                 (pButton, pPoseStack, pMouseX, pMouseY) ->
-                        renderTooltip(pPoseStack, new TranslatableComponent("tooltip.experienceobelisk.experience_obelisk.drainAll"), pMouseX, pMouseY)
+                        renderTooltip(pPoseStack, Component.translatable("tooltip.experienceobelisk.experience_obelisk.drainAll"), pMouseX, pMouseY)
         ));
 
 

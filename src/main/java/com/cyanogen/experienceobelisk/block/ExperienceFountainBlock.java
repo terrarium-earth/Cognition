@@ -6,8 +6,7 @@ import com.cyanogen.experienceobelisk.registries.RegisterBlockEntities;
 import com.cyanogen.experienceobelisk.registries.RegisterItems;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -70,8 +69,8 @@ public class ExperienceFountainBlock extends Block implements EntityBlock {
                 BlockEntity e = level.getBlockEntity(boundPos);
 
                 if(heldItem.is(RegisterItems.ATTUNEMENT_STAFF.get())){
-                    player.displayClientMessage(new TranslatableComponent("message.experienceobelisk.binding_wand.reveal_bound_pos",
-                            new TextComponent(boundPos.toShortString()).withStyle(ChatFormatting.GREEN)), true);
+                    player.displayClientMessage(Component.translatable("message.experienceobelisk.binding_wand.reveal_bound_pos",
+                            Component.literal(boundPos.toShortString()).withStyle(ChatFormatting.GREEN)), true);
 
                     return InteractionResult.sidedSuccess(true);
                 }
@@ -82,14 +81,16 @@ public class ExperienceFountainBlock extends Block implements EntityBlock {
             }
 
             fountain.cycleActivityState();
-            TextComponent message = new TextComponent("Experience Fountain set to: ");
+            Component setting = Component.empty();
 
             switch (fountain.getActivityState()) {
-                case 0 -> message.append(new TextComponent("Slow").withStyle(ChatFormatting.RED));
-                case 1 -> message.append(new TextComponent("Moderate").withStyle(ChatFormatting.YELLOW));
-                case 2 -> message.append(new TextComponent("Fast").withStyle(ChatFormatting.GREEN));
-                case 3 -> message.append(new TextComponent("Hyperspeed").withStyle(ChatFormatting.LIGHT_PURPLE));
+                case 0 -> setting = Component.literal("Slow").withStyle(ChatFormatting.RED);
+                case 1 -> setting = Component.literal("Moderate").withStyle(ChatFormatting.YELLOW);
+                case 2 -> setting = Component.literal("Fast").withStyle(ChatFormatting.GREEN);
+                case 3 -> setting = Component.literal("Hyperspeed").withStyle(ChatFormatting.LIGHT_PURPLE);
             }
+            Component message = Component.literal("Experience Fountain set to: ").append(setting);
+
             player.displayClientMessage(message, true);
             level.sendBlockUpdated(pos, state, state, 2);
 
