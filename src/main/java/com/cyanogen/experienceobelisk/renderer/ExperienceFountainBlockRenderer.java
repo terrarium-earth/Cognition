@@ -17,17 +17,17 @@ public class ExperienceFountainBlockRenderer extends GeoBlockRenderer<Experience
         super(rendererDispatcherIn, new AnimatedGeoModel<>() {
 
             @Override
-            public ResourceLocation getModelLocation(ExperienceFountainEntity animatable) {
+            public ResourceLocation getModelResource(ExperienceFountainEntity animatable) {
                 return new ResourceLocation(ExperienceObelisk.MOD_ID, "geo/experience_fountain.geo.json");
             }
 
             @Override
-            public ResourceLocation getTextureLocation(ExperienceFountainEntity entity) {
+            public ResourceLocation getTextureResource(ExperienceFountainEntity entity) {
                 return new ResourceLocation(ExperienceObelisk.MOD_ID, "textures/custom_models/experience_fountain.png");
             }
 
             @Override
-            public ResourceLocation getAnimationFileLocation(ExperienceFountainEntity animatable) {
+            public ResourceLocation getAnimationResource(ExperienceFountainEntity animatable) {
                 return new ResourceLocation(ExperienceObelisk.MOD_ID, "animations/experience_fountain.json");
             }
         });

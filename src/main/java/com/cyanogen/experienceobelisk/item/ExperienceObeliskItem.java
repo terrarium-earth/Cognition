@@ -5,15 +5,13 @@ import com.cyanogen.experienceobelisk.renderer.ExperienceObeliskItemRenderer;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraftforge.client.IItemRenderProperties;
+import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
@@ -44,13 +42,13 @@ public class ExperienceObeliskItem extends BlockItem implements IAnimatable{
     }
 
     @Override
-    public void initializeClient(Consumer<IItemRenderProperties> consumer) {
+    public void initializeClient(Consumer<IClientItemExtensions> consumer) {
         super.initializeClient(consumer);
-        consumer.accept(new IItemRenderProperties() {
+        consumer.accept(new IClientItemExtensions() {
             private final BlockEntityWithoutLevelRenderer renderer = new ExperienceObeliskItemRenderer();
 
             @Override
-            public BlockEntityWithoutLevelRenderer getItemStackRenderer() {
+            public BlockEntityWithoutLevelRenderer getCustomRenderer() {
                 return renderer;
             }
         });
@@ -75,11 +73,11 @@ public class ExperienceObeliskItem extends BlockItem implements IAnimatable{
         int amount = pStack.getOrCreateTag().getCompound("BlockEntityTag").getInt("Amount");
         int levels = ExperienceObeliskScreen.xpToLevels(amount / 20);
 
-        pTooltip.add(new TranslatableComponent("tooltip.experienceobelisk.experience_obelisk.item_fluid_amount",
-                new TextComponent(amount + " mB").withStyle(ChatFormatting.GOLD)));
+        pTooltip.add(Component.translatable("tooltip.experienceobelisk.experience_obelisk.item_fluid_amount",
+                Component.literal(amount + " mB").withStyle(ChatFormatting.GOLD)));
 
-        pTooltip.add(new TranslatableComponent("tooltip.experienceobelisk.experience_obelisk.item_levels",
-                new TextComponent(String.valueOf(levels)).withStyle(ChatFormatting.GREEN)));
+        pTooltip.add(Component.translatable("tooltip.experienceobelisk.experience_obelisk.item_levels",
+                Component.literal(String.valueOf(levels)).withStyle(ChatFormatting.GREEN)));
 
         super.appendHoverText(pStack, pLevel, pTooltip, pFlag);
 

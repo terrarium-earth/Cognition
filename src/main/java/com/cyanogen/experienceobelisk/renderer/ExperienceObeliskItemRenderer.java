@@ -16,17 +16,17 @@ public class ExperienceObeliskItemRenderer extends GeoItemRenderer<ExperienceObe
     public ExperienceObeliskItemRenderer() {
         super(new AnimatedGeoModel<>() {
             @Override
-            public ResourceLocation getModelLocation(ExperienceObeliskItem object) {
+            public ResourceLocation getModelResource(ExperienceObeliskItem object) {
                 return new ResourceLocation(ExperienceObelisk.MOD_ID, "geo/experience_obelisk.geo.json");
             }
 
             @Override
-            public ResourceLocation getTextureLocation(ExperienceObeliskItem object) {
+            public ResourceLocation getTextureResource(ExperienceObeliskItem object) {
                 return new ResourceLocation(ExperienceObelisk.MOD_ID, "textures/custom_models/experience_obelisk.png");
             }
 
             @Override
-            public ResourceLocation getAnimationFileLocation(ExperienceObeliskItem animatable) {
+            public ResourceLocation getAnimationResource(ExperienceObeliskItem animatable) {
                 return new ResourceLocation(ExperienceObelisk.MOD_ID, "animations/experience_obelisk.json");
             }
         });

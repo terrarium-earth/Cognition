@@ -12,7 +12,7 @@ import net.minecraftforge.registries.RegistryObject;
 
 public class RegisterBlockEntities {
     private static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES =
-            DeferredRegister.create(ForgeRegistries.BLOCK_ENTITIES, ExperienceObelisk.MOD_ID);
+            DeferredRegister.create(ForgeRegistries.BLOCK_ENTITY_TYPES, ExperienceObelisk.MOD_ID);
 
     private static com.mojang.datafixers.types.Type<?> Type;
 

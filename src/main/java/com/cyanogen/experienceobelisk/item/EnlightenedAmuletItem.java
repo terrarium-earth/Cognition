@@ -4,7 +4,6 @@ import com.cyanogen.experienceobelisk.config.Config;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
@@ -36,7 +35,7 @@ public class EnlightenedAmuletItem extends Item{
     }
 
     @Override
-    public int getItemStackLimit(ItemStack stack) {
+    public int getMaxStackSize(ItemStack stack) {
         return 1;
     }
 
@@ -96,10 +95,10 @@ public class EnlightenedAmuletItem extends Item{
         boolean isActive = pStack.getOrCreateTag().getBoolean("isActive");
 
         if(isActive){
-            pTooltip.add(new TranslatableComponent("tooltip.experienceobelisk.enlightened_amulet.active"));
+            pTooltip.add(Component.translatable("tooltip.experienceobelisk.enlightened_amulet.active"));
         }
         else{
-            pTooltip.add(new TranslatableComponent("tooltip.experienceobelisk.enlightened_amulet.inactive"));
+            pTooltip.add(Component.translatable("tooltip.experienceobelisk.enlightened_amulet.inactive"));
         }
 
         super.appendHoverText(pStack, pLevel, pTooltip, pFlag);

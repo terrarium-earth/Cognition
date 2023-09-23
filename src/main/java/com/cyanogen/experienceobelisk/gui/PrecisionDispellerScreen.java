@@ -11,8 +11,6 @@ import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.player.Inventory;
@@ -34,8 +32,8 @@ import static com.cyanogen.experienceobelisk.gui.ExperienceObeliskScreen.xpToLev
 public class PrecisionDispellerScreen extends AbstractContainerScreen<PrecisionDispellerMenu> {
 
     private final ResourceLocation texture = new ResourceLocation("experienceobelisk:textures/gui/screens/precision_dispeller.png");
-    private final TranslatableComponent title = new TranslatableComponent("title.experienceobelisk.precision_dispeller");
-    private final TranslatableComponent inventoryTitle = new TranslatableComponent("title.experienceobelisk.precision_dispeller.inventory");
+    private final Component title = Component.translatable("title.experienceobelisk.precision_dispeller");
+    private final Component inventoryTitle = Component.translatable("title.experienceobelisk.precision_dispeller.inventory");
 
     public PrecisionDispellerScreen(PrecisionDispellerMenu menu, Inventory inventory, Component component) {
         super(menu, inventory, component);
@@ -211,23 +209,23 @@ public class PrecisionDispellerScreen extends AbstractContainerScreen<PrecisionD
             if(panel.isHovered(pX, pY) && panel.isVisible && !panel.status.equals(Status.SELECTED)){
 
                 List<Component> tooltipList = new ArrayList<>();
-                tooltipList.add(new TextComponent(panel.getFullName()));
+                tooltipList.add(Component.literal(panel.getFullName()));
 
                 if(panel.enchantment.isCurse()){
 
-                    tooltipList.add(new TranslatableComponent("tooltip.experienceobelisk.precision_dispeller.curse"));
+                    tooltipList.add(Component.translatable("tooltip.experienceobelisk.precision_dispeller.curse"));
 
                     if(playerXP < 1395){
-                        tooltipList.add(new TranslatableComponent("tooltip.experienceobelisk.precision_dispeller.insufficient_xp"));
+                        tooltipList.add(Component.translatable("tooltip.experienceobelisk.precision_dispeller.insufficient_xp"));
                     }
                 }
                 else{
                     int points = panel.enchantment.getMinCost(panel.level);
                     int levels = xpToLevels(points);
 
-                    MutableComponent pts = new TextComponent(String.valueOf(points)).withStyle(ChatFormatting.GREEN);
-                    MutableComponent lvls = new TextComponent(String.valueOf(levels)).withStyle(ChatFormatting.GREEN);
-                    tooltipList.add(new TranslatableComponent("tooltip.experienceobelisk.precision_dispeller.enchantment", pts, lvls));
+                    MutableComponent pts = Component.translatable(String.valueOf(points)).withStyle(ChatFormatting.GREEN);
+                    MutableComponent lvls = Component.translatable(String.valueOf(levels)).withStyle(ChatFormatting.GREEN);
+                    tooltipList.add(Component.translatable("tooltip.experienceobelisk.precision_dispeller.enchantment", pts, lvls));
                 }
                 this.renderTooltip(pPoseStack, tooltipList, Optional.empty(), pX, pY);
             }

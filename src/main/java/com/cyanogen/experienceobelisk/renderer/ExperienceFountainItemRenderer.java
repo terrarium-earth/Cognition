@@ -14,19 +14,19 @@ import software.bernie.geckolib3.renderers.geo.GeoItemRenderer;
 public class ExperienceFountainItemRenderer extends GeoItemRenderer<ExperienceFountainItem> {
 
     public ExperienceFountainItemRenderer() {
-        super(new AnimatedGeoModel<ExperienceFountainItem>() {
+        super(new AnimatedGeoModel<>() {
             @Override
-            public ResourceLocation getModelLocation(ExperienceFountainItem object) {
+            public ResourceLocation getModelResource(ExperienceFountainItem object) {
                 return new ResourceLocation(ExperienceObelisk.MOD_ID, "geo/experience_fountain.geo.json");
             }
 
             @Override
-            public ResourceLocation getTextureLocation(ExperienceFountainItem object) {
+            public ResourceLocation getTextureResource(ExperienceFountainItem object) {
                 return new ResourceLocation(ExperienceObelisk.MOD_ID, "textures/custom_models/experience_fountain.png");
             }
 
             @Override
-            public ResourceLocation getAnimationFileLocation(ExperienceFountainItem animatable) {
+            public ResourceLocation getAnimationResource(ExperienceFountainItem animatable) {
                 return new ResourceLocation(ExperienceObelisk.MOD_ID, "animations/experience_fountain.json");
             }
         });

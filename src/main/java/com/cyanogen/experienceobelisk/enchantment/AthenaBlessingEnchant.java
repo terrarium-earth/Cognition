@@ -5,7 +5,6 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ExperienceOrb;
@@ -28,11 +27,11 @@ public class AthenaBlessingEnchant extends Enchantment {
 
     @Override
     public Component getFullname(int pLevel) {
-        MutableComponent mutablecomponent = new TranslatableComponent(this.getDescriptionId());
+        MutableComponent mutablecomponent = Component.literal(this.getDescriptionId());
         mutablecomponent.withStyle(ChatFormatting.GREEN);
 
         if (pLevel != 1 || this.getMaxLevel() != 1) {
-            mutablecomponent.append(" ").append(new TranslatableComponent("enchantment.level." + pLevel));
+            mutablecomponent.append(" ").append(Component.literal("enchantment.level." + pLevel));
         }
 
         return mutablecomponent;
@@ -98,10 +97,10 @@ public class AthenaBlessingEnchant extends Enchantment {
         //Amount and value of orbs are random but scale with item durability + number of enchantments
 
         ItemStack item = event.getOriginal();
-        Player player = event.getPlayer();
+        Player player = event.getEntity();
         Level l = player.getLevel();
 
-        BlockPos pos = event.getPlayer().blockPosition();
+        BlockPos pos = event.getEntity().blockPosition();
 
         int level = EnchantmentHelper.getItemEnchantmentLevel(RegisterEnchantments.ATHENA_BLESSING.get(), item);
 

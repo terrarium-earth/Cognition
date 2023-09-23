@@ -5,8 +5,7 @@ import com.cyanogen.experienceobelisk.block_entities.ExperienceReceivingEntity;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -22,7 +21,7 @@ public class AttunementStaffItem extends Item {
     }
 
     @Override
-    public int getItemStackLimit(ItemStack stack) {
+    public int getMaxStackSize(ItemStack stack) {
         return 1;
     }
 
@@ -46,14 +45,14 @@ public class AttunementStaffItem extends Item {
                     tag.remove("boundY");
                     tag.remove("boundZ");
 
-                    player.displayClientMessage(new TranslatableComponent("message.experienceobelisk.binding_wand.unbind_obelisk"), true);
+                    player.displayClientMessage(Component.translatable("message.experienceobelisk.binding_wand.unbind_obelisk"), true);
                 }
                 else{
                     tag.putInt("boundX", pos.getX());
                     tag.putInt("boundY", pos.getY());
                     tag.putInt("boundZ", pos.getZ());
 
-                    player.displayClientMessage(new TranslatableComponent("message.experienceobelisk.binding_wand.bind_obelisk"), true);
+                    player.displayClientMessage(Component.translatable("message.experienceobelisk.binding_wand.bind_obelisk"), true);
                 }
                 return InteractionResult.sidedSuccess(level.isClientSide);
             }
@@ -61,7 +60,7 @@ public class AttunementStaffItem extends Item {
 
                 if(receivingEntity.isBound){
                     receivingEntity.setUnbound();
-                    player.displayClientMessage(new TranslatableComponent("message.experienceobelisk.binding_wand.unbind_target"), true);
+                    player.displayClientMessage(Component.translatable("message.experienceobelisk.binding_wand.unbind_target"), true);
                 }
                 else if(tag.contains("boundX")){     //check if wand has an obelisk stored
 
@@ -73,16 +72,16 @@ public class AttunementStaffItem extends Item {
                             receivingEntity.setBoundPos(obeliskPos);
                             receivingEntity.setBound();
 
-                            player.displayClientMessage(new TranslatableComponent("message.experienceobelisk.binding_wand.bind_target",
-                                    new TextComponent(obeliskPos.toShortString()).withStyle(ChatFormatting.GREEN)), true);
+                            player.displayClientMessage(Component.translatable("message.experienceobelisk.binding_wand.bind_target",
+                                    Component.literal(obeliskPos.toShortString()).withStyle(ChatFormatting.GREEN)), true);
                         }
                         else{
-                            player.displayClientMessage(new TranslatableComponent("message.experienceobelisk.binding_wand.obelisk_too_far"), true);
+                            player.displayClientMessage(Component.translatable("message.experienceobelisk.binding_wand.obelisk_too_far"), true);
                         }
                     }
                     else{
-                        player.displayClientMessage(new TranslatableComponent("message.experienceobelisk.binding_wand.obelisk_doesnt_exist",
-                                new TextComponent(obeliskPos.toShortString())).withStyle(ChatFormatting.RED), true);
+                        player.displayClientMessage(Component.translatable("message.experienceobelisk.binding_wand.obelisk_doesnt_exist",
+                                Component.literal(obeliskPos.toShortString())).withStyle(ChatFormatting.RED), true);
                     }
                 }
                 return InteractionResult.sidedSuccess(level.isClientSide);
