@@ -51,19 +51,18 @@ public class ExperienceObeliskEntity extends BlockEntity implements IAnimatable{
     //events that control what animation is being played
     private <E extends BlockEntity & IAnimatable> PlayState predicate(AnimationEvent<E> event) {
         AnimationController controller = event.getController();
-        controller.transitionLengthTicks = 100;
+        controller.transitionLengthTicks = 0;
 
         BlockEntity entity = event.getAnimatable();
-        controller.setAnimation(new AnimationBuilder().addAnimation("idle", true));
 
         if(level != null
                 && entity instanceof ExperienceObeliskEntity obelisk
                 && obelisk.redstoneEnabled
                 && !level.hasNeighborSignal(obelisk.getBlockPos())){
-            controller.setAnimationSpeed(0.2);
+            controller.setAnimation(new AnimationBuilder().addAnimation("idle.inactive", true));
         }
         else{
-            controller.setAnimationSpeed(1.3);
+            controller.setAnimation(new AnimationBuilder().addAnimation("idle", true));
         }
 
         return PlayState.CONTINUE;
