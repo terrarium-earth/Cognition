@@ -108,7 +108,6 @@ public class PrecisionDispellerMenu extends AbstractContainerMenu {
         player.playSound(SoundEvents.GRINDSTONE_USE, 0.7f, 1);
 
         if(!level.isClientSide){
-            System.out.println("handling experience");
             ServerLevel server = (ServerLevel) level;
             Enchantment removed = null;
             int enchLevel = 0;
@@ -133,7 +132,6 @@ public class PrecisionDispellerMenu extends AbstractContainerMenu {
                     int points = removed.getMinCost(enchLevel);
                     ExperienceOrb orb = new ExperienceOrb(server, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, points);
                     server.addFreshEntity(orb);
-                    System.out.println("entity added");
 
                 }
             }
@@ -141,7 +139,6 @@ public class PrecisionDispellerMenu extends AbstractContainerMenu {
     }
 
     public void handleAnimation(Level level, BlockPos pos){
-        System.out.println("eeeeeeeee");
         if(level.getBlockEntity(pos) instanceof PrecisionDispellerEntity dispeller){
             dispeller.pendingAnimation = true;
             level.sendBlockUpdated(pos, level.getBlockState(pos), level.getBlockState(pos), 2);

@@ -3,7 +3,13 @@ package com.cyanogen.experienceobelisk.block_entities;
 import com.cyanogen.experienceobelisk.registries.RegisterBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.Connection;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.ExperienceOrb;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
@@ -51,17 +57,23 @@ public class ExperienceFountainEntity extends ExperienceReceivingEntity implemen
         if(blockEntity instanceof ExperienceFountainEntity fountain && fountain.isBound){
 
             BlockEntity boundEntity = level.getBlockEntity(fountain.getBoundPos());
-            boolean hasPlayerAbove = false;
 
             List<Player> playerList = level.getEntitiesOfClass(Player.class, new AABB(pos, pos.east().south().above()));
-            if(!playerList.isEmpty()){
-                hasPlayerAbove = true;
+            if(!playerList.isEmpty() && !fountain.hasPlayerAbove){
+                level.playSound(null, pos, SoundEvents.WOODEN_PRESSURE_PLATE_CLICK_ON, SoundSource.BLOCKS, 0.2f, 0.6f);
+                fountain.hasPlayerAbove = true;
+                level.sendBlockUpdated(pos, state, state, 2);
+            }
+            else if(playerList.isEmpty() && fountain.hasPlayerAbove){
+                level.playSound(null, pos, SoundEvents.WOODEN_PRESSURE_PLATE_CLICK_OFF, SoundSource.BLOCKS, 0.2f, 0.2f);
+                fountain.hasPlayerAbove = false;
+                level.sendBlockUpdated(pos, state, state, 2);
             }
 
             if(boundEntity instanceof ExperienceObeliskEntity obelisk
                     && !level.isClientSide
                     && obelisk.getFluidAmount() > 0
-                    && (level.hasNeighborSignal(pos) || hasPlayerAbove)){
+                    && (level.hasNeighborSignal(pos) || fountain.hasPlayerAbove)){
 
                 int value = 4;
                 int interval = 20;
@@ -99,6 +111,7 @@ public class ExperienceFountainEntity extends ExperienceReceivingEntity implemen
     //-----------NBT-----------//
 
     private int activityState = 0;
+    public boolean hasPlayerAbove = false;
 
     public int getActivityState(){
         return activityState;
@@ -134,6 +147,22 @@ public class ExperienceFountainEntity extends ExperienceReceivingEntity implemen
         tag.putInt("ActivityState", activityState);
 
         return tag;
+    }
+
+    @Override
+    public Packet<ClientGamePacketListener> getUpdatePacket()
+    {
+        return ClientboundBlockEntityDataPacket.create(this, BlockEntity::getUpdateTag);
+    }
+
+    @Override
+    public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt) {
+        CompoundTag tag = pkt.getTag();
+        if(tag != null){
+            this.activityState = tag.getInt("ActivityState");
+            this.hasPlayerAbove = tag.getBoolean("PlayerAbove");
+        }
+        super.onDataPacket(net, pkt);
     }
 
 
