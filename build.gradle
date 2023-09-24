@@ -148,7 +148,7 @@ repositories {
     // ForgeGradle automatically adds the Forge maven and Maven Central for you
     maven { url 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/' }
     maven {
-        url = "https://maven.theillusivec4.top/"
+           url = "https://maven.theillusivec4.top/"
     }
 }
 

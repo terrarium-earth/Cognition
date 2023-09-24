@@ -26,8 +26,6 @@ public class EnlightenedAmuletItem extends Item{
         super(pProperties);
     }
 
-    public double radius = Config.COMMON.range.get();
-
     @Override
     public @NotNull ItemStack getDefaultInstance() {
         ItemStack stack = new ItemStack(this);
@@ -65,6 +63,8 @@ public class EnlightenedAmuletItem extends Item{
         boolean isActive = stack.getOrCreateTag().getBoolean("isActive");
 
         if(entity instanceof Player player && isActive && !level.isClientSide && level.getGameTime() % 3 ==0){
+
+            final double radius = Config.COMMON.range.get();
 
             BlockPos pos = player.blockPosition();
             AABB area = new AABB(

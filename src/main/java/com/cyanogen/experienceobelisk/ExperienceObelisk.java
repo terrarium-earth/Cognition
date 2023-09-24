@@ -36,6 +36,8 @@ public class ExperienceObelisk
         eventBus.addListener(this::clientSetup);
         eventBus.addListener(this::curiosSetup);
 
+        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Config.COMMON_SPEC);
+
         RegisterItems.register(eventBus);
         RegisterBlocks.register(eventBus);
         RegisterBlockEntities.register(eventBus);
@@ -45,8 +47,6 @@ public class ExperienceObelisk
 
         GeckoLib.initialize();
         PacketHandler.init();
-
-        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Config.COMMON_SPEC);
 
         MinecraftForge.EVENT_BUS.register(this);
     }
