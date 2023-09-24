@@ -53,6 +53,26 @@ public class ExperienceFountainBlock extends Block implements EntityBlock {
         );
     }
 
+    List<Player> storedList = new ArrayList<>();
+
+    @Override
+    public void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource source) {
+
+        List<Player> playerList = level.getEntitiesOfClass(Player.class, new AABB(pos, pos.east().south().above()));
+
+        if(storedList.isEmpty() && !playerList.isEmpty()){
+            level.playSound(null, pos, SoundEvents.WOODEN_PRESSURE_PLATE_CLICK_ON, SoundSource.BLOCKS, 0.2f, 0.4f);
+            storedList.addAll(playerList);
+        }
+        else if(!storedList.isEmpty() && playerList.isEmpty()){
+            level.playSound(null, pos, SoundEvents.WOODEN_PRESSURE_PLATE_CLICK_OFF, SoundSource.BLOCKS, 0.2f, 0.2f);
+            storedList.clear();
+        }
+        level.sendBlockUpdated(pos, state, state, 2);
+
+        super.tick(state, level, pos, source);
+    }
+
     @Override
     public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
 
