@@ -7,7 +7,10 @@ import com.cyanogen.experienceobelisk.registries.RegisterItems;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -31,6 +34,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -47,6 +51,26 @@ public class ExperienceFountainBlock extends Block implements EntityBlock {
                 .noOcclusion()
                 .emissiveRendering((state, getter, pos) -> true)
         );
+    }
+
+    List<Player> storedList = new ArrayList<>();
+
+    @Override
+    public void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource source) {
+
+        List<Player> playerList = level.getEntitiesOfClass(Player.class, new AABB(pos, pos.east().south().above()));
+
+        if(storedList.isEmpty() && !playerList.isEmpty()){
+            level.playSound(null, pos, SoundEvents.WOODEN_PRESSURE_PLATE_CLICK_ON, SoundSource.BLOCKS, 0.2f, 0.4f);
+            storedList.addAll(playerList);
+        }
+        else if(!storedList.isEmpty() && playerList.isEmpty()){
+            level.playSound(null, pos, SoundEvents.WOODEN_PRESSURE_PLATE_CLICK_OFF, SoundSource.BLOCKS, 0.2f, 0.2f);
+            storedList.clear();
+        }
+        level.sendBlockUpdated(pos, state, state, 2);
+
+        super.tick(state, level, pos, source);
     }
 
     @Override
@@ -202,7 +226,7 @@ public class ExperienceFountainBlock extends Block implements EntityBlock {
     }
 
     @Override
-    public RenderShape getRenderShape(BlockState state) {
+    public RenderShape getRenderShape(@NotNull BlockState state) {
         return RenderShape.ENTITYBLOCK_ANIMATED;
     }
 
@@ -217,7 +241,7 @@ public class ExperienceFountainBlock extends Block implements EntityBlock {
 
     @Nullable
     @Override
-    public BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
+    public BlockEntity newBlockEntity(@NotNull BlockPos pPos, BlockState pState) {
         return RegisterBlockEntities.EXPERIENCEFOUNTAIN_BE.get().create(pPos, pState);
     }
 
