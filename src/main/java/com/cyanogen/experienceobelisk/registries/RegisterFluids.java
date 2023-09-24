@@ -87,5 +87,6 @@ public class RegisterFluids {
 
 public static void register(IEventBus eventBus){
         FLUIDS.register(eventBus);
+        FLUID_TYPES.register(eventBus);
     }
 }
