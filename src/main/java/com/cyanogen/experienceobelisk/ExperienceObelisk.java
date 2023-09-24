@@ -20,8 +20,8 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import software.bernie.geckolib3.GeckoLib;
-//import top.theillusivec4.curios.api.SlotTypeMessage;
-//import top.theillusivec4.curios.api.SlotTypePreset;
+import top.theillusivec4.curios.api.SlotTypeMessage;
+import top.theillusivec4.curios.api.SlotTypePreset;
 
 @Mod(ExperienceObelisk.MOD_ID)
 
@@ -65,12 +65,9 @@ public class ExperienceObelisk
 
     private void curiosSetup(final InterModEnqueueEvent event){
 
-        /*
         if(ModList.get().isLoaded("curios")){
             InterModComms.sendTo("curios", SlotTypeMessage.REGISTER_TYPE, () -> SlotTypePreset.NECKLACE.getMessageBuilder().build());
         }
-
-         */
 
     }
 }
