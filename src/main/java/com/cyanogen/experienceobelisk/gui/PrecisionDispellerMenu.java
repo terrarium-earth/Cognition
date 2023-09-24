@@ -22,6 +22,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.network.PacketDistributor;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
 
@@ -65,17 +66,15 @@ public class PrecisionDispellerMenu extends AbstractContainerMenu {
             }
 
             @Override
-            public void onTake(Player pPlayer, ItemStack pStack) {
+            public void onTake(@NotNull Player player, @NotNull ItemStack pStack) {
                 Level level = player.level;
 
-                if(!level.isClientSide){
-                    handleAnimation(level, pos);
-                    handleExperience(container.getItem(0), pStack, player.level);
-                }
+                handleExperience(container.getItem(0), pStack, level, player);
+                handleAnimation(level, pos);
+                player.playSound(SoundEvents.GRINDSTONE_USE, 1, 1);
 
                 container.setItem(0, ItemStack.EMPTY);
-                pPlayer.playSound(SoundEvents.GRINDSTONE_USE, 1, 1);
-                super.onTake(pPlayer, pStack);
+                super.onTake(player, pStack);
             }
 
             @Override
@@ -104,38 +103,45 @@ public class PrecisionDispellerMenu extends AbstractContainerMenu {
 
     //-----BEHAVIOR-----//
 
-    public void handleExperience(ItemStack inputItem, ItemStack outputItem, Level level){
+    public void handleExperience(ItemStack inputItem, ItemStack outputItem, Level level, Player player){
 
-        ServerLevel server = (ServerLevel) level;
-        Enchantment removed = null;
-        int enchLevel = 0;
+        player.playSound(SoundEvents.GRINDSTONE_USE, 0.7f, 1);
 
-        Map<Enchantment, Integer> map = EnchantmentHelper.getEnchantments(inputItem);
-        Map<Enchantment, Integer> map2 = EnchantmentHelper.getEnchantments(outputItem);
+        if(!level.isClientSide){
+            System.out.println("handling experience");
+            ServerLevel server = (ServerLevel) level;
+            Enchantment removed = null;
+            int enchLevel = 0;
 
-        for(Map.Entry<Enchantment, Integer> entry : map.entrySet()){
-            if(!map2.containsKey(entry.getKey())){
-                removed = entry.getKey();
-                enchLevel = entry.getValue();
-                break;
+            Map<Enchantment, Integer> map = EnchantmentHelper.getEnchantments(inputItem);
+            Map<Enchantment, Integer> map2 = EnchantmentHelper.getEnchantments(outputItem);
+
+            for(Map.Entry<Enchantment, Integer> entry : map.entrySet()){
+                if(!map2.containsKey(entry.getKey())){
+                    removed = entry.getKey();
+                    enchLevel = entry.getValue();
+                    break;
+                }
             }
-        }
 
-        if(removed != null){
+            if(removed != null){
 
-            if(removed.isCurse()){
-                player.giveExperiencePoints(-1395); //30 base levels
-            }
-            else{
-                int points = removed.getMinCost(enchLevel);
-                ExperienceOrb orb = new ExperienceOrb(server, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, points);
-                server.addFreshEntity(orb);
+                if(removed.isCurse()){
+                    player.giveExperiencePoints(-1395); //30 base levels
+                }
+                else{
+                    int points = removed.getMinCost(enchLevel);
+                    ExperienceOrb orb = new ExperienceOrb(server, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, points);
+                    server.addFreshEntity(orb);
+                    System.out.println("entity added");
 
+                }
             }
         }
     }
 
     public void handleAnimation(Level level, BlockPos pos){
+        System.out.println("eeeeeeeee");
         if(level.getBlockEntity(pos) instanceof PrecisionDispellerEntity dispeller){
             dispeller.pendingAnimation = true;
             level.sendBlockUpdated(pos, level.getBlockState(pos), level.getBlockState(pos), 2);
@@ -168,6 +174,7 @@ public class PrecisionDispellerMenu extends AbstractContainerMenu {
                 container.setItem(1, ItemStack.EMPTY);
             }
             else if(pIndex == 1){
+                handleExperience(slots.get(0).getItem(),slots.get(1).getItem(), pPlayer.level, pPlayer);
                 container.setItem(0, ItemStack.EMPTY);
                 handleAnimation(player.level, pos);
             }

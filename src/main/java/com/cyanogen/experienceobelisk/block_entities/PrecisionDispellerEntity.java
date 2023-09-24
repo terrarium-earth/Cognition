@@ -26,7 +26,6 @@ import java.util.Objects;
 public class PrecisionDispellerEntity extends BlockEntity implements IAnimatable{
 
     public boolean pendingAnimation = false;
-    public ArrayList<AnimationBuilder> pending = new ArrayList<>();
 
     public PrecisionDispellerEntity(BlockPos pPos, BlockState pBlockState) {
         super(RegisterBlockEntities.PRECISIONDISPELLER_BE.get(), pPos, pBlockState);
@@ -59,10 +58,6 @@ public class PrecisionDispellerEntity extends BlockEntity implements IAnimatable
     @Override
     public AnimationFactory getFactory() {
         return factory;
-    }
-
-    public void queueAnimation(){
-        pending.add(new AnimationBuilder().addAnimation("use", false));
     }
 
     //-----------NBT-----------//
