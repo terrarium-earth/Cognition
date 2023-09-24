@@ -20,9 +20,9 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.templates.FluidTank;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -283,10 +283,9 @@ public class ExperienceObeliskEntity extends BlockEntity implements IAnimatable{
     @Nonnull
     public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> capability, @Nullable Direction facing)
     {
-        if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY)
+        if (capability == ForgeCapabilities.FLUID_HANDLER)
             return handler.cast();
         return super.getCapability(capability, facing);
-        //controls which sides can give or receive fluids
     }
 
 
