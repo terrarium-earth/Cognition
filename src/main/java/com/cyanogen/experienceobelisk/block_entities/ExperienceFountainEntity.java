@@ -79,16 +79,16 @@ public class ExperienceFountainEntity extends ExperienceReceivingEntity implemen
                 int interval = 20;
 
                 switch (fountain.getActivityState()) {
-                    case 1 -> {
+                    case 1 -> { //40xp/s
                         value = 20;
                         interval = 10;
                     }
-                    case 2 -> {
+                    case 2 -> { //400xp/s
                         value = 100;
                         interval = 5;
                     }
-                    case 3 -> {
-                        value = 1000;
+                    case 3 -> { //4000xp/s
+                        value = 400;
                         interval = 2;
                     }
                 }
