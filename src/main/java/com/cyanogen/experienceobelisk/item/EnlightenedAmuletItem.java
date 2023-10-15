@@ -5,6 +5,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
@@ -62,7 +63,7 @@ public class EnlightenedAmuletItem extends Item{
 
         boolean isActive = stack.getOrCreateTag().getBoolean("isActive");
 
-        if(entity instanceof Player player && isActive && !level.isClientSide && level.getGameTime() % 3 ==0){
+        if(entity instanceof Player player && isActive && !level.isClientSide && level.getGameTime() % 5 ==0){
 
             final double radius = Config.COMMON.range.get();
 
@@ -76,14 +77,22 @@ public class EnlightenedAmuletItem extends Item{
                     pos.getZ() + radius);
 
             List<ExperienceOrb> list = level.getEntitiesOfClass(ExperienceOrb.class, area);
+            int totalValue = 0;
 
             for(ExperienceOrb orb : list){
                 if(orb.isAlive()){
-                    player.giveExperiencePoints(orb.value);
+                    totalValue += orb.value;
                     orb.discard();
                 }
-
             }
+
+            if(totalValue > 0){
+                ServerLevel server = (ServerLevel) level;
+                ExperienceOrb orb = new ExperienceOrb(server, pos.getX(), pos.getY(), pos.getZ(), totalValue);
+                server.addFreshEntity(orb);
+            }
+
+
         }
         super.inventoryTick(stack, level, entity, p_41407_, p_41408_);
     }
