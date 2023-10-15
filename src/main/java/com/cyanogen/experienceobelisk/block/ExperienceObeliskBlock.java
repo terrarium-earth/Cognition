@@ -5,6 +5,7 @@ import com.cyanogen.experienceobelisk.gui.ExperienceObeliskScreen;
 import com.cyanogen.experienceobelisk.registries.RegisterBlockEntities;
 import com.cyanogen.experienceobelisk.registries.RegisterItems;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.entity.SpiderRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -33,6 +34,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.ToIntFunction;
 
 public class ExperienceObeliskBlock extends Block implements EntityBlock {
 
@@ -42,9 +44,8 @@ public class ExperienceObeliskBlock extends Block implements EntityBlock {
                 .destroyTime(1.2f)
                 .requiresCorrectToolForDrops()
                 .explosionResistance(1200f)
-                .lightLevel(value -> 10)
                 .noOcclusion()
-                .emissiveRendering((state, getter, pos) -> true)
+                .lightLevel(pLightEmission -> 5)
         );
     }
 

@@ -46,7 +46,7 @@ public class ExperienceFountainBlock extends Block implements EntityBlock {
                 .requiresCorrectToolForDrops()
                 .explosionResistance(8f)
                 .noOcclusion()
-                .emissiveRendering((state, getter, pos) -> true)
+                .lightLevel(pLightEmission -> 5)
         );
     }
 

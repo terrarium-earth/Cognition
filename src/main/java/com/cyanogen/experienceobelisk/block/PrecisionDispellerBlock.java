@@ -42,7 +42,7 @@ public class PrecisionDispellerBlock extends FaceAttachedHorizontalDirectionalBl
                 .requiresCorrectToolForDrops()
                 .explosionResistance(8f)
                 .noOcclusion()
-                .emissiveRendering((state, getter, pos) -> true)
+                .lightLevel(pLightEmission -> 5)
         );
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(FACE, AttachFace.WALL));
     }

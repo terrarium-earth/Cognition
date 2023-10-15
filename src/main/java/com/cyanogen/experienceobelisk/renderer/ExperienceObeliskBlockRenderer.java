@@ -14,7 +14,7 @@ import software.bernie.geckolib3.renderers.geo.GeoBlockRenderer;
 public class ExperienceObeliskBlockRenderer extends GeoBlockRenderer<ExperienceObeliskEntity> {
 
     public ExperienceObeliskBlockRenderer(BlockEntityRendererProvider.Context rendererDispatcherIn) {
-        super(rendererDispatcherIn, new AnimatedGeoModel<ExperienceObeliskEntity>() {
+        super(rendererDispatcherIn, new AnimatedGeoModel<>() {
 
             @Override
             public ResourceLocation getModelLocation(ExperienceObeliskEntity animatable) {
@@ -31,6 +31,7 @@ public class ExperienceObeliskBlockRenderer extends GeoBlockRenderer<ExperienceO
                 return new ResourceLocation(ExperienceObelisk.MOD_ID, "animations/experience_obelisk.json");
             }
         });
+
     }
 
     @Override
