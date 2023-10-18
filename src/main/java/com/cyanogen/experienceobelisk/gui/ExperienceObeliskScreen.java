@@ -1,5 +1,6 @@
 package com.cyanogen.experienceobelisk.gui;
 
+import com.cyanogen.experienceobelisk.ExperienceObelisk;
 import com.cyanogen.experienceobelisk.block_entities.ExperienceObeliskEntity;
 import com.cyanogen.experienceobelisk.network.PacketHandler;
 import com.cyanogen.experienceobelisk.network.experience_obelisk.UpdateContents;
@@ -10,11 +11,14 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.Widget;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
@@ -22,21 +26,21 @@ import net.minecraft.world.phys.Vec3;
 import static com.cyanogen.experienceobelisk.network.experience_obelisk.UpdateContents.Request.*;
 
 
-public class ExperienceObeliskScreen extends Screen{
+public class ExperienceObeliskScreen extends AbstractContainerScreen<ExperienceObeliskMenu> {
 
-    public Level level;
-    public Player player;
     public BlockPos pos;
     public ExperienceObeliskEntity xpobelisk;
-
     private final ResourceLocation texture = new ResourceLocation("experienceobelisk:textures/gui/screens/experience_obelisk.png");
 
-    public ExperienceObeliskScreen(Level level, Player player, BlockPos pos) {
-        super(new TextComponent("Experience Obelisk"));
-        this.level = level;
-        this.player = player;
-        this.pos = pos;
-        this.xpobelisk = (ExperienceObeliskEntity) level.getBlockEntity(pos);
+    public ExperienceObeliskScreen(ExperienceObeliskMenu menu, Inventory inventory, Component component) {
+        super(menu, inventory, component);
+        this.pos = menu.pos;
+        this.xpobelisk = menu.entity;
+        System.out.println("screen class: " + menu.entity);
+    }
+
+    protected ExperienceObeliskScreen(ExperienceObeliskMenu menu) {
+        this(menu, menu.inventory, new TextComponent("Experience Obelisk"));
     }
 
     @Override
@@ -84,10 +88,6 @@ public class ExperienceObeliskScreen extends Screen{
     @Override
     public void render(PoseStack pPoseStack, int pMouseX, int pMouseY, float pPartialTick) {
 
-        if(player.position().distanceTo(Vec3.atCenterOf(pos)) > 7){
-            this.onClose();
-        }
-
         renderBackground(pPoseStack);
 
         RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
@@ -98,9 +98,7 @@ public class ExperienceObeliskScreen extends Screen{
         int x = this.width / 2 - 176 / 2;
         int y = this.height / 2 - 166 / 2;
 
-        //breaks around 2980000 mB for some reason
-
-        int experiencePoints = xpobelisk.getFluidAmount() / 20;
+        int experiencePoints = menu.entity.getFluidAmount() / 20;
 
         int n = experiencePoints - levelsToXP(xpToLevels(experiencePoints)); //remaining xp
         int m = levelsToXP(xpToLevels(experiencePoints) + 1) - levelsToXP(xpToLevels(experiencePoints)); //xp for next level
@@ -134,6 +132,11 @@ public class ExperienceObeliskScreen extends Screen{
         }
     }
 
+    @Override
+    protected void renderBg(PoseStack pPoseStack, float pPartialTick, int pMouseX, int pMouseY) {
+
+    }
+
     //buttons and whatnot go here
     private void setupWidgetElements() {
 
@@ -152,7 +155,7 @@ public class ExperienceObeliskScreen extends Screen{
                 new TranslatableComponent("button.experienceobelisk.experience_obelisk.settings"),
 
                 (onPress) ->
-                        Minecraft.getInstance().setScreen(new ExperienceObeliskOptionsScreen(level, player, pos, this)),
+                        Minecraft.getInstance().setScreen(new ExperienceObeliskOptionsScreen(pos, menu)),
 
                 (pButton, pPoseStack, pMouseX, pMouseY) ->
                         renderTooltip(pPoseStack, new TranslatableComponent("tooltip.experienceobelisk.experience_obelisk.settings"), pMouseX, pMouseY)));

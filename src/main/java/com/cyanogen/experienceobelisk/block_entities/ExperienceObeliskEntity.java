@@ -86,7 +86,7 @@ public class ExperienceObeliskEntity extends BlockEntity implements IAnimatable{
 
     public static <T> void tick(Level level, BlockPos pos, BlockState state, T blockEntity) {
 
-        level.sendBlockUpdated(pos, state, state, 2);
+        level.sendBlockUpdated(pos, state, state, 2); //todo: synchronize on action instead of on tick
         boolean isRedstonePowered = level.hasNeighborSignal(pos);
 
         BlockEntity entity = level.getBlockEntity(pos);

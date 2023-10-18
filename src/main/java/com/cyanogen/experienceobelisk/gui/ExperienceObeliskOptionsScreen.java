@@ -11,6 +11,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.Widget;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextComponent;
@@ -20,21 +21,19 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 
-public class ExperienceObeliskOptionsScreen extends Screen {
+public class ExperienceObeliskOptionsScreen extends AbstractContainerScreen<ExperienceObeliskMenu> {
 
-    public Level level;
-    public Player player;
     public BlockPos pos;
     public ExperienceObeliskEntity xpobelisk;
+    public ExperienceObeliskMenu menu;
 
     private final ResourceLocation texture = new ResourceLocation("experienceobelisk:textures/gui/screens/experience_obelisk.png");
 
-    protected ExperienceObeliskOptionsScreen(Level level, Player player, BlockPos pos, ExperienceObeliskScreen screen) {
-        super(new TextComponent("Experience Obelisk"));
-        this.level = level;
-        this.player = player;
+    protected ExperienceObeliskOptionsScreen(BlockPos pos, ExperienceObeliskMenu menu) {
+        super(menu, menu.inventory, new TextComponent("Experience Obelisk"));
         this.pos = pos;
-        this.xpobelisk = screen.xpobelisk;
+        this.xpobelisk = menu.entity;
+        this.menu = menu;
     }
 
     @Override
@@ -61,10 +60,6 @@ public class ExperienceObeliskOptionsScreen extends Screen {
 
     @Override
     public void render(PoseStack pPoseStack, int pMouseX, int pMouseY, float pPartialTick) {
-
-        if(player.position().distanceTo(Vec3.atCenterOf(pos)) > 7){
-            this.onClose();
-        }
 
         renderBackground(pPoseStack);
 
@@ -99,6 +94,10 @@ public class ExperienceObeliskOptionsScreen extends Screen {
 
     }
 
+    @Override
+    protected void renderBg(PoseStack pPoseStack, float pPartialTick, int pMouseX, int pMouseY) {
+
+    }
 
     private void setupWidgetElements(){
 
@@ -113,9 +112,10 @@ public class ExperienceObeliskOptionsScreen extends Screen {
         Style green = Style.EMPTY.withColor(0x45FF5B);
         Style red = Style.EMPTY.withColor(0xFF454B);
         double radius = xpobelisk.getRadius();
+        boolean redstoneEnabled = xpobelisk.isRedstoneEnabled();
 
         TranslatableComponent status;
-        if(xpobelisk.isRedstoneEnabled()){
+        if(redstoneEnabled){
             status = new TranslatableComponent("button.experienceobelisk.experience_obelisk.enabled");
         }
         else{
@@ -163,7 +163,7 @@ public class ExperienceObeliskOptionsScreen extends Screen {
                 new TranslatableComponent("button.experienceobelisk.experience_obelisk.back"),
 
                 (onPress) ->
-                        Minecraft.getInstance().setScreen(new ExperienceObeliskScreen(level, player, pos)),
+                        Minecraft.getInstance().setScreen(new ExperienceObeliskScreen(this.menu)),
 
                 (pButton, pPoseStack, pMouseX, pMouseY) ->
                         renderTooltip(pPoseStack, new TranslatableComponent("tooltip.experienceobelisk.experience_obelisk.back"), pMouseX, pMouseY)));

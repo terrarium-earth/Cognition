@@ -1,15 +1,26 @@
 package com.cyanogen.experienceobelisk.block;
 
 import com.cyanogen.experienceobelisk.block_entities.ExperienceObeliskEntity;
+import com.cyanogen.experienceobelisk.gui.ExperienceObeliskMenu;
 import com.cyanogen.experienceobelisk.gui.ExperienceObeliskScreen;
+import com.cyanogen.experienceobelisk.gui.PrecisionDispellerMenu;
 import com.cyanogen.experienceobelisk.registries.RegisterBlockEntities;
 import com.cyanogen.experienceobelisk.registries.RegisterItems;
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.SpiderRenderer;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.MenuProvider;
+import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -30,7 +41,9 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.Nullable;
+import org.lwjgl.system.CallbackI;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -87,16 +100,30 @@ public class ExperienceObeliskBlock extends Block implements EntityBlock {
     }
 
     @Override
-    public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
-        if(pLevel.isClientSide()){
-            openGUI(pLevel, pPlayer, pPos);
+    public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+        if (level.isClientSide) {
+            return InteractionResult.SUCCESS;
+        } else {
+            NetworkHooks.openGui((ServerPlayer) player, state.getMenuProvider(level,pos), pos);
+            return InteractionResult.CONSUME;
         }
-        return InteractionResult.CONSUME;
     }
 
-    @OnlyIn(Dist.CLIENT)
-    public void openGUI(Level level, Player player, BlockPos pos){
-        Minecraft.getInstance().setScreen(new ExperienceObeliskScreen(level, player, pos));
+    @Nullable
+    @Override
+    public MenuProvider getMenuProvider(BlockState pState, Level level, BlockPos pos) {
+
+        return new MenuProvider() {
+            @Override
+            public Component getDisplayName() {
+                return new TextComponent("Experience Obelisk");
+            }
+
+            @Override
+            public AbstractContainerMenu createMenu(int id, Inventory inventory, Player player) {
+                return new ExperienceObeliskMenu(id, inventory, player);
+            }
+        };
     }
 
     @Nullable
