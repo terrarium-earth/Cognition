@@ -121,7 +121,7 @@ public class ExperienceObeliskBlock extends Block implements EntityBlock {
 
             @Override
             public AbstractContainerMenu createMenu(int id, Inventory inventory, Player player) {
-                return new ExperienceObeliskMenu(id, inventory, player);
+                return new ExperienceObeliskMenu(id, pos);
             }
         };
     }
