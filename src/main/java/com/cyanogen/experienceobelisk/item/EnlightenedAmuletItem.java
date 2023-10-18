@@ -80,7 +80,7 @@ public class EnlightenedAmuletItem extends Item{
             int totalValue = 0;
 
             for(ExperienceOrb orb : list){
-                if(orb.isAlive()){
+                if(orb.isAlive() && (totalValue + orb.value) <= 32767){
                     totalValue += orb.value;
                     orb.discard();
                 }
