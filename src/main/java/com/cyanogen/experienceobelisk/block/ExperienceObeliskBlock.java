@@ -64,34 +64,34 @@ public class ExperienceObeliskBlock extends Block implements EntityBlock {
 
     //rotating cube
     VoxelShape shape1 = Shapes.create(new AABB(6.7 / 16D,14 / 16D,6.7 / 16D,9.3 / 16D,15.5 / 16D,9.3 / 16D));
-    //base
+    //base glowy bit
     VoxelShape shape2 = Shapes.create(new AABB(1 / 16D,0 / 16D,1 / 16D,15 / 16D,4.3 / 16D,15 / 16D));
-    //base 2
+    //base
     VoxelShape shape3 = Shapes.create(new AABB(5 / 16D,4 / 16D,5 / 16D,11 / 16D,5 / 16D,11 / 16D));
 
     VoxelShape shape = Shapes.join(Shapes.join(shape1, shape2, BooleanOp.OR), shape3, BooleanOp.OR).optimize();
     @Override
-    public VoxelShape getShape(BlockState p_60555_, BlockGetter p_60556_, BlockPos p_60557_, CollisionContext p_60558_) {
+    public VoxelShape getShape(BlockState state, BlockGetter getter, BlockPos pos, CollisionContext context) {
         return shape;
     }
 
     public ItemStack stack;
     @Override
-    public void playerWillDestroy(Level pLevel, BlockPos pPos, BlockState pState, Player pPlayer) {
-        if (!pLevel.isClientSide) {
-            BlockEntity blockentity = pLevel.getBlockEntity(pPos);
-            if (blockentity instanceof ExperienceObeliskEntity entity && pPlayer.hasCorrectToolForDrops(pState)) {
+    public void playerWillDestroy(Level level, BlockPos pos, BlockState state, Player player) {
+        if (!level.isClientSide) {
+            BlockEntity blockentity = level.getBlockEntity(pos);
+            if (blockentity instanceof ExperienceObeliskEntity entity && player.hasCorrectToolForDrops(state)) {
 
                 stack = new ItemStack(RegisterItems.EXPERIENCE_OBELISK_ITEM.get(), 1);
                 entity.saveToItem(stack);
             }
         }
 
-        super.playerWillDestroy(pLevel, pPos, pState, pPlayer);
+        super.playerWillDestroy(level, pos, state, player);
     }
 
     @Override
-    public List<ItemStack> getDrops(BlockState pState, LootContext.Builder pBuilder) {
+    public List<ItemStack> getDrops(BlockState state, LootContext.Builder builder) {
         List<ItemStack> drops = new ArrayList<>();
         if(stack != null){
             drops.add(stack);
@@ -111,7 +111,7 @@ public class ExperienceObeliskBlock extends Block implements EntityBlock {
 
     @Nullable
     @Override
-    public MenuProvider getMenuProvider(BlockState pState, Level level, BlockPos pos) {
+    public MenuProvider getMenuProvider(BlockState state, Level level, BlockPos pos) {
 
         return new MenuProvider() {
             @Override
@@ -128,8 +128,8 @@ public class ExperienceObeliskBlock extends Block implements EntityBlock {
 
     @Nullable
     @Override
-    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level pLevel, BlockState pState, BlockEntityType<T> pBlockEntityType) {
-        return pBlockEntityType == RegisterBlockEntities.EXPERIENCEOBELISK_BE.get() ? ExperienceObeliskEntity::tick : null;
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> blockEntityType) {
+        return blockEntityType == RegisterBlockEntities.EXPERIENCEOBELISK_BE.get() ? ExperienceObeliskEntity::tick : null;
     }
 
     @Override
@@ -137,11 +137,10 @@ public class ExperienceObeliskBlock extends Block implements EntityBlock {
         return RenderShape.ENTITYBLOCK_ANIMATED;
     }
 
-    //block entity
     @Nullable
     @Override
-    public BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
-        return RegisterBlockEntities.EXPERIENCEOBELISK_BE.get().create(pPos, pState);
+    public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+        return RegisterBlockEntities.EXPERIENCEOBELISK_BE.get().create(pos, state);
     }
 
 }
