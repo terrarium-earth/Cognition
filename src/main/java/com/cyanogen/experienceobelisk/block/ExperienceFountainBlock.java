@@ -32,6 +32,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -88,7 +89,7 @@ public class ExperienceFountainBlock extends Block implements EntityBlock {
                 case 0 -> message.append(new TextComponent("Slow").withStyle(ChatFormatting.RED));
                 case 1 -> message.append(new TextComponent("Moderate").withStyle(ChatFormatting.YELLOW));
                 case 2 -> message.append(new TextComponent("Fast").withStyle(ChatFormatting.GREEN));
-                case 3 -> message.append(new TextComponent("Hyperspeed").withStyle(ChatFormatting.LIGHT_PURPLE));
+                case 3 -> message.append(new TextComponent("Hyperspeed").withStyle(ChatFormatting.BLUE));
             }
             player.displayClientMessage(message, true);
             level.sendBlockUpdated(pos, state, state, 2);
@@ -172,27 +173,27 @@ public class ExperienceFountainBlock extends Block implements EntityBlock {
 
     VoxelShape shape = Shapes.create(new AABB(0 / 16D,0 / 16D,0 / 16D,16 / 16D,9 / 16D,16 / 16D));
     @Override
-    public VoxelShape getShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
+    public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
         return shape;
     }
 
     public ItemStack stack;
     @Override
-    public void playerWillDestroy(Level pLevel, BlockPos pPos, BlockState pState, Player pPlayer) {
-        if (!pLevel.isClientSide) {
-            BlockEntity blockentity = pLevel.getBlockEntity(pPos);
-            if (blockentity instanceof ExperienceFountainEntity entity && pPlayer.hasCorrectToolForDrops(pState)) {
+    public void playerWillDestroy(Level level, BlockPos pos, BlockState state, Player player) {
+        if (!level.isClientSide) {
+            BlockEntity blockentity = level.getBlockEntity(pos);
+            if (blockentity instanceof ExperienceFountainEntity entity && player.hasCorrectToolForDrops(state)) {
 
                 stack = new ItemStack(RegisterItems.EXPERIENCE_FOUNTAIN_ITEM.get(), 1);
                 entity.saveToItem(stack);
             }
         }
 
-        super.playerWillDestroy(pLevel, pPos, pState, pPlayer);
+        super.playerWillDestroy(level, pos, state, player);
     }
 
     @Override
-    public List<ItemStack> getDrops(BlockState pState, LootContext.Builder pBuilder) {
+    public List<ItemStack> getDrops(BlockState state, LootContext.Builder builder) {
         List<ItemStack> drops = new ArrayList<>();
         if(stack != null){
             drops.add(stack);
@@ -210,14 +211,14 @@ public class ExperienceFountainBlock extends Block implements EntityBlock {
 
     @Nullable
     @Override
-    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level pLevel, BlockState pState, BlockEntityType<T> pBlockEntityType) {
-        return pBlockEntityType == RegisterBlockEntities.EXPERIENCEFOUNTAIN_BE.get() ? ExperienceFountainEntity::tick : null;
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> blockEntityType) {
+        return blockEntityType == RegisterBlockEntities.EXPERIENCEFOUNTAIN_BE.get() ? ExperienceFountainEntity::tick : null;
     }
 
     @Nullable
     @Override
-    public BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
-        return RegisterBlockEntities.EXPERIENCEFOUNTAIN_BE.get().create(pPos, pState);
+    public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+        return RegisterBlockEntities.EXPERIENCEFOUNTAIN_BE.get().create(pos, state);
     }
 
 }
