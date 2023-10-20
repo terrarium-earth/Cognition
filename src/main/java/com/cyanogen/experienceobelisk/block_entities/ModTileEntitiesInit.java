@@ -14,8 +14,8 @@ public class ModTileEntitiesInit {
 
     //registering a new block entity, binding it to EXPERIENCE_OBELISK
 
-    public static final RegistryObject<BlockEntityType<XPObeliskEntity>> XPOBELISK_BE = BLOCK_ENTITIES.register("experienceobelisk_be",
-            ()-> BlockEntityType.Builder.of(XPObeliskEntity::new, ModBlocksInit.EXPERIENCE_OBELISK.get()).build(null));
+    public static final RegistryObject<BlockEntityType<ExperienceObeliskEntity>> XPOBELISK_BE = BLOCK_ENTITIES.register("experienceobelisk_be",
+            ()-> BlockEntityType.Builder.of(ExperienceObeliskEntity::new, ModBlocksInit.EXPERIENCE_OBELISK.get()).build(null));
 
 
     public static void register(IEventBus eventBus){
