@@ -1,6 +1,6 @@
 package com.cyanogen.experienceobelisk.gui;
 
-import com.cyanogen.experienceobelisk.block_entities.XPObeliskEntity;
+import com.cyanogen.experienceobelisk.block_entities.ExperienceObeliskEntity;
 import com.cyanogen.experienceobelisk.network.PacketHandler;
 import com.cyanogen.experienceobelisk.network.experienceobelisk.UpdateToServer;
 import com.mojang.blaze3d.platform.InputConstants;
@@ -9,34 +9,33 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.Widget;
-import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.entity.player.Inventory;
 
 import static com.cyanogen.experienceobelisk.network.experienceobelisk.UpdateToServer.Request.*;
 
 
-public class ExperienceObeliskScreen extends Screen{
+public class ExperienceObeliskScreen extends AbstractContainerScreen<ExperienceObeliskMenu> {
 
-    public Level level;
-    public Player player;
     public BlockPos pos;
-    public XPObeliskEntity xpobelisk;
-
+    public ExperienceObeliskEntity xpobelisk;
     private final ResourceLocation texture = new ResourceLocation("experienceobelisk:textures/gui/container/dark_bg2.png");
 
-    public ExperienceObeliskScreen(Level level, Player player, BlockPos pos) {
-        super(new TextComponent("Experience Obelisk"));
-        this.level = level;
-        this.player = player;
-        this.pos = pos;
-        this.xpobelisk = (XPObeliskEntity) level.getBlockEntity(pos);
+    public ExperienceObeliskScreen(ExperienceObeliskMenu menu, Inventory inventory, Component component) {
+        super(menu, inventory, component);
+        this.pos = menu.pos;
+        this.xpobelisk = menu.entity;
+        System.out.println("screen class: " + menu.entity);
+    }
+
+    protected ExperienceObeliskScreen(ExperienceObeliskMenu menu) {
+        this(menu, menu.inventory, new TextComponent("Experience Obelisk"));
     }
 
     @Override
@@ -83,10 +82,6 @@ public class ExperienceObeliskScreen extends Screen{
 
     @Override
     public void render(PoseStack pPoseStack, int pMouseX, int pMouseY, float pPartialTick) {
-
-        if(player.position().distanceTo(Vec3.atCenterOf(pos)) > 7){
-            this.onClose();
-        }
 
         renderBackground(pPoseStack);
 
@@ -135,6 +130,11 @@ public class ExperienceObeliskScreen extends Screen{
 
     }
 
+    @Override
+    protected void renderBg(PoseStack p_97787_, float p_97788_, int p_97789_, int p_97790_) {
+
+    }
+
     //buttons and whatnot go here
     private void setupWidgetElements() {
 
@@ -153,7 +153,7 @@ public class ExperienceObeliskScreen extends Screen{
                 new TranslatableComponent("button.experienceobelisk.experience_obelisk.settings"),
 
                 (onPress) ->
-                        Minecraft.getInstance().setScreen(new ExperienceObeliskOptionsScreen(level, player, pos, this)),
+                        Minecraft.getInstance().setScreen(new ExperienceObeliskOptionsScreen(pos, menu)),
 
                 (pButton, pPoseStack, pMouseX, pMouseY) ->
                         renderTooltip(pPoseStack, new TranslatableComponent("tooltip.experienceobelisk.experience_obelisk.settings"), pMouseX, pMouseY)));

@@ -1,15 +1,20 @@
 package com.cyanogen.experienceobelisk.block;
 
+import com.cyanogen.experienceobelisk.block_entities.ExperienceObeliskEntity;
 import com.cyanogen.experienceobelisk.block_entities.ModTileEntitiesInit;
-import com.cyanogen.experienceobelisk.block_entities.XPObeliskEntity;
-import com.cyanogen.experienceobelisk.gui.ExperienceObeliskScreen;
+import com.cyanogen.experienceobelisk.gui.ExperienceObeliskMenu;
 import com.cyanogen.experienceobelisk.item.ModItemsInit;
-import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.MenuProvider;
+import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.BlockGetter;
@@ -29,8 +34,7 @@ import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -67,7 +71,7 @@ public class ExperienceObeliskBlock extends Block implements EntityBlock {
     public void playerWillDestroy(Level pLevel, BlockPos pPos, BlockState pState, Player pPlayer) {
         if (!pLevel.isClientSide) {
             BlockEntity blockentity = pLevel.getBlockEntity(pPos);
-            if (blockentity instanceof XPObeliskEntity entity && pPlayer.hasCorrectToolForDrops(pState)) {
+            if (blockentity instanceof ExperienceObeliskEntity entity && pPlayer.hasCorrectToolForDrops(pState)) {
 
                 stack = new ItemStack(ModItemsInit.EXPERIENCE_OBELISK_ITEM.get(), 1);
                 entity.saveToItem(stack);
@@ -92,7 +96,7 @@ public class ExperienceObeliskBlock extends Block implements EntityBlock {
         ItemStack heldItem = pPlayer.getItemInHand(pHand);
         ItemStack cognitiumBucket = new ItemStack(ModItemsInit.COGNITIUM_BUCKET.get(), 1);
 
-        if(pLevel.getBlockEntity(pPos) instanceof XPObeliskEntity obelisk){
+        if(pLevel.getBlockEntity(pPos) instanceof ExperienceObeliskEntity obelisk){
 
             if(heldItem.is(Items.BUCKET) && obelisk.getFluidAmount() >= 1000){
 
@@ -125,23 +129,37 @@ public class ExperienceObeliskBlock extends Block implements EntityBlock {
             }
         }
 
-        if(pLevel.isClientSide()){
-            openGUI(pLevel, pPlayer, pPos);
+        if(!pLevel.isClientSide()){
+            NetworkHooks.openGui((ServerPlayer) pPlayer, pState.getMenuProvider(pLevel,pPos), pPos);
             return InteractionResult.CONSUME;
         }
 
         return InteractionResult.PASS;
     }
 
-    @OnlyIn(Dist.CLIENT)
-    public void openGUI(Level level, Player player, BlockPos pos){
-        Minecraft.getInstance().setScreen(new ExperienceObeliskScreen(level, player, pos));
+    @Nullable
+    @Override
+    public MenuProvider getMenuProvider(BlockState pState, Level level, BlockPos pos) {
+
+        return new MenuProvider() {
+            @Override
+            public Component getDisplayName() {
+                return new TextComponent("Experience Obelisk");
+            }
+
+            @Override
+            public AbstractContainerMenu createMenu(int id, Inventory inventory, Player player) {
+                return new ExperienceObeliskMenu(id, pos);
+            }
+        };
     }
+
+
 
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level pLevel, BlockState pState, BlockEntityType<T> pBlockEntityType) {
-        return pBlockEntityType == ModTileEntitiesInit.XPOBELISK_BE.get() ? XPObeliskEntity::tick : null;
+        return pBlockEntityType == ModTileEntitiesInit.XPOBELISK_BE.get() ? ExperienceObeliskEntity::tick : null;
     }
 
     @Override
