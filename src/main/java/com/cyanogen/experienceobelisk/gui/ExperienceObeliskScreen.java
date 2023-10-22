@@ -31,7 +31,6 @@ public class ExperienceObeliskScreen extends AbstractContainerScreen<ExperienceO
         super(menu, inventory, component);
         this.pos = menu.pos;
         this.xpobelisk = menu.entity;
-        System.out.println("screen class: " + menu.entity);
     }
 
     protected ExperienceObeliskScreen(ExperienceObeliskMenu menu) {
