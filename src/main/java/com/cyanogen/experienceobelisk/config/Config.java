@@ -22,6 +22,7 @@ public class Config {
             defaultValues.add("cofh_core:experience");
             defaultValues.add("industrialforegoing:essence");
             defaultValues.add("sophisticatedcore:xp_still");
+            defaultValues.add("enderio:xp_juice");
 
             builder.push("Allowed Experience Fluids");
             this.allowedFluids = builder.comment("Add IDs of fluids you want the obelisk to support here in the form mod_id:fluid_name")
