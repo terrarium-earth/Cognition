@@ -1,8 +1,8 @@
 package com.cyanogen.experienceobelisk.renderer;
 
 import com.cyanogen.experienceobelisk.ExperienceObelisk;
-import com.cyanogen.experienceobelisk.block_entities.ModTileEntitiesInit;
 import com.cyanogen.experienceobelisk.block_entities.ExperienceObeliskTileRenderer;
+import com.cyanogen.experienceobelisk.block_entities.ModTileEntitiesInit;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;

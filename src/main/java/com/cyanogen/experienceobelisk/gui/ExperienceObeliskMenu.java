@@ -23,9 +23,6 @@ public class ExperienceObeliskMenu extends AbstractContainerMenu {
         this.pos = data.readBlockPos();
         this.entity = (ExperienceObeliskEntity) level.getBlockEntity(pos);
         this.inventory = inventory;
-
-        System.out.println("blockpos: " + pos);
-        System.out.println("entity: " + entity);
     }
 
     public ExperienceObeliskMenu(int id, BlockPos pos) {
