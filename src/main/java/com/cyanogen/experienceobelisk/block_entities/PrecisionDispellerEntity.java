@@ -7,7 +7,6 @@ import net.minecraft.network.Connection;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import software.bernie.geckolib3.core.AnimationState;
@@ -15,20 +14,16 @@ import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
 import software.bernie.geckolib3.core.builder.AnimationBuilder;
 import software.bernie.geckolib3.core.controller.AnimationController;
-import software.bernie.geckolib3.core.easing.EasingType;
 import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
-
-import java.util.ArrayList;
-import java.util.Objects;
 
 public class PrecisionDispellerEntity extends BlockEntity implements IAnimatable{
 
     public boolean pendingAnimation = false;
 
-    public PrecisionDispellerEntity(BlockPos pPos, BlockState pBlockState) {
-        super(RegisterBlockEntities.PRECISIONDISPELLER_BE.get(), pPos, pBlockState);
+    public PrecisionDispellerEntity(BlockPos pos, BlockState state) {
+        super(RegisterBlockEntities.PRECISIONDISPELLER_BE.get(), pos, state);
     }
 
     //-----------ANIMATIONS-----------//

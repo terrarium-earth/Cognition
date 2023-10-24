@@ -89,8 +89,6 @@ public class ExperienceObeliskEntity extends BlockEntity implements IAnimatable{
         level.sendBlockUpdated(pos, state, state, 2); //todo: synchronize on action instead of on tick
         boolean isRedstonePowered = level.hasNeighborSignal(pos);
 
-        BlockEntity entity = level.getBlockEntity(pos);
-
         if(blockEntity instanceof ExperienceObeliskEntity xpobelisk && level.getGameTime() % 3 == 0){ //check every 3 ticks
 
             boolean absorb = !xpobelisk.isRedstoneEnabled() || isRedstonePowered;

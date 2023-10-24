@@ -1,6 +1,5 @@
 package com.cyanogen.experienceobelisk.gui;
 
-import com.cyanogen.experienceobelisk.ExperienceObelisk;
 import com.cyanogen.experienceobelisk.block_entities.ExperienceObeliskEntity;
 import com.cyanogen.experienceobelisk.network.PacketHandler;
 import com.cyanogen.experienceobelisk.network.experience_obelisk.UpdateContents;
@@ -10,7 +9,6 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.Widget;
-import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -19,9 +17,6 @@ import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.Vec3;
 
 import static com.cyanogen.experienceobelisk.network.experience_obelisk.UpdateContents.Request.*;
 
@@ -36,7 +31,6 @@ public class ExperienceObeliskScreen extends AbstractContainerScreen<ExperienceO
         super(menu, inventory, component);
         this.pos = menu.pos;
         this.xpobelisk = menu.entity;
-        System.out.println("screen class: " + menu.entity);
     }
 
     protected ExperienceObeliskScreen(ExperienceObeliskMenu menu) {

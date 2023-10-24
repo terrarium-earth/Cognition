@@ -1,7 +1,6 @@
 package com.cyanogen.experienceobelisk.renderer;
 
 import com.cyanogen.experienceobelisk.ExperienceObelisk;
-import com.cyanogen.experienceobelisk.item.ExperienceObeliskItem;
 import com.cyanogen.experienceobelisk.item.PrecisionDispellerItem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;

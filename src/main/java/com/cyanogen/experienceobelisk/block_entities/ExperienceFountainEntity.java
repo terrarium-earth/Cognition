@@ -18,6 +18,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
+import software.bernie.geckolib3.core.builder.AnimationBuilder;
 import software.bernie.geckolib3.core.controller.AnimationController;
 import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
@@ -27,8 +28,8 @@ import java.util.List;
 
 public class ExperienceFountainEntity extends ExperienceReceivingEntity implements IAnimatable {
 
-    public ExperienceFountainEntity(BlockPos pPos, BlockState pState) {
-        super(RegisterBlockEntities.EXPERIENCEFOUNTAIN_BE.get(), pPos, pState);
+    public ExperienceFountainEntity(BlockPos pos, BlockState state) {
+        super(RegisterBlockEntities.EXPERIENCEFOUNTAIN_BE.get(), pos, state);
     }
 
     //-----------ANIMATIONS-----------//
@@ -36,6 +37,19 @@ public class ExperienceFountainEntity extends ExperienceReceivingEntity implemen
     private <E extends BlockEntity & IAnimatable> PlayState predicate(AnimationEvent<E> event) {
         AnimationController controller = event.getController();
         controller.transitionLengthTicks = 0;
+
+        BlockEntity entity = event.getAnimatable();
+
+        if(entity instanceof ExperienceFountainEntity fountain){
+            if(controller.getCurrentAnimation() == null || !toName(fountain.activityState).equals(controller.getCurrentAnimation().animationName)){
+                switch(fountain.activityState){
+                    case 0 -> controller.setAnimation(new AnimationBuilder().addAnimation("slow"));
+                    case 1 -> controller.setAnimation(new AnimationBuilder().addAnimation("moderate"));
+                    case 2 -> controller.setAnimation(new AnimationBuilder().addAnimation("fast"));
+                    case 3 -> controller.setAnimation(new AnimationBuilder().addAnimation("hyperspeed"));
+                }
+            }
+        }
 
         return PlayState.CONTINUE;
     }
@@ -123,6 +137,24 @@ public class ExperienceFountainEntity extends ExperienceReceivingEntity implemen
             activityState = 0;
         }
         setChanged();
+    }
+
+    public String toName(int state){
+        switch(state){
+            case 0 -> {
+                return("slow");
+            }
+            case 1 -> {
+                return("moderate");
+            }
+            case 2 -> {
+                return("fast");
+            }
+            case 3 -> {
+                return("hyperspeed");
+            }
+        }
+        return null;
     }
 
     @Override

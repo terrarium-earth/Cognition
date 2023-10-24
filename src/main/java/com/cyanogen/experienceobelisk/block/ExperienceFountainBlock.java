@@ -32,7 +32,6 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -89,7 +88,7 @@ public class ExperienceFountainBlock extends Block implements EntityBlock {
                 case 0 -> message.append(new TextComponent("Slow").withStyle(ChatFormatting.RED));
                 case 1 -> message.append(new TextComponent("Moderate").withStyle(ChatFormatting.YELLOW));
                 case 2 -> message.append(new TextComponent("Fast").withStyle(ChatFormatting.GREEN));
-                case 3 -> message.append(new TextComponent("Hyperspeed").withStyle(ChatFormatting.BLUE));
+                case 3 -> message.append(new TextComponent("Hyperspeed").withStyle(ChatFormatting.AQUA));
             }
             player.displayClientMessage(message, true);
             level.sendBlockUpdated(pos, state, state, 2);

@@ -48,14 +48,14 @@ public class PrecisionDispellerBlock extends FaceAttachedHorizontalDirectionalBl
     }
 
     @Override
-    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> pBuilder) {
-        pBuilder.add(FACING);
-        pBuilder.add(FACE);
-        super.createBlockStateDefinition(pBuilder);
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+        builder.add(FACING);
+        builder.add(FACE);
+        super.createBlockStateDefinition(builder);
     }
 
     @Override
-    public boolean canSurvive(BlockState pState, LevelReader pLevel, BlockPos pPos) {
+    public boolean canSurvive(BlockState state, LevelReader level, BlockPos pos) {
         return true;
     }
 
@@ -87,6 +87,7 @@ public class PrecisionDispellerBlock extends FaceAttachedHorizontalDirectionalBl
 
     }
 
+    //-----EW alignment-----//
     //spinny bit
     VoxelShape shape1 = Shapes.create(new AABB(2 / 16D,4 / 16D,4 / 16D,14 / 16D,16 / 16D,12 / 16D));
     //leg 1
@@ -100,6 +101,7 @@ public class PrecisionDispellerBlock extends FaceAttachedHorizontalDirectionalBl
 
     VoxelShape shapeEW = Shapes.join(Shapes.join(shape1, shape2, BooleanOp.OR), shape3, BooleanOp.OR).optimize();
 
+    //-----NS alignment-----//
     //spinny bit
     VoxelShape shape4 = Shapes.create(new AABB(4 / 16D,4 / 16D,2 / 16D,12 / 16D,16 / 16D,14 / 16D));
     //leg 1
@@ -114,7 +116,7 @@ public class PrecisionDispellerBlock extends FaceAttachedHorizontalDirectionalBl
     VoxelShape shapeNS = Shapes.join(Shapes.join(shape5, shape6, BooleanOp.OR), shape4, BooleanOp.OR).optimize();
 
     @Override
-    public VoxelShape getShape(BlockState state, BlockGetter p_60556_, BlockPos p_60557_, CollisionContext p_60558_) {
+    public VoxelShape getShape(BlockState state, BlockGetter getter, BlockPos pos, CollisionContext context) {
 
         Direction direction = (Direction) state.getValues().get(FACING);
         if(direction == Direction.NORTH || direction == Direction.SOUTH){
@@ -132,7 +134,7 @@ public class PrecisionDispellerBlock extends FaceAttachedHorizontalDirectionalBl
 
     @Nullable
     @Override
-    public BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
-        return RegisterBlockEntities.PRECISIONDISPELLER_BE.get().create(pPos, pState);
+    public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+        return RegisterBlockEntities.PRECISIONDISPELLER_BE.get().create(pos, state);
     }
 }
