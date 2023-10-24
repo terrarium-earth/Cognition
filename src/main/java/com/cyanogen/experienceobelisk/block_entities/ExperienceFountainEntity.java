@@ -40,13 +40,52 @@ public class ExperienceFountainEntity extends ExperienceReceivingEntity implemen
 
         BlockEntity entity = event.getAnimatable();
 
-        if(entity instanceof ExperienceFountainEntity fountain){
-            if(controller.getCurrentAnimation() == null || !toName(fountain.activityState).equals(controller.getCurrentAnimation().animationName)){
+        //conditions for the green glow showing up:
+        // - must have a linked obelisk
+        // - must have player standing on it OR redstone signal
+
+        if(level != null && entity instanceof ExperienceFountainEntity fountain){
+
+            boolean hasNeighborSignal = level.hasNeighborSignal(fountain.getBlockPos());
+            boolean isActive = fountain.isBound && (hasNeighborSignal || fountain.hasPlayerAbove);
+
+            if(controller.getCurrentAnimation() == null ||
+                    !toName(fountain.activityState,isActive).equals(controller.getCurrentAnimation().animationName)){
+                //only reset the animation when there is a discrepancy in states
+
                 switch(fountain.activityState){
-                    case 0 -> controller.setAnimation(new AnimationBuilder().addAnimation("slow"));
-                    case 1 -> controller.setAnimation(new AnimationBuilder().addAnimation("moderate"));
-                    case 2 -> controller.setAnimation(new AnimationBuilder().addAnimation("fast"));
-                    case 3 -> controller.setAnimation(new AnimationBuilder().addAnimation("hyperspeed"));
+                    case 0 -> {
+                        if(isActive){
+                            controller.setAnimation(new AnimationBuilder().addAnimation("active-slow"));
+                        }
+                        else{
+                            controller.setAnimation(new AnimationBuilder().addAnimation("slow"));
+                        }
+                    }
+                    case 1 -> {
+                        if(isActive){
+                            controller.setAnimation(new AnimationBuilder().addAnimation("active-moderate"));
+                        }
+                        else{
+                            controller.setAnimation(new AnimationBuilder().addAnimation("moderate"));
+                        }
+                    }
+                    case 2 -> {
+                        if(isActive){
+                            controller.setAnimation(new AnimationBuilder().addAnimation("active-fast"));
+                        }
+                        else{
+                            controller.setAnimation(new AnimationBuilder().addAnimation("fast"));
+                        }
+                    }
+                    case 3 -> {
+                        if(isActive){
+                            controller.setAnimation(new AnimationBuilder().addAnimation("active-hyperspeed"));
+                        }
+                        else{
+                            controller.setAnimation(new AnimationBuilder().addAnimation("hyperspeed"));
+                        }
+                    }
                 }
             }
         }
@@ -56,12 +95,13 @@ public class ExperienceFountainEntity extends ExperienceReceivingEntity implemen
 
     @Override
     public void registerControllers(AnimationData data) {
-        data.addAnimationController(new AnimationController(this, "controller", 0, this::predicate));
+        data.addAnimationController(new AnimationController(this, "experience_fountain_block_controller", 0, this::predicate));
     }
 
+    private final AnimationFactory manager = new AnimationFactory(this);
     @Override
     public AnimationFactory getFactory() {
-        return new AnimationFactory(this);
+        return manager;
     }
 
     //-----------PASSIVE BEHAVIOR-----------//
@@ -139,19 +179,20 @@ public class ExperienceFountainEntity extends ExperienceReceivingEntity implemen
         setChanged();
     }
 
-    public String toName(int state){
-        switch(state){
+    public String toName(int activityState, boolean isActive){
+
+        switch(activityState){
             case 0 -> {
-                return("slow");
+                return isActive ? "active-slow" : "slow";
             }
             case 1 -> {
-                return("moderate");
+                return isActive ? "active-moderate" : "moderate";
             }
             case 2 -> {
-                return("fast");
+                return isActive ? "active-fast" : "fast";
             }
             case 3 -> {
-                return("hyperspeed");
+                return isActive ? "active-hyperspeed" : "hyperspeed";
             }
         }
         return null;
@@ -162,6 +203,7 @@ public class ExperienceFountainEntity extends ExperienceReceivingEntity implemen
     {
         super.load(tag);
         this.activityState = tag.getInt("ActivityState");
+       // this.hasPlayerAbove = tag.getBoolean("PlayerAbove");
     }
 
     @Override
@@ -169,14 +211,15 @@ public class ExperienceFountainEntity extends ExperienceReceivingEntity implemen
     {
         super.saveAdditional(tag);
         tag.putInt("ActivityState", activityState);
+        //tag.putBoolean("PlayerAbove", hasPlayerAbove);
     }
 
-    //sends CompoundTag out with nbt data
     @Override
     public CompoundTag getUpdateTag()
     {
         CompoundTag tag = super.getUpdateTag();
         tag.putInt("ActivityState", activityState);
+      //  tag.putBoolean("PlayerAbove", hasPlayerAbove);
 
         return tag;
     }

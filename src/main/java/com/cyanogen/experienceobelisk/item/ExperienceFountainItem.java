@@ -8,6 +8,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.client.IItemRenderProperties;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
+import software.bernie.geckolib3.core.builder.AnimationBuilder;
 import software.bernie.geckolib3.core.controller.AnimationController;
 import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
@@ -17,8 +18,8 @@ import java.util.function.Consumer;
 
 public class ExperienceFountainItem extends BlockItem implements IAnimatable {
 
-    public ExperienceFountainItem(Block p_40565_, Properties p_40566_) {
-        super(p_40565_, p_40566_);
+    public ExperienceFountainItem(Block block, Properties properties) {
+        super(block, properties);
     }
 
     //-----ANIMATIONS-----//
@@ -26,6 +27,8 @@ public class ExperienceFountainItem extends BlockItem implements IAnimatable {
     private <E extends BlockEntity & IAnimatable> PlayState predicate(AnimationEvent<E> event) {
         AnimationController controller = event.getController();
         controller.transitionLengthTicks = 0;
+
+        controller.setAnimation(new AnimationBuilder().addAnimation("cycle", true));
 
         return PlayState.CONTINUE;
     }
@@ -45,11 +48,12 @@ public class ExperienceFountainItem extends BlockItem implements IAnimatable {
 
     @Override
     public void registerControllers(AnimationData data) {
-        data.addAnimationController(new AnimationController(this, "controller", 0, this::predicate));
+        data.addAnimationController(new AnimationController(this, "experience_fountain_item_controller", 0, this::predicate));
     }
 
+    private final AnimationFactory manager = new AnimationFactory(this);
     @Override
     public AnimationFactory getFactory() {
-        return new AnimationFactory(this);
+        return manager;
     }
 }

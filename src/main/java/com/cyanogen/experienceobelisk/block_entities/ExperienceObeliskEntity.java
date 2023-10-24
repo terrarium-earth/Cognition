@@ -70,7 +70,7 @@ public class ExperienceObeliskEntity extends BlockEntity implements IAnimatable{
 
     @Override
     public void registerControllers(AnimationData data) {
-        data.addAnimationController(new AnimationController(this, "controller", 0, this::predicate));
+        data.addAnimationController(new AnimationController(this, "experience_obelisk_block_controller", 0, this::predicate));
     }
 
     private final AnimationFactory manager = new AnimationFactory(this);

@@ -58,7 +58,7 @@ public class ExperienceObeliskItem extends BlockItem implements IAnimatable{
 
     @Override
     public void registerControllers(AnimationData data) {
-        data.addAnimationController(new AnimationController(this, "controller", 0, this::predicate));
+        data.addAnimationController(new AnimationController(this, "experience_obelisk_item_controller", 0, this::predicate));
     }
 
     private final AnimationFactory manager = new AnimationFactory(this);
