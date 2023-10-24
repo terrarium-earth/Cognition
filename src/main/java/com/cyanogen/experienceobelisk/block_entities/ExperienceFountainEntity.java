@@ -155,7 +155,7 @@ public class ExperienceFountainEntity extends ExperienceReceivingEntity implemen
                     ServerLevel server = (ServerLevel) level;
                     ExperienceOrb orb = new ExperienceOrb(server, pos.getX() + 0.5, pos.getY() + 0.7, pos.getZ() + 0.5, value);
                     obelisk.drain(value * 20);
-                    orb.setDeltaMovement(0,0.1 + 0.5 * Math.random(),0);
+                    orb.setDeltaMovement(0,0.12 + 0.33 * Math.random(),0);
                     server.addFreshEntity(orb);
                 }
             }
@@ -203,7 +203,6 @@ public class ExperienceFountainEntity extends ExperienceReceivingEntity implemen
     {
         super.load(tag);
         this.activityState = tag.getInt("ActivityState");
-       // this.hasPlayerAbove = tag.getBoolean("PlayerAbove");
     }
 
     @Override
@@ -211,7 +210,6 @@ public class ExperienceFountainEntity extends ExperienceReceivingEntity implemen
     {
         super.saveAdditional(tag);
         tag.putInt("ActivityState", activityState);
-        //tag.putBoolean("PlayerAbove", hasPlayerAbove);
     }
 
     @Override
@@ -219,7 +217,6 @@ public class ExperienceFountainEntity extends ExperienceReceivingEntity implemen
     {
         CompoundTag tag = super.getUpdateTag();
         tag.putInt("ActivityState", activityState);
-      //  tag.putBoolean("PlayerAbove", hasPlayerAbove);
 
         return tag;
     }
