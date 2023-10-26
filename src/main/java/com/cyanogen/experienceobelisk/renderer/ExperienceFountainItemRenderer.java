@@ -17,7 +17,7 @@ public class ExperienceFountainItemRenderer extends GeoItemRenderer<ExperienceFo
         super(new AnimatedGeoModel<>() {
             @Override
             public ResourceLocation getModelLocation(ExperienceFountainItem object) {
-                return new ResourceLocation(ExperienceObelisk.MOD_ID, "geo/experience_fountain_experimental.geo.json");
+                return new ResourceLocation(ExperienceObelisk.MOD_ID, "geo/experience_fountain.geo.json");
             }
 
             @Override

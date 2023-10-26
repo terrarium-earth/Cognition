@@ -18,7 +18,7 @@ public class ExperienceFountainBlockRenderer extends GeoBlockRenderer<Experience
 
             @Override
             public ResourceLocation getModelLocation(ExperienceFountainEntity animatable) {
-                return new ResourceLocation(ExperienceObelisk.MOD_ID, "geo/experience_fountain_experimental.geo.json");
+                return new ResourceLocation(ExperienceObelisk.MOD_ID, "geo/experience_fountain.geo.json");
             }
 
             @Override
