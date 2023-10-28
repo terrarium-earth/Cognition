@@ -23,8 +23,8 @@ import java.util.List;
 
 public class EnlightenedAmuletItem extends Item{
 
-    public EnlightenedAmuletItem(Properties pProperties) {
-        super(pProperties);
+    public EnlightenedAmuletItem(Properties p) {
+        super(p);
     }
 
     @Override
@@ -59,7 +59,7 @@ public class EnlightenedAmuletItem extends Item{
     }
 
     @Override
-    public void inventoryTick(ItemStack stack, Level level, Entity entity, int p_41407_, boolean p_41408_) {
+    public void inventoryTick(ItemStack stack, Level level, Entity entity, int slot, boolean isCurrentItem) {
 
         boolean isActive = stack.getOrCreateTag().getBoolean("isActive");
 
@@ -94,24 +94,24 @@ public class EnlightenedAmuletItem extends Item{
 
 
         }
-        super.inventoryTick(stack, level, entity, p_41407_, p_41408_);
+        super.inventoryTick(stack, level, entity, slot, isCurrentItem);
     }
 
     //-----CUSTOM HOVER TEXT-----//
 
     @Override
-    public void appendHoverText(ItemStack pStack, Level pLevel, List<Component> pTooltip, TooltipFlag pFlag) {
+    public void appendHoverText(ItemStack pStack, Level pLevel, List<Component> tooltip, TooltipFlag flag) {
 
         boolean isActive = pStack.getOrCreateTag().getBoolean("isActive");
 
         if(isActive){
-            pTooltip.add(new TranslatableComponent("tooltip.experienceobelisk.enlightened_amulet.active"));
+            tooltip.add(new TranslatableComponent("tooltip.experienceobelisk.enlightened_amulet.active"));
         }
         else{
-            pTooltip.add(new TranslatableComponent("tooltip.experienceobelisk.enlightened_amulet.inactive"));
+            tooltip.add(new TranslatableComponent("tooltip.experienceobelisk.enlightened_amulet.inactive"));
         }
 
-        super.appendHoverText(pStack, pLevel, pTooltip, pFlag);
+        super.appendHoverText(pStack, pLevel, tooltip, flag);
 
     }
 }

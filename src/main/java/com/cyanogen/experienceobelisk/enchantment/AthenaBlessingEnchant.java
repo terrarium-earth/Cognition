@@ -22,17 +22,17 @@ import java.util.Map;
 
 public class AthenaBlessingEnchant extends Enchantment {
 
-    public AthenaBlessingEnchant(Rarity pRarity, EnchantmentCategory pCategory, EquipmentSlot[] pApplicableSlots) {
-        super(pRarity, pCategory, pApplicableSlots);
+    public AthenaBlessingEnchant(Rarity rarity, EnchantmentCategory category, EquipmentSlot[] slots) {
+        super(rarity, category, slots);
     }
 
     @Override
-    public Component getFullname(int pLevel) {
+    public Component getFullname(int level) {
         MutableComponent mutablecomponent = new TranslatableComponent(this.getDescriptionId());
         mutablecomponent.withStyle(ChatFormatting.GREEN);
 
-        if (pLevel != 1 || this.getMaxLevel() != 1) {
-            mutablecomponent.append(" ").append(new TranslatableComponent("enchantment.level." + pLevel));
+        if (level != 1 || this.getMaxLevel() != 1) {
+            mutablecomponent.append(" ").append(new TranslatableComponent("enchantment.level." + level));
         }
 
         return mutablecomponent;
@@ -77,19 +77,19 @@ public class AthenaBlessingEnchant extends Enchantment {
     }
 
     @Override
-    public boolean canEnchant(ItemStack pStack) {
+    public boolean canEnchant(ItemStack stack) {
 
-        if(pStack.getItem() instanceof ArmorItem){
+        if(stack.getItem() instanceof ArmorItem){
             return false;
         }
         else{
-            return canApplyAtEnchantingTable(pStack);
+            return canApplyAtEnchantingTable(stack);
         }
     }
 
     @Override
-    protected boolean checkCompatibility(Enchantment pOther) {
-        return pOther != this;
+    protected boolean checkCompatibility(Enchantment other) {
+        return other != this;
     }
 
     public static void itemDestroyed(PlayerDestroyItemEvent event) {

@@ -70,18 +70,18 @@ public class ExperienceObeliskItem extends BlockItem implements IAnimatable{
     //-----CUSTOM HOVER TEXT-----//
 
     @Override
-    public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltip, TooltipFlag pFlag) {
+    public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
 
-        int amount = pStack.getOrCreateTag().getCompound("BlockEntityTag").getInt("Amount");
+        int amount = stack.getOrCreateTag().getCompound("BlockEntityTag").getInt("Amount");
         int levels = ExperienceObeliskScreen.xpToLevels(amount / 20);
 
-        pTooltip.add(new TranslatableComponent("tooltip.experienceobelisk.experience_obelisk.item_fluid_amount",
+        tooltip.add(new TranslatableComponent("tooltip.experienceobelisk.experience_obelisk.item_fluid_amount",
                 new TextComponent(amount + " mB").withStyle(ChatFormatting.GOLD)));
 
-        pTooltip.add(new TranslatableComponent("tooltip.experienceobelisk.experience_obelisk.item_levels",
+        tooltip.add(new TranslatableComponent("tooltip.experienceobelisk.experience_obelisk.item_levels",
                 new TextComponent(String.valueOf(levels)).withStyle(ChatFormatting.GREEN)));
 
-        super.appendHoverText(pStack, pLevel, pTooltip, pFlag);
+        super.appendHoverText(stack, level, tooltip, flag);
 
     }
 

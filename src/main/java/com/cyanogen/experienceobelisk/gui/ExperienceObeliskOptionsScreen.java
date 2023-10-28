@@ -33,14 +33,14 @@ public class ExperienceObeliskOptionsScreen extends AbstractContainerScreen<Expe
     }
 
     @Override
-    public boolean keyPressed(int pKeyCode, int pScanCode, int pModifiers) {
-        InputConstants.Key mouseKey = InputConstants.getKey(pKeyCode, pScanCode);
+    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+        InputConstants.Key mouseKey = InputConstants.getKey(keyCode, scanCode);
         if (this.minecraft.options.keyInventory.isActiveAndMatches(mouseKey)) {
             this.onClose();
             return true;
         }
         else{
-            return super.keyPressed(pKeyCode, pScanCode, pModifiers);
+            return super.keyPressed(keyCode, scanCode, modifiers);
         }
     }
 
@@ -55,9 +55,9 @@ public class ExperienceObeliskOptionsScreen extends AbstractContainerScreen<Expe
     }
 
     @Override
-    public void render(PoseStack pPoseStack, int pMouseX, int pMouseY, float pPartialTick) {
+    public void render(PoseStack poseStack, int mouseX, int mouseY, float partialTick) {
 
-        renderBackground(pPoseStack);
+        renderBackground(poseStack);
 
         RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
         RenderSystem.setShaderTexture(0, texture);
@@ -69,7 +69,7 @@ public class ExperienceObeliskOptionsScreen extends AbstractContainerScreen<Expe
 
 
         //render gui texture
-        blit(pPoseStack, x, y, 0, 0, 176, 166, textureWidth, textureHeight);
+        blit(poseStack, x, y, 0, 0, 176, 166, textureWidth, textureHeight);
 
         //widgets
         setupWidgetElements();
@@ -85,7 +85,7 @@ public class ExperienceObeliskOptionsScreen extends AbstractContainerScreen<Expe
 
         //render widgets
         for(Widget widget : this.renderables) {
-            widget.render(pPoseStack, pMouseX, pMouseY, pPartialTick);
+            widget.render(poseStack, mouseX, mouseY, partialTick);
         }
 
     }
