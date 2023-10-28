@@ -88,7 +88,7 @@ public class EnlightenedAmuletItem extends Item{
 
             if(totalValue > 0){
                 ServerLevel server = (ServerLevel) level;
-                ExperienceOrb orb = new ExperienceOrb(server, pos.getX(), pos.getY(), pos.getZ(), totalValue);
+                ExperienceOrb orb = new ExperienceOrb(server, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, totalValue);
                 server.addFreshEntity(orb);
             }
 

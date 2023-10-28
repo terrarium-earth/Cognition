@@ -3,6 +3,7 @@ package com.cyanogen.experienceobelisk.block;
 import com.cyanogen.experienceobelisk.block_entities.ExperienceFountainEntity;
 import com.cyanogen.experienceobelisk.block_entities.ExperienceObeliskEntity;
 import com.cyanogen.experienceobelisk.registries.RegisterBlockEntities;
+import com.cyanogen.experienceobelisk.registries.RegisterFluids;
 import com.cyanogen.experienceobelisk.registries.RegisterItems;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
@@ -26,6 +27,7 @@ import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.phys.AABB;
@@ -34,6 +36,11 @@ import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.FluidUtil;
+import net.minecraftforge.fluids.capability.IFluidHandler;
+import net.minecraftforge.fluids.capability.IFluidHandlerItem;
+import net.minecraftforge.items.ItemHandlerHelper;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -57,19 +64,13 @@ public class ExperienceFountainBlock extends Block implements EntityBlock {
 
         BlockEntity entity = level.getBlockEntity(pos);
         ItemStack heldItem = player.getItemInHand(hand);
-
-        List<Item> acceptedItems = new ArrayList<>();
-        acceptedItems.add(Items.BUCKET);
-        acceptedItems.add(RegisterItems.COGNITIUM_BUCKET.get());
-        acceptedItems.add(Items.EXPERIENCE_BOTTLE);
-        acceptedItems.add(Items.GLASS_BOTTLE);
+        IFluidHandlerItem fluidHandler = FluidUtil.getFluidHandler(ItemHandlerHelper.copyStackWithSize(heldItem, 1)).orElse(null);
 
         if(entity instanceof ExperienceFountainEntity fountain){
 
-            if(fountain.isBound){
+            if(fountain.isBound && level.getBlockEntity(fountain.getBoundPos()) instanceof ExperienceObeliskEntity obelisk){
 
                 BlockPos boundPos = fountain.getBoundPos();
-                BlockEntity e = level.getBlockEntity(boundPos);
 
                 if(heldItem.is(RegisterItems.ATTUNEMENT_STAFF.get())){
                     player.displayClientMessage(new TranslatableComponent("message.experienceobelisk.binding_wand.reveal_bound_pos",
@@ -77,8 +78,12 @@ public class ExperienceFountainBlock extends Block implements EntityBlock {
 
                     return InteractionResult.sidedSuccess(true);
                 }
-                else if(acceptedItems.contains(heldItem.getItem()) && e instanceof ExperienceObeliskEntity obelisk){
-                    handleExperienceItem(heldItem, player, hand, obelisk);
+                else if(heldItem.getItem() == Items.EXPERIENCE_BOTTLE || heldItem.getItem() == Items.GLASS_BOTTLE){
+                    handleExperienceBottle(heldItem, player, hand, obelisk);
+                    return InteractionResult.sidedSuccess(true);
+                }
+                else if(fluidHandler != null){
+                    handleExperienceItem(heldItem, fluidHandler, player, hand, obelisk);
                     return InteractionResult.sidedSuccess(true);
                 }
             }
@@ -99,23 +104,23 @@ public class ExperienceFountainBlock extends Block implements EntityBlock {
         return InteractionResult.CONSUME;
     }
 
-    public void handleExperienceItem(ItemStack heldItem, Player player, InteractionHand hand, ExperienceObeliskEntity obelisk){
+    public void handleExperienceItem(ItemStack heldItem, IFluidHandlerItem fluidHandler, Player player, InteractionHand hand, ExperienceObeliskEntity obelisk){
 
-        Item cognitiumBucketItem = RegisterItems.COGNITIUM_BUCKET.get();
-        ItemStack cognitiumBucket = new ItemStack(cognitiumBucketItem, 1);
-        ItemStack experienceBottle = new ItemStack(Items.EXPERIENCE_BOTTLE, 1);
-        ItemStack glassBottle = new ItemStack(Items.GLASS_BOTTLE, 1);
+        FluidStack cognitium = new FluidStack(RegisterFluids.COGNITIUM.get(), 1000);
 
-        if(heldItem.is(Items.BUCKET) && obelisk.getFluidAmount() >= 1000){
+        if(obelisk.getFluidAmount() >= 1000 && fluidHandler.fill(cognitium, IFluidHandler.FluidAction.SIMULATE) >= 1000){
 
             if(!player.isCreative()){
                 heldItem.shrink(1);
+                fluidHandler.fill(cognitium, IFluidHandler.FluidAction.EXECUTE);
+
+                ItemStack fluidItem = fluidHandler.getContainer();
 
                 if(heldItem.isEmpty()){
-                    player.setItemInHand(hand, cognitiumBucket);
+                    player.setItemInHand(hand, fluidItem);
                 }
-                else if(!player.addItem(cognitiumBucket)){     //if player inventory is full
-                    player.drop(cognitiumBucket, false);
+                else if(!player.addItem(fluidItem)){
+                    player.drop(fluidItem, false); //in case player inventory is full
                 }
 
             }
@@ -123,17 +128,33 @@ public class ExperienceFountainBlock extends Block implements EntityBlock {
             obelisk.drain(1000);
             player.playSound(SoundEvents.BUCKET_FILL, 1f, 1f);
         }
-        else if(heldItem.is(cognitiumBucketItem) && obelisk.getSpace() >= 1000){
+        else if(obelisk.getSpace() >= 1000 && fluidHandler.drain(cognitium, IFluidHandler.FluidAction.SIMULATE).getAmount() >= 1000){
 
             if(!player.isCreative()){
                 heldItem.shrink(1);
-                player.setItemInHand(hand, new ItemStack(Items.BUCKET, 1));
+                fluidHandler.drain(cognitium, IFluidHandler.FluidAction.EXECUTE);
+
+                ItemStack fluidItem = fluidHandler.getContainer();
+
+                if(heldItem.isEmpty()){
+                    player.setItemInHand(hand, fluidItem);
+                }
+                else if(!player.addItem(fluidItem)){
+                    player.drop(fluidItem, false);
+                }
             }
 
             obelisk.fill(1000);
             player.playSound(SoundEvents.BUCKET_EMPTY, 1f, 1f);
         }
-        else if(heldItem.is(Items.GLASS_BOTTLE) && obelisk.getFluidAmount() >= 140){
+    }
+
+    public void handleExperienceBottle(ItemStack heldItem, Player player, InteractionHand hand, ExperienceObeliskEntity obelisk){
+
+        ItemStack experienceBottle = new ItemStack(Items.EXPERIENCE_BOTTLE, 1);
+        ItemStack glassBottle = new ItemStack(Items.GLASS_BOTTLE, 1);
+
+        if(heldItem.is(Items.GLASS_BOTTLE) && obelisk.getFluidAmount() >= 140){
 
             if(!player.isCreative()){
                 heldItem.shrink(1);
@@ -141,7 +162,7 @@ public class ExperienceFountainBlock extends Block implements EntityBlock {
                 if(heldItem.isEmpty()){
                     player.setItemInHand(hand, experienceBottle);
                 }
-                else if(!player.addItem(experienceBottle)){     //if player inventory is full
+                else if(!player.addItem(experienceBottle)){
                     player.drop(experienceBottle, false);
                 }
 
@@ -158,7 +179,7 @@ public class ExperienceFountainBlock extends Block implements EntityBlock {
                 if(heldItem.isEmpty()){
                     player.setItemInHand(hand, glassBottle);
                 }
-                else if(!player.addItem(glassBottle)){     //if player inventory is full
+                else if(!player.addItem(glassBottle)){
                     player.drop(glassBottle, false);
                 }
             }
@@ -166,9 +187,6 @@ public class ExperienceFountainBlock extends Block implements EntityBlock {
             obelisk.fill(140);
             player.playSound(SoundEvents.BOTTLE_EMPTY, 1f, 1f);
         }
-
-        //potentially wanna make it so any fluid container item works
-
     }
 
 
@@ -206,7 +224,6 @@ public class ExperienceFountainBlock extends Block implements EntityBlock {
                 entity.saveToItem(stack);
             }
         }
-
 
         super.onBlockExploded(state, level, pos, explosion);
     }

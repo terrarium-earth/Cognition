@@ -132,7 +132,7 @@ public class RegisterItems<T> {
             () -> new Item(new Item.Properties().tab(RegisterCreativeTab.MOD_TAB)));
 
     public static final RegistryObject<BucketItem> COGNITIUM_BUCKET = ITEMS.register("cognitium_bucket",
-            () -> new BucketItem(RegisterFluids.COGNITIUM, new Item.Properties().tab(RegisterCreativeTab.MOD_TAB).craftRemainder(Items.BUCKET)));
+            () -> new BucketItem(RegisterFluids.COGNITIUM, new Item.Properties().tab(RegisterCreativeTab.MOD_TAB).craftRemainder(Items.BUCKET).stacksTo(1)));
 
     //-----BLOCK ITEMS-----//
 
