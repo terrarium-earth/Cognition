@@ -2,6 +2,7 @@ package com.cyanogen.experienceobelisk.block;
 
 import com.cyanogen.experienceobelisk.block_entities.ExperienceObeliskEntity;
 import com.cyanogen.experienceobelisk.block_entities.ModTileEntitiesInit;
+import com.cyanogen.experienceobelisk.fluid.ModFluidsInit;
 import com.cyanogen.experienceobelisk.gui.ExperienceObeliskMenu;
 import com.cyanogen.experienceobelisk.item.ModItemsInit;
 import net.minecraft.core.BlockPos;
@@ -16,7 +17,6 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -34,6 +34,11 @@ import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.FluidUtil;
+import net.minecraftforge.fluids.capability.IFluidHandler;
+import net.minecraftforge.fluids.capability.IFluidHandlerItem;
+import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.Nullable;
 
@@ -94,20 +99,21 @@ public class ExperienceObeliskBlock extends Block implements EntityBlock {
     public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
 
         ItemStack heldItem = pPlayer.getItemInHand(pHand);
-        ItemStack cognitiumBucket = new ItemStack(ModItemsInit.COGNITIUM_BUCKET.get(), 1);
+        IFluidHandlerItem fluidHandler = FluidUtil.getFluidHandler(ItemHandlerHelper.copyStackWithSize(heldItem, 1)).orElse(null);
+        FluidStack cognitium = new FluidStack(ModFluidsInit.COGNITIUM.get(), 1000);
 
-        if(pLevel.getBlockEntity(pPos) instanceof ExperienceObeliskEntity obelisk){
+        if(pLevel.getBlockEntity(pPos) instanceof ExperienceObeliskEntity obelisk && fluidHandler != null){
 
-            if(heldItem.is(Items.BUCKET) && obelisk.getFluidAmount() >= 1000){
+            if(obelisk.getFluidAmount() >= 1000 && fluidHandler.fill(cognitium, IFluidHandler.FluidAction.SIMULATE) >= 1000){
 
                 if(!pPlayer.isCreative()){
                     heldItem.shrink(1);
-
+                    fluidHandler.fill(cognitium, IFluidHandler.FluidAction.EXECUTE);
                     if(heldItem.isEmpty()){
-                        pPlayer.setItemInHand(pHand, cognitiumBucket);
+                        pPlayer.setItemInHand(pHand, fluidHandler.getContainer());
                     }
-                    else if(!pPlayer.addItem(cognitiumBucket)){     //if player inventory is full
-                        pPlayer.drop(cognitiumBucket, false);
+                    else if(!pPlayer.addItem(fluidHandler.getContainer())){     //if player inventory is full
+                        pPlayer.drop(fluidHandler.getContainer(), false);
                     }
 
                 }
@@ -116,11 +122,12 @@ public class ExperienceObeliskBlock extends Block implements EntityBlock {
                 pPlayer.playSound(SoundEvents.BUCKET_FILL, 1f, 1f);
                 return InteractionResult.sidedSuccess(true);
             }
-            else if(heldItem.is(ModItemsInit.COGNITIUM_BUCKET.get()) && obelisk.getSpace() >= 1000){
+            else if(obelisk.getSpace() >= 1000 && fluidHandler.drain(cognitium, IFluidHandler.FluidAction.SIMULATE).getAmount() >= 1000){
 
                 if(!pPlayer.isCreative()){
                     heldItem.shrink(1);
-                    pPlayer.setItemInHand(pHand, new ItemStack(Items.BUCKET, 1));
+                    fluidHandler.drain(cognitium, IFluidHandler.FluidAction.EXECUTE);
+                    pPlayer.setItemInHand(pHand, fluidHandler.getContainer());
                 }
 
                 obelisk.fill(1000);
