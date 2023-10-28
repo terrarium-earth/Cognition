@@ -112,7 +112,13 @@ public class ExperienceFountainEntity extends ExperienceReceivingEntity implemen
 
             BlockEntity boundEntity = level.getBlockEntity(fountain.getBoundPos());
 
-            List<Player> playerList = level.getEntitiesOfClass(Player.class, new AABB(pos, pos.east().south().above()));
+            int x = pos.getX();
+            int y = pos.getY();
+            int z = pos.getZ();
+
+            List<Player> playerList = level.getEntitiesOfClass(Player.class, new AABB(
+                    x + 0.25,y + 0.5,z + 0.25,x + 0.75,y + 1.065,z + 0.75));
+
             if(!playerList.isEmpty() && !fountain.hasPlayerAbove){
                 level.playSound(null, pos, SoundEvents.WOODEN_PRESSURE_PLATE_CLICK_ON, SoundSource.BLOCKS, 0.2f, 0.6f);
                 fountain.hasPlayerAbove = true;
