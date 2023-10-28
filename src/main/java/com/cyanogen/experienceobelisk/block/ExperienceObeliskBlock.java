@@ -16,6 +16,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.EntityBlock;
@@ -45,7 +46,7 @@ public class ExperienceObeliskBlock extends Block implements EntityBlock {
                 .strength(9f)
                 .destroyTime(1.2f)
                 .requiresCorrectToolForDrops()
-                .explosionResistance(1200f)
+                .explosionResistance(9f)
                 .noOcclusion()
                 .lightLevel(pLightEmission -> 5)
         );
@@ -80,8 +81,24 @@ public class ExperienceObeliskBlock extends Block implements EntityBlock {
     }
 
     @Override
+    public void onBlockExploded(BlockState state, Level level, BlockPos pos, Explosion explosion) {
+        if (!level.isClientSide) {
+            BlockEntity blockentity = level.getBlockEntity(pos);
+            if (blockentity instanceof ExperienceObeliskEntity entity) {
+
+                stack = new ItemStack(RegisterItems.EXPERIENCE_OBELISK_ITEM.get(), 1);
+                entity.saveToItem(stack);
+            }
+        }
+
+
+        super.onBlockExploded(state, level, pos, explosion);
+    }
+
+    @Override
     public List<ItemStack> getDrops(BlockState state, LootContext.Builder builder) {
         List<ItemStack> drops = new ArrayList<>();
+
         if(stack != null){
             drops.add(stack);
         }

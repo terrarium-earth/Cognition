@@ -53,18 +53,7 @@ public class RegisterItems<T> {
     };
     public static AttributeModifier range = new AttributeModifier("experienceobelisk:range",1.0, AttributeModifier.Operation.ADDITION);
 
-    //-----BLOCK ITEMS-----//
-
-    public static final RegistryObject<Item> EXPERIENCE_OBELISK_ITEM = ITEMS.register("experience_obelisk",
-            () -> new ExperienceObeliskItem(RegisterBlocks.EXPERIENCE_OBELISK.get(), new Item.Properties().tab(RegisterCreativeTab.MOD_TAB)));
-
-    public static final RegistryObject<Item> EXPERIENCE_FOUNTAIN_ITEM = ITEMS.register("experience_fountain",
-            () -> new ExperienceFountainItem(RegisterBlocks.EXPERIENCE_FOUNTAIN.get(), new Item.Properties().tab(RegisterCreativeTab.MOD_TAB)));
-
-    public static final RegistryObject<Item> PRECISION_DISPELLER_ITEM = ITEMS.register("precision_dispeller",
-            () -> new PrecisionDispellerItem(RegisterBlocks.PRECISION_DISPELLER.get(), new Item.Properties().tab(RegisterCreativeTab.MOD_TAB)));
-
-    //-----RECIPE INGREDIENTS, EVERYTHING ELSE-----//
+    //-----CRAFTING INGREDIENTS-----//
 
     public static final RegistryObject<Item> COGNITIVE_FLUX = ITEMS.register("cognitive_flux",
             () -> new Item(new Item.Properties().tab(RegisterCreativeTab.MOD_TAB)));
@@ -78,21 +67,8 @@ public class RegisterItems<T> {
     public static final RegistryObject<Item> COGNITIVE_CRYSTAL = ITEMS.register("cognitive_crystal",
             () -> new Item(new Item.Properties().tab(RegisterCreativeTab.MOD_TAB)));
 
-    //-----FUNCTIONAL ITEMS-----//
 
-    public static final RegistryObject<Item> ATTUNEMENT_STAFF = ITEMS.register("attunement_staff",
-            () -> new AttunementStaffItem(new Item.Properties().tab(RegisterCreativeTab.MOD_TAB)));
-
-    public static final RegistryObject<Item> ENLIGHTENED_AMULET = ITEMS.register("enlightened_amulet",
-            () -> new EnlightenedAmuletItem(new Item.Properties().tab(RegisterCreativeTab.MOD_TAB)));
-
-    public static final RegistryObject<Item> ASTUTE_ARTIFACT = ITEMS.register("astute_artifact",
-            () -> new Item(new Item.Properties().tab(RegisterCreativeTab.MOD_TAB)));
-
-    public static final RegistryObject<BucketItem> COGNITIUM_BUCKET = ITEMS.register("cognitium_bucket",
-            () -> new BucketItem(RegisterFluids.COGNITIUM, new Item.Properties().tab(RegisterCreativeTab.MOD_TAB).craftRemainder(Items.BUCKET)));
-
-    //-----TOOLSETS-----//
+    //-----COGNITIVE TOOLSET-----//
 
     public static final RegistryObject<Item> COGNITIVE_SWORD = ITEMS.register("cognitive_sword",
             () -> new SwordItem(COGNITIVE, 3, -2.4f, new Item.Properties().tab(RegisterCreativeTab.MOD_TAB)){
@@ -143,6 +119,31 @@ public class RegisterItems<T> {
         }
         return builder.build();
     }
+
+    //-----FUNCTIONAL ITEMS-----//
+
+    public static final RegistryObject<Item> ATTUNEMENT_STAFF = ITEMS.register("attunement_staff",
+            () -> new AttunementStaffItem(new Item.Properties().tab(RegisterCreativeTab.MOD_TAB)));
+
+    public static final RegistryObject<Item> ENLIGHTENED_AMULET = ITEMS.register("enlightened_amulet",
+            () -> new EnlightenedAmuletItem(new Item.Properties().tab(RegisterCreativeTab.MOD_TAB)));
+
+    public static final RegistryObject<Item> ASTUTE_ARTIFACT = ITEMS.register("astute_artifact",
+            () -> new Item(new Item.Properties().tab(RegisterCreativeTab.MOD_TAB)));
+
+    public static final RegistryObject<BucketItem> COGNITIUM_BUCKET = ITEMS.register("cognitium_bucket",
+            () -> new BucketItem(RegisterFluids.COGNITIUM, new Item.Properties().tab(RegisterCreativeTab.MOD_TAB).craftRemainder(Items.BUCKET)));
+
+    //-----BLOCK ITEMS-----//
+
+    public static final RegistryObject<Item> EXPERIENCE_OBELISK_ITEM = ITEMS.register("experience_obelisk",
+            () -> new ExperienceObeliskItem(RegisterBlocks.EXPERIENCE_OBELISK.get(), new Item.Properties().tab(RegisterCreativeTab.MOD_TAB)));
+
+    public static final RegistryObject<Item> EXPERIENCE_FOUNTAIN_ITEM = ITEMS.register("experience_fountain",
+            () -> new ExperienceFountainItem(RegisterBlocks.EXPERIENCE_FOUNTAIN.get(), new Item.Properties().tab(RegisterCreativeTab.MOD_TAB)));
+
+    public static final RegistryObject<Item> PRECISION_DISPELLER_ITEM = ITEMS.register("precision_dispeller",
+            () -> new PrecisionDispellerItem(RegisterBlocks.PRECISION_DISPELLER.get(), new Item.Properties().tab(RegisterCreativeTab.MOD_TAB)));
 
     public static void register(IEventBus eventBus){
         ITEMS.register(eventBus);

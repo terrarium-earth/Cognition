@@ -16,6 +16,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.EntityBlock;
@@ -47,7 +48,7 @@ public class ExperienceFountainBlock extends Block implements EntityBlock {
                 .strength(9f)
                 .destroyTime(1.2f)
                 .requiresCorrectToolForDrops()
-                .explosionResistance(8f)
+                .explosionResistance(9f)
                 .noOcclusion()
                 .lightLevel(pLightEmission -> 5)
         );
@@ -195,6 +196,21 @@ public class ExperienceFountainBlock extends Block implements EntityBlock {
         }
 
         super.playerWillDestroy(level, pos, state, player);
+    }
+
+    @Override
+    public void onBlockExploded(BlockState state, Level level, BlockPos pos, Explosion explosion) {
+        if (!level.isClientSide) {
+            BlockEntity blockentity = level.getBlockEntity(pos);
+            if (blockentity instanceof ExperienceFountainEntity entity) {
+
+                stack = new ItemStack(RegisterItems.EXPERIENCE_FOUNTAIN_ITEM.get(), 1);
+                entity.saveToItem(stack);
+            }
+        }
+
+
+        super.onBlockExploded(state, level, pos, explosion);
     }
 
     @Override

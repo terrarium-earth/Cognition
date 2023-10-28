@@ -1,57 +1,19 @@
 {
   "variants": {
-    "face=ceiling,facing=east": {
+    "facing=east": {
       "model": "experienceobelisk:block/precision_dispeller",
-      "x": 180,
       "y": 270
     },
-    "face=ceiling,facing=north": {
+    "facing=north": {
       "model": "experienceobelisk:block/precision_dispeller",
-      "x": 180,
       "y": 180
     },
-    "face=ceiling,facing=south": {
-      "model": "experienceobelisk:block/precision_dispeller",
-      "x": 180
-    },
-    "face=ceiling,facing=west": {
-      "model": "experienceobelisk:block/precision_dispeller",
-      "x": 180,
-      "y": 90
-    },
-    "face=floor,facing=east": {
-      "model": "experienceobelisk:block/precision_dispeller",
-      "y": 90
-    },
-    "face=floor,facing=north": {
+    "facing=south": {
       "model": "experienceobelisk:block/precision_dispeller"
     },
-    "face=floor,facing=south": {
+    "facing=west": {
       "model": "experienceobelisk:block/precision_dispeller",
-      "y": 180
-    },
-    "face=floor,facing=west": {
-      "model": "experienceobelisk:block/precision_dispeller",
-      "y": 270
-    },
-    "face=wall,facing=east": {
-      "model": "experienceobelisk:block/precision_dispeller",
-      "x": 90,
       "y": 90
-    },
-    "face=wall,facing=north": {
-      "model": "experienceobelisk:block/precision_dispeller",
-      "x": 90
-    },
-    "face=wall,facing=south": {
-      "model": "experienceobelisk:block/precision_dispeller",
-      "x": 90,
-      "y": 180
-    },
-    "face=wall,facing=west": {
-      "model": "experienceobelisk:block/precision_dispeller",
-      "x": 90,
-      "y": 270
     }
   }
 }
