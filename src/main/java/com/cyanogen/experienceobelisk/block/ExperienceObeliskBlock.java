@@ -140,8 +140,9 @@ public class ExperienceObeliskBlock extends Block implements EntityBlock {
             NetworkHooks.openGui((ServerPlayer) pPlayer, pState.getMenuProvider(pLevel,pPos), pPos);
             return InteractionResult.CONSUME;
         }
-
-        return InteractionResult.PASS;
+        else{
+            return InteractionResult.SUCCESS;
+        }
     }
 
     @Nullable
