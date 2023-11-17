@@ -1,4 +1,4 @@
-{
+  {
   "type": "minecraft:crafting_shaped",
   "pattern": [
     "   ",
@@ -10,10 +10,10 @@
       "item": "experienceobelisk:cognitive_alloy"
     },
     "C": {
-      "item": "experienceobelisk:cognitive_crystal"
+      "item": "experienceobelisk:cognitive_amalgam"
     },
     "I": {
-      "item": "minecraft:repeater"
+      "item": "experienceobelisk:astute_artifact"
     }
 
   },

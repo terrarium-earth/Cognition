@@ -145,7 +145,7 @@ public class ExperienceObeliskEntity extends BlockEntity implements IAnimatable{
 
     private static final Fluid cognitium = RegisterFluids.COGNITIUM.get().getSource();
 
-    public static final int capacity = Config.COMMON.capacity.get(); //this is 10^8 by default
+    public static final int capacity = Config.COMMON.capacity.get();
 
     private FluidTank xpObeliskTank() {
         return new FluidTank(capacity){

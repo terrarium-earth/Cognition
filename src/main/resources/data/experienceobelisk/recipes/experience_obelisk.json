@@ -2,18 +2,21 @@
   "type": "minecraft:crafting_shaped",
   "pattern": [
     " C ",
-    " R ",
+    " X ",
     "ROR"
   ],
   "key": {
     "R": {
       "item": "experienceobelisk:cognitive_alloy"
     },
+    "X": {
+      "item": "experienceobelisk:cognitive_amalgam"
+    },
     "C": {
       "item": "experienceobelisk:cognitive_crystal"
     },
     "O": {
-      "item": "minecraft:cauldron"
+      "item": "experienceobelisk:astute_artifact"
     }
   },
   "result": {

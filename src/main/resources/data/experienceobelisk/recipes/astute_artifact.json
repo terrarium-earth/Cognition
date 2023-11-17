@@ -2,18 +2,18 @@
   "type": "minecraft:crafting_shaped",
   "pattern": [
     " #E",
-    "#F#",
+    "EFE",
     "E# "
   ],
   "key": {
     "#": {
-      "item": "experienceobelisk:cognitive_crystal"
+      "item": "minecraft:gold"
     },
     "E": {
       "item": "experienceobelisk:cognitive_amalgam"
     },
     "F": {
-      "item": "experienceobelisk:cognitive_alloy"
+      "item": "minecraft:emerald"
     }
   },
   "result": {
