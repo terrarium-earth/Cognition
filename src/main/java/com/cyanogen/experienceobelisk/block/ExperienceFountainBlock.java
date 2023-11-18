@@ -5,14 +5,11 @@ import com.cyanogen.experienceobelisk.block_entities.ExperienceObeliskEntity;
 import com.cyanogen.experienceobelisk.registries.RegisterBlockEntities;
 import com.cyanogen.experienceobelisk.registries.RegisterFluids;
 import com.cyanogen.experienceobelisk.registries.RegisterItems;
-import com.cyanogen.experienceobelisk.registries.RegisterTags;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
-import net.minecraft.data.tags.FluidTagsProvider;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.tags.FluidTags;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -37,13 +34,11 @@ import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.common.data.ForgeFluidTagsProvider;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandlerItem;
 import net.minecraftforge.items.ItemHandlerHelper;
-import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -92,13 +87,13 @@ public class ExperienceFountainBlock extends Block implements EntityBlock {
             }
 
             fountain.cycleActivityState();
-            TextComponent message = new TextComponent("Experience Fountain set to: ");
+            TranslatableComponent message = new TranslatableComponent("");
 
             switch (fountain.getActivityState()) {
-                case 0 -> message.append(new TextComponent("Slow").withStyle(ChatFormatting.RED));
-                case 1 -> message.append(new TextComponent("Moderate").withStyle(ChatFormatting.YELLOW));
-                case 2 -> message.append(new TextComponent("Fast").withStyle(ChatFormatting.GREEN));
-                case 3 -> message.append(new TextComponent("Hyperspeed").withStyle(ChatFormatting.AQUA));
+                case 0 -> message = new TranslatableComponent("message.experienceobelisk.experience_fountain.slow");
+                case 1 -> message = new TranslatableComponent("message.experienceobelisk.experience_fountain.moderate");
+                case 2 -> message = new TranslatableComponent("message.experienceobelisk.experience_fountain.fast");
+                case 3 -> message = new TranslatableComponent("message.experienceobelisk.experience_fountain.hyper");
             }
             player.displayClientMessage(message, true);
             level.sendBlockUpdated(pos, state, state, 2);

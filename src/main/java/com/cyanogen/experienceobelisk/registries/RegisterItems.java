@@ -33,7 +33,7 @@ public class RegisterItems<T> {
 
         @Override
         public float getAttackDamageBonus() {
-            return 2.2F;
+            return 2.4F;
         }
 
         @Override

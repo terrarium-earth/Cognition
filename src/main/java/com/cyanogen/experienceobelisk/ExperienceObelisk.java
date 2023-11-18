@@ -45,6 +45,7 @@ public class ExperienceObelisk
         RegisterFluids.register(eventBus);
         RegisterMenus.register(eventBus);
         RegisterEnchantments.register(eventBus);
+        RegisterSounds.register(eventBus);
 
         GeckoLib.initialize();
         PacketHandler.init();

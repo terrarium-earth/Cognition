@@ -89,12 +89,12 @@ public class ExperienceObeliskEntity extends BlockEntity implements IAnimatable{
         level.sendBlockUpdated(pos, state, state, 2); //todo: synchronize on action instead of on tick
         boolean isRedstonePowered = level.hasNeighborSignal(pos);
 
-        if(blockEntity instanceof ExperienceObeliskEntity xpobelisk && level.getGameTime() % 3 == 0){ //check every 3 ticks
+        if(blockEntity instanceof ExperienceObeliskEntity xpobelisk){
 
             boolean absorb = !xpobelisk.isRedstoneEnabled() || isRedstonePowered;
             double radius = xpobelisk.getRadius();
 
-            if(absorb){
+            if(absorb && level.getGameTime() % 3 == 0){
                 AABB area = new AABB(
                         pos.getX() - radius,
                         pos.getY() - radius,
@@ -105,7 +105,7 @@ public class ExperienceObeliskEntity extends BlockEntity implements IAnimatable{
 
                 List<ExperienceOrb> list = level.getEntitiesOfClass(ExperienceOrb.class, area);
 
-                for(ExperienceOrb orb : list){
+                if(!list.isEmpty()) for(ExperienceOrb orb : list){
 
                     int value = orb.getValue() * 20;
                     if(xpobelisk.getSpace() >= value && orb.isAlive()){
