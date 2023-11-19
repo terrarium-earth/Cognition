@@ -39,8 +39,8 @@ public class ExperienceObelisk
 
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Config.COMMON_SPEC);
 
-        RegisterItems.register(eventBus);
         RegisterBlocks.register(eventBus);
+        RegisterItems.register(eventBus);
         RegisterBlockEntities.register(eventBus);
         RegisterFluids.register(eventBus);
         RegisterMenus.register(eventBus);

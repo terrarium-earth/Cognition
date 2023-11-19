@@ -112,6 +112,7 @@ public class ExperienceObeliskEntity extends BlockEntity implements IAnimatable{
                         xpobelisk.fill(value);
                         orb.discard();
                     }
+                    //removed check for orb.isAlive
                 }
             }
         }
