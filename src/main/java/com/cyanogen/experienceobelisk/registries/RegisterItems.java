@@ -67,6 +67,9 @@ public class RegisterItems<T> {
     public static final RegistryObject<Item> COGNITIVE_CRYSTAL = ITEMS.register("cognitive_crystal",
             () -> new Item(new Item.Properties().tab(RegisterCreativeTab.MOD_TAB)));
 
+    public static final RegistryObject<Item> ASTUTE_ASSEMBLAGE = ITEMS.register("astute_assemblage",
+            () -> new Item(new Item.Properties().tab(RegisterCreativeTab.MOD_TAB)));
+
 
     //-----COGNITIVE TOOLSET-----//
 
@@ -127,9 +130,6 @@ public class RegisterItems<T> {
 
     public static final RegistryObject<Item> ENLIGHTENED_AMULET = ITEMS.register("enlightened_amulet",
             () -> new EnlightenedAmuletItem(new Item.Properties().tab(RegisterCreativeTab.MOD_TAB)));
-
-    public static final RegistryObject<Item> ASTUTE_ARTIFACT = ITEMS.register("astute_artifact",
-            () -> new Item(new Item.Properties().tab(RegisterCreativeTab.MOD_TAB)));
 
     public static final RegistryObject<BucketItem> COGNITIUM_BUCKET = ITEMS.register("cognitium_bucket",
             () -> new BucketItem(RegisterFluids.COGNITIUM, new Item.Properties().tab(RegisterCreativeTab.MOD_TAB).craftRemainder(Items.BUCKET).stacksTo(1)));

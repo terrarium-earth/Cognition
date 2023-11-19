@@ -10,12 +10,11 @@
       "item": "experienceobelisk:cognitive_alloy"
     },
     "C": {
-      "item": "experienceobelisk:cognitive_amalgam"
+      "item": "experienceobelisk:cognitive_crystal"
     },
     "I": {
-      "item": "experienceobelisk:astute_artifact"
+      "item": "experienceobelisk:astute_assemblage"
     }
-
   },
   "result": {
     "item": "experienceobelisk:experience_fountain",

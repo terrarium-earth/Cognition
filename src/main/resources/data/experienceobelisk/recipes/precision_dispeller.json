@@ -1,12 +1,26 @@
 {
-  "type": "minecraft:smithing",
-  "base": {
-    "item": "minecraft:grindstone"
-  },
-  "addition": {
-    "item": "experienceobelisk:astute_artifact"
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "AXA",
+    "RGR",
+    "ARA"
+  ],
+  "key": {
+    "R": {
+      "item": "experienceobelisk:cognitive_alloy"
+    },
+    "G": {
+      "item": "minecraft:grindstone"
+    },
+    "X": {
+      "item": "experienceobelisk:astute_assemblage"
+    },
+    "A": {
+      "item": "experienceobelisk:cognitive_amalgam"
+    }
   },
   "result": {
-    "item": "experienceobelisk:precision_dispeller"
+    "item": "experienceobelisk:precision_dispeller",
+    "count": 1
   }
 }

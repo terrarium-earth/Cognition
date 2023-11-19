@@ -108,8 +108,7 @@ public class ExperienceObeliskEntity extends BlockEntity implements IAnimatable{
                 if(!list.isEmpty()) for(ExperienceOrb orb : list){
 
                     int value = orb.getValue() * 20;
-                    if(xpobelisk.getSpace() >= value && orb.isAlive()){
-
+                    if(xpobelisk.getSpace() >= value){
                         xpobelisk.fill(value);
                         orb.discard();
                     }
