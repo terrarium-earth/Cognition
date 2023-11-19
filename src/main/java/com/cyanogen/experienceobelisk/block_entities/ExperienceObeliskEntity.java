@@ -86,7 +86,6 @@ public class ExperienceObeliskEntity extends BlockEntity implements IAnimatable{
 
     public static <T> void tick(Level level, BlockPos pos, BlockState state, T blockEntity) {
 
-        level.sendBlockUpdated(pos, state, state, 2); //todo: synchronize on action instead of on tick
         boolean isRedstonePowered = level.hasNeighborSignal(pos);
 
         if(blockEntity instanceof ExperienceObeliskEntity xpobelisk){
@@ -112,7 +111,6 @@ public class ExperienceObeliskEntity extends BlockEntity implements IAnimatable{
                         xpobelisk.fill(value);
                         orb.discard();
                     }
-                    //removed check for orb.isAlive
                 }
             }
         }
@@ -136,6 +134,13 @@ public class ExperienceObeliskEntity extends BlockEntity implements IAnimatable{
         this.setChanged();
     }
 
+    @Override
+    public void setChanged() {
+        if(this.level != null){
+            level.sendBlockUpdated(getBlockPos(), getBlockState(), getBlockState(), 2);
+        }
+        super.setChanged();
+    }
 
     //-----------FLUID HANDLER-----------//
 
@@ -178,7 +183,7 @@ public class ExperienceObeliskEntity extends BlockEntity implements IAnimatable{
 
                 if(isFluidValid(resource)){
                     setChanged();
-                    return super.fill(resource, action);
+                    return super.fill(new FluidStack(cognitium, resource.getAmount()), action);
                 }
                 else{
                     return 0;

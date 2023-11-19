@@ -27,7 +27,7 @@ public class Config {
             defaultValues.add("enderio:xp_juice");
 
             builder.push("Allowed Experience Fluids");
-            this.allowedFluids = builder.comment("Add IDs of fluids you want the obelisk to support here in the form mod_id:fluid_name. Fluids have to be tagged forge:experience")
+            this.allowedFluids = builder.comment("Add IDs of fluids you want the obelisk to support here in the form mod_id:fluid_name. Fluids have to be tagged forge:experience.")
                     .define("AllowedFluids", defaultValues);
             builder.pop();
 
@@ -37,7 +37,7 @@ public class Config {
             builder.pop();
 
             builder.push("Enlightened Amulet Range");
-            this.range = builder.comment("The range of the enlightened amulet. Accepts decimals. Default = 8.0. Max = 32.0")
+            this.range = builder.comment("The range of the enlightened amulet. Accepts decimals. Default = 8.0.")
                     .defineInRange("Range", defaultRange, 1, 32.0);
             builder.pop();
 
