@@ -67,7 +67,7 @@ public class RegisterItems {
     public static final RegistryObject<Item> COGNITIVE_CRYSTAL = ITEMS.register("cognitive_crystal",
             () -> new Item(new Item.Properties().tab(RegisterCreativeTab.MOD_TAB)));
 
-    public static final RegistryObject<Item> ASTUTE_ASSEMBLAGE = ITEMS.register("astute_assemblage",
+    public static final RegistryObject<Item> ASTUTE_ASSEMBLY = ITEMS.register("astute_assembly",
             () -> new Item(new Item.Properties().tab(RegisterCreativeTab.MOD_TAB)));
 
 

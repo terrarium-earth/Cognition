@@ -1,7 +1,6 @@
 package com.cyanogen.experienceobelisk.registries;
 
 import net.minecraft.core.NonNullList;
-import net.minecraft.core.Registry;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -15,6 +14,7 @@ public class RegisterCreativeTab {
             return new ItemStack(RegisterBlocks.EXPERIENCE_OBELISK.get());
         }
 
+
         @Override
         public void fillItemList(NonNullList<ItemStack> items) {
 
@@ -25,7 +25,7 @@ public class RegisterCreativeTab {
             itemList.add(RegisterItems.COGNITIVE_AMALGAM.get());
             itemList.add(RegisterItems.COGNITIVE_ALLOY.get());
             itemList.add(RegisterItems.COGNITIVE_CRYSTAL.get());
-            itemList.add(RegisterItems.ASTUTE_ASSEMBLAGE.get());
+            itemList.add(RegisterItems.ASTUTE_ASSEMBLY.get());
 
             //Cognitive Toolset
             itemList.add(RegisterItems.COGNITIVE_SWORD.get());
@@ -48,9 +48,13 @@ public class RegisterCreativeTab {
             itemList.add(RegisterBlocks.COGNITIVE_ALLOY_BLOCK.get().asItem());
             itemList.add(RegisterBlocks.COGNITIVE_CRYSTAL_BLOCK.get().asItem());
 
+            RegisterItems.ITEMS.getEntries();
+
             for(Item item : itemList) {
                 item.fillItemCategory(this, items);
             }
         }
+
+
     };
 }
