@@ -9,44 +9,41 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.Widget;
-import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.entity.player.Inventory;
 
 import static com.cyanogen.experienceobelisk.network.experience_obelisk.UpdateContents.Request.*;
 
 
-public class ExperienceObeliskScreen extends Screen{
+public class ExperienceObeliskScreen extends AbstractContainerScreen<ExperienceObeliskMenu> {
 
-    public Level level;
-    public Player player;
     public BlockPos pos;
     public ExperienceObeliskEntity xpobelisk;
-
     private final ResourceLocation texture = new ResourceLocation("experienceobelisk:textures/gui/screens/experience_obelisk.png");
 
-    public ExperienceObeliskScreen(Level level, Player player, BlockPos pos) {
-        super(Component.literal("Experience Obelisk"));
-        this.level = level;
-        this.player = player;
-        this.pos = pos;
-        this.xpobelisk = (ExperienceObeliskEntity) level.getBlockEntity(pos);
+    public ExperienceObeliskScreen(ExperienceObeliskMenu menu, Inventory inventory, Component component) {
+        super(menu, inventory, component);
+        this.pos = menu.pos;
+        this.xpobelisk = menu.entity;
+    }
+
+    protected ExperienceObeliskScreen(ExperienceObeliskMenu menu) {
+        this(menu, menu.inventory, Component.literal("Experience Obelisk"));
     }
 
     @Override
-    public boolean keyPressed(int pKeyCode, int pScanCode, int pModifiers) {
-        InputConstants.Key mouseKey = InputConstants.getKey(pKeyCode, pScanCode);
+    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+        InputConstants.Key mouseKey = InputConstants.getKey(keyCode, scanCode);
         if (this.minecraft.options.keyInventory.isActiveAndMatches(mouseKey)) {
             this.onClose();
             return true;
         }
         else{
-            return super.keyPressed(pKeyCode, pScanCode, pModifiers);
+            return super.keyPressed(keyCode, scanCode, modifiers);
         }
     }
 
@@ -81,13 +78,9 @@ public class ExperienceObeliskScreen extends Screen{
     }
 
     @Override
-    public void render(PoseStack pPoseStack, int pMouseX, int pMouseY, float pPartialTick) {
+    public void render(PoseStack poseStack, int mouseX, int mouseY, float partialTick) {
 
-        if(player.position().distanceTo(Vec3.atCenterOf(pos)) > 7){
-            this.onClose();
-        }
-
-        renderBackground(pPoseStack);
+        renderBackground(poseStack);
 
         RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
         RenderSystem.setShaderTexture(0, texture);
@@ -97,20 +90,18 @@ public class ExperienceObeliskScreen extends Screen{
         int x = this.width / 2 - 176 / 2;
         int y = this.height / 2 - 166 / 2;
 
-        //breaks around 2980000 mB for some reason
-
-        int experiencePoints = xpobelisk.getFluidAmount() / 20;
+        int experiencePoints = menu.entity.getFluidAmount() / 20;
 
         int n = experiencePoints - levelsToXP(xpToLevels(experiencePoints)); //remaining xp
         int m = levelsToXP(xpToLevels(experiencePoints) + 1) - levelsToXP(xpToLevels(experiencePoints)); //xp for next level
         int p = n * 138 / m;
 
         //render gui texture
-        blit(pPoseStack, x, y, 0, 0, 176, 166, textureWidth, textureHeight);
+        blit(poseStack, x, y, 0, 0, 176, 166, textureWidth, textureHeight);
 
         //render xp bar
-        blit(pPoseStack, this.width / 2 - 138 / 2, this.height / 2 + 50, 0, 169, 138, 5, textureWidth, textureHeight);
-        blit(pPoseStack, this.width / 2 - 138 / 2, this.height / 2 + 50, 0, 173, p, 5, textureWidth, textureHeight);
+        blit(poseStack, this.width / 2 - 138 / 2, this.height / 2 + 50, 0, 169, 138, 5, textureWidth, textureHeight);
+        blit(poseStack, this.width / 2 - 138 / 2, this.height / 2 + 50, 0, 173, p, 5, textureWidth, textureHeight);
 
         //descriptors & info
         drawCenteredString(new PoseStack(), this.font, Component.translatable("title.experienceobelisk.experience_obelisk"),
@@ -129,8 +120,13 @@ public class ExperienceObeliskScreen extends Screen{
 
         //render widgets
         for(Widget widget : this.renderables) {
-            widget.render(pPoseStack, pMouseX, pMouseY, pPartialTick);
+            widget.render(poseStack, mouseX, mouseY, partialTick);
         }
+    }
+
+    @Override
+    protected void renderBg(PoseStack pPoseStack, float pPartialTick, int pMouseX, int pMouseY) {
+
     }
 
     //buttons and whatnot go here
@@ -147,13 +143,11 @@ public class ExperienceObeliskScreen extends Screen{
         int y1 = 43;
         int y2 = -3;
 
-        //settings
-
         addRenderableWidget(new Button(this.width / 2 + 91, this.height / 2 - 78, 20, 20,
                 Component.translatable("button.experienceobelisk.experience_obelisk.settings"),
 
                 (onPress) ->
-                        Minecraft.getInstance().setScreen(new ExperienceObeliskOptionsScreen(level, player, pos, this)),
+                        Minecraft.getInstance().setScreen(new ExperienceObeliskOptionsScreen(pos, menu)),
 
                 (pButton, pPoseStack, pMouseX, pMouseY) ->
                         renderTooltip(pPoseStack, Component.translatable("tooltip.experienceobelisk.experience_obelisk.settings"), pMouseX, pMouseY)));
@@ -161,7 +155,7 @@ public class ExperienceObeliskScreen extends Screen{
 
         //deposit
 
-        addRenderableWidget(new Button((int) (this.width / 2 - 1.5*w - s), this.height / 2 - y1, w, h,
+        addRenderableWidget(new Button((int) (this.width / 2 - 1.5 * w - s), this.height / 2 - y1, w, h,
                 Component.literal("+1").setStyle(green),
 
                 (onPress) ->
@@ -171,8 +165,7 @@ public class ExperienceObeliskScreen extends Screen{
                         renderTooltip(pPoseStack, Component.translatable("tooltip.experienceobelisk.experience_obelisk.add1"), pMouseX, pMouseY)
         ));
 
-
-        addRenderableWidget(new Button(this.width / 2 - w/2, this.height / 2 - y1, w, h,
+        addRenderableWidget(new Button(this.width / 2 - w / 2, this.height / 2 - y1, w, h,
                 Component.literal("+10").setStyle(green),
 
                 (onPress) ->
@@ -182,7 +175,7 @@ public class ExperienceObeliskScreen extends Screen{
                         renderTooltip(pPoseStack, Component.translatable("tooltip.experienceobelisk.experience_obelisk.add10"), pMouseX, pMouseY)
         ));
 
-        addRenderableWidget(new Button((int) (this.width / 2 + 0.5*w + s), this.height / 2 - y1, w, h,
+        addRenderableWidget(new Button((int) (this.width / 2 + 0.5 * w + s), this.height / 2 - y1, w, h,
                 Component.literal("+All").setStyle(green),
 
                 (onPress) ->
@@ -195,7 +188,7 @@ public class ExperienceObeliskScreen extends Screen{
 
         //withdraw
 
-        addRenderableWidget(new Button((int) (this.width / 2 - 1.5*w - s), this.height / 2 - y2, w, h,
+        addRenderableWidget(new Button((int) (this.width / 2 - 1.5 * w - s), this.height / 2 - y2, w, h,
                 Component.literal("-1").setStyle(red),
 
                 (onPress) ->
@@ -205,7 +198,7 @@ public class ExperienceObeliskScreen extends Screen{
                         renderTooltip(pPoseStack, Component.translatable("tooltip.experienceobelisk.experience_obelisk.drain1"), pMouseX, pMouseY)
         ));
 
-        addRenderableWidget(new Button(this.width / 2 - w/2, this.height / 2 - y2, w, h,
+        addRenderableWidget(new Button(this.width / 2 - w / 2, this.height / 2 - y2, w, h,
                 Component.literal("-10").setStyle(red),
 
                 (onPress) ->
@@ -215,7 +208,7 @@ public class ExperienceObeliskScreen extends Screen{
                         renderTooltip(pPoseStack, Component.translatable("tooltip.experienceobelisk.experience_obelisk.drain10"), pMouseX, pMouseY)
         ));
 
-        addRenderableWidget(new Button((int) (this.width / 2 + 0.5*w + s), this.height / 2 - y2, w, h,
+        addRenderableWidget(new Button((int) (this.width / 2 + 0.5 * w + s), this.height / 2 - y2, w, h,
                 Component.literal("-All").setStyle(red),
 
                 (onPress) ->

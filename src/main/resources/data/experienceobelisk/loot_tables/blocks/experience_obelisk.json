@@ -9,11 +9,6 @@
           "type": "minecraft:item",
           "name": "experienceobelisk:experience_obelisk"
         }
-      ],
-      "conditions": [
-        {
-          "condition": "minecraft:survives_explosion"
-        }
       ]
     }
   ]

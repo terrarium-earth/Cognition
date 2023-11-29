@@ -18,6 +18,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
+import software.bernie.geckolib3.core.builder.AnimationBuilder;
 import software.bernie.geckolib3.core.controller.AnimationController;
 import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
@@ -27,8 +28,8 @@ import java.util.List;
 
 public class ExperienceFountainEntity extends ExperienceReceivingEntity implements IAnimatable {
 
-    public ExperienceFountainEntity(BlockPos pPos, BlockState pState) {
-        super(RegisterBlockEntities.EXPERIENCEFOUNTAIN_BE.get(), pPos, pState);
+    public ExperienceFountainEntity(BlockPos pos, BlockState state) {
+        super(RegisterBlockEntities.EXPERIENCEFOUNTAIN_BE.get(), pos, state);
     }
 
     //-----------ANIMATIONS-----------//
@@ -37,17 +38,70 @@ public class ExperienceFountainEntity extends ExperienceReceivingEntity implemen
         AnimationController controller = event.getController();
         controller.transitionLengthTicks = 0;
 
+        BlockEntity entity = event.getAnimatable();
+
+        //conditions for the green glow showing up:
+        // - must have a linked obelisk
+        // - must have player standing on it OR redstone signal
+
+        if(level != null && entity instanceof ExperienceFountainEntity fountain){
+
+            boolean hasNeighborSignal = level.hasNeighborSignal(fountain.getBlockPos());
+            boolean isActive = fountain.isBound && (hasNeighborSignal || fountain.hasPlayerAbove);
+
+            if(controller.getCurrentAnimation() == null ||
+                    !toName(fountain.activityState,isActive).equals(controller.getCurrentAnimation().animationName)){
+                //only reset the animation when there is a discrepancy in states
+
+                switch(fountain.activityState){
+                    case 0 -> {
+                        if(isActive){
+                            controller.setAnimation(new AnimationBuilder().addAnimation("active-slow"));
+                        }
+                        else{
+                            controller.setAnimation(new AnimationBuilder().addAnimation("slow"));
+                        }
+                    }
+                    case 1 -> {
+                        if(isActive){
+                            controller.setAnimation(new AnimationBuilder().addAnimation("active-moderate"));
+                        }
+                        else{
+                            controller.setAnimation(new AnimationBuilder().addAnimation("moderate"));
+                        }
+                    }
+                    case 2 -> {
+                        if(isActive){
+                            controller.setAnimation(new AnimationBuilder().addAnimation("active-fast"));
+                        }
+                        else{
+                            controller.setAnimation(new AnimationBuilder().addAnimation("fast"));
+                        }
+                    }
+                    case 3 -> {
+                        if(isActive){
+                            controller.setAnimation(new AnimationBuilder().addAnimation("active-hyperspeed"));
+                        }
+                        else{
+                            controller.setAnimation(new AnimationBuilder().addAnimation("hyperspeed"));
+                        }
+                    }
+                }
+            }
+        }
+
         return PlayState.CONTINUE;
     }
 
     @Override
     public void registerControllers(AnimationData data) {
-        data.addAnimationController(new AnimationController(this, "controller", 0, this::predicate));
+        data.addAnimationController(new AnimationController(this, "experience_fountain_block_controller", 0, this::predicate));
     }
 
+    private final AnimationFactory manager = new AnimationFactory(this);
     @Override
     public AnimationFactory getFactory() {
-        return new AnimationFactory(this);
+        return manager;
     }
 
     //-----------PASSIVE BEHAVIOR-----------//
@@ -58,7 +112,13 @@ public class ExperienceFountainEntity extends ExperienceReceivingEntity implemen
 
             BlockEntity boundEntity = level.getBlockEntity(fountain.getBoundPos());
 
-            List<Player> playerList = level.getEntitiesOfClass(Player.class, new AABB(pos, pos.east().south().above()));
+            int x = pos.getX();
+            int y = pos.getY();
+            int z = pos.getZ();
+
+            List<Player> playerList = level.getEntitiesOfClass(Player.class, new AABB(
+                    x + 0.25,y + 0.5,z + 0.25,x + 0.75,y + 1.065,z + 0.75));
+
             if(!playerList.isEmpty() && !fountain.hasPlayerAbove){
                 level.playSound(null, pos, SoundEvents.WOODEN_PRESSURE_PLATE_CLICK_ON, SoundSource.BLOCKS, 0.2f, 0.6f);
                 fountain.hasPlayerAbove = true;
@@ -79,16 +139,16 @@ public class ExperienceFountainEntity extends ExperienceReceivingEntity implemen
                 int interval = 20;
 
                 switch (fountain.getActivityState()) {
-                    case 1 -> {
+                    case 1 -> { //40xp/s
                         value = 20;
                         interval = 10;
                     }
-                    case 2 -> {
+                    case 2 -> { //400xp/s
                         value = 100;
                         interval = 5;
                     }
-                    case 3 -> {
-                        value = 1000;
+                    case 3 -> { //4000xp/s
+                        value = 400;
                         interval = 2;
                     }
                 }
@@ -101,7 +161,7 @@ public class ExperienceFountainEntity extends ExperienceReceivingEntity implemen
                     ServerLevel server = (ServerLevel) level;
                     ExperienceOrb orb = new ExperienceOrb(server, pos.getX() + 0.5, pos.getY() + 0.7, pos.getZ() + 0.5, value);
                     obelisk.drain(value * 20);
-                    orb.setDeltaMovement(0,0.1 + 0.5 * Math.random(),0);
+                    orb.setDeltaMovement(0,0.20 + 0.10 * Math.random(),0);
                     server.addFreshEntity(orb);
                 }
             }
@@ -125,6 +185,25 @@ public class ExperienceFountainEntity extends ExperienceReceivingEntity implemen
         setChanged();
     }
 
+    public String toName(int activityState, boolean isActive){
+
+        switch(activityState){
+            case 0 -> {
+                return isActive ? "active-slow" : "slow";
+            }
+            case 1 -> {
+                return isActive ? "active-moderate" : "moderate";
+            }
+            case 2 -> {
+                return isActive ? "active-fast" : "fast";
+            }
+            case 3 -> {
+                return isActive ? "active-hyperspeed" : "hyperspeed";
+            }
+        }
+        return null;
+    }
+
     @Override
     public void load(CompoundTag tag)
     {
@@ -139,13 +218,11 @@ public class ExperienceFountainEntity extends ExperienceReceivingEntity implemen
         tag.putInt("ActivityState", activityState);
     }
 
-    //sends CompoundTag out with nbt data
     @Override
     public CompoundTag getUpdateTag()
     {
         CompoundTag tag = super.getUpdateTag();
         tag.putInt("ActivityState", activityState);
-        tag.putBoolean("PlayerAbove", hasPlayerAbove);
 
         return tag;
     }
@@ -165,4 +242,6 @@ public class ExperienceFountainEntity extends ExperienceReceivingEntity implemen
         }
         super.onDataPacket(net, pkt);
     }
+
+
 }

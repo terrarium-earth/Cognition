@@ -70,7 +70,7 @@ public class ExperienceObeliskEntity extends BlockEntity implements IAnimatable{
 
     @Override
     public void registerControllers(AnimationData data) {
-        data.addAnimationController(new AnimationController(this, "controller", 0, this::predicate));
+        data.addAnimationController(new AnimationController(this, "experience_obelisk_block_controller", 0, this::predicate));
     }
 
     private final AnimationFactory manager = new AnimationFactory(this);
@@ -86,17 +86,14 @@ public class ExperienceObeliskEntity extends BlockEntity implements IAnimatable{
 
     public static <T> void tick(Level level, BlockPos pos, BlockState state, T blockEntity) {
 
-        level.sendBlockUpdated(pos, state, state, 2);
         boolean isRedstonePowered = level.hasNeighborSignal(pos);
 
-        BlockEntity entity = level.getBlockEntity(pos);
-
-        if(blockEntity instanceof ExperienceObeliskEntity xpobelisk && level.getGameTime() % 3 == 0){ //check every 3 ticks
+        if(blockEntity instanceof ExperienceObeliskEntity xpobelisk){
 
             boolean absorb = !xpobelisk.isRedstoneEnabled() || isRedstonePowered;
             double radius = xpobelisk.getRadius();
 
-            if(absorb){
+            if(absorb && level.getGameTime() % 3 == 0){
                 AABB area = new AABB(
                         pos.getX() - radius,
                         pos.getY() - radius,
@@ -107,11 +104,10 @@ public class ExperienceObeliskEntity extends BlockEntity implements IAnimatable{
 
                 List<ExperienceOrb> list = level.getEntitiesOfClass(ExperienceOrb.class, area);
 
-                for(ExperienceOrb orb : list){
+                if(!list.isEmpty()) for(ExperienceOrb orb : list){
 
                     int value = orb.getValue() * 20;
-                    if(xpobelisk.getSpace() >= value && orb.isAlive()){
-
+                    if(xpobelisk.getSpace() >= value){
                         xpobelisk.fill(value);
                         orb.discard();
                     }
@@ -138,6 +134,13 @@ public class ExperienceObeliskEntity extends BlockEntity implements IAnimatable{
         this.setChanged();
     }
 
+    @Override
+    public void setChanged() {
+        if(this.level != null){
+            level.sendBlockUpdated(getBlockPos(), getBlockState(), getBlockState(), 2);
+        }
+        super.setChanged();
+    }
 
     //-----------FLUID HANDLER-----------//
 
@@ -147,7 +150,7 @@ public class ExperienceObeliskEntity extends BlockEntity implements IAnimatable{
 
     private static final Fluid cognitium = RegisterFluids.COGNITIUM.get().getSource();
 
-    public static final int capacity = Config.COMMON.capacity.get(); //this is 10^8 by default
+    public static final int capacity = Config.COMMON.capacity.get();
 
     private FluidTank xpObeliskTank() {
         return new FluidTank(capacity){
@@ -180,7 +183,7 @@ public class ExperienceObeliskEntity extends BlockEntity implements IAnimatable{
 
                 if(isFluidValid(resource)){
                     setChanged();
-                    return super.fill(resource, action);
+                    return super.fill(new FluidStack(cognitium, resource.getAmount()), action);
                 }
                 else{
                     return 0;
@@ -286,6 +289,7 @@ public class ExperienceObeliskEntity extends BlockEntity implements IAnimatable{
         if (capability == ForgeCapabilities.FLUID_HANDLER)
             return handler.cast();
         return super.getCapability(capability, facing);
+        //controls which sides can give or receive fluids
     }
 
 

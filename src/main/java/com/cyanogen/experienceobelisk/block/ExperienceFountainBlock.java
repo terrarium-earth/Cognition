@@ -3,21 +3,20 @@ package com.cyanogen.experienceobelisk.block;
 import com.cyanogen.experienceobelisk.block_entities.ExperienceFountainEntity;
 import com.cyanogen.experienceobelisk.block_entities.ExperienceObeliskEntity;
 import com.cyanogen.experienceobelisk.registries.RegisterBlockEntities;
+import com.cyanogen.experienceobelisk.registries.RegisterFluids;
 import com.cyanogen.experienceobelisk.registries.RegisterItems;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
-import net.minecraft.server.level.ServerLevel;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.sounds.SoundSource;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.EntityBlock;
@@ -31,10 +30,15 @@ import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import org.jetbrains.annotations.NotNull;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.FluidUtil;
+import net.minecraftforge.fluids.capability.IFluidHandler;
+import net.minecraftforge.fluids.capability.IFluidHandlerItem;
+import net.minecraftforge.items.ItemHandlerHelper;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -47,30 +51,10 @@ public class ExperienceFountainBlock extends Block implements EntityBlock {
                 .strength(9f)
                 .destroyTime(1.2f)
                 .requiresCorrectToolForDrops()
-                .explosionResistance(8f)
+                .explosionResistance(9f)
                 .noOcclusion()
-                .emissiveRendering((state, getter, pos) -> true)
+                .lightLevel(pLightEmission -> 5)
         );
-    }
-
-    List<Player> storedList = new ArrayList<>();
-
-    @Override
-    public void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource source) {
-
-        List<Player> playerList = level.getEntitiesOfClass(Player.class, new AABB(pos, pos.east().south().above()));
-
-        if(storedList.isEmpty() && !playerList.isEmpty()){
-            level.playSound(null, pos, SoundEvents.WOODEN_PRESSURE_PLATE_CLICK_ON, SoundSource.BLOCKS, 0.2f, 0.4f);
-            storedList.addAll(playerList);
-        }
-        else if(!storedList.isEmpty() && playerList.isEmpty()){
-            level.playSound(null, pos, SoundEvents.WOODEN_PRESSURE_PLATE_CLICK_OFF, SoundSource.BLOCKS, 0.2f, 0.2f);
-            storedList.clear();
-        }
-        level.sendBlockUpdated(pos, state, state, 2);
-
-        super.tick(state, level, pos, source);
     }
 
     @Override
@@ -78,20 +62,13 @@ public class ExperienceFountainBlock extends Block implements EntityBlock {
 
         BlockEntity entity = level.getBlockEntity(pos);
         ItemStack heldItem = player.getItemInHand(hand);
-
-        List<Item> acceptedItems = new ArrayList<>();
-        acceptedItems.add(Items.BUCKET);
-        acceptedItems.add(RegisterItems.COGNITIUM_BUCKET.get());
-        acceptedItems.add(Items.EXPERIENCE_BOTTLE);
-        acceptedItems.add(Items.GLASS_BOTTLE);
-        //todo: allow fountain to accept all items extending a fluid capability
+        IFluidHandlerItem fluidHandler = FluidUtil.getFluidHandler(ItemHandlerHelper.copyStackWithSize(heldItem, 1)).orElse(null);
 
         if(entity instanceof ExperienceFountainEntity fountain){
 
-            if(fountain.isBound){
+            if(fountain.isBound && level.getBlockEntity(fountain.getBoundPos()) instanceof ExperienceObeliskEntity obelisk){
 
                 BlockPos boundPos = fountain.getBoundPos();
-                BlockEntity e = level.getBlockEntity(boundPos);
 
                 if(heldItem.is(RegisterItems.ATTUNEMENT_STAFF.get())){
                     player.displayClientMessage(Component.translatable("message.experienceobelisk.binding_wand.reveal_bound_pos",
@@ -99,47 +76,56 @@ public class ExperienceFountainBlock extends Block implements EntityBlock {
 
                     return InteractionResult.sidedSuccess(true);
                 }
-                else if(acceptedItems.contains(heldItem.getItem()) && e instanceof ExperienceObeliskEntity obelisk){
-                    handleExperienceItem(heldItem, player, hand, obelisk);
+                else if(heldItem.getItem() == Items.EXPERIENCE_BOTTLE || heldItem.getItem() == Items.GLASS_BOTTLE){
+                    handleExperienceBottle(heldItem, player, hand, obelisk);
+                    return InteractionResult.sidedSuccess(true);
+                }
+                else if(fluidHandler != null){
+                    handleExperienceItem(heldItem, fluidHandler, player, hand, obelisk);
                     return InteractionResult.sidedSuccess(true);
                 }
             }
 
             fountain.cycleActivityState();
-            Component setting = Component.empty();
+            MutableComponent message = Component.empty();
 
             switch (fountain.getActivityState()) {
-                case 0 -> setting = Component.literal("Slow").withStyle(ChatFormatting.RED);
-                case 1 -> setting = Component.literal("Moderate").withStyle(ChatFormatting.YELLOW);
-                case 2 -> setting = Component.literal("Fast").withStyle(ChatFormatting.GREEN);
-                case 3 -> setting = Component.literal("Hyperspeed").withStyle(ChatFormatting.LIGHT_PURPLE);
+                case 0 -> message = Component.translatable("message.experienceobelisk.experience_fountain.slow");
+                case 1 -> message = Component.translatable("message.experienceobelisk.experience_fountain.moderate");
+                case 2 -> message = Component.translatable("message.experienceobelisk.experience_fountain.fast");
+                case 3 -> message = Component.translatable("message.experienceobelisk.experience_fountain.hyper");
             }
-            Component message = Component.literal("Experience Fountain set to: ").append(setting);
-
             player.displayClientMessage(message, true);
             level.sendBlockUpdated(pos, state, state, 2);
 
         }
-        return InteractionResult.CONSUME;
+
+        if(!level.isClientSide){
+            return InteractionResult.CONSUME;
+        }
+        else{
+            return InteractionResult.SUCCESS;
+        }
+
     }
 
-    public void handleExperienceItem(ItemStack heldItem, Player player, InteractionHand hand, ExperienceObeliskEntity obelisk){
+    public void handleExperienceItem(ItemStack heldItem, IFluidHandlerItem fluidHandler, Player player, InteractionHand hand, ExperienceObeliskEntity obelisk){
 
-        Item cognitiumBucketItem = RegisterItems.COGNITIUM_BUCKET.get();
-        ItemStack cognitiumBucket = new ItemStack(cognitiumBucketItem, 1);
-        ItemStack experienceBottle = new ItemStack(Items.EXPERIENCE_BOTTLE, 1);
-        ItemStack glassBottle = new ItemStack(Items.GLASS_BOTTLE, 1);
+        FluidStack cognitium = new FluidStack(RegisterFluids.COGNITIUM.get(), 1000);
 
-        if(heldItem.is(Items.BUCKET) && obelisk.getFluidAmount() >= 1000){
+        if(obelisk.getFluidAmount() >= 1000 && fluidHandler.fill(cognitium, IFluidHandler.FluidAction.SIMULATE) >= 1000){
 
             if(!player.isCreative()){
                 heldItem.shrink(1);
+                fluidHandler.fill(cognitium, IFluidHandler.FluidAction.EXECUTE);
+
+                ItemStack fluidItem = fluidHandler.getContainer();
 
                 if(heldItem.isEmpty()){
-                    player.setItemInHand(hand, cognitiumBucket);
+                    player.setItemInHand(hand, fluidItem);
                 }
-                else if(!player.addItem(cognitiumBucket)){     //if player inventory is full
-                    player.drop(cognitiumBucket, false);
+                else if(!player.addItem(fluidItem)){
+                    player.drop(fluidItem, false); //in case player inventory is full
                 }
 
             }
@@ -147,17 +133,33 @@ public class ExperienceFountainBlock extends Block implements EntityBlock {
             obelisk.drain(1000);
             player.playSound(SoundEvents.BUCKET_FILL, 1f, 1f);
         }
-        else if(heldItem.is(cognitiumBucketItem) && obelisk.getSpace() >= 1000){
+        else if(obelisk.getSpace() >= 1000 && fluidHandler.drain(cognitium, IFluidHandler.FluidAction.SIMULATE).getAmount() >= 1000){
 
             if(!player.isCreative()){
                 heldItem.shrink(1);
-                player.setItemInHand(hand, new ItemStack(Items.BUCKET, 1));
+                fluidHandler.drain(cognitium, IFluidHandler.FluidAction.EXECUTE);
+
+                ItemStack fluidItem = fluidHandler.getContainer();
+
+                if(heldItem.isEmpty()){
+                    player.setItemInHand(hand, fluidItem);
+                }
+                else if(!player.addItem(fluidItem)){
+                    player.drop(fluidItem, false);
+                }
             }
 
             obelisk.fill(1000);
             player.playSound(SoundEvents.BUCKET_EMPTY, 1f, 1f);
         }
-        else if(heldItem.is(Items.GLASS_BOTTLE) && obelisk.getFluidAmount() >= 140){
+    }
+
+    public void handleExperienceBottle(ItemStack heldItem, Player player, InteractionHand hand, ExperienceObeliskEntity obelisk){
+
+        ItemStack experienceBottle = new ItemStack(Items.EXPERIENCE_BOTTLE, 1);
+        ItemStack glassBottle = new ItemStack(Items.GLASS_BOTTLE, 1);
+
+        if(heldItem.is(Items.GLASS_BOTTLE) && obelisk.getFluidAmount() >= 140){
 
             if(!player.isCreative()){
                 heldItem.shrink(1);
@@ -165,7 +167,7 @@ public class ExperienceFountainBlock extends Block implements EntityBlock {
                 if(heldItem.isEmpty()){
                     player.setItemInHand(hand, experienceBottle);
                 }
-                else if(!player.addItem(experienceBottle)){     //if player inventory is full
+                else if(!player.addItem(experienceBottle)){
                     player.drop(experienceBottle, false);
                 }
 
@@ -182,7 +184,7 @@ public class ExperienceFountainBlock extends Block implements EntityBlock {
                 if(heldItem.isEmpty()){
                     player.setItemInHand(hand, glassBottle);
                 }
-                else if(!player.addItem(glassBottle)){     //if player inventory is full
+                else if(!player.addItem(glassBottle)){
                     player.drop(glassBottle, false);
                 }
             }
@@ -190,35 +192,49 @@ public class ExperienceFountainBlock extends Block implements EntityBlock {
             obelisk.fill(140);
             player.playSound(SoundEvents.BOTTLE_EMPTY, 1f, 1f);
         }
-
-        //potentially wanna make it so any fluid container item works
-
     }
 
 
-    VoxelShape shape = Shapes.create(new AABB(0 / 16D,0 / 16D,0 / 16D,16 / 16D,9 / 16D,16 / 16D));
+    VoxelShape center = Shapes.create(new AABB(4.5 / 16D,0 / 16D,4.5 / 16D,11.5 / 16D,8.5 / 16D,11.5 / 16D));
+    VoxelShape shape1 = Shapes.create(new AABB(2 / 16D,1.3 / 16D,4.6 / 16D,14 / 16D,2.3 / 16D,11.4 / 16D));
+    VoxelShape shape2 = Shapes.create(new AABB(4.6 / 16D,1.3 / 16D,2 / 16D,11.4 / 16D,2.3 / 16D,14 / 16D));
     @Override
-    public VoxelShape getShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
-        return shape;
+    public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+        return Shapes.join(Shapes.join(center, shape1, BooleanOp.OR), shape2, BooleanOp.OR).optimize();
     }
+
 
     public ItemStack stack;
     @Override
-    public void playerWillDestroy(Level pLevel, BlockPos pPos, BlockState pState, Player pPlayer) {
-        if (!pLevel.isClientSide) {
-            BlockEntity blockentity = pLevel.getBlockEntity(pPos);
-            if (blockentity instanceof ExperienceFountainEntity entity && pPlayer.hasCorrectToolForDrops(pState)) {
+    public void playerWillDestroy(Level level, BlockPos pos, BlockState state, Player player) {
+        if (!level.isClientSide) {
+            BlockEntity blockentity = level.getBlockEntity(pos);
+            if (blockentity instanceof ExperienceFountainEntity entity && player.hasCorrectToolForDrops(state)) {
 
                 stack = new ItemStack(RegisterItems.EXPERIENCE_FOUNTAIN_ITEM.get(), 1);
                 entity.saveToItem(stack);
             }
         }
 
-        super.playerWillDestroy(pLevel, pPos, pState, pPlayer);
+        super.playerWillDestroy(level, pos, state, player);
     }
 
     @Override
-    public List<ItemStack> getDrops(BlockState pState, LootContext.Builder pBuilder) {
+    public void onBlockExploded(BlockState state, Level level, BlockPos pos, Explosion explosion) {
+        if (!level.isClientSide) {
+            BlockEntity blockentity = level.getBlockEntity(pos);
+            if (blockentity instanceof ExperienceFountainEntity entity) {
+
+                stack = new ItemStack(RegisterItems.EXPERIENCE_FOUNTAIN_ITEM.get(), 1);
+                entity.saveToItem(stack);
+            }
+        }
+
+        super.onBlockExploded(state, level, pos, explosion);
+    }
+
+    @Override
+    public List<ItemStack> getDrops(BlockState state, LootContext.Builder builder) {
         List<ItemStack> drops = new ArrayList<>();
         if(stack != null){
             drops.add(stack);
@@ -227,7 +243,7 @@ public class ExperienceFountainBlock extends Block implements EntityBlock {
     }
 
     @Override
-    public RenderShape getRenderShape(@NotNull BlockState state) {
+    public RenderShape getRenderShape(BlockState state) {
         return RenderShape.ENTITYBLOCK_ANIMATED;
     }
 
@@ -236,14 +252,14 @@ public class ExperienceFountainBlock extends Block implements EntityBlock {
 
     @Nullable
     @Override
-    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level pLevel, BlockState pState, BlockEntityType<T> pBlockEntityType) {
-        return pBlockEntityType == RegisterBlockEntities.EXPERIENCEFOUNTAIN_BE.get() ? ExperienceFountainEntity::tick : null;
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> blockEntityType) {
+        return blockEntityType == RegisterBlockEntities.EXPERIENCEFOUNTAIN_BE.get() ? ExperienceFountainEntity::tick : null;
     }
 
     @Nullable
     @Override
-    public BlockEntity newBlockEntity(@NotNull BlockPos pPos, BlockState pState) {
-        return RegisterBlockEntities.EXPERIENCEFOUNTAIN_BE.get().create(pPos, pState);
+    public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+        return RegisterBlockEntities.EXPERIENCEFOUNTAIN_BE.get().create(pos, state);
     }
 
 }

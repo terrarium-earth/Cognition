@@ -10,7 +10,7 @@
   "item.experienceobelisk.cognitive_pickaxe": "Cognitive Pickaxe",
   "item.experienceobelisk.cognitive_shovel": "Cognitive Shovel",
   "item.experienceobelisk.cognitive_hoe": "Cognitive Hoe",
-  "item.experienceobelisk.astute_artifact": "Astute Artifact",
+  "item.experienceobelisk.astute_assembly": "Astute Assembly",
   "item.experienceobelisk.enlightened_amulet": "Enlightened Amulet",
 
   "block.experienceobelisk.experience_obelisk": "Experience Obelisk",
@@ -23,7 +23,7 @@
   "fluid.experienceobelisk.cognitium": "Cognitium",
   "fluid_type.experienceobelisk.cognitium": "Cognitium",
 
-  "itemGroup.experience_obelisk": "Experience Obelisk",
+  "itemGroup.experience_obelisk": "Cognition",
 
   "title.experienceobelisk.experience_obelisk": "Experience Obelisk",
   "title.experienceobelisk.experience_obelisk.store": "Store",
@@ -65,6 +65,14 @@
   "message.experienceobelisk.binding_wand.obelisk_too_far": "§c[✖]§r The obelisk is too far away",
   "message.experienceobelisk.binding_wand.obelisk_doesnt_exist": "§c[✖]§f The obelisk at %s §fno longer exists",
   "message.experienceobelisk.binding_wand.reveal_bound_pos": "§b[ⓘ]§r This block is bound to the obelisk at %s",
+
+  "message.experienceobelisk.experience_fountain.slow": "Experience Fountain set to: §cSlow§r",
+  "message.experienceobelisk.experience_fountain.moderate": "Experience Fountain set to: §eModerate§r",
+  "message.experienceobelisk.experience_fountain.fast": "Experience Fountain set to: §aFast§r",
+  "message.experienceobelisk.experience_fountain.hyper": "Experience Fountain set to: §bHyper§r",
+
+  "sounds.experienceobelisk.enlightened_amulet_activate": "Amulet activates",
+  "sounds.experienceobelisk.enlightened_amulet_deactivate": "Amulet deactivates",
 
   "enchantment.experienceobelisk.athena_blessing": "Blessing of Athena",
   "enchantment.experienceobelisk.athena_blessing.desc": "Tool decomposes into experience when broken"

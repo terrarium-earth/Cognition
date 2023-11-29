@@ -2,22 +2,22 @@
   "type": "minecraft:crafting_shaped",
   "pattern": [
     " #E",
-    "#F#",
+    "EFE",
     "E# "
   ],
   "key": {
     "#": {
-      "item": "experienceobelisk:cognitive_crystal"
+      "item": "minecraft:gold_ingot"
     },
     "E": {
       "item": "experienceobelisk:cognitive_amalgam"
     },
     "F": {
-      "item": "experienceobelisk:cognitive_alloy"
+      "item": "minecraft:emerald"
     }
   },
   "result": {
-    "item": "experienceobelisk:astute_artifact",
+    "item": "experienceobelisk:astute_assemblage",
     "count": 1
   }
 }

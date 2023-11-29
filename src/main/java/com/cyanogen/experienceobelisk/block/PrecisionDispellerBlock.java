@@ -11,18 +11,19 @@ import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.EntityBlock;
-import net.minecraft.world.level.block.FaceAttachedHorizontalDirectionalBlock;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.level.block.state.properties.AttachFace;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
@@ -32,30 +33,38 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 
-public class PrecisionDispellerBlock extends FaceAttachedHorizontalDirectionalBlock implements EntityBlock {
+public class PrecisionDispellerBlock extends Block implements EntityBlock {
 
     public PrecisionDispellerBlock() {
         super(BlockBehaviour.Properties.of(Material.METAL)
                 .strength(9f)
                 .destroyTime(1.2f)
                 .requiresCorrectToolForDrops()
-                .explosionResistance(8f)
+                .explosionResistance(9f)
                 .noOcclusion()
-                .emissiveRendering((state, getter, pos) -> true)
+                .lightLevel(pLightEmission -> 5)
         );
-        this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(FACE, AttachFace.WALL));
+        this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH));
+    }
+
+    public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
+
+    @Override
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+        builder.add(FACING);
+        super.createBlockStateDefinition(builder);
     }
 
     @Override
-    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> pBuilder) {
-        pBuilder.add(FACING);
-        pBuilder.add(FACE);
-        super.createBlockStateDefinition(pBuilder);
-    }
-
-    @Override
-    public boolean canSurvive(BlockState pState, LevelReader pLevel, BlockPos pPos) {
+    public boolean canSurvive(BlockState state, LevelReader level, BlockPos pos) {
         return true;
+    }
+
+    @Nullable
+    @Override
+    public BlockState getStateForPlacement(BlockPlaceContext context) {
+        Direction direction = context.getHorizontalDirection();
+        return this.defaultBlockState().setValue(FACING, direction);
     }
 
     @Override
@@ -86,6 +95,7 @@ public class PrecisionDispellerBlock extends FaceAttachedHorizontalDirectionalBl
 
     }
 
+    //-----EW alignment-----//
     //spinny bit
     VoxelShape shape1 = Shapes.create(new AABB(2 / 16D,4 / 16D,4 / 16D,14 / 16D,16 / 16D,12 / 16D));
     //leg 1
@@ -99,6 +109,7 @@ public class PrecisionDispellerBlock extends FaceAttachedHorizontalDirectionalBl
 
     VoxelShape shapeEW = Shapes.join(Shapes.join(shape1, shape2, BooleanOp.OR), shape3, BooleanOp.OR).optimize();
 
+    //-----NS alignment-----//
     //spinny bit
     VoxelShape shape4 = Shapes.create(new AABB(4 / 16D,4 / 16D,2 / 16D,12 / 16D,16 / 16D,14 / 16D));
     //leg 1
@@ -113,7 +124,7 @@ public class PrecisionDispellerBlock extends FaceAttachedHorizontalDirectionalBl
     VoxelShape shapeNS = Shapes.join(Shapes.join(shape5, shape6, BooleanOp.OR), shape4, BooleanOp.OR).optimize();
 
     @Override
-    public VoxelShape getShape(BlockState state, BlockGetter p_60556_, BlockPos p_60557_, CollisionContext p_60558_) {
+    public VoxelShape getShape(BlockState state, BlockGetter getter, BlockPos pos, CollisionContext context) {
 
         Direction direction = (Direction) state.getValues().get(FACING);
         if(direction == Direction.NORTH || direction == Direction.SOUTH){
@@ -131,7 +142,7 @@ public class PrecisionDispellerBlock extends FaceAttachedHorizontalDirectionalBl
 
     @Nullable
     @Override
-    public BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
-        return RegisterBlockEntities.PRECISIONDISPELLER_BE.get().create(pPos, pState);
+    public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+        return RegisterBlockEntities.PRECISIONDISPELLER_BE.get().create(pos, state);
     }
 }

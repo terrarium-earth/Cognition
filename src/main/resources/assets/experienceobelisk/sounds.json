@@ -1,0 +1,14 @@
+{
+  "enlightened_amulet_activate": {
+    "subtitle": "sounds.experienceobelisk.enlightened_amulet_activate",
+    "sounds": [
+      "experienceobelisk:enlightened_amulet"
+    ]
+  },
+  "enlightened_amulet_deactivate": {
+    "subtitle": "sounds.experienceobelisk.enlightened_amulet_deactivate",
+    "sounds": [
+      "experienceobelisk:enlightened_amulet"
+    ]
+  }
+}

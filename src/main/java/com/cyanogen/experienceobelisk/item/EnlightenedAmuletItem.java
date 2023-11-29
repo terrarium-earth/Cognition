@@ -1,10 +1,10 @@
 package com.cyanogen.experienceobelisk.item;
 
 import com.cyanogen.experienceobelisk.config.Config;
-import net.minecraft.core.BlockPos;
+import com.cyanogen.experienceobelisk.registries.RegisterSounds;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.sounds.SoundEvents;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.Entity;
@@ -15,14 +15,15 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
 public class EnlightenedAmuletItem extends Item{
 
-    public EnlightenedAmuletItem(Properties pProperties) {
-        super(pProperties);
+    public EnlightenedAmuletItem(Properties p) {
+        super(p);
     }
 
     @Override
@@ -44,8 +45,16 @@ public class EnlightenedAmuletItem extends Item{
         CompoundTag tag = stack.getOrCreateTag();
 
         if(player.isShiftKeyDown()){
-            tag.putBoolean("isActive", !tag.getBoolean("isActive"));
-            player.playSound(SoundEvents.EXPERIENCE_ORB_PICKUP, 0.2f,1f);
+            boolean isActive = tag.getBoolean("isActive");
+            if(isActive){
+                tag.putBoolean("isActive", false);
+                player.playSound(RegisterSounds.ENLIGHTENED_AMULET_DEACTIVATE.get(), 0.2f,0.8f);
+            }
+            else{
+                tag.putBoolean("isActive", true);
+                player.playSound(RegisterSounds.ENLIGHTENED_AMULET_ACTIVATE.get(), 0.2f,1f);
+            }
+
         }
 
         return super.use(level, player, hand);
@@ -57,51 +66,72 @@ public class EnlightenedAmuletItem extends Item{
     }
 
     @Override
-    public void inventoryTick(ItemStack stack, Level level, Entity entity, int p_41407_, boolean p_41408_) {
+    public void inventoryTick(ItemStack stack, Level level, Entity entity, int slot, boolean isCurrentItem) {
 
         boolean isActive = stack.getOrCreateTag().getBoolean("isActive");
 
-        if(entity instanceof Player player && isActive && !level.isClientSide && level.getGameTime() % 3 ==0){
+        if(entity instanceof Player player && isActive && !level.isClientSide && level.getGameTime() % 5 ==0){
 
             final double radius = Config.COMMON.range.get();
 
-            BlockPos pos = player.blockPosition();
+            Vec3 pos = player.position();
             AABB area = new AABB(
-                    pos.getX() - radius,
-                    pos.getY() - radius,
-                    pos.getZ() - radius,
-                    pos.getX() + radius,
-                    pos.getY() + radius,
-                    pos.getZ() + radius);
+                    pos.x() - radius,
+                    pos.y() - radius,
+                    pos.z() - radius,
+                    pos.x() + radius,
+                    pos.y() + radius,
+                    pos.z() + radius);
 
-            List<ExperienceOrb> list = level.getEntitiesOfClass(ExperienceOrb.class, area);
 
-            for(ExperienceOrb orb : list){
-                if(orb.isAlive()){
-                    player.giveExperiencePoints(orb.value);
-                    orb.discard();
+            if(level.getGameTime() % 5 == 0){
+                List<ExperienceOrb> list = level.getEntitiesOfClass(ExperienceOrb.class, area);
+                int totalValue = 0;
+
+                if(!list.isEmpty()){
+                    for(ExperienceOrb orb : list){
+                        totalValue += orb.value;
+                        orb.discard();
+                    }
+
+                    ServerLevel server = (ServerLevel) level;
+
+                    if(totalValue < 32768){
+                        ExperienceOrb orb = new ExperienceOrb(server, pos.x(), pos.y(), pos.z(), totalValue);
+                        server.addFreshEntity(orb);
+                    }
+                    else{ //kinda ridiculous edge case but wtv
+                        while(totalValue > 0){
+                            int v = Math.min(totalValue, 32767);
+                            ExperienceOrb orb = new ExperienceOrb(server, pos.x(), pos.y(), pos.z(), v);
+                            server.addFreshEntity(orb);
+                            totalValue = totalValue - v;
+                        }
+                    }
+
+                    System.out.println("Time: " + level.getGameTime() + " Value: " + totalValue);
                 }
-
             }
         }
-        super.inventoryTick(stack, level, entity, p_41407_, p_41408_);
+
+        super.inventoryTick(stack, level, entity, slot, isCurrentItem);
     }
 
     //-----CUSTOM HOVER TEXT-----//
 
     @Override
-    public void appendHoverText(ItemStack pStack, Level pLevel, List<Component> pTooltip, TooltipFlag pFlag) {
+    public void appendHoverText(ItemStack pStack, Level pLevel, List<Component> tooltip, TooltipFlag flag) {
 
         boolean isActive = pStack.getOrCreateTag().getBoolean("isActive");
 
         if(isActive){
-            pTooltip.add(Component.translatable("tooltip.experienceobelisk.enlightened_amulet.active"));
+            tooltip.add(Component.translatable("tooltip.experienceobelisk.enlightened_amulet.active"));
         }
         else{
-            pTooltip.add(Component.translatable("tooltip.experienceobelisk.enlightened_amulet.inactive"));
+            tooltip.add(Component.translatable("tooltip.experienceobelisk.enlightened_amulet.inactive"));
         }
 
-        super.appendHoverText(pStack, pLevel, pTooltip, pFlag);
+        super.appendHoverText(pStack, pLevel, tooltip, flag);
 
     }
 }

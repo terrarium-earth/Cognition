@@ -1,7 +1,6 @@
 package com.cyanogen.experienceobelisk;
 
 import com.cyanogen.experienceobelisk.config.Config;
-import com.cyanogen.experienceobelisk.event.EventHandler;
 import com.cyanogen.experienceobelisk.gui.PrecisionDispellerScreen;
 import com.cyanogen.experienceobelisk.network.PacketHandler;
 import com.cyanogen.experienceobelisk.registries.*;
@@ -43,7 +42,7 @@ public class ExperienceObelisk
         RegisterBlockEntities.register(eventBus);
         RegisterFluids.register(eventBus);
         RegisterMenus.register(eventBus);
-        RegisterEnchantments.register(eventBus);
+        RegisterSounds.register(eventBus);
 
         GeckoLib.initialize();
         PacketHandler.init();
@@ -52,7 +51,7 @@ public class ExperienceObelisk
     }
 
     private void setup(final FMLCommonSetupEvent event) {
-        MinecraftForge.EVENT_BUS.register(new EventHandler());
+
     }
 
     private void clientSetup(final FMLClientSetupEvent event){
