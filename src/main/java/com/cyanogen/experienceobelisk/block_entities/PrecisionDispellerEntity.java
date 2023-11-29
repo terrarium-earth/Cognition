@@ -36,7 +36,7 @@ public class PrecisionDispellerEntity extends BlockEntity implements IAnimatable
             controller.setAnimation(new AnimationBuilder()
                     .addAnimation("use", false)
                     .addAnimation("static", false));
-            System.out.println("animation playing");
+
             pendingAnimation = false;
             controller.markNeedsReload();
         }

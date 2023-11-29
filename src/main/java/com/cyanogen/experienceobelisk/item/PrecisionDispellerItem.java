@@ -16,8 +16,8 @@ import software.bernie.geckolib3.core.manager.AnimationFactory;
 import java.util.function.Consumer;
 
 public class PrecisionDispellerItem extends BlockItem implements IAnimatable{
-    public PrecisionDispellerItem(Block p_40565_, Properties p_40566_) {
-        super(p_40565_, p_40566_);
+    public PrecisionDispellerItem(Block block, Properties properties) {
+        super(block, properties);
     }
 
     //-----ANIMATIONS-----//
