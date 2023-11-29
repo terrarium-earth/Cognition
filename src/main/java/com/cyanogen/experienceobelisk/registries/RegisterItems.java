@@ -14,6 +14,7 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
+import org.checkerframework.checker.units.qual.C;
 import org.jetbrains.annotations.NotNull;
 
 public class RegisterItems {
@@ -51,25 +52,20 @@ public class RegisterItems {
             return Ingredient.of(COGNITIVE_ALLOY.get());
         }
     };
+
     public static AttributeModifier range = new AttributeModifier("experienceobelisk:range",1.0, AttributeModifier.Operation.ADDITION);
+
+    public static Item baseItem(){
+        return new Item(new Item.Properties().tab(RegisterCreativeTab.MOD_TAB));
+    }
 
     //-----CRAFTING INGREDIENTS-----//
 
-    public static final RegistryObject<Item> COGNITIVE_FLUX = ITEMS.register("cognitive_flux",
-            () -> new Item(new Item.Properties().tab(RegisterCreativeTab.MOD_TAB)));
-
-    public static final RegistryObject<Item> COGNITIVE_AMALGAM = ITEMS.register("cognitive_amalgam",
-            () -> new Item(new Item.Properties().tab(RegisterCreativeTab.MOD_TAB)));
-
-    public static final RegistryObject<Item> COGNITIVE_ALLOY = ITEMS.register("cognitive_alloy",
-            () -> new Item(new Item.Properties().tab(RegisterCreativeTab.MOD_TAB)));
-
-    public static final RegistryObject<Item> COGNITIVE_CRYSTAL = ITEMS.register("cognitive_crystal",
-            () -> new Item(new Item.Properties().tab(RegisterCreativeTab.MOD_TAB)));
-
-    public static final RegistryObject<Item> ASTUTE_ASSEMBLY = ITEMS.register("astute_assembly",
-            () -> new Item(new Item.Properties().tab(RegisterCreativeTab.MOD_TAB)));
-
+    public static final RegistryObject<Item> COGNITIVE_FLUX = ITEMS.register("cognitive_flux", RegisterItems::baseItem);
+    public static final RegistryObject<Item> COGNITIVE_AMALGAM = ITEMS.register("cognitive_amalgam", RegisterItems::baseItem);
+    public static final RegistryObject<Item> COGNITIVE_ALLOY = ITEMS.register("cognitive_alloy", RegisterItems::baseItem);
+    public static final RegistryObject<Item> COGNITIVE_CRYSTAL = ITEMS.register("cognitive_crystal", RegisterItems::baseItem);
+    public static final RegistryObject<Item> ASTUTE_ASSEMBLY = ITEMS.register("astute_assembly", RegisterItems::baseItem);
 
     //-----COGNITIVE TOOLSET-----//
 
