@@ -1,7 +1,6 @@
 package com.cyanogen.experienceobelisk.registries;
 
 import com.cyanogen.experienceobelisk.ExperienceObelisk;
-import com.mojang.math.Vector3f;
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.resources.ResourceLocation;
@@ -17,6 +16,7 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import org.jetbrains.annotations.NotNull;
+import org.joml.Vector3f;
 
 import java.util.function.Consumer;
 
@@ -66,8 +66,7 @@ public class RegisterFluids {
                         }
 
                         @Override
-                        public @NotNull
-                        Vector3f modifyFogColor(Camera camera, float partialTick, ClientLevel level, int renderDistance, float darkenWorldAmount, Vector3f fluidFogColor) {
+                        public @NotNull Vector3f modifyFogColor(Camera camera, float partialTick, ClientLevel level, int renderDistance, float darkenWorldAmount, Vector3f fluidFogColor) {
                             return new Vector3f(0.2f,1,0.3f);
                         }
                     });

@@ -10,8 +10,6 @@ import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.fml.InterModComms;
-import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
@@ -19,9 +17,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import software.bernie.geckolib3.GeckoLib;
-import top.theillusivec4.curios.api.SlotTypeMessage;
-import top.theillusivec4.curios.api.SlotTypePreset;
+import software.bernie.geckolib.GeckoLib;
 
 @Mod(ExperienceObelisk.MOD_ID)
 
@@ -64,10 +60,6 @@ public class ExperienceObelisk
     }
 
     private void curiosSetup(final InterModEnqueueEvent event){
-
-        if(ModList.get().isLoaded("curios")){
-            InterModComms.sendTo("curios", SlotTypeMessage.REGISTER_TYPE, () -> SlotTypePreset.NECKLACE.getMessageBuilder().build());
-        }
-
+        //todo: slot registration; curios registration is now done thru datapacks
     }
 }

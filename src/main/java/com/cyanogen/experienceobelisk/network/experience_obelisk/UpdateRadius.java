@@ -16,8 +16,8 @@ public class UpdateRadius {
     public static double changeInRadius;
 
     public UpdateRadius(BlockPos pos, double changeInRadius) {
-        this.pos = pos;
-        this.changeInRadius = changeInRadius;
+        UpdateRadius.pos = pos;
+        UpdateRadius.changeInRadius = changeInRadius;
     }
 
     public UpdateRadius(FriendlyByteBuf buffer) {
@@ -40,7 +40,7 @@ public class UpdateRadius {
             ServerPlayer sender = ctx.get().getSender();
             assert sender != null;
 
-            BlockEntity serverEntity = sender.level.getBlockEntity(pos);
+            BlockEntity serverEntity = sender.level().getBlockEntity(pos);
 
             if(serverEntity instanceof ExperienceObeliskEntity xpobelisk){
 

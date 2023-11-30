@@ -3,10 +3,10 @@ package com.cyanogen.experienceobelisk.gui;
 import com.cyanogen.experienceobelisk.network.PacketHandler;
 import com.cyanogen.experienceobelisk.network.precision_dispeller.UpdateSlots;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.network.chat.Component;
@@ -39,6 +39,11 @@ public class PrecisionDispellerScreen extends AbstractContainerScreen<PrecisionD
         super(menu, inventory, component);
     }
 
+    @Override
+    protected void renderBg(GuiGraphics p_283065_, float p_97788_, int p_97789_, int p_97790_) {
+
+    }
+
     //-----SELECTABLE PANEL-----//
 
     enum Status{
@@ -56,8 +61,10 @@ public class PrecisionDispellerScreen extends AbstractContainerScreen<PrecisionD
         public int y2;
         public Status status;
         boolean isVisible;
+        GuiGraphics gui;
+        ResourceLocation texture;
 
-        private SelectablePanel(int x1, int y1, Enchantment e, int level, Status s, boolean isVisible){
+        private SelectablePanel(int x1, int y1, Enchantment e, int level, Status s, boolean isVisible, GuiGraphics gui, ResourceLocation texture){
             this.enchantment = e;
             this.x1 = x1;
             this.y1 = y1;
@@ -66,17 +73,19 @@ public class PrecisionDispellerScreen extends AbstractContainerScreen<PrecisionD
             this.level = level;
             this.status = s;
             this.isVisible = isVisible;
+            this.gui = gui;
+            this.texture = texture;
         }
 
         public boolean isHovered(double mouseX, double mouseY){
             return mouseX > x1 && mouseX < x2 && mouseY > y1 && mouseY < y2;
         }
 
-        public void renderPanel(PoseStack posestack){
+        public void renderPanel(GuiGraphics gui){
             switch(status){
-                case UNHOVERED -> blit(posestack, x1, y1, 0, 177, 102, 17, 256, 256);
-                case HOVERED -> blit(posestack, x1, y1, 0, 211, 102, 17, 256, 256);
-                case SELECTED -> blit(posestack, x1, y1, 0, 194, 102, 17, 256, 256);
+                case UNHOVERED -> gui.blit(texture, x1, y1, 0, 177, 102, 17, 256, 256);
+                case HOVERED -> gui.blit(texture, x1, y1, 0, 211, 102, 17, 256, 256);
+                case SELECTED -> gui.blit(texture, x1, y1, 0, 194, 102, 17, 256, 256);
             }
         }
 
@@ -85,7 +94,7 @@ public class PrecisionDispellerScreen extends AbstractContainerScreen<PrecisionD
             return fullName.copy().getString();
         }
 
-        public void renderText(PoseStack posestack, Font font){
+        public void renderText(Font font){
             String text = getFullName();
 
             if(font.width(text) > 90){
@@ -96,10 +105,10 @@ public class PrecisionDispellerScreen extends AbstractContainerScreen<PrecisionD
             }
 
             if(enchantment.isCurse()){
-                font.draw(posestack, text, x1 + 4, y1 + 4, 0xFC5454);
+                gui.drawString(font, text, x1 + 4, y1 + 4, 0xFC5454);
             }
             else{
-                font.draw(posestack, text, x1 + 4, y1 + 4, 0xFFFFFF);
+                gui.drawString(font, text, x1 + 4, y1 + 4, 0xFFFFFF);
             }
 
         }
@@ -111,15 +120,16 @@ public class PrecisionDispellerScreen extends AbstractContainerScreen<PrecisionD
     //-----RENDERING-----//
 
     @Override
-    protected void renderLabels(PoseStack pPoseStack, int pMouseX, int pMouseY) {
-        this.font.draw(pPoseStack, this.title, (float)this.titleLabelX, (float)this.titleLabelY, 0xFFFFFF);
-        this.font.draw(pPoseStack, this.inventoryTitle, (float)this.inventoryLabelX, (float)this.inventoryLabelY, 0xFFFFFF);
+    protected void renderLabels(GuiGraphics gui, int mouseX, int mouseY) {
+        gui.drawString(this.font, this.title, this.titleLabelX, this.titleLabelY, 0xFFFFFF);
+        gui.drawString(this.font, this.inventoryTitle, this.inventoryLabelX, this.inventoryLabelY, 0xFFFFFF);
     }
 
-    public void render(PoseStack pPoseStack, int pMouseX, int pMouseY, float pPartialTick) {
+    @Override
+    public void render(GuiGraphics gui, int pMouseX, int pMouseY, float pPartialTick) {
 
         selectablePanels.clear();
-        renderBackground(pPoseStack);
+        renderBackground(gui);
 
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         RenderSystem.setShaderTexture(0, texture);
@@ -128,7 +138,7 @@ public class PrecisionDispellerScreen extends AbstractContainerScreen<PrecisionD
         int y = (this.height - this.imageHeight) / 2;
 
         //render background texture
-        this.blit(pPoseStack, x, y, 0, 0, 176, 166);
+        gui.blit(texture, x, y, 0, 0, 176, 166);
 
         ItemStack inputStack = menu.container.getItem(0);
         Map<Enchantment,Integer> enchantmentMap = EnchantmentHelper.getEnchantments(inputStack);
@@ -136,11 +146,11 @@ public class PrecisionDispellerScreen extends AbstractContainerScreen<PrecisionD
 
         //render scroll button
         if((inputStack.isEnchanted() || inputStack.is(Items.ENCHANTED_BOOK)) && scrollEnabled){
-            blit(pPoseStack, x + 153, y + scrollButtonPos, 177, 0, 9, 13, 256, 256);
+            gui.blit(texture, x + 153, y + scrollButtonPos, 177, 0, 9, 13, 256, 256);
         }
         else{
             scrollButtonPos = 18;
-            blit(pPoseStack, x + 153, y + 18, 187, 0, 9, 13, 256, 256);
+            gui.blit(texture, x + 153, y + 18, 187, 0, 9, 13, 256, 256);
         }
 
         if(inputStack.isEnchanted() || inputStack.is(Items.ENCHANTED_BOOK)){
@@ -160,7 +170,7 @@ public class PrecisionDispellerScreen extends AbstractContainerScreen<PrecisionD
                 int ypos = y + 18 + 17 * index + offset;
                 boolean visibility = ypos > y + 1 && ypos < y + 69;
 
-                selectablePanels.add(new SelectablePanel(xpos, ypos, entry.getKey(), entry.getValue(), Status.UNHOVERED, visibility));
+                selectablePanels.add(new SelectablePanel(xpos, ypos, entry.getKey(), entry.getValue(), Status.UNHOVERED, visibility, gui, texture));
                 index++;
             }
 
@@ -175,33 +185,32 @@ public class PrecisionDispellerScreen extends AbstractContainerScreen<PrecisionD
                 }
 
                 if(panel.isVisible){
-                    panel.renderPanel(pPoseStack);
+                    panel.renderPanel(gui);
                 }
             }
 
             //rendering labels
             for(SelectablePanel panel : selectablePanels){
                 if(panel.isVisible){
-                    panel.renderText(pPoseStack, font);
+                    panel.renderText(font);
                 }
             }
 
             //covering up
             RenderSystem.setShaderTexture(0, texture);
-            blit(pPoseStack, x + 49, y + 1, 49, 1, 102, 17, 256, 256);
-            blit(pPoseStack, x + 49, y + 69, 49, 69, 102, 17, 256, 256);
+            gui.blit(texture, x + 49, y + 1, 49, 1, 102, 17, 256, 256);
+            gui.blit(texture, x + 49, y + 69, 49, 69, 102, 17, 256, 256);
         }
         else{
             selectedIndex = -1;
             offset = 0;
         }
 
-        super.render(pPoseStack, pMouseX, pMouseY, pPartialTick);
-        this.renderTooltip(pPoseStack, pMouseX, pMouseY);
+        super.render(gui, pMouseX, pMouseY, pPartialTick);
+        this.renderPanelTooltip(gui, pMouseX, pMouseY);
     }
 
-    @Override
-    protected void renderTooltip(PoseStack pPoseStack, int pX, int pY) {
+    protected void renderPanelTooltip(GuiGraphics gui, int pX, int pY) {
 
         long playerXP = levelsToXP(menu.player.experienceLevel) + Math.round(menu.player.experienceProgress * menu.player.getXpNeededForNextLevel());
 
@@ -227,16 +236,10 @@ public class PrecisionDispellerScreen extends AbstractContainerScreen<PrecisionD
                     MutableComponent lvls = Component.translatable(String.valueOf(levels)).withStyle(ChatFormatting.GREEN);
                     tooltipList.add(Component.translatable("tooltip.experienceobelisk.precision_dispeller.enchantment", pts, lvls));
                 }
-                this.renderTooltip(pPoseStack, tooltipList, Optional.empty(), pX, pY);
+
+                gui.renderTooltip(this.font, tooltipList, Optional.empty(), pX, pY);
             }
         }
-
-        super.renderTooltip(pPoseStack, pX, pY);
-    }
-
-    @Override
-    protected void renderBg(PoseStack pPoseStack, float pPartialTick, int pMouseX, int pMouseY) {
-
     }
 
     int scrollButtonPos = 18;

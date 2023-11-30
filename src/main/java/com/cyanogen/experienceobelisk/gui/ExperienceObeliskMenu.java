@@ -21,7 +21,7 @@ public class ExperienceObeliskMenu extends AbstractContainerMenu {
     public ExperienceObeliskMenu(int id, Inventory inventory, FriendlyByteBuf data) {
         this(id, null);
 
-        Level level = inventory.player.level;
+        Level level = inventory.player.level();
         this.pos = data.readBlockPos();
         this.entity = (ExperienceObeliskEntity) level.getBlockEntity(pos);
         this.inventory = inventory;

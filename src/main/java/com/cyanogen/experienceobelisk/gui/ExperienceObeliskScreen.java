@@ -5,10 +5,12 @@ import com.cyanogen.experienceobelisk.network.PacketHandler;
 import com.cyanogen.experienceobelisk.network.experience_obelisk.UpdateContents;
 import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
-import net.minecraft.client.gui.components.Widget;
+import net.minecraft.client.gui.components.Renderable;
+import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -16,14 +18,16 @@ import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 
-import static com.cyanogen.experienceobelisk.network.experience_obelisk.UpdateContents.Request.*;
+import java.util.ArrayList;
+import java.util.List;
 
+import static com.cyanogen.experienceobelisk.network.experience_obelisk.UpdateContents.Request.*;
 
 public class ExperienceObeliskScreen extends AbstractContainerScreen<ExperienceObeliskMenu> {
 
     public BlockPos pos;
     public ExperienceObeliskEntity xpobelisk;
-    private final ResourceLocation texture = new ResourceLocation("experienceobelisk:textures/gui/screens/experience_obelisk.png");
+    private final ResourceLocation texture = new ResourceLocation("experienceobelisk:textures/gui/container/dark_bg2.png");
 
     public ExperienceObeliskScreen(ExperienceObeliskMenu menu, Inventory inventory, Component component) {
         super(menu, inventory, component);
@@ -36,14 +40,15 @@ public class ExperienceObeliskScreen extends AbstractContainerScreen<ExperienceO
     }
 
     @Override
-    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-        InputConstants.Key mouseKey = InputConstants.getKey(keyCode, scanCode);
+    public boolean keyPressed(int pKeyCode, int pScanCode, int pModifiers) {
+        InputConstants.Key mouseKey = InputConstants.getKey(pKeyCode, pScanCode);
+        assert this.minecraft != null;
         if (this.minecraft.options.keyInventory.isActiveAndMatches(mouseKey)) {
             this.onClose();
             return true;
         }
         else{
-            return super.keyPressed(keyCode, scanCode, modifiers);
+            return super.keyPressed(pKeyCode, pScanCode, pModifiers);
         }
     }
 
@@ -78,9 +83,15 @@ public class ExperienceObeliskScreen extends AbstractContainerScreen<ExperienceO
     }
 
     @Override
-    public void render(PoseStack poseStack, int mouseX, int mouseY, float partialTick) {
+    protected void init() {
+        setupWidgetElements();
+        super.init();
+    }
 
-        renderBackground(poseStack);
+    @Override
+    public void render(GuiGraphics gui, int pMouseX, int pMouseY, float pPartialTick) {
+
+        renderBackground(gui);
 
         RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
         RenderSystem.setShaderTexture(0, texture);
@@ -90,49 +101,58 @@ public class ExperienceObeliskScreen extends AbstractContainerScreen<ExperienceO
         int x = this.width / 2 - 176 / 2;
         int y = this.height / 2 - 166 / 2;
 
-        int experiencePoints = menu.entity.getFluidAmount() / 20;
+        //breaks around 2980000 mB for some reason
+
+        int experiencePoints = xpobelisk.getFluidAmount() / 20;
 
         int n = experiencePoints - levelsToXP(xpToLevels(experiencePoints)); //remaining xp
         int m = levelsToXP(xpToLevels(experiencePoints) + 1) - levelsToXP(xpToLevels(experiencePoints)); //xp for next level
         int p = n * 138 / m;
 
         //render gui texture
-        blit(poseStack, x, y, 0, 0, 176, 166, textureWidth, textureHeight);
+        gui.blit(texture, x, y, 0, 0, 176, 166, textureWidth, textureHeight);
 
         //render xp bar
-        blit(poseStack, this.width / 2 - 138 / 2, this.height / 2 + 50, 0, 169, 138, 5, textureWidth, textureHeight);
-        blit(poseStack, this.width / 2 - 138 / 2, this.height / 2 + 50, 0, 173, p, 5, textureWidth, textureHeight);
+        gui.blit(texture, this.width / 2 - 138 / 2, this.height / 2 + 50, 0, 169, 138, 5, textureWidth, textureHeight);
+        gui.blit(texture, this.width / 2 - 138 / 2, this.height / 2 + 50, 0, 173, p, 5, textureWidth, textureHeight);
 
         //descriptors & info
-        drawCenteredString(new PoseStack(), this.font, Component.translatable("title.experienceobelisk.experience_obelisk"),
+        gui.drawCenteredString(this.font, Component.translatable("title.experienceobelisk.experience_obelisk"),
                 this.width / 2,this.height / 2 - 76, 0xFFFFFF);
-        drawString(new PoseStack(), this.font, Component.translatable("title.experienceobelisk.experience_obelisk.store"),
+        gui.drawString(this.font, Component.translatable("title.experienceobelisk.experience_obelisk.store"),
                 this.width / 2 - 77,this.height / 2 - 56, 0xFFFFFF);
-        drawString(new PoseStack(), this.font, Component.translatable("title.experienceobelisk.experience_obelisk.retrieve"),
+        gui.drawString(this.font, Component.translatable("title.experienceobelisk.experience_obelisk.retrieve"),
                 this.width / 2 - 77,this.height / 2 - 10, 0xFFFFFF);
-        drawCenteredString(new PoseStack(), this.font, experiencePoints * 20 + " mB",
+        gui.drawCenteredString(this.font, experiencePoints * 20 + " mB",
                 this.width / 2,this.height / 2 + 35, 0xFFFFFF);
-        drawCenteredString(new PoseStack(), this.font, String.valueOf(xpToLevels(experiencePoints)),
+        gui.drawCenteredString(this.font, String.valueOf(xpToLevels(experiencePoints)),
                 this.width / 2,this.height / 2 + 60, 0x4DFF12);
 
-        //widgets
-        setupWidgetElements();
+        clearWidgets();
+        loadWidgetElements();
 
-        //render widgets
-        for(Widget widget : this.renderables) {
-            widget.render(poseStack, mouseX, mouseY, partialTick);
+        for(Renderable widget : this.renderables){
+            widget.render(gui, pMouseX, pMouseY, pPartialTick);
         }
     }
 
     @Override
-    protected void renderBg(PoseStack pPoseStack, float pPartialTick, int pMouseX, int pMouseY) {
+    protected void renderBg(GuiGraphics p_283065_, float p_97788_, int p_97789_, int p_97790_) {
 
     }
 
-    //buttons and whatnot go here
-    private void setupWidgetElements() {
+    private void loadWidgetElements(){
+        if(!this.buttons.isEmpty()){
+            for(Button b : this.buttons){
+                b.setFocused(false);
+                addRenderableWidget(b);
+            }
+        }
+    }
 
-        clearWidgets();
+    //buttons and whatnot go here
+    private final List<Button> buttons = new ArrayList<>();
+    private void setupWidgetElements() {
 
         Style style = Style.EMPTY;
         Style green = style.withColor(0x45FF5B);
@@ -143,82 +163,68 @@ public class ExperienceObeliskScreen extends AbstractContainerScreen<ExperienceO
         int y1 = 43;
         int y2 = -3;
 
-        addRenderableWidget(new Button(this.width / 2 + 91, this.height / 2 - 78, 20, 20,
-                Component.translatable("button.experienceobelisk.experience_obelisk.settings"),
+        //settings
 
-                (onPress) ->
-                        Minecraft.getInstance().setScreen(new ExperienceObeliskOptionsScreen(pos, menu)),
-
-                (pButton, pPoseStack, pMouseX, pMouseY) ->
-                        renderTooltip(pPoseStack, Component.translatable("tooltip.experienceobelisk.experience_obelisk.settings"), pMouseX, pMouseY)));
-
+        Button settings = Button.builder(Component.translatable("button.experienceobelisk.experience_obelisk.settings"),
+                        (onPress) -> Minecraft.getInstance().setScreen(new ExperienceObeliskOptionsScreen(pos, menu)))
+                .size(20,20)
+                .pos(this.width / 2 + 91, this.height / 2 - 78)
+                .tooltip(Tooltip.create(Component.translatable("tooltip.experienceobelisk.experience_obelisk.settings")))
+                .build();
 
         //deposit
 
-        addRenderableWidget(new Button((int) (this.width / 2 - 1.5 * w - s), this.height / 2 - y1, w, h,
-                Component.literal("+1").setStyle(green),
+        Button deposit1 = Button.builder(Component.literal("+1").withStyle(ChatFormatting.GREEN),
+                        (onPress) -> PacketHandler.INSTANCE.sendToServer(new UpdateContents(pos, 1, FILL)))
+                .size(w,h)
+                .pos((int) (this.width / 2 - 1.5*w - s), this.height / 2 - y1)
+                .tooltip(Tooltip.create(Component.translatable("tooltip.experienceobelisk.experience_obelisk.add1")))
+                .build();
 
-                (onPress) ->
-                        PacketHandler.INSTANCE.sendToServer(new UpdateContents(pos, 1, FILL)),
+        Button deposit10 = Button.builder(Component.literal("+10").withStyle(ChatFormatting.GREEN),
+                        (onPress) -> PacketHandler.INSTANCE.sendToServer(new UpdateContents(pos, 10, FILL)))
+                .size(w,h)
+                .pos(this.width / 2 - w/2, this.height / 2 - y1)
+                .tooltip(Tooltip.create(Component.translatable("tooltip.experienceobelisk.experience_obelisk.add10")))
+                .build();
 
-                (pButton, pPoseStack, pMouseX, pMouseY) ->
-                        renderTooltip(pPoseStack, Component.translatable("tooltip.experienceobelisk.experience_obelisk.add1"), pMouseX, pMouseY)
-        ));
-
-        addRenderableWidget(new Button(this.width / 2 - w / 2, this.height / 2 - y1, w, h,
-                Component.literal("+10").setStyle(green),
-
-                (onPress) ->
-                        PacketHandler.INSTANCE.sendToServer(new UpdateContents(pos, 10, FILL)),
-
-                (pButton, pPoseStack, pMouseX, pMouseY) ->
-                        renderTooltip(pPoseStack, Component.translatable("tooltip.experienceobelisk.experience_obelisk.add10"), pMouseX, pMouseY)
-        ));
-
-        addRenderableWidget(new Button((int) (this.width / 2 + 0.5 * w + s), this.height / 2 - y1, w, h,
-                Component.literal("+All").setStyle(green),
-
-                (onPress) ->
-                        PacketHandler.INSTANCE.sendToServer(new UpdateContents(pos, 0, FILL_ALL)),
-
-                (pButton, pPoseStack, pMouseX, pMouseY) ->
-                        renderTooltip(pPoseStack, Component.translatable("tooltip.experienceobelisk.experience_obelisk.addAll"), pMouseX, pMouseY)
-        ));
-
+        Button depositAll = Button.builder(Component.literal("+All").withStyle(ChatFormatting.GREEN),
+                        (onPress) -> PacketHandler.INSTANCE.sendToServer(new UpdateContents(pos, 0, FILL_ALL)))
+                .size(w,h)
+                .pos((int) (this.width / 2 + 0.5*w + s), this.height / 2 - y1)
+                .tooltip(Tooltip.create(Component.translatable("tooltip.experienceobelisk.experience_obelisk.addAll")))
+                .build();
 
         //withdraw
 
-        addRenderableWidget(new Button((int) (this.width / 2 - 1.5 * w - s), this.height / 2 - y2, w, h,
-                Component.literal("-1").setStyle(red),
+        Button withdraw1 = Button.builder(Component.literal("-1").withStyle(ChatFormatting.RED),
+                        (onPress) -> PacketHandler.INSTANCE.sendToServer(new UpdateContents(pos, 1, DRAIN)))
+                .size(w,h)
+                .pos((int) (this.width / 2 - 1.5*w - s), this.height / 2 - y2)
+                .tooltip(Tooltip.create(Component.translatable("tooltip.experienceobelisk.experience_obelisk.drain1")))
+                .build();
 
-                (onPress) ->
-                        PacketHandler.INSTANCE.sendToServer(new UpdateContents(pos, 1, DRAIN)),
+        Button withdraw10 = Button.builder(Component.literal("-10").withStyle(ChatFormatting.RED),
+                        (onPress) -> PacketHandler.INSTANCE.sendToServer(new UpdateContents(pos, 10, DRAIN)))
+                .size(w,h)
+                .pos(this.width / 2 - w/2, this.height / 2 - y2)
+                .tooltip(Tooltip.create(Component.translatable("tooltip.experienceobelisk.experience_obelisk.drain10")))
+                .build();
 
-                (pButton, pPoseStack, pMouseX, pMouseY) ->
-                        renderTooltip(pPoseStack, Component.translatable("tooltip.experienceobelisk.experience_obelisk.drain1"), pMouseX, pMouseY)
-        ));
+        Button withdrawAll = Button.builder(Component.literal("-All").withStyle(ChatFormatting.RED),
+                        (onPress) -> PacketHandler.INSTANCE.sendToServer(new UpdateContents(pos, 0, DRAIN_ALL)))
+                .size(w,h)
+                .pos((int) (this.width / 2 + 0.5*w + s), this.height / 2 - y2)
+                .tooltip(Tooltip.create(Component.translatable("tooltip.experienceobelisk.experience_obelisk.drainAll")))
+                .build();
 
-        addRenderableWidget(new Button(this.width / 2 - w / 2, this.height / 2 - y2, w, h,
-                Component.literal("-10").setStyle(red),
-
-                (onPress) ->
-                        PacketHandler.INSTANCE.sendToServer(new UpdateContents(pos, 10, DRAIN)),
-
-                (pButton, pPoseStack, pMouseX, pMouseY) ->
-                        renderTooltip(pPoseStack, Component.translatable("tooltip.experienceobelisk.experience_obelisk.drain10"), pMouseX, pMouseY)
-        ));
-
-        addRenderableWidget(new Button((int) (this.width / 2 + 0.5 * w + s), this.height / 2 - y2, w, h,
-                Component.literal("-All").setStyle(red),
-
-                (onPress) ->
-                        PacketHandler.INSTANCE.sendToServer(new UpdateContents(pos, 0, DRAIN_ALL)),
-
-                (pButton, pPoseStack, pMouseX, pMouseY) ->
-                        renderTooltip(pPoseStack, Component.translatable("tooltip.experienceobelisk.experience_obelisk.drainAll"), pMouseX, pMouseY)
-        ));
-
-
+        buttons.add(settings);
+        buttons.add(deposit1);
+        buttons.add(deposit10);
+        buttons.add(depositAll);
+        buttons.add(withdraw1);
+        buttons.add(withdraw10);
+        buttons.add(withdrawAll);
     }
 
 }

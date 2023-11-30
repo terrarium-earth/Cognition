@@ -1,6 +1,7 @@
 package com.cyanogen.experienceobelisk.registries;
 
 import com.cyanogen.experienceobelisk.ExperienceObelisk;
+import net.minecraft.client.resources.sounds.Sound;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -18,7 +19,7 @@ public class RegisterSounds {
     public static final RegistryObject<SoundEvent> ENLIGHTENED_AMULET_DEACTIVATE = registerSound("enlightened_amulet_deactivate");
 
     public static RegistryObject<SoundEvent> registerSound(String soundName){
-        return SOUNDS.register(soundName, () -> new SoundEvent(new ResourceLocation(ExperienceObelisk.MOD_ID, soundName)));
+        return SOUNDS.register(soundName, () -> SoundEvent.createFixedRangeEvent(new ResourceLocation(ExperienceObelisk.MOD_ID, soundName), 4));
     }
 
     public static void register(IEventBus eventBus){

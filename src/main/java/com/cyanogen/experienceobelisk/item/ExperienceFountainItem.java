@@ -4,34 +4,48 @@ import com.cyanogen.experienceobelisk.renderer.ExperienceFountainItemRenderer;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
-import software.bernie.geckolib.core.animatable.GeoAnimatable;
-import software.bernie.geckolib3.core.IAnimatable;
-import software.bernie.geckolib3.core.PlayState;
-import software.bernie.geckolib3.core.builder.AnimationBuilder;
-import software.bernie.geckolib3.core.controller.AnimationController;
-import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
-import software.bernie.geckolib3.core.manager.AnimationData;
-import software.bernie.geckolib3.core.manager.AnimationFactory;
+import software.bernie.geckolib.animatable.GeoItem;
+import software.bernie.geckolib.animatable.SingletonGeoAnimatable;
+import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
+import software.bernie.geckolib.core.animation.AnimatableManager;
+import software.bernie.geckolib.core.animation.AnimationController;
+import software.bernie.geckolib.core.animation.AnimationState;
+import software.bernie.geckolib.core.animation.RawAnimation;
+import software.bernie.geckolib.core.object.PlayState;
+import software.bernie.geckolib.util.GeckoLibUtil;
 
 import java.util.function.Consumer;
 
-public class ExperienceFountainItem extends BlockItem implements GeoAnimatable {
+public class ExperienceFountainItem extends BlockItem implements GeoItem{
 
     public ExperienceFountainItem(Block block, Properties properties) {
         super(block, properties);
+        SingletonGeoAnimatable.registerSyncedAnimatable(this);
     }
 
     //-----ANIMATIONS-----//
 
-    private <E extends BlockEntity & IAnimatable> PlayState predicate(AnimationEvent<E> event) {
-        AnimationController controller = event.getController();
-        controller.transitionLengthTicks = 0;
+    private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
 
-        controller.setAnimation(new AnimationBuilder().addAnimation("cycle", true));
+    protected static final RawAnimation CYCLE = RawAnimation.begin().thenPlay("cycle");
+
+    @Override
+    public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {
+        controllerRegistrar.add(new AnimationController<>(this, this::controller));
+    }
+
+    protected <E extends ExperienceFountainItem> PlayState controller(final AnimationState<E> state) {
+
+        AnimationController<E> controller = state.getController();
+        controller.setAnimation(CYCLE);
 
         return PlayState.CONTINUE;
+    }
+
+    @Override
+    public AnimatableInstanceCache getAnimatableInstanceCache() {
+        return cache;
     }
 
     @Override
@@ -47,14 +61,4 @@ public class ExperienceFountainItem extends BlockItem implements GeoAnimatable {
         });
     }
 
-    @Override
-    public void registerControllers(AnimationData data) {
-        data.addAnimationController(new AnimationController(this, "controller", 0, this::predicate));
-    }
-
-    private final AnimationFactory manager = new AnimationFactory(this);
-    @Override
-    public AnimationFactory getFactory() {
-        return manager;
-    }
 }

@@ -18,9 +18,9 @@ public class UpdateContents {
     public static Request request;
 
     public UpdateContents(BlockPos pos, int XP, Request request) {
-        this.pos = pos;
-        this.XP = XP;
-        this.request = request;
+        UpdateContents.pos = pos;
+        UpdateContents.XP = XP;
+        UpdateContents.request = request;
     }
 
     public enum Request{
@@ -52,7 +52,7 @@ public class UpdateContents {
         ctx.get().enqueueWork(() -> {
             ServerPlayer sender = ctx.get().getSender();
             assert sender != null;
-            BlockEntity serverEntity = sender.level.getBlockEntity(pos);
+            BlockEntity serverEntity = sender.level().getBlockEntity(pos);
 
             if(serverEntity instanceof ExperienceObeliskEntity xpobelisk){
 
