@@ -9,16 +9,16 @@ import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import software.bernie.geckolib3.core.AnimationState;
-import software.bernie.geckolib3.core.IAnimatable;
-import software.bernie.geckolib3.core.PlayState;
-import software.bernie.geckolib3.core.builder.AnimationBuilder;
-import software.bernie.geckolib3.core.controller.AnimationController;
-import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
-import software.bernie.geckolib3.core.manager.AnimationData;
-import software.bernie.geckolib3.core.manager.AnimationFactory;
+import software.bernie.geckolib.animatable.GeoBlockEntity;
+import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
+import software.bernie.geckolib.core.animation.AnimatableManager;
+import software.bernie.geckolib.core.animation.AnimationController;
+import software.bernie.geckolib.core.animation.AnimationState;
+import software.bernie.geckolib.core.animation.RawAnimation;
+import software.bernie.geckolib.core.object.PlayState;
+import software.bernie.geckolib.util.GeckoLibUtil;
 
-public class PrecisionDispellerEntity extends BlockEntity implements IAnimatable{
+public class PrecisionDispellerEntity extends BlockEntity implements GeoBlockEntity{
 
     public boolean pendingAnimation = false;
 
@@ -28,31 +28,32 @@ public class PrecisionDispellerEntity extends BlockEntity implements IAnimatable
 
     //-----------ANIMATIONS-----------//
 
-    private <E extends BlockEntity & IAnimatable> PlayState predicate(AnimationEvent<E> event) {
-        AnimationController controller = event.getController();
-        controller.transitionLengthTicks = 0;
+    private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
 
-        if(controller.getAnimationState() == AnimationState.Stopped && pendingAnimation){
-            controller.setAnimation(new AnimationBuilder()
-                    .addAnimation("use", false)
-                    .addAnimation("static", false));
+    protected static final RawAnimation USE = RawAnimation.begin().thenPlay("use").thenLoop("static");
 
+    @Override
+    public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {
+        controllerRegistrar.add(new AnimationController<>(this, this::controller));
+    }
+
+    protected <E extends PrecisionDispellerEntity> PlayState controller(final AnimationState<E> state){
+
+        AnimationController<E> controller = state.getController();
+        controller.transitionLength(0);
+
+        if(pendingAnimation){
+            controller.stop();
+            controller.setAnimation(USE);
             pendingAnimation = false;
-            controller.markNeedsReload();
         }
 
         return PlayState.CONTINUE;
     }
 
     @Override
-    public void registerControllers(AnimationData data) {
-        data.addAnimationController(new AnimationController(this, "controller", 0, this::predicate));
-    }
-
-    private final AnimationFactory factory = new AnimationFactory(this);
-    @Override
-    public AnimationFactory getFactory() {
-        return factory;
+    public AnimatableInstanceCache getAnimatableInstanceCache() {
+        return cache;
     }
 
     //-----------NBT-----------//

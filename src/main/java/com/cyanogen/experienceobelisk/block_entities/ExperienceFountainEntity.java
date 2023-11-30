@@ -16,17 +16,15 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
-import software.bernie.geckolib3.core.IAnimatable;
-import software.bernie.geckolib3.core.PlayState;
-import software.bernie.geckolib3.core.builder.AnimationBuilder;
-import software.bernie.geckolib3.core.controller.AnimationController;
-import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
-import software.bernie.geckolib3.core.manager.AnimationData;
-import software.bernie.geckolib3.core.manager.AnimationFactory;
+import software.bernie.geckolib.animatable.GeoBlockEntity;
+import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
+import software.bernie.geckolib.core.animation.*;
+import software.bernie.geckolib.core.object.PlayState;
+import software.bernie.geckolib.util.GeckoLibUtil;
 
 import java.util.List;
 
-public class ExperienceFountainEntity extends ExperienceReceivingEntity implements IAnimatable {
+public class ExperienceFountainEntity extends ExperienceReceivingEntity implements GeoBlockEntity{
 
     public ExperienceFountainEntity(BlockPos pos, BlockState state) {
         super(RegisterBlockEntities.EXPERIENCEFOUNTAIN_BE.get(), pos, state);
@@ -34,56 +32,68 @@ public class ExperienceFountainEntity extends ExperienceReceivingEntity implemen
 
     //-----------ANIMATIONS-----------//
 
-    private <E extends BlockEntity & IAnimatable> PlayState predicate(AnimationEvent<E> event) {
-        AnimationController controller = event.getController();
-        controller.transitionLengthTicks = 0;
+    private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
 
-        BlockEntity entity = event.getAnimatable();
+    protected static final RawAnimation ACTIVE_SLOW = RawAnimation.begin().thenPlay("active-slow");
+    protected static final RawAnimation ACTIVE_MODERATE = RawAnimation.begin().thenPlay("active-moderate");
+    protected static final RawAnimation ACTIVE_FAST = RawAnimation.begin().thenPlay("active-fast");
+    protected static final RawAnimation ACTIVE_HYPER = RawAnimation.begin().thenPlay("active-hyperspeed");
 
-        //conditions for the green glow showing up:
-        // - must have a linked obelisk
-        // - must have player standing on it OR redstone signal
+    protected static final RawAnimation SLOW = RawAnimation.begin().thenPlay("slow");
+    protected static final RawAnimation MODERATE = RawAnimation.begin().thenPlay("moderate");
+    protected static final RawAnimation FAST = RawAnimation.begin().thenPlay("fast");
+    protected static final RawAnimation HYPER = RawAnimation.begin().thenPlay("hyperspeed");
+
+    @Override
+    public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {
+        controllerRegistrar.add(new AnimationController<>(this, this::controller));
+    }
+
+    protected <E extends ExperienceFountainEntity> PlayState controller(final AnimationState<E> state) {
+
+        BlockEntity entity = state.getAnimatable();
+        AnimationController<E> controller = state.getController();
 
         if(level != null && entity instanceof ExperienceFountainEntity fountain){
 
             boolean hasNeighborSignal = level.hasNeighborSignal(fountain.getBlockPos());
             boolean isActive = fountain.isBound && (hasNeighborSignal || fountain.hasPlayerAbove);
+            AnimationProcessor.QueuedAnimation anim = controller.getCurrentAnimation();
 
-            if(controller.getCurrentAnimation() == null ||
-                    !toName(fountain.activityState,isActive).equals(controller.getCurrentAnimation().animationName)){
+            if(anim == null || !anim.animation().name().equals(toName(fountain.activityState, isActive))){
                 //only reset the animation when there is a discrepancy in states
 
                 switch(fountain.activityState){
                     case 0 -> {
                         if(isActive){
-                            controller.setAnimation(new AnimationBuilder().addAnimation("active-slow"));
+                            controller.setAnimation(ACTIVE_SLOW);
                         }
                         else{
-                            controller.setAnimation(new AnimationBuilder().addAnimation("slow"));
+                            controller.setAnimation(SLOW);
                         }
                     }
                     case 1 -> {
                         if(isActive){
-                            controller.setAnimation(new AnimationBuilder().addAnimation("active-moderate"));
+                            controller.setAnimation(ACTIVE_MODERATE);
                         }
                         else{
-                            controller.setAnimation(new AnimationBuilder().addAnimation("moderate"));
+                            controller.setAnimation(MODERATE);
                         }
                     }
                     case 2 -> {
                         if(isActive){
-                            controller.setAnimation(new AnimationBuilder().addAnimation("active-fast"));
+                            controller.setAnimation(ACTIVE_FAST);
                         }
                         else{
-                            controller.setAnimation(new AnimationBuilder().addAnimation("fast"));
+                            controller.setAnimation(FAST);
                         }
                     }
                     case 3 -> {
                         if(isActive){
-                            controller.setAnimation(new AnimationBuilder().addAnimation("active-hyperspeed"));
+                            controller.setAnimation(ACTIVE_HYPER);
                         }
                         else{
-                            controller.setAnimation(new AnimationBuilder().addAnimation("hyperspeed"));
+                            controller.setAnimation(HYPER);
                         }
                     }
                 }
@@ -94,14 +104,8 @@ public class ExperienceFountainEntity extends ExperienceReceivingEntity implemen
     }
 
     @Override
-    public void registerControllers(AnimationData data) {
-        data.addAnimationController(new AnimationController(this, "experience_fountain_block_controller", 0, this::predicate));
-    }
-
-    private final AnimationFactory manager = new AnimationFactory(this);
-    @Override
-    public AnimationFactory getFactory() {
-        return manager;
+    public AnimatableInstanceCache getAnimatableInstanceCache() {
+        return cache;
     }
 
     //-----------PASSIVE BEHAVIOR-----------//
@@ -242,6 +246,5 @@ public class ExperienceFountainEntity extends ExperienceReceivingEntity implemen
         }
         super.onDataPacket(net, pkt);
     }
-
 
 }

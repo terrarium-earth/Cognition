@@ -27,20 +27,20 @@ import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.templates.FluidTank;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
-import software.bernie.geckolib3.core.IAnimatable;
-import software.bernie.geckolib3.core.PlayState;
-import software.bernie.geckolib3.core.builder.AnimationBuilder;
-import software.bernie.geckolib3.core.controller.AnimationController;
-import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
-import software.bernie.geckolib3.core.manager.AnimationData;
-import software.bernie.geckolib3.core.manager.AnimationFactory;
+import software.bernie.geckolib.animatable.GeoBlockEntity;
+import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
+import software.bernie.geckolib.core.animation.AnimatableManager;
+import software.bernie.geckolib.core.animation.AnimationController;
+import software.bernie.geckolib.core.animation.AnimationState;
+import software.bernie.geckolib.core.animation.RawAnimation;
+import software.bernie.geckolib.core.object.PlayState;
+import software.bernie.geckolib.util.GeckoLibUtil;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 
-
-public class ExperienceObeliskEntity extends BlockEntity implements IAnimatable{
+public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEntity{
 
     public ExperienceObeliskEntity(BlockPos pPos, BlockState pState) {
         super(RegisterBlockEntities.EXPERIENCEOBELISK_BE.get(), pPos, pState);
@@ -48,35 +48,38 @@ public class ExperienceObeliskEntity extends BlockEntity implements IAnimatable{
 
     //-----------ANIMATIONS-----------//
 
-    //events that control what animation is being played
-    private <E extends BlockEntity & IAnimatable> PlayState predicate(AnimationEvent<E> event) {
-        AnimationController controller = event.getController();
-        controller.transitionLengthTicks = 0;
+    private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
 
-        BlockEntity entity = event.getAnimatable();
+    protected static final RawAnimation IDLE = RawAnimation.begin().thenPlay("idle");
+    protected static final RawAnimation IDLE_INACTIVE = RawAnimation.begin().thenPlay("idle-inactive");
+
+    @Override
+    public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {
+        controllerRegistrar.add(new AnimationController<>(this, this::controller));
+    }
+
+    protected <E extends ExperienceObeliskEntity> PlayState controller(final AnimationState<E> state){
+
+        BlockEntity entity = state.getAnimatable();
+        AnimationController<E> controller = state.getController();
 
         if(level != null
                 && entity instanceof ExperienceObeliskEntity obelisk
                 && obelisk.redstoneEnabled
                 && !level.hasNeighborSignal(obelisk.getBlockPos())){
-            controller.setAnimation(new AnimationBuilder().addAnimation("idle.inactive", true));
+            controller.setAnimation(IDLE_INACTIVE);
         }
         else{
-            controller.setAnimation(new AnimationBuilder().addAnimation("idle", true));
+            controller.setAnimation(IDLE);
         }
 
         return PlayState.CONTINUE;
+
     }
 
     @Override
-    public void registerControllers(AnimationData data) {
-        data.addAnimationController(new AnimationController(this, "experience_obelisk_block_controller", 0, this::predicate));
-    }
-
-    private final AnimationFactory manager = new AnimationFactory(this);
-    @Override
-    public AnimationFactory getFactory() {
-        return manager;
+    public AnimatableInstanceCache getAnimatableInstanceCache() {
+        return cache;
     }
 
     //-----------PASSIVE BEHAVIOR-----------//
@@ -394,6 +397,7 @@ public class ExperienceObeliskEntity extends BlockEntity implements IAnimatable{
             this.setFluid(0);
         }
     }
+
 
 }
 

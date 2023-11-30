@@ -6,6 +6,7 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
+import software.bernie.geckolib.core.animatable.GeoAnimatable;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
 import software.bernie.geckolib3.core.builder.AnimationBuilder;
@@ -16,7 +17,7 @@ import software.bernie.geckolib3.core.manager.AnimationFactory;
 
 import java.util.function.Consumer;
 
-public class ExperienceFountainItem extends BlockItem implements IAnimatable {
+public class ExperienceFountainItem extends BlockItem implements GeoAnimatable {
 
     public ExperienceFountainItem(Block block, Properties properties) {
         super(block, properties);
