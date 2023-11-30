@@ -10,6 +10,7 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
 
 public class RegisterCreativeTab {
+
     public static final DeferredRegister<CreativeModeTab> TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, ExperienceObelisk.MOD_ID);
 
     public static final RegistryObject<CreativeModeTab> EXPERIENCE_OBELISK_TAB = TABS.register("experienceobelisk_tab",
@@ -33,11 +34,15 @@ public class RegisterCreativeTab {
 
                         output.accept(RegisterItems.ATTUNEMENT_STAFF.get());
                         output.accept(RegisterItems.ENLIGHTENED_AMULET.get());
-                        output.accept(RegisterItems.COGNITIUM_BUCKET.get());
 
                         output.accept(RegisterItems.EXPERIENCE_OBELISK_ITEM.get());
                         output.accept(RegisterItems.EXPERIENCE_FOUNTAIN_ITEM.get());
                         output.accept(RegisterItems.PRECISION_DISPELLER_ITEM.get());
+
+                        output.accept(RegisterItems.COGNITIVE_ALLOY_BLOCK_ITEM.get());
+                        output.accept(RegisterItems.COGNITIVE_CRYSTAL_BLOCK_ITEM.get());
+
+                        output.accept(RegisterItems.COGNITIUM_BUCKET.get());
 
                     })
                     .build());

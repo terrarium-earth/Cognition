@@ -27,7 +27,7 @@ public class ExperienceObeliskOptionsScreen extends AbstractContainerScreen<Expe
     public ExperienceObeliskEntity xpobelisk;
     public ExperienceObeliskMenu menu;
 
-    private final ResourceLocation texture = new ResourceLocation("experienceobelisk:textures/gui/container/dark_bg2.png");
+    private final ResourceLocation texture = new ResourceLocation("experienceobelisk:textures/gui/screens/experience_obelisk.png");
 
     protected ExperienceObeliskOptionsScreen(BlockPos pos, ExperienceObeliskMenu menu) {
         super(menu, menu.inventory, Component.literal("Experience Obelisk"));

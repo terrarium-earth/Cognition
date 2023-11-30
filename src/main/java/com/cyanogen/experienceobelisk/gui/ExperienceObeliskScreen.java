@@ -27,7 +27,7 @@ public class ExperienceObeliskScreen extends AbstractContainerScreen<ExperienceO
 
     public BlockPos pos;
     public ExperienceObeliskEntity xpobelisk;
-    private final ResourceLocation texture = new ResourceLocation("experienceobelisk:textures/gui/container/dark_bg2.png");
+    private final ResourceLocation texture = new ResourceLocation("experienceobelisk:textures/gui/screens/experience_obelisk.png");
 
     public ExperienceObeliskScreen(ExperienceObeliskMenu menu, Inventory inventory, Component component) {
         super(menu, inventory, component);
