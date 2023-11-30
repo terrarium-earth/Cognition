@@ -20,12 +20,12 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.RenderShape;
+import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.Material;
-import net.minecraft.world.level.storage.loot.LootContext;
+import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.BooleanOp;
@@ -41,13 +41,14 @@ import java.util.List;
 public class ExperienceObeliskBlock extends Block implements EntityBlock {
 
     public ExperienceObeliskBlock() {
-        super(Properties.of(Material.METAL)
+        super(Properties.of()
                 .strength(9f)
                 .destroyTime(1.2f)
                 .requiresCorrectToolForDrops()
                 .explosionResistance(9f)
                 .noOcclusion()
                 .lightLevel(pLightEmission -> 5)
+                .sound(SoundType.METAL)
         );
     }
 
@@ -95,9 +96,8 @@ public class ExperienceObeliskBlock extends Block implements EntityBlock {
     }
 
     @Override
-    public List<ItemStack> getDrops(BlockState state, LootContext.Builder builder) {
+    public List<ItemStack> getDrops(BlockState state, LootParams.Builder params) {
         List<ItemStack> drops = new ArrayList<>();
-
         if(stack != null){
             drops.add(stack);
         }

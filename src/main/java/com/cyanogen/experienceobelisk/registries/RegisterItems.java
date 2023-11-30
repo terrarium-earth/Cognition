@@ -55,7 +55,7 @@ public class RegisterItems {
     public static AttributeModifier range = new AttributeModifier("experienceobelisk:range",1.0, AttributeModifier.Operation.ADDITION);
 
     public static Item baseItem(){
-        return new Item(new Item.Properties().tab(RegisterCreativeTab.MOD_TAB));
+        return new Item(new Item.Properties());
     }
 
     //-----CRAFTING INGREDIENTS-----//
@@ -69,7 +69,7 @@ public class RegisterItems {
     //-----COGNITIVE TOOLSET-----//
 
     public static final RegistryObject<Item> COGNITIVE_SWORD = ITEMS.register("cognitive_sword",
-            () -> new SwordItem(COGNITIVE, 3, -2.4f, new Item.Properties().tab(RegisterCreativeTab.MOD_TAB)){
+            () -> new SwordItem(COGNITIVE, 3, -2.4f, new Item.Properties()){
                 @Override
                 public @NotNull Multimap<Attribute, AttributeModifier> getDefaultAttributeModifiers(@NotNull EquipmentSlot slot) {
                     return addRangeAttributeModifier(super.getDefaultAttributeModifiers(slot), slot);
@@ -77,7 +77,7 @@ public class RegisterItems {
             });
 
     public static final RegistryObject<Item> COGNITIVE_SHOVEL = ITEMS.register("cognitive_shovel",
-            () -> new ShovelItem(COGNITIVE, 1.5f, -3f, new Item.Properties().tab(RegisterCreativeTab.MOD_TAB)){
+            () -> new ShovelItem(COGNITIVE, 1.5f, -3f, new Item.Properties()){
                 @Override
                 public @NotNull Multimap<Attribute, AttributeModifier> getDefaultAttributeModifiers(@NotNull EquipmentSlot slot) {
                     return addRangeAttributeModifier(super.getDefaultAttributeModifiers(slot), slot);
@@ -85,7 +85,7 @@ public class RegisterItems {
             });
 
     public static final RegistryObject<Item> COGNITIVE_PICKAXE = ITEMS.register("cognitive_pickaxe",
-            () -> new PickaxeItem(COGNITIVE, 1, -2.8f, new Item.Properties().tab(RegisterCreativeTab.MOD_TAB)){
+            () -> new PickaxeItem(COGNITIVE, 1, -2.8f, new Item.Properties()){
                 @Override
                 public @NotNull Multimap<Attribute, AttributeModifier> getDefaultAttributeModifiers(@NotNull EquipmentSlot slot) {
                     return addRangeAttributeModifier(super.getDefaultAttributeModifiers(slot), slot);
@@ -93,7 +93,7 @@ public class RegisterItems {
             });
 
     public static final RegistryObject<Item> COGNITIVE_AXE = ITEMS.register("cognitive_axe",
-            () -> new AxeItem(COGNITIVE, 6, -3.1f, new Item.Properties().tab(RegisterCreativeTab.MOD_TAB)){
+            () -> new AxeItem(COGNITIVE, 6, -3.1f, new Item.Properties()){
                 @Override
                 public @NotNull Multimap<Attribute, AttributeModifier> getDefaultAttributeModifiers(@NotNull EquipmentSlot slot) {
                     return addRangeAttributeModifier(super.getDefaultAttributeModifiers(slot), slot);
@@ -101,7 +101,7 @@ public class RegisterItems {
             });
 
     public static final RegistryObject<Item> COGNITIVE_HOE = ITEMS.register("cognitive_hoe",
-            () -> new HoeItem(COGNITIVE, -2, -1, new Item.Properties().tab(RegisterCreativeTab.MOD_TAB)){
+            () -> new HoeItem(COGNITIVE, -2, -1, new Item.Properties()){
                 @Override
                 public @NotNull Multimap<Attribute, AttributeModifier> getDefaultAttributeModifiers(@NotNull EquipmentSlot slot) {
                     return addRangeAttributeModifier(super.getDefaultAttributeModifiers(slot), slot);
@@ -113,7 +113,8 @@ public class RegisterItems {
         ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
         builder.putAll(multimap);
         if(slot.equals(EquipmentSlot.MAINHAND) && !multimap.containsValue(range)){
-            builder.put(ForgeMod.REACH_DISTANCE.get(), range);
+            builder.put(ForgeMod.BLOCK_REACH.get(), range);
+            builder.put(ForgeMod.ENTITY_REACH.get(), range);
         }
         return builder.build();
     }
@@ -121,24 +122,24 @@ public class RegisterItems {
     //-----FUNCTIONAL ITEMS-----//
 
     public static final RegistryObject<Item> ATTUNEMENT_STAFF = ITEMS.register("attunement_staff",
-            () -> new AttunementStaffItem(new Item.Properties().tab(RegisterCreativeTab.MOD_TAB)));
+            () -> new AttunementStaffItem(new Item.Properties()));
 
     public static final RegistryObject<Item> ENLIGHTENED_AMULET = ITEMS.register("enlightened_amulet",
-            () -> new EnlightenedAmuletItem(new Item.Properties().tab(RegisterCreativeTab.MOD_TAB)));
+            () -> new EnlightenedAmuletItem(new Item.Properties()));
 
     public static final RegistryObject<BucketItem> COGNITIUM_BUCKET = ITEMS.register("cognitium_bucket",
-            () -> new BucketItem(RegisterFluids.COGNITIUM, new Item.Properties().tab(RegisterCreativeTab.MOD_TAB).craftRemainder(Items.BUCKET).stacksTo(1)));
+            () -> new BucketItem(RegisterFluids.COGNITIUM, new Item.Properties().craftRemainder(Items.BUCKET).stacksTo(1)));
 
     //-----BLOCK ITEMS-----//
 
     public static final RegistryObject<Item> EXPERIENCE_OBELISK_ITEM = ITEMS.register("experience_obelisk",
-            () -> new ExperienceObeliskItem(RegisterBlocks.EXPERIENCE_OBELISK.get(), new Item.Properties().tab(RegisterCreativeTab.MOD_TAB)));
+            () -> new ExperienceObeliskItem(RegisterBlocks.EXPERIENCE_OBELISK.get(), new Item.Properties()));
 
     public static final RegistryObject<Item> EXPERIENCE_FOUNTAIN_ITEM = ITEMS.register("experience_fountain",
-            () -> new ExperienceFountainItem(RegisterBlocks.EXPERIENCE_FOUNTAIN.get(), new Item.Properties().tab(RegisterCreativeTab.MOD_TAB)));
+            () -> new ExperienceFountainItem(RegisterBlocks.EXPERIENCE_FOUNTAIN.get(), new Item.Properties()));
 
     public static final RegistryObject<Item> PRECISION_DISPELLER_ITEM = ITEMS.register("precision_dispeller",
-            () -> new PrecisionDispellerItem(RegisterBlocks.PRECISION_DISPELLER.get(), new Item.Properties().tab(RegisterCreativeTab.MOD_TAB)));
+            () -> new PrecisionDispellerItem(RegisterBlocks.PRECISION_DISPELLER.get(), new Item.Properties()));
 
     public static void register(IEventBus eventBus){
         ITEMS.register(eventBus);
