@@ -34,7 +34,7 @@ credits="" #optional
 authors="Cyanog3n" #optional
 # The description text for the mod (multi line!) (#mandatory)
 description='''
-Standalone Experience Obelisk
+Knowledge given corporeal form
 '''
 # A dependency - use the . to indicate dependency for a specific modid. Dependencies are optional.
 [[dependencies.experienceobelisk]] #optional
