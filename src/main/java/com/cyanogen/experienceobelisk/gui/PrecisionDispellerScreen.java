@@ -3,16 +3,19 @@ package com.cyanogen.experienceobelisk.gui;
 import com.cyanogen.experienceobelisk.network.PacketHandler;
 import com.cyanogen.experienceobelisk.network.precision_dispeller.UpdateSlots;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.Tesselator;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.EnchantedBookItem;
 import net.minecraft.world.item.ItemStack;
@@ -20,6 +23,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.EnchantmentInstance;
+import org.joml.Matrix4f;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -104,12 +108,16 @@ public class PrecisionDispellerScreen extends AbstractContainerScreen<PrecisionD
                 text = text + "...";
             }
 
+            int color;
             if(enchantment.isCurse()){
-                gui.drawString(font, text, x1 + 4, y1 + 4, 0xFC5454);
+                color = 0xFC5454;
             }
             else{
-                gui.drawString(font, text, x1 + 4, y1 + 4, 0xFFFFFF);
+                color = 0xFFFFFF;
             }
+
+            font.drawInBatch(text, x1 + 4, y1 + 4, color, false,
+                    gui.pose().last().pose(), gui.bufferSource(), Font.DisplayMode.NORMAL, 0, 15728880);
 
         }
     }
@@ -198,6 +206,8 @@ public class PrecisionDispellerScreen extends AbstractContainerScreen<PrecisionD
 
             //covering up
             RenderSystem.setShaderTexture(0, texture);
+            gui.pose().translate(0,0,1); //translate pose by 1 so it renders over everything else before it
+
             gui.blit(texture, x + 49, y + 1, 49, 1, 102, 17, 256, 256);
             gui.blit(texture, x + 49, y + 69, 49, 69, 102, 17, 256, 256);
         }
@@ -208,6 +218,7 @@ public class PrecisionDispellerScreen extends AbstractContainerScreen<PrecisionD
 
         super.render(gui, pMouseX, pMouseY, pPartialTick);
         this.renderPanelTooltip(gui, pMouseX, pMouseY);
+        this.renderTooltip(gui, pMouseX, pMouseY);
     }
 
     protected void renderPanelTooltip(GuiGraphics gui, int pX, int pY) {
