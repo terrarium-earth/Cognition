@@ -6,6 +6,7 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 import software.bernie.geckolib.model.GeoModel;
 import software.bernie.geckolib.renderer.GeoItemRenderer;
+import software.bernie.geckolib.renderer.layer.AutoGlowingGeoLayer;
 
 public class PrecisionDispellerItemRenderer extends GeoItemRenderer<PrecisionDispellerItem> {
 
@@ -18,7 +19,7 @@ public class PrecisionDispellerItemRenderer extends GeoItemRenderer<PrecisionDis
 
             @Override
             public ResourceLocation getTextureResource(PrecisionDispellerItem object) {
-                return new ResourceLocation(ExperienceObelisk.MOD_ID, "textures/custom_models/precision_dispeller.png");
+                return new ResourceLocation(ExperienceObelisk.MOD_ID, "textures/custom_models/precision_dispeller_item.png");
             }
 
             @Override
@@ -31,5 +32,6 @@ public class PrecisionDispellerItemRenderer extends GeoItemRenderer<PrecisionDis
                 return RenderType.entityTranslucent(getTextureResource(animatable));
             }
         });
+
     }
 }

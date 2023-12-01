@@ -7,6 +7,7 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.resources.ResourceLocation;
 import software.bernie.geckolib.model.GeoModel;
 import software.bernie.geckolib.renderer.GeoBlockRenderer;
+import software.bernie.geckolib.renderer.layer.AutoGlowingGeoLayer;
 
 public class PrecisionDispellerBlockRenderer extends GeoBlockRenderer<PrecisionDispellerEntity> {
 
@@ -33,6 +34,8 @@ public class PrecisionDispellerBlockRenderer extends GeoBlockRenderer<PrecisionD
                 return RenderType.entityTranslucent(getTextureResource(animatable));
             }
         });
+
+        addRenderLayer(new AutoGlowingGeoLayer<>(this));
     }
 
 }
