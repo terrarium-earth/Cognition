@@ -51,7 +51,7 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
 
     protected static final RawAnimation IDLE = RawAnimation.begin().thenPlay("idle");
-    protected static final RawAnimation IDLE_INACTIVE = RawAnimation.begin().thenPlay("idle-inactive");
+    protected static final RawAnimation IDLE_INACTIVE = RawAnimation.begin().thenPlay("idle.inactive");
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {
