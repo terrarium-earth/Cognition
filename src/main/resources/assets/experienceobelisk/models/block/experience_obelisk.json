@@ -1,5 +1,5 @@
 {
   "textures": {
-    "particle": "experienceobelisk:textures/particles/green"
+    "particle": "block/experience_obelisk_break_particle"
   }
 }
