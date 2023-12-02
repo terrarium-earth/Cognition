@@ -109,7 +109,6 @@ public class EnlightenedAmuletItem extends Item{
                         }
                     }
 
-                    System.out.println("Time: " + level.getGameTime() + " Value: " + totalValue);
                 }
             }
         }
