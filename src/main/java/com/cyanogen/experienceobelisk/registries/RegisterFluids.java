@@ -21,9 +21,8 @@ import org.joml.Vector3f;
 import java.util.function.Consumer;
 
 public class RegisterFluids {
-    public static final ResourceLocation flowingTexture = new ResourceLocation("experienceobelisk:fluid/cognitium");
-    public static final ResourceLocation stillTexture = new ResourceLocation("experienceobelisk:fluid/cognitium");
-    public static final ResourceLocation overlay = new ResourceLocation("block/water_overlay");
+    public static final ResourceLocation flowingTexture = new ResourceLocation("experienceobelisk:block/cognitium");
+    public static final ResourceLocation stillTexture = new ResourceLocation("experienceobelisk:block/cognitium");
 
     public static final DeferredRegister<Fluid> FLUIDS =
             DeferredRegister.create(ForgeRegistries.FLUIDS, ExperienceObelisk.MOD_ID);
