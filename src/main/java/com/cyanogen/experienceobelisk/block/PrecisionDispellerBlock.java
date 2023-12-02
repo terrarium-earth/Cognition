@@ -43,7 +43,7 @@ public class PrecisionDispellerBlock extends Block implements EntityBlock {
                 .requiresCorrectToolForDrops()
                 .explosionResistance(9f)
                 .noOcclusion()
-                .lightLevel(pLightEmission -> 5)
+                .lightLevel(pLightEmission -> 7)
         );
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH));
     }
