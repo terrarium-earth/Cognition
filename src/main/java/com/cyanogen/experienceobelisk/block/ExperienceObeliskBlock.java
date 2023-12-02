@@ -37,6 +37,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.ToIntFunction;
 
 public class ExperienceObeliskBlock extends Block implements EntityBlock {
 
@@ -47,10 +48,11 @@ public class ExperienceObeliskBlock extends Block implements EntityBlock {
                 .requiresCorrectToolForDrops()
                 .explosionResistance(9f)
                 .noOcclusion()
-                .lightLevel(pLightEmission -> 5)
+                .lightLevel(value -> 7)
                 .sound(SoundType.METAL)
         );
     }
+
 
     //rotating cube
     VoxelShape shape1 = Shapes.create(new AABB(6.7 / 16D,14 / 16D,6.7 / 16D,9.3 / 16D,15.5 / 16D,9.3 / 16D));
