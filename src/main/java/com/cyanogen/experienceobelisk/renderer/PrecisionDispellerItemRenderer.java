@@ -18,7 +18,7 @@ public class PrecisionDispellerItemRenderer extends GeoItemRenderer<PrecisionDis
 
             @Override
             public ResourceLocation getTextureResource(PrecisionDispellerItem object) {
-                return new ResourceLocation(ExperienceObelisk.MOD_ID, "textures/custom_models/precision_dispeller_item.png");
+                return new ResourceLocation(ExperienceObelisk.MOD_ID, "textures/custom_models/precision_dispeller.png");
             }
 
             @Override

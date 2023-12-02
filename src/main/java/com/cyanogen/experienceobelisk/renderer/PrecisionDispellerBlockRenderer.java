@@ -34,8 +34,6 @@ public class PrecisionDispellerBlockRenderer extends GeoBlockRenderer<PrecisionD
                 return RenderType.entityTranslucent(getTextureResource(animatable));
             }
         });
-
-        addRenderLayer(new AutoGlowingGeoLayer<>(this));
     }
 
 }

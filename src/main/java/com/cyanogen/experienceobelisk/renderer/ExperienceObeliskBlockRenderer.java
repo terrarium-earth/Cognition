@@ -34,8 +34,6 @@ public class ExperienceObeliskBlockRenderer extends GeoBlockRenderer<ExperienceO
                 return RenderType.entityTranslucent(getTextureResource(animatable));
             }
         });
-
-       addRenderLayer(new AutoGlowingGeoLayer<>(this));
     }
 
 

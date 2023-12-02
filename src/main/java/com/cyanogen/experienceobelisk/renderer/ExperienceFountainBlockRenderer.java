@@ -34,8 +34,6 @@ public class ExperienceFountainBlockRenderer extends GeoBlockRenderer<Experience
                 return RenderType.entityTranslucent(getTextureResource(animatable));
             }
         });
-
-        addRenderLayer(new AutoGlowingGeoLayer<>(this));
     }
 
 }

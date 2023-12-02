@@ -18,7 +18,7 @@ public class ExperienceFountainItemRenderer extends GeoItemRenderer<ExperienceFo
 
             @Override
             public ResourceLocation getTextureResource(ExperienceFountainItem object) {
-                return new ResourceLocation(ExperienceObelisk.MOD_ID, "textures/custom_models/experience_fountain_item.png");
+                return new ResourceLocation(ExperienceObelisk.MOD_ID, "textures/custom_models/experience_fountain.png");
             }
 
             @Override
