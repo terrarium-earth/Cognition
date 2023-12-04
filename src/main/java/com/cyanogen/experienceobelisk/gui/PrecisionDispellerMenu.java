@@ -29,11 +29,11 @@ public class PrecisionDispellerMenu extends AbstractContainerMenu {
     Player player;
     BlockPos posServer;
     ExperienceObeliskEntity obeliskClient;
+    PrecisionDispellerEntity dispellerServer;
 
     public PrecisionDispellerMenu(int id, Inventory inventory, FriendlyByteBuf data) {
         this(id, inventory, inventory.player, new BlockPos(0,0,0));
 
-        //sussy code start
         Level level = inventory.player.level();
         BlockEntity entity = level.getBlockEntity(data.readBlockPos());
         if(entity instanceof PrecisionDispellerEntity dispeller && dispeller.isBound){
@@ -42,8 +42,6 @@ public class PrecisionDispellerMenu extends AbstractContainerMenu {
                 this.obeliskClient = obelisk;
             }
         }
-        //sussy code end
-        //obelisk is accessible!
 
     }
 
@@ -55,6 +53,7 @@ public class PrecisionDispellerMenu extends AbstractContainerMenu {
 
         this.player = player;
         this.posServer = pos;
+        this.dispellerServer = (PrecisionDispellerEntity) player.level().getBlockEntity(pos);
 
         this.addSlot(new Slot(this.container, 0, 17, 18){
 
@@ -135,17 +134,53 @@ public class PrecisionDispellerMenu extends AbstractContainerMenu {
             }
 
             if(removed != null){
-
-                if(removed.isCurse()){
-                    player.giveExperiencePoints(-1395); //30 base levels
+                if(dispellerServer.isBound &&
+                        server.getBlockEntity(dispellerServer.getBoundPos()) instanceof ExperienceObeliskEntity obelisk){
+                    handleExperienceBound(removed, enchLevel, server, obelisk);
                 }
                 else{
-                    int points = removed.getMinCost(enchLevel);
-                    ExperienceOrb orb = new ExperienceOrb(server, posServer.getX() + 0.5, posServer.getY() + 0.5, posServer.getZ() + 0.5, points);
-                    server.addFreshEntity(orb);
-
+                    handleExperienceUnbound(removed, enchLevel, server);
                 }
+
             }
+        }
+    }
+
+    public void handleExperienceBound(Enchantment removed, int enchLevel, ServerLevel server, ExperienceObeliskEntity obelisk){
+
+        if(removed.isCurse()){
+            if(obelisk.getFluidAmount() >= 1395 * 20){
+                obelisk.drain(1395 * 20);
+            }
+            else{
+                int remainder = 1395 - obelisk.getFluidAmount() / 20;
+                obelisk.setFluid(0);
+                player.giveExperiencePoints(-remainder);
+            }
+        }
+        else{
+            int points = removed.getMinCost(enchLevel);
+            if(obelisk.getSpace() / 20 < points){
+                int remainder = points - obelisk.getSpace() / 20;
+                obelisk.setFluid(ExperienceObeliskEntity.capacity);
+
+                ExperienceOrb orb = new ExperienceOrb(server, posServer.getX() + 0.5, posServer.getY() + 0.5, posServer.getZ() + 0.5, remainder);
+                server.addFreshEntity(orb);
+            }
+            else{
+                obelisk.fill(points * 20);
+            }
+        }
+    }
+
+    public void handleExperienceUnbound(Enchantment removed, int enchLevel, ServerLevel server){
+        if(removed.isCurse()){
+            player.giveExperiencePoints(-1395); //30 base levels
+        }
+        else{
+            int points = removed.getMinCost(enchLevel);
+            ExperienceOrb orb = new ExperienceOrb(server, posServer.getX() + 0.5, posServer.getY() + 0.5, posServer.getZ() + 0.5, points);
+            server.addFreshEntity(orb);
         }
     }
 
@@ -154,7 +189,6 @@ public class PrecisionDispellerMenu extends AbstractContainerMenu {
             dispeller.triggerUseAnimation();
         }
     }
-
 
     @Override
     public void removed(Player player) {
