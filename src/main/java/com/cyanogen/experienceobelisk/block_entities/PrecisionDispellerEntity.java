@@ -18,9 +18,7 @@ import software.bernie.geckolib.core.animation.RawAnimation;
 import software.bernie.geckolib.core.object.PlayState;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
-public class PrecisionDispellerEntity extends ExperienceReceivingEntity implements GeoBlockEntity{
-
-    public boolean pendingAnimation = false;
+public class PrecisionDispellerEntity extends BlockEntity implements GeoBlockEntity{
 
     public PrecisionDispellerEntity(BlockPos pos, BlockState state) {
         super(RegisterBlockEntities.PRECISIONDISPELLER_BE.get(), pos, state);
@@ -30,25 +28,11 @@ public class PrecisionDispellerEntity extends ExperienceReceivingEntity implemen
 
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
 
-    protected static final RawAnimation USE = RawAnimation.begin().thenPlay("use").thenLoop("static");
+    protected static final RawAnimation USE = RawAnimation.begin().thenPlay("use").thenPlay("static");
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {
-        controllerRegistrar.add(new AnimationController<>(this, this::controller));
-    }
-
-    protected <E extends PrecisionDispellerEntity> PlayState controller(final AnimationState<E> state){
-
-        AnimationController<E> controller = state.getController();
-        controller.transitionLength(0);
-
-        if(pendingAnimation){
-            controller.stop();
-            controller.setAnimation(USE);
-            pendingAnimation = false;
-        }
-
-        return PlayState.CONTINUE;
+        controllerRegistrar.add(new AnimationController<>(this, "controller", state -> PlayState.CONTINUE).triggerableAnim("use", USE));
     }
 
     @Override
@@ -56,30 +40,8 @@ public class PrecisionDispellerEntity extends ExperienceReceivingEntity implemen
         return cache;
     }
 
-    //-----------NBT-----------//
-
-    //sends CompoundTag out with nbt data
-    @Override
-    public CompoundTag getUpdateTag()
-    {
-        CompoundTag tag = super.getUpdateTag();
-        tag.putBoolean("PendingAnimation", pendingAnimation);
-        return tag;
+    public void triggerUseAnimation(){
+        triggerAnim("controller", "use");
     }
 
-    //gets packet to send to client
-    @Override
-    public Packet<ClientGamePacketListener> getUpdatePacket()
-    {
-        return ClientboundBlockEntityDataPacket.create(this, BlockEntity::getUpdateTag);
-    }
-
-    @Override
-    public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt) {
-        CompoundTag tag = pkt.getTag();
-        if(tag != null){
-            this.pendingAnimation = tag.getBoolean("PendingAnimation");
-        }
-        super.onDataPacket(net, pkt);
-    }
 }

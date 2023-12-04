@@ -1,6 +1,5 @@
 package com.cyanogen.experienceobelisk.gui;
 
-import com.cyanogen.experienceobelisk.block_entities.ExperienceObeliskEntity;
 import com.cyanogen.experienceobelisk.block_entities.PrecisionDispellerEntity;
 import com.cyanogen.experienceobelisk.registries.RegisterMenus;
 import net.minecraft.core.BlockPos;
@@ -22,23 +21,14 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
 
-import static com.cyanogen.experienceobelisk.block_entities.ExperienceObeliskEntity.capacity;
-
 public class PrecisionDispellerMenu extends AbstractContainerMenu {
 
-    BlockPos pos;
-    BlockPos posServer;
-    PrecisionDispellerEntity entity;
     SimpleContainer container = new SimpleContainer(2);
     Player player;
+    BlockPos pos;
 
     public PrecisionDispellerMenu(int id, Inventory inventory, FriendlyByteBuf data) {
         this(id, inventory, inventory.player, new BlockPos(0,0,0));
-
-        Level level = inventory.player.level();
-        this.player = inventory.player;
-        this.pos = data.readBlockPos();
-        //this.entity = (PrecisionDispellerEntity) level.getBlockEntity(pos);
     }
 
     //-----SLOTS-----//
@@ -46,8 +36,9 @@ public class PrecisionDispellerMenu extends AbstractContainerMenu {
     public PrecisionDispellerMenu(int id, Inventory inventory, Player player, BlockPos pos) {
 
         super(RegisterMenus.PRECISION_DISPELLER_MENU.get(), id);
-        this.posServer = pos;
-        this.entity = (PrecisionDispellerEntity) player.level().getBlockEntity(pos);
+
+        this.player = player;
+        this.pos = pos;
 
         this.addSlot(new Slot(this.container, 0, 17, 18){
 
@@ -73,7 +64,7 @@ public class PrecisionDispellerMenu extends AbstractContainerMenu {
             public void onTake(@NotNull Player player, @NotNull ItemStack stack) {
                 Level level = player.level();
 
-                handleExperience(container.getItem(0), stack, level, player, pos);
+                handleExperience(container.getItem(0), stack, level, player);
                 handleAnimation(level, pos);
                 player.playSound(SoundEvents.GRINDSTONE_USE, 1, 1);
 
@@ -107,7 +98,7 @@ public class PrecisionDispellerMenu extends AbstractContainerMenu {
 
     //-----BEHAVIOR-----//
 
-    public void handleExperience(ItemStack inputItem, ItemStack outputItem, Level level, Player player, BlockPos pos){
+    public void handleExperience(ItemStack inputItem, ItemStack outputItem, Level level, Player player){
 
         player.playSound(SoundEvents.GRINDSTONE_USE, 0.7f, 1);
 
@@ -128,64 +119,23 @@ public class PrecisionDispellerMenu extends AbstractContainerMenu {
             }
 
             if(removed != null){
-                if(entity.isBound && level.getBlockEntity(entity.getBoundPos()) instanceof ExperienceObeliskEntity obelisk){
-                    handleExperienceBound(removed, enchLevel, player, server, obelisk);
+
+                if(removed.isCurse()){
+                    player.giveExperiencePoints(-1395); //30 base levels
                 }
                 else{
-                    handleExperienceUnbound(removed, enchLevel, player, server);
-                }
-
-            }
-        }
-    }
-
-    public void handleExperienceBound(Enchantment removed, int enchLevel, Player player, ServerLevel server, ExperienceObeliskEntity obelisk){
-        if(removed.isCurse()){
-            if(obelisk.getFluidAmount() < 1395 * 20){
-                player.giveExperiencePoints(1395 - obelisk.getFluidAmount() / 20);
-                obelisk.setFluid(0);
-            }
-            else{
-                obelisk.drain(1395 * 20);
-            }
-        }
-        else{
-            int points = removed.getMinCost(enchLevel);
-
-            //if the bound obelisk is full or has too little space
-            if(obelisk.getSpace() < points * 20){
-                int remainder = points - obelisk.getSpace() / 20;
-                obelisk.setFluid(capacity);
-
-                if(remainder > 0){
-                    ExperienceOrb orb = new ExperienceOrb(server, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, remainder);
+                    int points = removed.getMinCost(enchLevel);
+                    ExperienceOrb orb = new ExperienceOrb(server, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, points);
                     server.addFreshEntity(orb);
+
                 }
             }
-            else{
-                obelisk.fill(points * 20);
-            }
         }
     }
-
-    public void handleExperienceUnbound(Enchantment removed, int enchLevel, Player player, ServerLevel server){
-
-        if(removed.isCurse()){
-            player.giveExperiencePoints(-1395); //30 base levels
-        }
-        else{
-            int points = removed.getMinCost(enchLevel);
-            ExperienceOrb orb = new ExperienceOrb(server, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, points);
-            server.addFreshEntity(orb);
-
-        }
-    }
-
 
     public void handleAnimation(Level level, BlockPos pos){
         if(level.getBlockEntity(pos) instanceof PrecisionDispellerEntity dispeller){
-            dispeller.pendingAnimation = true;
-            level.sendBlockUpdated(pos, level.getBlockState(pos), level.getBlockState(pos), 2);
+            dispeller.triggerUseAnimation();
         }
     }
 
@@ -202,7 +152,7 @@ public class PrecisionDispellerMenu extends AbstractContainerMenu {
 
     @Override
     public boolean stillValid(Player player) {
-        return player.position().distanceTo(Vec3.atCenterOf(this.posServer)) < 7;
+        return player.position().distanceTo(Vec3.atCenterOf(this.pos)) < 7;
     }
 
     public ItemStack quickMoveStack(Player player, int index) {
@@ -214,7 +164,7 @@ public class PrecisionDispellerMenu extends AbstractContainerMenu {
                 container.setItem(1, ItemStack.EMPTY);
             }
             else if(index == 1){
-                handleExperience(slots.get(0).getItem(),slots.get(1).getItem(), player.level(), player, pos);
+                handleExperience(slots.get(0).getItem(),slots.get(1).getItem(), player.level(), player);
                 container.setItem(0, ItemStack.EMPTY);
                 handleAnimation(player.level(), pos);
             }
