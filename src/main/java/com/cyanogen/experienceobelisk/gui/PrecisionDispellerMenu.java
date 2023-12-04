@@ -1,5 +1,6 @@
 package com.cyanogen.experienceobelisk.gui;
 
+import com.cyanogen.experienceobelisk.block_entities.ExperienceObeliskEntity;
 import com.cyanogen.experienceobelisk.block_entities.PrecisionDispellerEntity;
 import com.cyanogen.experienceobelisk.registries.RegisterMenus;
 import net.minecraft.core.BlockPos;
@@ -16,6 +17,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 
@@ -25,10 +27,24 @@ public class PrecisionDispellerMenu extends AbstractContainerMenu {
 
     SimpleContainer container = new SimpleContainer(2);
     Player player;
-    BlockPos pos;
+    BlockPos posServer;
+    ExperienceObeliskEntity obeliskClient;
 
     public PrecisionDispellerMenu(int id, Inventory inventory, FriendlyByteBuf data) {
         this(id, inventory, inventory.player, new BlockPos(0,0,0));
+
+        //sussy code start
+        Level level = inventory.player.level();
+        BlockEntity entity = level.getBlockEntity(data.readBlockPos());
+        if(entity instanceof PrecisionDispellerEntity dispeller && dispeller.isBound){
+            BlockPos obeliskPos = dispeller.getBoundPos();
+            if(level.getBlockEntity(obeliskPos) instanceof ExperienceObeliskEntity obelisk){
+                this.obeliskClient = obelisk;
+            }
+        }
+        //sussy code end
+        //obelisk is accessible!
+
     }
 
     //-----SLOTS-----//
@@ -38,7 +54,7 @@ public class PrecisionDispellerMenu extends AbstractContainerMenu {
         super(RegisterMenus.PRECISION_DISPELLER_MENU.get(), id);
 
         this.player = player;
-        this.pos = pos;
+        this.posServer = pos;
 
         this.addSlot(new Slot(this.container, 0, 17, 18){
 
@@ -125,7 +141,7 @@ public class PrecisionDispellerMenu extends AbstractContainerMenu {
                 }
                 else{
                     int points = removed.getMinCost(enchLevel);
-                    ExperienceOrb orb = new ExperienceOrb(server, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, points);
+                    ExperienceOrb orb = new ExperienceOrb(server, posServer.getX() + 0.5, posServer.getY() + 0.5, posServer.getZ() + 0.5, points);
                     server.addFreshEntity(orb);
 
                 }
@@ -152,7 +168,7 @@ public class PrecisionDispellerMenu extends AbstractContainerMenu {
 
     @Override
     public boolean stillValid(Player player) {
-        return player.position().distanceTo(Vec3.atCenterOf(this.pos)) < 7;
+        return player.position().distanceTo(Vec3.atCenterOf(this.posServer)) < 7;
     }
 
     public ItemStack quickMoveStack(Player player, int index) {
@@ -166,7 +182,7 @@ public class PrecisionDispellerMenu extends AbstractContainerMenu {
             else if(index == 1){
                 handleExperience(slots.get(0).getItem(),slots.get(1).getItem(), player.level(), player);
                 container.setItem(0, ItemStack.EMPTY);
-                handleAnimation(player.level(), pos);
+                handleAnimation(player.level(), posServer);
             }
 
             ItemStack itemstack1 = slot.getItem();
