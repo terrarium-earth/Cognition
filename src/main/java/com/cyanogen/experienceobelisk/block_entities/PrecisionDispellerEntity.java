@@ -18,7 +18,7 @@ import software.bernie.geckolib.core.animation.RawAnimation;
 import software.bernie.geckolib.core.object.PlayState;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
-public class PrecisionDispellerEntity extends BlockEntity implements GeoBlockEntity{
+public class PrecisionDispellerEntity extends ExperienceReceivingEntity implements GeoBlockEntity{
 
     public boolean pendingAnimation = false;
 

@@ -332,7 +332,7 @@ public class PrecisionDispellerScreen extends AbstractContainerScreen<PrecisionD
 
         for(SelectablePanel panel : selectablePanels){
 
-           boolean invalid = panel.enchantment.isCurse() && playerXP < 1395 && !menu.player.isCreative();
+            boolean invalid = panel.enchantment.isCurse() && playerXP < 1395 && !menu.player.isCreative();
 
             if(panel.isHovered(pMouseX, pMouseY) && panel.isVisible && !invalid){
 
