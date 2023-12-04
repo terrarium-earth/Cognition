@@ -65,6 +65,7 @@
   "message.experienceobelisk.binding_wand.obelisk_too_far": "§c[✖]§r The obelisk is too far away",
   "message.experienceobelisk.binding_wand.obelisk_doesnt_exist": "§c[✖]§f The obelisk at %s §fno longer exists",
   "message.experienceobelisk.binding_wand.reveal_bound_pos": "§b[ⓘ]§r This block is bound to the obelisk at %s",
+  "message.experienceobelisk.binding_wand.not_yet_bound": "§b[ⓘ]§r This block is not yet bound",
 
   "message.experienceobelisk.experience_fountain.slow": "Experience Fountain set to: §cSlow§r",
   "message.experienceobelisk.experience_fountain.moderate": "Experience Fountain set to: §eModerate§r",

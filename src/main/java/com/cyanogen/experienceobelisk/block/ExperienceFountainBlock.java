@@ -44,7 +44,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ExperienceFountainBlock extends Block implements EntityBlock {
+public class ExperienceFountainBlock extends ExperienceReceivingBlock implements EntityBlock {
 
     public ExperienceFountainBlock() {
         super(BlockBehaviour.Properties.of()
@@ -61,6 +61,10 @@ public class ExperienceFountainBlock extends Block implements EntityBlock {
     @Override
     public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
 
+        if(super.use(state, level, pos, player, hand, hit) != InteractionResult.PASS){
+            return InteractionResult.CONSUME;
+        }
+
         BlockEntity entity = level.getBlockEntity(pos);
         ItemStack heldItem = player.getItemInHand(hand);
         IFluidHandlerItem fluidHandler = FluidUtil.getFluidHandler(ItemHandlerHelper.copyStackWithSize(heldItem, 1)).orElse(null);
@@ -69,15 +73,7 @@ public class ExperienceFountainBlock extends Block implements EntityBlock {
 
             if(fountain.isBound && level.getBlockEntity(fountain.getBoundPos()) instanceof ExperienceObeliskEntity obelisk){
 
-                BlockPos boundPos = fountain.getBoundPos();
-
-                if(heldItem.is(RegisterItems.ATTUNEMENT_STAFF.get())){
-                    player.displayClientMessage(Component.translatable("message.experienceobelisk.binding_wand.reveal_bound_pos",
-                            Component.literal(boundPos.toShortString()).withStyle(ChatFormatting.GREEN)), true);
-
-                    return InteractionResult.sidedSuccess(true);
-                }
-                else if(heldItem.getItem() == Items.EXPERIENCE_BOTTLE || heldItem.getItem() == Items.GLASS_BOTTLE){
+              if(heldItem.getItem() == Items.EXPERIENCE_BOTTLE || heldItem.getItem() == Items.GLASS_BOTTLE){
                     handleExperienceBottle(heldItem, player, hand, obelisk);
                     return InteractionResult.sidedSuccess(true);
                 }
