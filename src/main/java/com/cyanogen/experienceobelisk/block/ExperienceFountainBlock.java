@@ -200,45 +200,6 @@ public class ExperienceFountainBlock extends ExperienceReceivingBlock implements
         return Shapes.join(Shapes.join(center, shape1, BooleanOp.OR), shape2, BooleanOp.OR).optimize();
     }
 
-
-    public ItemStack stack;
-    @Override
-    public void playerWillDestroy(Level level, BlockPos pos, BlockState state, Player player) {
-        if (!level.isClientSide) {
-            BlockEntity blockentity = level.getBlockEntity(pos);
-            if (blockentity instanceof ExperienceFountainEntity entity && player.hasCorrectToolForDrops(state)) {
-
-                stack = new ItemStack(RegisterItems.EXPERIENCE_FOUNTAIN_ITEM.get(), 1);
-                entity.saveToItem(stack);
-            }
-        }
-
-        super.playerWillDestroy(level, pos, state, player);
-    }
-
-    @Override
-    public void onBlockExploded(BlockState state, Level level, BlockPos pos, Explosion explosion) {
-        if (!level.isClientSide) {
-            BlockEntity blockentity = level.getBlockEntity(pos);
-            if (blockentity instanceof ExperienceFountainEntity entity) {
-
-                stack = new ItemStack(RegisterItems.EXPERIENCE_FOUNTAIN_ITEM.get(), 1);
-                entity.saveToItem(stack);
-            }
-        }
-
-        super.onBlockExploded(state, level, pos, explosion);
-    }
-
-    @Override
-    public List<ItemStack> getDrops(BlockState state, LootParams.Builder params) {
-        List<ItemStack> drops = new ArrayList<>();
-        if(stack != null){
-            drops.add(stack);
-        }
-        return drops;
-    }
-
     @Override
     public RenderShape getRenderShape(BlockState state) {
         return RenderShape.ENTITYBLOCK_ANIMATED;

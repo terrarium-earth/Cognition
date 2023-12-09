@@ -71,10 +71,10 @@ public class ExperienceObeliskBlock extends Block implements EntityBlock {
     @Override
     public void playerWillDestroy(Level level, BlockPos pos, BlockState state, Player player) {
         if (!level.isClientSide) {
-            BlockEntity blockentity = level.getBlockEntity(pos);
-            if (blockentity instanceof ExperienceObeliskEntity entity && player.hasCorrectToolForDrops(state)) {
+            BlockEntity entity = level.getBlockEntity(pos);
+            if (player.hasCorrectToolForDrops(state) && entity != null) {
 
-                stack = new ItemStack(RegisterItems.EXPERIENCE_OBELISK_ITEM.get(), 1);
+                stack = new ItemStack(state.getBlock(), 1);
                 entity.saveToItem(stack);
             }
         }
@@ -85,14 +85,12 @@ public class ExperienceObeliskBlock extends Block implements EntityBlock {
     @Override
     public void onBlockExploded(BlockState state, Level level, BlockPos pos, Explosion explosion) {
         if (!level.isClientSide) {
-            BlockEntity blockentity = level.getBlockEntity(pos);
-            if (blockentity instanceof ExperienceObeliskEntity entity) {
-
-                stack = new ItemStack(RegisterItems.EXPERIENCE_OBELISK_ITEM.get(), 1);
+            BlockEntity entity = level.getBlockEntity(pos);
+            if(entity != null){
+                stack = new ItemStack(state.getBlock(), 1);
                 entity.saveToItem(stack);
             }
         }
-
 
         super.onBlockExploded(state, level, pos, explosion);
     }
