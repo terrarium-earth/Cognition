@@ -44,7 +44,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ExperienceFountainBlock extends Block implements EntityBlock {
+public class ExperienceFountainBlock extends ExperienceReceivingBlock implements EntityBlock {
 
     public ExperienceFountainBlock() {
         super(BlockBehaviour.Properties.of(Material.METAL)
@@ -60,6 +60,10 @@ public class ExperienceFountainBlock extends Block implements EntityBlock {
     @Override
     public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
 
+        if(super.use(state, level, pos, player, hand, hit) != InteractionResult.PASS){
+            return InteractionResult.CONSUME;
+        }
+
         BlockEntity entity = level.getBlockEntity(pos);
         ItemStack heldItem = player.getItemInHand(hand);
         IFluidHandlerItem fluidHandler = FluidUtil.getFluidHandler(ItemHandlerHelper.copyStackWithSize(heldItem, 1)).orElse(null);
@@ -68,15 +72,7 @@ public class ExperienceFountainBlock extends Block implements EntityBlock {
 
             if(fountain.isBound && level.getBlockEntity(fountain.getBoundPos()) instanceof ExperienceObeliskEntity obelisk){
 
-                BlockPos boundPos = fountain.getBoundPos();
-
-                if(heldItem.is(RegisterItems.ATTUNEMENT_STAFF.get())){
-                    player.displayClientMessage(Component.translatable("message.experienceobelisk.binding_wand.reveal_bound_pos",
-                            Component.literal(boundPos.toShortString()).withStyle(ChatFormatting.GREEN)), true);
-
-                    return InteractionResult.sidedSuccess(true);
-                }
-                else if(heldItem.getItem() == Items.EXPERIENCE_BOTTLE || heldItem.getItem() == Items.GLASS_BOTTLE){
+                if(heldItem.getItem() == Items.EXPERIENCE_BOTTLE || heldItem.getItem() == Items.GLASS_BOTTLE){
                     handleExperienceBottle(heldItem, player, hand, obelisk);
                     return InteractionResult.sidedSuccess(true);
                 }
@@ -203,44 +199,6 @@ public class ExperienceFountainBlock extends Block implements EntityBlock {
         return Shapes.join(Shapes.join(center, shape1, BooleanOp.OR), shape2, BooleanOp.OR).optimize();
     }
 
-
-    public ItemStack stack;
-    @Override
-    public void playerWillDestroy(Level level, BlockPos pos, BlockState state, Player player) {
-        if (!level.isClientSide) {
-            BlockEntity blockentity = level.getBlockEntity(pos);
-            if (blockentity instanceof ExperienceFountainEntity entity && player.hasCorrectToolForDrops(state)) {
-
-                stack = new ItemStack(RegisterItems.EXPERIENCE_FOUNTAIN_ITEM.get(), 1);
-                entity.saveToItem(stack);
-            }
-        }
-
-        super.playerWillDestroy(level, pos, state, player);
-    }
-
-    @Override
-    public void onBlockExploded(BlockState state, Level level, BlockPos pos, Explosion explosion) {
-        if (!level.isClientSide) {
-            BlockEntity blockentity = level.getBlockEntity(pos);
-            if (blockentity instanceof ExperienceFountainEntity entity) {
-
-                stack = new ItemStack(RegisterItems.EXPERIENCE_FOUNTAIN_ITEM.get(), 1);
-                entity.saveToItem(stack);
-            }
-        }
-
-        super.onBlockExploded(state, level, pos, explosion);
-    }
-
-    @Override
-    public List<ItemStack> getDrops(BlockState state, LootContext.Builder builder) {
-        List<ItemStack> drops = new ArrayList<>();
-        if(stack != null){
-            drops.add(stack);
-        }
-        return drops;
-    }
 
     @Override
     public RenderShape getRenderShape(BlockState state) {

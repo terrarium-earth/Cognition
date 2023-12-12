@@ -18,7 +18,7 @@ import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
 
-public class PrecisionDispellerEntity extends BlockEntity implements IAnimatable{
+public class PrecisionDispellerEntity extends ExperienceReceivingEntity implements IAnimatable{
 
     public boolean pendingAnimation = false;
 
