@@ -41,6 +41,7 @@ public class ExperienceObeliskScreen extends AbstractContainerScreen<ExperienceO
 
     @Override
     public boolean keyPressed(int pKeyCode, int pScanCode, int pModifiers) {
+        //check if still necessary - i suspect not
         InputConstants.Key mouseKey = InputConstants.getKey(pKeyCode, pScanCode);
         assert this.minecraft != null;
         if (this.minecraft.options.keyInventory.isActiveAndMatches(mouseKey)) {
@@ -89,7 +90,7 @@ public class ExperienceObeliskScreen extends AbstractContainerScreen<ExperienceO
     }
 
     @Override
-    public void render(GuiGraphics gui, int pMouseX, int pMouseY, float pPartialTick) {
+    public void render(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {
 
         renderBackground(gui);
 
@@ -132,12 +133,12 @@ public class ExperienceObeliskScreen extends AbstractContainerScreen<ExperienceO
         loadWidgetElements();
 
         for(Renderable widget : this.renderables){
-            widget.render(gui, pMouseX, pMouseY, pPartialTick);
+            widget.render(gui, mouseX, mouseY, partialTick);
         }
     }
 
     @Override
-    protected void renderBg(GuiGraphics p_283065_, float p_97788_, int p_97789_, int p_97790_) {
+    protected void renderBg(GuiGraphics gui, float f, int a, int b) {
 
     }
 

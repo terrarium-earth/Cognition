@@ -118,9 +118,9 @@ public class EnlightenedAmuletItem extends Item{
     //-----CUSTOM HOVER TEXT-----//
 
     @Override
-    public void appendHoverText(ItemStack pStack, Level pLevel, List<Component> tooltip, TooltipFlag flag) {
+    public void appendHoverText(ItemStack stack, Level level, List<Component> tooltip, TooltipFlag flag) {
 
-        boolean isActive = pStack.getOrCreateTag().getBoolean("isActive");
+        boolean isActive = stack.getOrCreateTag().getBoolean("isActive");
 
         if(isActive){
             tooltip.add(Component.translatable("tooltip.experienceobelisk.enlightened_amulet.active"));
@@ -129,7 +129,7 @@ public class EnlightenedAmuletItem extends Item{
             tooltip.add(Component.translatable("tooltip.experienceobelisk.enlightened_amulet.inactive"));
         }
 
-        super.appendHoverText(pStack, pLevel, tooltip, flag);
+        super.appendHoverText(stack, level, tooltip, flag);
 
     }
 }

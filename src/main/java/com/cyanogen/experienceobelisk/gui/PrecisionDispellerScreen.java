@@ -44,7 +44,7 @@ public class PrecisionDispellerScreen extends AbstractContainerScreen<PrecisionD
     }
 
     @Override
-    protected void renderBg(GuiGraphics p_283065_, float p_97788_, int p_97789_, int p_97790_) {
+    protected void renderBg(GuiGraphics gui, float f, int a, int b) {
 
     }
 
@@ -134,7 +134,7 @@ public class PrecisionDispellerScreen extends AbstractContainerScreen<PrecisionD
     }
 
     @Override
-    public void render(GuiGraphics gui, int pMouseX, int pMouseY, float pPartialTick) {
+    public void render(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {
 
         selectablePanels.clear();
         renderBackground(gui);
@@ -188,7 +188,7 @@ public class PrecisionDispellerScreen extends AbstractContainerScreen<PrecisionD
                 if(selectablePanels.indexOf(panel) == selectedIndex){
                     panel.status = Status.SELECTED;
                 }
-                else if(panel.isHovered(pMouseX, pMouseY)){
+                else if(panel.isHovered(mouseX, mouseY)){
                     panel.status = Status.HOVERED;
                 }
 
@@ -216,17 +216,17 @@ public class PrecisionDispellerScreen extends AbstractContainerScreen<PrecisionD
             offset = 0;
         }
 
-        super.render(gui, pMouseX, pMouseY, pPartialTick);
-        this.renderPanelTooltip(gui, pMouseX, pMouseY);
-        this.renderTooltip(gui, pMouseX, pMouseY);
+        super.render(gui, mouseX, mouseY, partialTick);
+        this.renderPanelTooltip(gui, mouseX, mouseY);
+        this.renderTooltip(gui, mouseX, mouseY);
     }
 
-    protected void renderPanelTooltip(GuiGraphics gui, int pX, int pY) {
+    protected void renderPanelTooltip(GuiGraphics gui, int x, int y) {
 
         long playerXP = levelsToXP(menu.player.experienceLevel) + Math.round(menu.player.experienceProgress * menu.player.getXpNeededForNextLevel());
 
         for(SelectablePanel panel : selectablePanels){
-            if(panel.isHovered(pX, pY) && panel.isVisible && !panel.status.equals(Status.SELECTED)){
+            if(panel.isHovered(x, y) && panel.isVisible && !panel.status.equals(Status.SELECTED)){
 
                 List<Component> tooltipList = new ArrayList<>();
                 tooltipList.add(Component.literal(panel.getFullName()));
@@ -252,7 +252,7 @@ public class PrecisionDispellerScreen extends AbstractContainerScreen<PrecisionD
                     tooltipList.add(Component.translatable("tooltip.experienceobelisk.precision_dispeller.enchantment", pts, lvls));
                 }
 
-                gui.renderTooltip(this.font, tooltipList, Optional.empty(), pX, pY);
+                gui.renderTooltip(this.font, tooltipList, Optional.empty(), x, y);
             }
         }
     }
@@ -264,13 +264,13 @@ public class PrecisionDispellerScreen extends AbstractContainerScreen<PrecisionD
     int clickedDelta = -1;
 
     @Override
-    public boolean mouseScrolled(double pMouseX, double pMouseY, double pDelta) {
+    public boolean mouseScrolled(double mouseX, double mouseY, double delta) {
 
         int x = (this.width - this.imageWidth) / 2;
         int y = (this.height - this.imageHeight) / 2;
 
-        if(pMouseX >= x + 48 && pMouseX <= x + 162 && pMouseY >= y + 17 && pMouseY <= y + 69 && scrollEnabled){
-            scrollButtonPos = scrollButtonPos - 4 * (int) pDelta;
+        if(mouseX >= x + 48 && mouseX <= x + 162 && mouseY >= y + 17 && mouseY <= y + 69 && scrollEnabled){
+            scrollButtonPos = scrollButtonPos - 4 * (int) delta;
         }
 
         if(scrollButtonPos > 56){
@@ -280,26 +280,26 @@ public class PrecisionDispellerScreen extends AbstractContainerScreen<PrecisionD
             scrollButtonPos = 18;
         }
 
-        return super.mouseScrolled(pMouseX, pMouseY, pDelta);
+        return super.mouseScrolled(mouseX, mouseY, delta);
     }
 
     @Override
-    public boolean mouseReleased(double pMouseX, double pMouseY, int pButton) {
+    public boolean mouseReleased(double mouseX, double mouseY, int button) {
 
         //mouse released anywhere on screen
         scrollClicked = false;
         clickedDelta = -1;
 
-        return super.mouseReleased(pMouseX, pMouseY, pButton);
+        return super.mouseReleased(mouseX, mouseY, button);
     }
 
     @Override
-    public boolean mouseDragged(double pMouseX, double pMouseY, int pButton, double pDragX, double pDragY) {
+    public boolean mouseDragged(double mouseX, double mouseY, int button, double dragX, double dragY) {
 
         int y = (this.height - this.imageHeight) / 2;
 
         if(scrollClicked && clickedDelta != -1 && scrollEnabled){
-            scrollButtonPos = (int) pMouseY - y - clickedDelta;
+            scrollButtonPos = (int) mouseY - y - clickedDelta;
         }
 
         if(scrollButtonPos > 56){
@@ -309,24 +309,24 @@ public class PrecisionDispellerScreen extends AbstractContainerScreen<PrecisionD
             scrollButtonPos = 18;
         }
 
-        return super.mouseDragged(pMouseX, pMouseY, pButton, pDragX, pDragY);
+        return super.mouseDragged(mouseX, mouseY, button, dragX, dragY);
     }
 
     @Override
-    public boolean mouseClicked(double pMouseX, double pMouseY, int pButton) {
+    public boolean mouseClicked(double mouseX, double mouseY, int button) {
 
-        super.mouseClicked(pMouseX, pMouseY, pButton);
+        super.mouseClicked(mouseX, mouseY, button);
 
         int x = (this.width - this.imageWidth) / 2;
         int y = (this.height - this.imageHeight) / 2;
 
-        if(pMouseX >= x + 152 && pMouseX <= x + 162 && pMouseY >= y + scrollButtonPos && pMouseY <= y + scrollButtonPos + 13 && scrollEnabled){
+        if(mouseX >= x + 152 && mouseX <= x + 162 && mouseY >= y + scrollButtonPos && mouseY <= y + scrollButtonPos + 13 && scrollEnabled){
 
             scrollClicked = true;
-            clickedDelta = (int) pMouseY - (y + scrollButtonPos);
+            clickedDelta = (int) mouseY - (y + scrollButtonPos);
         }
         else{
-           mouseClickedOnPanel(pMouseX, pMouseY);
+           mouseClickedOnPanel(mouseX, mouseY);
         }
         return true;
     }
@@ -334,7 +334,7 @@ public class PrecisionDispellerScreen extends AbstractContainerScreen<PrecisionD
 
     //----HANDLE SELECTION-----//
 
-    public void mouseClickedOnPanel(double pMouseX, double pMouseY){
+    public void mouseClickedOnPanel(double mouseX, double mouseY){
         
         long playerXP = levelsToXP(menu.player.experienceLevel) + Math.round(menu.player.experienceProgress * menu.player.getXpNeededForNextLevel());
 
@@ -342,7 +342,6 @@ public class PrecisionDispellerScreen extends AbstractContainerScreen<PrecisionD
 
             boolean invalid;
 
-            //sussy 1
             if(menu.player.isCreative() || !panel.enchantment.isCurse()){
                 invalid = false;
             }
@@ -353,7 +352,7 @@ public class PrecisionDispellerScreen extends AbstractContainerScreen<PrecisionD
                 invalid = playerXP + xpobelisk.getFluidAmount() / 20 < 1395;
             }
 
-            if(panel.isHovered(pMouseX, pMouseY) && panel.isVisible && !invalid){
+            if(panel.isHovered(mouseX, mouseY) && panel.isVisible && !invalid){
 
                 if(selectedIndex == selectablePanels.indexOf(panel)){
                     selectedIndex = -1;

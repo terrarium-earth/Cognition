@@ -23,8 +23,8 @@ import java.util.List;
 
 public class ExperienceReceivingBlock extends Block {
 
-    public ExperienceReceivingBlock(Properties p_49795_) {
-        super(p_49795_);
+    public ExperienceReceivingBlock(Properties p) {
+        super(p);
     }
 
     @Override
