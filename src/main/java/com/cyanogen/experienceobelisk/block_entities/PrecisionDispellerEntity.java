@@ -66,7 +66,6 @@ public class PrecisionDispellerEntity extends ExperienceReceivingEntity implemen
         return tag;
     }
 
-    //gets packet to send to client
     @Override
     public Packet<ClientGamePacketListener> getUpdatePacket()
     {

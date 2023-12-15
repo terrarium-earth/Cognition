@@ -244,7 +244,7 @@ public class PrecisionDispellerScreen extends AbstractContainerScreen<PrecisionD
     }
 
     @Override
-    protected void renderBg(PoseStack pPoseStack, float pPartialTick, int pMouseX, int pMouseY) {
+    protected void renderBg(PoseStack poseStack, float partialTick, int mouseX, int mouseY) {
 
     }
 

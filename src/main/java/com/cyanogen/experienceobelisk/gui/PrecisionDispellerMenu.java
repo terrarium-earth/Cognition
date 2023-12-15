@@ -207,7 +207,7 @@ public class PrecisionDispellerMenu extends AbstractContainerMenu {
     }
 
 
-    public ItemStack quickMoveStack(Player pPlayer, int index) {
+    public ItemStack quickMoveStack(Player player, int index) {
         ItemStack itemstack = ItemStack.EMPTY;
         Slot slot = this.slots.get(index);
 
@@ -216,9 +216,9 @@ public class PrecisionDispellerMenu extends AbstractContainerMenu {
                 container.setItem(1, ItemStack.EMPTY);
             }
             else if(index == 1){
-                handleExperience(slots.get(0).getItem(),slots.get(1).getItem(), pPlayer.level, pPlayer);
+                handleExperience(slots.get(0).getItem(),slots.get(1).getItem(), player.level, player);
                 container.setItem(0, ItemStack.EMPTY);
-                handleAnimation(player.level, posServer);
+                handleAnimation(this.player.level, posServer);
             }
 
             ItemStack itemstack1 = slot.getItem();

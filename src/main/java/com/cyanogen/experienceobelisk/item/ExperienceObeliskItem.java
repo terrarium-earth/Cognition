@@ -29,8 +29,8 @@ import java.util.function.Consumer;
 
 public class ExperienceObeliskItem extends BlockItem implements IAnimatable{
 
-    public ExperienceObeliskItem(Block pBlock, Properties pProperties) {
-        super(pBlock, pProperties);
+    public ExperienceObeliskItem(Block block, Properties properties) {
+        super(block, properties);
     }
 
     //-----ANIMATIONS-----//
