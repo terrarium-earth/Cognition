@@ -6,6 +6,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.MenuProvider;
@@ -32,9 +33,10 @@ import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.Nullable;
 
-public class PrecisionDispellerBlock extends Block implements EntityBlock {
+public class PrecisionDispellerBlock extends ExperienceReceivingBlock implements EntityBlock {
 
     public PrecisionDispellerBlock() {
         super(BlockBehaviour.Properties.of(Material.METAL)
@@ -70,10 +72,15 @@ public class PrecisionDispellerBlock extends Block implements EntityBlock {
 
     @Override
     public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult result) {
+
+        if(super.use(state, level, pos, player, hand, result) != InteractionResult.PASS){
+            return InteractionResult.CONSUME;
+        }
+
         if (level.isClientSide) {
             return InteractionResult.SUCCESS;
         } else {
-            player.openMenu(state.getMenuProvider(level, pos));
+            NetworkHooks.openGui((ServerPlayer) player, state.getMenuProvider(level,pos), pos);
             return InteractionResult.CONSUME;
         }
     }

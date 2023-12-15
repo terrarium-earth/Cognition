@@ -1,5 +1,6 @@
 package com.cyanogen.experienceobelisk.gui;
 
+import com.cyanogen.experienceobelisk.block_entities.ExperienceObeliskEntity;
 import com.cyanogen.experienceobelisk.network.PacketHandler;
 import com.cyanogen.experienceobelisk.network.precision_dispeller.UpdateSlots;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -37,8 +38,11 @@ public class PrecisionDispellerScreen extends AbstractContainerScreen<PrecisionD
     private final TranslatableComponent title = new TranslatableComponent("title.experienceobelisk.precision_dispeller");
     private final TranslatableComponent inventoryTitle = new TranslatableComponent("title.experienceobelisk.precision_dispeller.inventory");
 
+    public ExperienceObeliskEntity xpobelisk;
+
     public PrecisionDispellerScreen(PrecisionDispellerMenu menu, Inventory inventory, Component component) {
         super(menu, inventory, component);
+        this.xpobelisk = menu.obeliskClient;
     }
 
     //-----SELECTABLE PANEL-----//
@@ -217,7 +221,10 @@ public class PrecisionDispellerScreen extends AbstractContainerScreen<PrecisionD
 
                     tooltipList.add(new TranslatableComponent("tooltip.experienceobelisk.precision_dispeller.curse"));
 
-                    if(playerXP < 1395){
+                    if(xpobelisk == null && playerXP < 1395){
+                        tooltipList.add(new TranslatableComponent("tooltip.experienceobelisk.precision_dispeller.insufficient_xp"));
+                    }
+                    else if(xpobelisk != null && xpobelisk.getFluidAmount() / 20 + playerXP < 1395){
                         tooltipList.add(new TranslatableComponent("tooltip.experienceobelisk.precision_dispeller.insufficient_xp"));
                     }
                 }
@@ -324,7 +331,17 @@ public class PrecisionDispellerScreen extends AbstractContainerScreen<PrecisionD
 
         for(SelectablePanel panel : selectablePanels){
 
-           boolean invalid = panel.enchantment.isCurse() && playerXP < 1395 && !menu.player.isCreative();
+            boolean invalid;
+
+            if(menu.player.isCreative() || !panel.enchantment.isCurse()){
+                invalid = false;
+            }
+            else if(xpobelisk == null){
+                invalid = playerXP < 1395;
+            }
+            else{
+                invalid = playerXP + xpobelisk.getFluidAmount() / 20 < 1395;
+            }
 
             if(panel.isHovered(mouseX, mouseY) && panel.isVisible && !invalid){
 
