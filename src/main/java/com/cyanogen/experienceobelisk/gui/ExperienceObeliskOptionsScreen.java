@@ -91,7 +91,7 @@ public class ExperienceObeliskOptionsScreen extends AbstractContainerScreen<Expe
     }
 
     @Override
-    protected void renderBg(PoseStack pPoseStack, float pPartialTick, int pMouseX, int pMouseY) {
+    protected void renderBg(PoseStack poseStack, float partialTick, int mouseX, int mouseY) {
 
     }
 

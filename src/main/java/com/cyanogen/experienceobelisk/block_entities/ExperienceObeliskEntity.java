@@ -42,8 +42,8 @@ import java.util.List;
 
 public class ExperienceObeliskEntity extends BlockEntity implements IAnimatable{
 
-    public ExperienceObeliskEntity(BlockPos pPos, BlockState pState) {
-        super(RegisterBlockEntities.EXPERIENCEOBELISK_BE.get(), pPos, pState);
+    public ExperienceObeliskEntity(BlockPos pos, BlockState state) {
+        super(RegisterBlockEntities.EXPERIENCEOBELISK_BE.get(), pos, state);
     }
 
     //-----------ANIMATIONS-----------//

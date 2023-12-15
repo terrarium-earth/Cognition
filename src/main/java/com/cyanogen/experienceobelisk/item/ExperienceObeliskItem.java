@@ -27,8 +27,8 @@ import java.util.function.Consumer;
 
 public class ExperienceObeliskItem extends BlockItem implements IAnimatable{
 
-    public ExperienceObeliskItem(Block pBlock, Properties pProperties) {
-        super(pBlock, pProperties);
+    public ExperienceObeliskItem(Block block, Properties p) {
+        super(block, p);
     }
 
     //-----ANIMATIONS-----//
@@ -68,18 +68,18 @@ public class ExperienceObeliskItem extends BlockItem implements IAnimatable{
     //-----CUSTOM HOVER TEXT-----//
 
     @Override
-    public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltip, TooltipFlag pFlag) {
+    public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
 
-        int amount = pStack.getOrCreateTag().getCompound("BlockEntityTag").getInt("Amount");
+        int amount = stack.getOrCreateTag().getCompound("BlockEntityTag").getInt("Amount");
         int levels = ExperienceObeliskScreen.xpToLevels(amount / 20);
 
-        pTooltip.add(Component.translatable("tooltip.experienceobelisk.experience_obelisk.item_fluid_amount",
+        tooltip.add(Component.translatable("tooltip.experienceobelisk.experience_obelisk.item_fluid_amount",
                 Component.literal(amount + " mB").withStyle(ChatFormatting.GOLD)));
 
-        pTooltip.add(Component.translatable("tooltip.experienceobelisk.experience_obelisk.item_levels",
+        tooltip.add(Component.translatable("tooltip.experienceobelisk.experience_obelisk.item_levels",
                 Component.literal(String.valueOf(levels)).withStyle(ChatFormatting.GREEN)));
 
-        super.appendHoverText(pStack, pLevel, pTooltip, pFlag);
+        super.appendHoverText(stack, level, tooltip, flag);
 
     }
 

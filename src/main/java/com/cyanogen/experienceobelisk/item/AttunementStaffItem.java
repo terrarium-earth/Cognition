@@ -16,8 +16,8 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 
 public class AttunementStaffItem extends Item {
 
-    public AttunementStaffItem(Properties p_41383_) {
-        super(p_41383_);
+    public AttunementStaffItem(Properties p) {
+        super(p);
     }
 
     @Override
