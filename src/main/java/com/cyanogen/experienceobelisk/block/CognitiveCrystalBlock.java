@@ -15,6 +15,7 @@ public class CognitiveCrystalBlock extends Block {
                 .destroyTime(1.2f)
                 .requiresCorrectToolForDrops()
                 .explosionResistance(1200f)
+                .lightLevel((state) -> 12)
         );
     }
 }
