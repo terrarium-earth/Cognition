@@ -3,6 +3,7 @@ package com.cyanogen.experienceobelisk.registries;
 import com.cyanogen.experienceobelisk.ExperienceObelisk;
 import com.cyanogen.experienceobelisk.block.*;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -29,7 +30,8 @@ public class RegisterBlocks {
     //-----FLUID BLOCKS-----//
 
     public static final RegistryObject<LiquidBlock> COGNITIUM = BLOCKS.register("cognitium",
-            () -> new LiquidBlock(RegisterFluids.COGNITIUM_FLOWING, BlockBehaviour.Properties.of().liquid()
+            () -> new LiquidBlock(RegisterFluids.COGNITIUM_FLOWING, BlockBehaviour.Properties.copy(Blocks.WATER)
+                    .liquid()
                     .lightLevel(value -> 10)
                     .emissiveRendering((p_61036_, p_61037_, p_61038_) -> true)
             ));
