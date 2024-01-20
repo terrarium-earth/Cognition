@@ -92,8 +92,9 @@ public class ExperienceObeliskEntity extends BlockEntity implements IAnimatable{
 
             boolean absorb = !xpobelisk.isRedstoneEnabled() || isRedstonePowered;
             double radius = xpobelisk.getRadius();
+            int space = xpobelisk.getSpace();
 
-            if(absorb && level.getGameTime() % 3 == 0){
+            if(absorb && level.getGameTime() % 10 == 0){
                 AABB area = new AABB(
                         pos.getX() - radius,
                         pos.getY() - radius,
@@ -104,11 +105,19 @@ public class ExperienceObeliskEntity extends BlockEntity implements IAnimatable{
 
                 List<ExperienceOrb> list = level.getEntitiesOfClass(ExperienceOrb.class, area);
 
-                if(!list.isEmpty()) for(ExperienceOrb orb : list){
+                if(!list.isEmpty()) for(int i = 0; i < Math.min(30,list.size()); i++){
 
-                    int value = orb.getValue() * 20;
-                    if(xpobelisk.getSpace() >= value){
-                        xpobelisk.fill(value);
+                    ExperienceOrb orb = list.get(i);
+                    CompoundTag tag = new CompoundTag();
+                    orb.addAdditionalSaveData(tag);
+
+                    int value = orb.value;
+                    int count = tag.getInt("Count");
+
+                    int amount = value * 20 * count;
+                    if(space >= amount){
+                        xpobelisk.fill(amount);
+                        space = space - amount;
                         orb.discard();
                     }
                 }
