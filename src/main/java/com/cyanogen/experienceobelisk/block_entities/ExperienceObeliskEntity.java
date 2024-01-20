@@ -29,10 +29,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib.animatable.GeoBlockEntity;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.core.animation.AnimatableManager;
-import software.bernie.geckolib.core.animation.AnimationController;
-import software.bernie.geckolib.core.animation.AnimationState;
-import software.bernie.geckolib.core.animation.RawAnimation;
+import software.bernie.geckolib.core.animation.*;
 import software.bernie.geckolib.core.object.PlayState;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
@@ -62,15 +59,21 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
 
         BlockEntity entity = state.getAnimatable();
         AnimationController<E> controller = state.getController();
+        RawAnimation animation = controller.getCurrentRawAnimation();
+        RawAnimation animationToPlay;
 
         if(level != null
                 && entity instanceof ExperienceObeliskEntity obelisk
                 && obelisk.redstoneEnabled
                 && !level.hasNeighborSignal(obelisk.getBlockPos())){
-            controller.setAnimation(IDLE_INACTIVE);
+            animationToPlay = IDLE_INACTIVE;
         }
         else{
-            controller.setAnimation(IDLE);
+            animationToPlay = IDLE;
+        }
+
+        if(animation == null || !animation.equals(animationToPlay)){
+            controller.setAnimation(animationToPlay);
         }
 
         return PlayState.CONTINUE;

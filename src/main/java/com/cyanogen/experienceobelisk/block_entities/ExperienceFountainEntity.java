@@ -53,51 +53,49 @@ public class ExperienceFountainEntity extends ExperienceReceivingEntity implemen
 
         BlockEntity entity = state.getAnimatable();
         AnimationController<E> controller = state.getController();
+        RawAnimation animation = controller.getCurrentRawAnimation();
+        RawAnimation animationToPlay = SLOW;
 
         if(level != null && entity instanceof ExperienceFountainEntity fountain){
 
             boolean hasNeighborSignal = level.hasNeighborSignal(fountain.getBlockPos());
             boolean isActive = fountain.isBound && (hasNeighborSignal || fountain.hasPlayerAbove);
-            AnimationProcessor.QueuedAnimation anim = controller.getCurrentAnimation();
 
-            if(anim == null || !anim.animation().name().equals(toName(fountain.activityState, isActive))){
-                //only reset the animation when there is a discrepancy in states
-
-                switch(fountain.activityState){
-                    case 0 -> {
-                        if(isActive){
-                            controller.setAnimation(ACTIVE_SLOW);
-                        }
-                        else{
-                            controller.setAnimation(SLOW);
-                        }
+            switch(fountain.activityState){
+                case 0 -> {
+                    if(isActive){
+                        animationToPlay = ACTIVE_SLOW;
                     }
-                    case 1 -> {
-                        if(isActive){
-                            controller.setAnimation(ACTIVE_MODERATE);
-                        }
-                        else{
-                            controller.setAnimation(MODERATE);
-                        }
+                }
+                case 1 -> {
+                    if(isActive){
+                        animationToPlay = ACTIVE_MODERATE;
                     }
-                    case 2 -> {
-                        if(isActive){
-                            controller.setAnimation(ACTIVE_FAST);
-                        }
-                        else{
-                            controller.setAnimation(FAST);
-                        }
+                    else{
+                        animationToPlay = MODERATE;
                     }
-                    case 3 -> {
-                        if(isActive){
-                            controller.setAnimation(ACTIVE_HYPER);
-                        }
-                        else{
-                            controller.setAnimation(HYPER);
-                        }
+                }
+                case 2 -> {
+                    if(isActive){
+                        animationToPlay = ACTIVE_FAST;
+                    }
+                    else{
+                        animationToPlay = FAST;
+                    }
+                }
+                case 3 -> {
+                    if(isActive){
+                        animationToPlay = ACTIVE_HYPER;
+                    }
+                    else{
+                        animationToPlay = HYPER;
                     }
                 }
             }
+        }
+
+        if(animation == null || !animation.equals(animationToPlay)){
+            controller.setAnimation(animationToPlay);
         }
 
         return PlayState.CONTINUE;
