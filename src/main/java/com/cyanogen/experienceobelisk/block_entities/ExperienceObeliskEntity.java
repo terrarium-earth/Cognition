@@ -13,6 +13,7 @@ import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.ExperienceOrb;
+import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -26,6 +27,7 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.templates.FluidTank;
 import net.minecraftforge.registries.ForgeRegistries;
+import org.checkerframework.checker.units.qual.C;
 import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib.animatable.GeoBlockEntity;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
@@ -98,8 +100,9 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
 
             boolean absorb = !xpobelisk.isRedstoneEnabled() || isRedstonePowered;
             double radius = xpobelisk.getRadius();
+            int space = xpobelisk.getSpace();
 
-            if(absorb && level.getGameTime() % 3 == 0){
+            if(absorb && level.getGameTime() % 10 == 0){
                 AABB area = new AABB(
                         pos.getX() - radius,
                         pos.getY() - radius,
@@ -110,14 +113,23 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
 
                 List<ExperienceOrb> list = level.getEntitiesOfClass(ExperienceOrb.class, area);
 
-                if(!list.isEmpty()) for(ExperienceOrb orb : list){
+                if(!list.isEmpty()) for(int i = 0; i < Math.min(30,list.size()); i++){
 
-                    int value = orb.getValue() * 20;
-                    if(xpobelisk.getSpace() >= value){
-                        xpobelisk.fill(value);
+                    ExperienceOrb orb = list.get(i);
+                    CompoundTag tag = new CompoundTag();
+                    orb.addAdditionalSaveData(tag);
+
+                    int value = orb.value;
+                    int count = tag.getInt("Count");
+
+                    int amount = value * 20 * count;
+                    if(space >= amount){
+                        xpobelisk.fill(amount);
+                        space = space - amount;
                         orb.discard();
                     }
                 }
+
             }
         }
     }
