@@ -71,7 +71,7 @@ public class EnlightenedAmuletItem extends Item{
 
         boolean isActive = stack.getOrCreateTag().getBoolean("isActive");
 
-        if(entity instanceof Player player && isActive && !level.isClientSide && level.getGameTime() % 5 ==0){
+        if(entity instanceof Player player && isActive && !level.isClientSide && level.getGameTime() % 10 == 0){
 
             final double radius = Config.COMMON.range.get();
 
@@ -84,30 +84,34 @@ public class EnlightenedAmuletItem extends Item{
                     pos.y() + radius,
                     pos.z() + radius);
 
+            List<ExperienceOrb> list = level.getEntitiesOfClass(ExperienceOrb.class, area);
 
-            if(level.getGameTime() % 5 == 0){
-                List<ExperienceOrb> list = level.getEntitiesOfClass(ExperienceOrb.class, area);
-                int totalValue = 0;
+            int totalValue = 0;
+            if(!list.isEmpty()){
+                for(int i = 0; i < Math.min(30,list.size()); i++) {
 
-                if(!list.isEmpty()){
-                    for(ExperienceOrb orb : list){
-                        totalValue += orb.value;
-                        orb.discard();
-                    }
+                    ExperienceOrb orb = list.get(i);
+                    CompoundTag tag = new CompoundTag();
+                    orb.addAdditionalSaveData(tag);
 
-                    ServerLevel server = (ServerLevel) level;
+                    int value = orb.value;
+                    int count = tag.getInt("Count");
+                    totalValue += value * count;
+                    orb.discard();
+                }
 
-                    if(totalValue < 32768){
-                        ExperienceOrb orb = new ExperienceOrb(server, pos.x(), pos.y(), pos.z(), totalValue);
+                ServerLevel server = (ServerLevel) level;
+
+                if(totalValue < 32768){
+                    ExperienceOrb orb = new ExperienceOrb(server, pos.x(), pos.y(), pos.z(), totalValue);
+                    server.addFreshEntity(orb);
+                }
+                else{ //edge case if total value of orbs exceeds 32767
+                    while(totalValue > 0){
+                        int v = Math.min(totalValue, 32767);
+                        ExperienceOrb orb = new ExperienceOrb(server, pos.x(), pos.y(), pos.z(), v);
                         server.addFreshEntity(orb);
-                    }
-                    else{ //kinda ridiculous edge case but wtv
-                        while(totalValue > 0){
-                            int v = Math.min(totalValue, 32767);
-                            ExperienceOrb orb = new ExperienceOrb(server, pos.x(), pos.y(), pos.z(), v);
-                            server.addFreshEntity(orb);
-                            totalValue = totalValue - v;
-                        }
+                        totalValue = totalValue - v;
                     }
                 }
             }
