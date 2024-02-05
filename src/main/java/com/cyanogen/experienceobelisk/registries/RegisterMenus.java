@@ -1,6 +1,8 @@
 package com.cyanogen.experienceobelisk.registries;
 
 import com.cyanogen.experienceobelisk.ExperienceObelisk;
+import com.cyanogen.experienceobelisk.block.EternalAnvilBlock;
+import com.cyanogen.experienceobelisk.gui.EternalAnvilMenu;
 import com.cyanogen.experienceobelisk.gui.ExperienceObeliskMenu;
 import com.cyanogen.experienceobelisk.gui.PrecisionDispellerMenu;
 import net.minecraft.world.inventory.MenuType;
@@ -20,6 +22,9 @@ public class RegisterMenus {
 
     public static final RegistryObject<MenuType<ExperienceObeliskMenu>> EXPERIENCE_OBELISK_MENU = MENUS.register("experience_obelisk_menu",
             ()-> IForgeMenuType.create(ExperienceObeliskMenu::new));
+
+    public static final RegistryObject<MenuType<EternalAnvilMenu>> ETERNAL_ANVIL_MENU = MENUS.register("eternal_anvil_menu",
+            ()-> IForgeMenuType.create(EternalAnvilMenu::new));
 
     public static void register(IEventBus eventBus) {
         MENUS.register(eventBus);
