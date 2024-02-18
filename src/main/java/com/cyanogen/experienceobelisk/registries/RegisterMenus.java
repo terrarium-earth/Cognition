@@ -1,7 +1,6 @@
 package com.cyanogen.experienceobelisk.registries;
 
 import com.cyanogen.experienceobelisk.ExperienceObelisk;
-import com.cyanogen.experienceobelisk.block.EternalAnvilBlock;
 import com.cyanogen.experienceobelisk.gui.EternalAnvilMenu;
 import com.cyanogen.experienceobelisk.gui.ExperienceObeliskMenu;
 import com.cyanogen.experienceobelisk.gui.PrecisionDispellerMenu;
