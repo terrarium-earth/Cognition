@@ -15,7 +15,7 @@ import net.minecraft.world.item.ItemStack;
 
 public class EternalAnvilScreen extends ItemCombinerScreen<EternalAnvilMenu> {
 
-    //currently this is just a copy of the vanilla anvil class
+    //currently this is just a copy of the vanilla anvil screen class
     //however, changes will be made here once the new GUI is made
 
     private static final ResourceLocation ANVIL_LOCATION = new ResourceLocation("textures/gui/container/anvil.png");
