@@ -13,8 +13,8 @@ public class ExperienceReceivingEntity extends BlockEntity {
 
     //Generic block entity for appliances that use XP
 
-    public ExperienceReceivingEntity(BlockEntityType<?> p_155228_, BlockPos p_155229_, BlockState p_155230_) {
-        super(p_155228_, p_155229_, p_155230_);
+    public ExperienceReceivingEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
+        super(type, pos, state);
     }
 
     //-----------BINDING-----------//
