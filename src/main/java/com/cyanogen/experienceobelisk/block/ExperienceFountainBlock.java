@@ -42,7 +42,6 @@ public class ExperienceFountainBlock extends ExperienceReceivingBlock implements
         super(BlockBehaviour.Properties.of()
                 .strength(9f)
                 .destroyTime(1.2f)
-                .requiresCorrectToolForDrops()
                 .explosionResistance(9f)
                 .noOcclusion()
                 .lightLevel(pLightEmission -> 7)

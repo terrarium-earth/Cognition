@@ -43,7 +43,6 @@ public class ExperienceObeliskBlock extends Block implements EntityBlock {
         super(Properties.of()
                 .strength(9f)
                 .destroyTime(1.2f)
-                .requiresCorrectToolForDrops()
                 .explosionResistance(9f)
                 .noOcclusion()
                 .lightLevel(value -> 7)
@@ -66,6 +65,7 @@ public class ExperienceObeliskBlock extends Block implements EntityBlock {
     }
 
     public ItemStack stack;
+
     @Override
     public void playerWillDestroy(Level level, BlockPos pos, BlockState state, Player player) {
         if (!level.isClientSide) {
@@ -93,13 +93,18 @@ public class ExperienceObeliskBlock extends Block implements EntityBlock {
         super.onBlockExploded(state, level, pos, explosion);
     }
 
+
     @Override
     public List<ItemStack> getDrops(BlockState state, LootParams.Builder params) {
         List<ItemStack> drops = new ArrayList<>();
         if(stack != null){
             drops.add(stack);
+            return drops;
         }
-        return drops;
+        else{
+            return super.getDrops(state, params);
+        }
+
     }
 
     @Override

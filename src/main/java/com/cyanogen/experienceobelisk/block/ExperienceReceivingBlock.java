@@ -93,8 +93,11 @@ public class ExperienceReceivingBlock extends Block {
         List<ItemStack> drops = new ArrayList<>();
         if(stack != null){
             drops.add(stack);
+            return drops;
         }
-        return drops;
+        else{
+            return super.getDrops(state, params);
+        }
     }
 
 
