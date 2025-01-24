@@ -1,7 +1,7 @@
 package com.cyanogen.experienceobelisk.event;
 
-import com.cyanogen.experienceobelisk.item.MendingNeurogelItem;
-import com.cyanogen.experienceobelisk.item.ResurrectingNeurogelItem;
+import com.cyanogen.experienceobelisk.item.NeurogelMendingItem;
+import com.cyanogen.experienceobelisk.item.NeurogelProtectingItem;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RegisterItemDecorationsEvent;
@@ -16,7 +16,7 @@ public class EventHandler {
     @OnlyIn(Dist.CLIENT)
     public void onTooltip(ItemTooltipEvent event){
         DescriptionTooltips.handleTooltip(event);
-        ResurrectingNeurogelItem.handleTooltip(event);
+        NeurogelProtectingItem.handleTooltip(event);
     }
 
     @SubscribeEvent
@@ -26,13 +26,13 @@ public class EventHandler {
 
     @SubscribeEvent
     public void onItemStackedOnOther(ItemStackedOnOtherEvent event){
-        MendingNeurogelItem.handleItem(event);
-        ResurrectingNeurogelItem.handleItem(event);
+        NeurogelMendingItem.handleItem(event);
+        NeurogelProtectingItem.handleItem(event);
     }
 
     @SubscribeEvent
     public void onPlayerDestroyItem(PlayerDestroyItemEvent event){
-        ResurrectingNeurogelItem.handleDestruction(event);
+        NeurogelProtectingItem.handleDestruction(event);
     }
 
 

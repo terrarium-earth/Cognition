@@ -57,9 +57,10 @@ public class RegisterTiers {
         @Override
         public int getDefenseForType(ArmorItem.Type type) {
             return switch (type.getName()){
-                case "helmet", "boots" -> 3;
+                case "helmet" -> 3;
                 case "chestplate" -> 7;
                 case "leggings" -> 6;
+                case "boots" -> 2;
                 default -> 0;
             };
         }

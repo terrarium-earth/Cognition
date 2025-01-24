@@ -14,9 +14,9 @@ import net.minecraftforge.event.entity.player.PlayerDestroyItemEvent;
 
 import java.util.List;
 
-public class ResurrectingNeurogelItem extends Item {
+public class NeurogelProtectingItem extends Item {
 
-    public ResurrectingNeurogelItem(Properties p) {
+    public NeurogelProtectingItem(Properties p) {
         super(p);
     }
 
@@ -25,7 +25,7 @@ public class ResurrectingNeurogelItem extends Item {
         ItemStack stackedOn = event.getStackedOnItem();
         CompoundTag tag = stackedOn.getOrCreateTag();
 
-        if(carried.is(RegisterItems.RESURRECTING_NEUROGEL.get()) && stackedOn.isDamageableItem() && tag.getInt("ReserveDurability") <= 1600){
+        if(carried.is(RegisterItems.PROTECTING_NEUROGEL.get()) && stackedOn.isDamageableItem() && tag.getInt("ReserveDurability") <= 1600){
             carried.shrink(1);
 
             if(tag.contains("ReserveDurability")){

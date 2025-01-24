@@ -128,10 +128,21 @@ public class RegisterItems {
                 public int getEnchantmentValue() {
                     return 15;
                 }
+
+                @Override
+                public Multimap<Attribute, AttributeModifier> getDefaultAttributeModifiers(EquipmentSlot slot) {
+                    return addRangeAttributeModifier(super.getDefaultAttributeModifiers(slot), slot, EquipmentSlot.MAINHAND, MAINHAND_RANGE);
+                }
             });
 
     public static final RegistryObject<Item> COGNITIVE_SHEARS = ITEMS.register("cognitive_shears",
             () -> new ShearsItem(new Item.Properties().defaultDurability(835)){
+
+                @Override
+                public int getEnchantmentValue(ItemStack stack) {
+                    return 15;
+                }
+
                 @Override
                 public Multimap<Attribute, AttributeModifier> getDefaultAttributeModifiers(EquipmentSlot slot) {
                     return addRangeAttributeModifier(super.getDefaultAttributeModifiers(slot), slot, EquipmentSlot.MAINHAND, MAINHAND_RANGE);
@@ -162,10 +173,10 @@ public class RegisterItems {
             () -> new BucketItem(RegisterFluids.COGNITIUM, new Item.Properties().craftRemainder(Items.BUCKET).stacksTo(1)));
 
     public static final RegistryObject<Item> NIGHTMARE_BOTTLE = ITEMS.register("nightmare_bottle",
-            () -> new NightmareBottleItem(new Item.Properties().stacksTo(16)));
+            () -> new BottleNightmareItem(new Item.Properties().stacksTo(16)));
 
     public static final RegistryObject<Item> DAYDREAM_BOTTLE = ITEMS.register("daydream_bottle",
-            () -> new DaydreamBottleItem(new Item.Properties().stacksTo(16)));
+            () -> new BottleDaydreamItem(new Item.Properties().stacksTo(16)));
 
     public static final RegistryObject<Item> BIBLIOPHAGE = ITEMS.register("bibliophage",
             () -> new BibliophageItem(new Item.Properties()));
@@ -174,16 +185,16 @@ public class RegisterItems {
             () -> new ExperienceJellyItem(new Item.Properties()));
 
     public static final RegistryObject<Item> MENDING_NEUROGEL = ITEMS.register("mending_neurogel",
-            () -> new MendingNeurogelItem(new Item.Properties()));
+            () -> new NeurogelMendingItem(new Item.Properties()));
 
-    public static final RegistryObject<Item> RESURRECTING_NEUROGEL = ITEMS.register("resurrecting_neurogel",
-            () -> new ResurrectingNeurogelItem(new Item.Properties()));
+    public static final RegistryObject<Item> PROTECTING_NEUROGEL = ITEMS.register("protecting_neurogel",
+            () -> new NeurogelProtectingItem(new Item.Properties()));
 
-    public static final RegistryObject<Item> BOTTOMLESS_BOTTLE = ITEMS.register("bottomless_bottle",
-            () -> new BottomlessBottleItem(new Item.Properties()));
+    public static final RegistryObject<Item> POSEIDON_FLAGON = ITEMS.register("poseidon_flagon",
+            () -> new FlagonPoseidonItem(new Item.Properties()));
 
-    public static final RegistryObject<Item> HADEAN_BOTTLE = ITEMS.register("hadean_bottle",
-            () -> new HadeanBottleItem(new Item.Properties()));
+    public static final RegistryObject<Item> HADES_FLAGON = ITEMS.register("hades_flagon",
+            () -> new FlagonHadesItem(new Item.Properties()));
 
     //-----FUNCTIONAL BLOCK ITEMS-----//
 

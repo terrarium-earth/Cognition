@@ -12,9 +12,9 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
 
-public class NightmareBottleItem extends BottleItem {
+public class BottleNightmareItem extends BottleItem {
 
-    public NightmareBottleItem(Properties p) {
+    public BottleNightmareItem(Properties p) {
         super(p);
     }
 

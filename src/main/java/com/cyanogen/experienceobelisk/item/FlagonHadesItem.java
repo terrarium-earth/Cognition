@@ -1,10 +1,12 @@
 package com.cyanogen.experienceobelisk.item;
 
-import com.cyanogen.experienceobelisk.registries.RegisterItems;
+import com.google.common.collect.Multimap;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
@@ -20,30 +22,24 @@ import net.minecraftforge.fluids.capability.templates.FluidHandlerItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class HadeanBottleItem extends Item implements ICapabilityProvider {
+public class FlagonHadesItem extends Item implements ICapabilityProvider {
 
-    public HadeanBottleItem(Properties p) {
+    public FlagonHadesItem(Properties p) {
         super(p);
     }
 
     //-----------BEHAVIOR-----------//
 
     @Override
-    public void inventoryTick(ItemStack stack, Level level, Entity entity, int i, boolean b) {
-
-        //20 second recharge time = 2.5mB/t refill
-
-        if(level.getGameTime() % 2 == 0){
-            fill(5);
-        }
-
-        super.inventoryTick(stack, level, entity, i, b);
+    public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlot slot, ItemStack stack) {
+        return super.getAttributeModifiers(slot, stack);
     }
 
     @Override
     public InteractionResult useOn(UseOnContext context) {
         BlockPos pos = context.getClickedPos().relative(context.getClickedFace(), 1);
         Level level = context.getLevel();
+        //context.getPlayer().getCooldowns().addCooldown();
 
         if(level.getBlockState(pos).isAir() && getRefillProgress() == 1){
             level.setBlockAndUpdate(pos, Blocks.LAVA.defaultBlockState());

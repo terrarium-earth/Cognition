@@ -5,9 +5,9 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.event.ItemStackedOnOtherEvent;
 
-public class MendingNeurogelItem extends Item {
+public class NeurogelMendingItem extends Item {
 
-    public MendingNeurogelItem(Properties p) {
+    public NeurogelMendingItem(Properties p) {
         super(p);
     }
 
