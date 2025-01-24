@@ -1,5 +1,6 @@
 package com.cyanogen.experienceobelisk.block_entities.bibliophage;
 
+import com.cyanogen.experienceobelisk.config.Config;
 import com.cyanogen.experienceobelisk.registries.RegisterBlocks;
 import com.cyanogen.experienceobelisk.registries.RegisterItems;
 import net.minecraft.core.BlockPos;
@@ -126,7 +127,10 @@ public abstract class AbstractInfectedBookshelfEntity extends AbstractInfectiveE
         if(!level.isClientSide){
             ServerLevel server = (ServerLevel) level;
             ItemStack forgottenDust = new ItemStack(RegisterItems.FORGOTTEN_DUST.get(), 4);
-            Block.popResource(server, pos, forgottenDust);
+
+            if(Config.COMMON.dropDustOnDecay.get()){
+                Block.popResource(server, pos, forgottenDust);
+            }
         }
         level.playSound(null, pos, SoundEvents.WART_BLOCK_BREAK, SoundSource.BLOCKS, 1f,1f); //play break sound
         level.levelEvent(null, 2001, pos, Block.getId(RegisterBlocks.FORGOTTEN_DUST_BLOCK.get().defaultBlockState())); //spawn destroy particles
