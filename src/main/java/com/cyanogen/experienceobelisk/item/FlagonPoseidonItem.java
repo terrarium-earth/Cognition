@@ -1,13 +1,10 @@
 package com.cyanogen.experienceobelisk.item;
 
-import com.cyanogen.experienceobelisk.registries.RegisterItems;
 import com.cyanogen.experienceobelisk.utils.ExperienceUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
@@ -23,6 +20,8 @@ public class FlagonPoseidonItem extends Item{
 
     //-----------BEHAVIOR-----------//
 
+    final int cost = 7;
+
     @Override
     public InteractionResult useOn(UseOnContext context) {
         BlockPos pos = context.getClickedPos().relative(context.getClickedFace(), 1);
@@ -30,7 +29,7 @@ public class FlagonPoseidonItem extends Item{
         Player player = context.getPlayer();
         BlockState state = level.getBlockState(pos);
 
-        if(player != null && (player.isCreative() || ExperienceUtils.getTotalXp(player) >= 7) && !player.getCooldowns().isOnCooldown(this)){
+        if(player != null && (player.isCreative() || ExperienceUtils.getTotalXp(player) >= cost) && !player.getCooldowns().isOnCooldown(this)){
 
             int k = player.isCreative() ? 0 : 1;
 
@@ -43,14 +42,14 @@ public class FlagonPoseidonItem extends Item{
                 }
 
                 player.getCooldowns().addCooldown(this, 10);
-                player.giveExperiencePoints(-7 * k);
+                player.giveExperiencePoints(-cost * k);
                 return InteractionResult.sidedSuccess(level.isClientSide);
             }
             else if(state.getBlock() instanceof LiquidBlockContainer container && container.canPlaceLiquid(level, pos, state, Fluids.WATER)){
                 container.placeLiquid(level, pos, state, Fluids.WATER.defaultFluidState());
 
                 player.getCooldowns().addCooldown(this, 10);
-                player.giveExperiencePoints(-7 * k);
+                player.giveExperiencePoints(-cost * k);
                 return InteractionResult.sidedSuccess(level.isClientSide);
             }
 
