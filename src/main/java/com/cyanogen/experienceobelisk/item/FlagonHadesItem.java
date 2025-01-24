@@ -34,16 +34,16 @@ public class FlagonHadesItem extends Item{
             int k = player.isCreative() ? 0 : 1;
 
             if(state.isAir() || state.canBeReplaced(Fluids.LAVA)){
-                level.setBlockAndUpdate(pos, Blocks.WATER.defaultBlockState());
+                level.setBlockAndUpdate(pos, Blocks.LAVA.defaultBlockState());
 
-                player.getCooldowns().addCooldown(this, 150);
+                player.getCooldowns().addCooldown(this, 80);
                 player.giveExperiencePoints(-cost * k);
                 return InteractionResult.sidedSuccess(level.isClientSide);
             }
             else if(state.getBlock() instanceof LiquidBlockContainer container && container.canPlaceLiquid(level, pos, state, Fluids.LAVA)){
                 container.placeLiquid(level, pos, state, Fluids.LAVA.defaultFluidState());
 
-                player.getCooldowns().addCooldown(this, 150);
+                player.getCooldowns().addCooldown(this, 80);
                 player.giveExperiencePoints(-cost * k);
                 return InteractionResult.sidedSuccess(level.isClientSide);
             }
