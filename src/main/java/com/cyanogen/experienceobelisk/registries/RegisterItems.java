@@ -187,9 +187,6 @@ public class RegisterItems {
     public static final RegistryObject<Item> MENDING_NEUROGEL = ITEMS.register("mending_neurogel",
             () -> new NeurogelMendingItem(new Item.Properties()));
 
-    public static final RegistryObject<Item> PROTECTING_NEUROGEL = ITEMS.register("protecting_neurogel",
-            () -> new NeurogelProtectingItem(new Item.Properties()));
-
     public static final RegistryObject<Item> POSEIDON_FLAGON = ITEMS.register("poseidon_flagon",
             () -> new FlagonPoseidonItem(new Item.Properties()));
 
