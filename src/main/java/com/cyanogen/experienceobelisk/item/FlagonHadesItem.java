@@ -20,7 +20,7 @@ public class FlagonHadesItem extends Item{
 
     //-----------BEHAVIOR-----------//
 
-    final int cost = 70;
+    final int cost = 160; // 10 levels
 
     @Override
     public InteractionResult useOn(UseOnContext context) {

@@ -20,7 +20,7 @@ public class FlagonPoseidonItem extends Item{
 
     //-----------BEHAVIOR-----------//
 
-    final int cost = 7;
+    final int cost = 16; // 2 levels
 
     @Override
     public InteractionResult useOn(UseOnContext context) {

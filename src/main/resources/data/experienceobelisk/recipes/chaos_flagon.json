@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ABA",
+    "CDC",
+    " C "
+  ],
+  "key": {
+    "A": {
+      "item": "minecraft:obsidian"
+    },
+    "B": {
+      "item": "experienceobelisk:primordial_assembly"
+    },
+    "C": {
+      "item": "experienceobelisk:cognitive_alloy"
+    },
+    "D": {
+      "item": "minecraft:bucket"
+    }
+  },
+  "result": {
+    "item": "experienceobelisk:chaos_flagon",
+    "count": 1
+  }
+}

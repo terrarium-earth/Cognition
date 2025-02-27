@@ -174,10 +174,10 @@ public class RegisterItems {
             () -> new BucketItem(RegisterFluids.COGNITIUM, new Item.Properties().craftRemainder(Items.BUCKET).stacksTo(1)));
 
     public static final RegistryObject<Item> NIGHTMARE_BOTTLE = ITEMS.register("nightmare_bottle",
-            () -> new BottleNightmareItem(new Item.Properties().stacksTo(16)));
+            () -> new BottleNightmareItem(new Item.Properties().stacksTo(64)));
 
     public static final RegistryObject<Item> DAYDREAM_BOTTLE = ITEMS.register("daydream_bottle",
-            () -> new BottleDaydreamItem(new Item.Properties().stacksTo(16)));
+            () -> new BottleDaydreamItem(new Item.Properties().stacksTo(64)));
 
     public static final RegistryObject<Item> BIBLIOPHAGE = ITEMS.register("bibliophage",
             () -> new BibliophageItem(new Item.Properties()));
