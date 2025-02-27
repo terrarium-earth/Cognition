@@ -59,6 +59,7 @@ public class CognitionJeiPlugin implements IModPlugin {
         //HIDE FROM VIEWER
         List<ItemStack> hidden = new ArrayList<>();
         hidden.add(new ItemStack(RegisterItems.DUMMY_SWORD.get(), 1));
+        hidden.add(new ItemStack(RegisterItems.NEURAL_ASSEMBLY.get(), 1));
         registration.getIngredientManager().removeIngredientsAtRuntime(VanillaTypes.ITEM_STACK, hidden);
 
         IModPlugin.super.registerRecipes(registration);

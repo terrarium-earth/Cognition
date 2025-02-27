@@ -1,21 +1,21 @@
 {
   "type": "experienceobelisk:molecular_metamorphosis",
   "ingredient1": {
-    "item": "experienceobelisk:nutrient_agar"
+    "item": "experienceobelisk:experience_jelly"
   },
   "count1": 1,
   "ingredient2": {
-    "item": "minecraft:honeycomb"
+    "item": "minecraft:amethyst_shard"
   },
   "count2": 3,
   "ingredient3": {
     "item": "experienceobelisk:forgotten_dust"
   },
-  "count3": 32,
+  "count3": 5,
   "result": {
-    "item": "experienceobelisk:insightful_agar",
+    "item": "experienceobelisk:mending_neurogel",
     "count": 1
   },
-  "cost": 1395,
-  "processTime": 200
+  "cost": 315,
+  "processTime": 100
 }

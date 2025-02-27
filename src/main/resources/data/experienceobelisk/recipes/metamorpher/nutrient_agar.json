@@ -1,7 +1,7 @@
 {
   "type": "experienceobelisk:molecular_metamorphosis",
   "ingredient1": {
-      "item": "minecraft:slime_block"
+    "item": "minecraft:slime_block"
   },
   "count1": 1,
   "ingredient2": {
@@ -9,9 +9,9 @@
   },
   "count2": 4,
   "ingredient3": {
-    "item": "experienceobelisk:forgotten_dust_block"
+    "item": "experienceobelisk:forgotten_dust"
   },
-  "count3": 4,
+  "count3": 32,
   "result": {
     "item": "experienceobelisk:nutrient_agar",
     "count": 1
