@@ -1,0 +1,21 @@
+{
+  "type": "experienceobelisk:molecular_metamorphosis",
+  "ingredient1": {
+    "item": "experienceobelisk:insightful_agar"
+  },
+  "count1": 1,
+  "ingredient2": {
+    "item": "minecraft:budding_amethyst"
+  },
+  "count2": 1,
+  "ingredient3": {
+    "item": "experienceobelisk:forgotten_dust_block"
+  },
+  "count3": 16,
+  "result": {
+    "item": "experienceobelisk:extravagant_agar",
+    "count": 1
+  },
+  "cost": 5345,
+  "processTime": 400
+}

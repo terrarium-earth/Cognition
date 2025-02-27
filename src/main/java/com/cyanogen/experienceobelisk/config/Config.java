@@ -74,6 +74,7 @@ public class Config {
 
             builder.push("Bookshelf Settings");
             this.dropDustOnDecay = builder.comment("Whether or not infected bookshelves drop Forgotten Dust upon decaying. Default = true")
+                    .comment("Disabling this will make Forgotten Dust much more costly")
                     .define("DropDustOnDecay", true);
 
             builder.push("Infected Bookshelves");

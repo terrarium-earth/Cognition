@@ -10,7 +10,7 @@ public class NutrientAgarEntity extends AbstractAgarEntity {
         super(RegisterBlockEntities.NUTRIENT_AGAR_BE.get(), pos, state);
     }
 
-    // An unlimited source of bibliophages
+    // An unlimited source of bibliophages (but very slow to infect)
     // Can be harvested
 
 }
