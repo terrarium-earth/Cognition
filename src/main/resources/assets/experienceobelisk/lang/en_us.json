@@ -44,6 +44,9 @@
   "block.experienceobelisk.infected_bookshelf": "Infected Bookshelf",
   "block.experienceobelisk.infected_enchanted_bookshelf": "Infected Enchanted Bookshelf",
   "block.experienceobelisk.infected_archivers_bookshelf": "Infected Archiver's Bookshelf",
+  "block.experienceobelisk.nutrient_agar": "Nutrient Agar",
+  "block.experienceobelisk.insightful_agar": "Insightful Agar",
+  "block.experienceobelisk.extravagant_agar": "Extravagant Agar",
 
   "fluid.experienceobelisk.cognitium": "Cognitium",
   "fluid_type.experienceobelisk.cognitium": "Cognitium",

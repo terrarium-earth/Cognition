@@ -123,7 +123,7 @@ public class RegisterItems {
             });
 
     public static final RegistryObject<Item> COGNITIVE_ROD = ITEMS.register("cognitive_rod",
-            () -> new FishingRodItem(new Item.Properties().defaultDurability(1877)){
+            () -> new FishingRodItem(new Item.Properties().defaultDurability(2200)){
                 @Override
                 public int getEnchantmentValue() {
                     return 15;
@@ -136,7 +136,7 @@ public class RegisterItems {
             });
 
     public static final RegistryObject<Item> COGNITIVE_SHEARS = ITEMS.register("cognitive_shears",
-            () -> new ShearsItem(new Item.Properties().defaultDurability(1877)){
+            () -> new ShearsItem(new Item.Properties().defaultDurability(2200)){
 
                 @Override
                 public int getEnchantmentValue(ItemStack stack) {
