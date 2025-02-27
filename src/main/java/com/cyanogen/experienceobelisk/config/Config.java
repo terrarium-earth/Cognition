@@ -72,11 +72,11 @@ public class Config {
                     .define("Formatting", true);
             builder.pop();
 
-            builder.push("General Bookshelf Settings");
+            builder.push("Bookshelf Settings");
             this.dropDustOnDecay = builder.comment("Whether or not infected bookshelves drop Forgotten Dust upon decaying. Default = true")
                     .define("DropDustOnDecay", true);
 
-            builder.push("Infected Bookshelf Settings");
+            builder.push("Infected Bookshelves");
             this.infectedSpawnDelayMin = builder.comment("The minimum spawn delay of Infected Bookshelves in ticks. Default = 150")
                     .defineInRange("SpawnDelayMin", 150, 1, 10000);
             this.infectedSpawnDelayMax = builder.comment("The maximum spawn delay of Infected Bookshelves in ticks. Default = 250")
@@ -87,7 +87,7 @@ public class Config {
                     .defineInRange("Spawns", 100, 1, 10000);
             builder.pop();
 
-            builder.push("Enchanted Bookshelf Settings");
+            builder.push("Infected Enchanted Bookshelves");
             this.enchantedSpawnDelayMin = builder.comment("The minimum spawn delay of Enchanted Bookshelves in ticks. Default = 100")
                     .defineInRange("SpawnDelayMin", 100, 1, 10000);
             this.enchantedSpawnDelayMax = builder.comment("The maximum spawn delay of Enchanted Bookshelves in ticks. Default = 300")
@@ -98,7 +98,7 @@ public class Config {
                     .defineInRange("Range", 200, 1, 10000);
             builder.pop();
 
-            builder.push("Archiver's Bookshelf Settings");
+            builder.push("Infected Archiver's Bookshelves");
             this.archiversSpawnDelayMin = builder.comment("The minimum spawn delay of Archiver's Bookshelves in ticks. Default = 180")
                     .defineInRange("SpawnDelayMin", 180, 1, 10000);
             this.archiversSpawnDelayMax = builder.comment("The maximum spawn delay of Archiver's Bookshelves in ticks. Default = 220")

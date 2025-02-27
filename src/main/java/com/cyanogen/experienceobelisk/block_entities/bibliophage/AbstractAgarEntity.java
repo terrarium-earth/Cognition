@@ -15,7 +15,7 @@ public class AbstractAgarEntity extends AbstractInfectiveEntity{
 
     public static <T> void tick(Level level, BlockPos pos, BlockState state, T blockEntity) {
 
-        if(blockEntity instanceof NutrientAgarEntity agar){
+        if(blockEntity instanceof AbstractAgarEntity agar){
 
             if(level.getGameTime() % 20 == 0 && Math.random() <= agar.infectivity){
                 agar.infectAdjacent(level, pos);

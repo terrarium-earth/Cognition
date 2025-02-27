@@ -10,4 +10,7 @@ public class ExtravagantAgarEntity extends AbstractAgarEntity {
         super(RegisterBlockEntities.EXTRAVAGANT_AGAR_BE.get(), pos, state);
     }
 
+    // Increases the orb value of adjacent bookshelves by 1.25x
+    // Inherits properties of nutrient agar
+
 }

@@ -73,7 +73,7 @@ public abstract class AbstractInfectedBookshelfEntity extends AbstractInfectiveE
         int delay = (int) (spawnDelayMin + Math.floor((spawnDelayMax - spawnDelayMin) * Math.random()));
 
         if(isAdjacentTo(RegisterBlocks.INSIGHTFUL_AGAR.get())){
-            delay = (int) (delay * 0.8);
+            delay = (int) (delay / 1.25);
         }
 
         this.timeTillSpawn = delay;

@@ -10,4 +10,7 @@ public class InsightfulAgarEntity extends AbstractAgarEntity {
         super(RegisterBlockEntities.INSIGHTFUL_AGAR_BE.get(), pos, state);
     }
 
+    // Decreases the spawn delay of adjacent bookshelves by 1.25x
+    // Inherits properties of nutrient agar
+
 }
