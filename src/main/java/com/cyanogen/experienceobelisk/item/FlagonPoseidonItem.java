@@ -54,6 +54,13 @@ public class FlagonPoseidonItem extends Item{
 
                     return handlePlayer(player, level);
                 }
+                else if(state.getBlock() instanceof LiquidBlockContainer container){ //waterloggable blocks
+                    if(container.canPlaceLiquid(level, pos, state, Fluids.WATER.getSource())){
+                        container.placeLiquid(level, pos, state, Fluids.WATER.getSource().defaultFluidState());
+                    }
+
+                    return handlePlayer(player, level);
+                }
                 else if(state.hasBlockEntity()){ //fluid containers
 
                     BlockEntity entity = level.getBlockEntity(pos);
