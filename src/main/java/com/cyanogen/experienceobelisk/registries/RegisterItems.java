@@ -194,6 +194,9 @@ public class RegisterItems {
     public static final RegistryObject<Item> HADES_FLAGON = ITEMS.register("hades_flagon",
             () -> new FlagonHadesItem(new Item.Properties()));
 
+    public static final RegistryObject<Item> CHAOS_FLAGON = ITEMS.register("chaos_flagon",
+            () -> new FlagonChaosItem(new Item.Properties()));
+
     //-----FUNCTIONAL BLOCK ITEMS-----//
 
     public static final RegistryObject<Item> EXPERIENCE_OBELISK_ITEM = ITEMS.register("experience_obelisk",

@@ -48,6 +48,7 @@ public class RegisterCreativeTab {
                         output.accept(RegisterItems.MENDING_NEUROGEL.get());
                         output.accept(RegisterItems.POSEIDON_FLAGON.get());
                         output.accept(RegisterItems.HADES_FLAGON.get());
+                        output.accept(RegisterItems.CHAOS_FLAGON.get());
 
                         //FUNCTIONAL BLOCKS
                         output.accept(RegisterItems.EXPERIENCE_OBELISK_ITEM.get());
