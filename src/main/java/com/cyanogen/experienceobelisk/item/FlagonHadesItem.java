@@ -10,10 +10,12 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.AbstractCauldronBlock;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LiquidBlockContainer;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.fluids.FluidStack;
@@ -32,45 +34,54 @@ public class FlagonHadesItem extends Item{
 
     @Override
     public InteractionResult useOn(UseOnContext context) {
-        BlockPos pos = context.getClickedPos().relative(context.getClickedFace(), 1);
+        BlockPos clickedPos = context.getClickedPos(); //the position of the block that was clicked
+        BlockPos replacePos = context.getClickedPos().relative(context.getClickedFace(), 1); //the position adjacent to the clicked block
         Level level = context.getLevel();
         Player player = context.getPlayer();
-        BlockState state = level.getBlockState(pos);
 
         if(player != null && (player.isCreative() || ExperienceUtils.getTotalXp(player) >= cost) && !player.getCooldowns().isOnCooldown(this)){
 
-            if(level.mayInteract(player, pos) && player.mayUseItemAt(pos, context.getClickedFace(), player.getItemInHand(context.getHand()))){
+            boolean canModifyClicked = level.mayInteract(player, clickedPos) && player.mayUseItemAt(clickedPos, context.getClickedFace(), player.getItemInHand(context.getHand()));
+            boolean canPlace = level.mayInteract(player, replacePos) && player.mayUseItemAt(replacePos, context.getClickedFace(), player.getItemInHand(context.getHand()));
+            boolean edit = !player.isShiftKeyDown() && canModifyClicked;
 
-                if(state.isAir() || state.canBeReplaced(Fluids.LAVA)){ //air or replaceable block
-                    level.setBlockAndUpdate(pos, Blocks.LAVA.defaultBlockState());
+            BlockState clickedState = level.getBlockState(clickedPos);
+            BlockState stateToReplace = level.getBlockState(replacePos);
+
+            if(clickedState.getBlock() instanceof AbstractCauldronBlock && edit){ //cauldrons
+
+                if(clickedState.getBlock().equals(Blocks.CAULDRON)){
+                    level.setBlockAndUpdate(clickedPos, Blocks.LAVA_CAULDRON.defaultBlockState());
+                    return handlePlayer(player, level);
+                }
+                else{
+                    return InteractionResult.FAIL;
+                }
+            }
+            else if(clickedState.getBlock() instanceof LiquidBlockContainer container && edit){ //waterloggable blocks
+                if(container.canPlaceLiquid(level, clickedPos, clickedState, Fluids.LAVA.getSource())){
+                    container.placeLiquid(level, clickedPos, clickedState, Fluids.LAVA.getSource().defaultFluidState());
+                }
+
+                return handlePlayer(player, level);
+            }
+            else if(clickedState.hasBlockEntity() && edit){ //fluid containers
+
+                BlockEntity entity = level.getBlockEntity(clickedPos);
+                assert entity != null;
+                if(entity.getCapability(ForgeCapabilities.FLUID_HANDLER).resolve().isPresent()){
+                    IFluidHandler handler = entity.getCapability(ForgeCapabilities.FLUID_HANDLER).resolve().get();
+
+                    int fillAmount = handler.fill(new FluidStack(Fluids.LAVA.getSource(), 1000), IFluidHandler.FluidAction.SIMULATE);
+                    handler.fill(new FluidStack(Fluids.WATER.getSource(), fillAmount), IFluidHandler.FluidAction.EXECUTE);
 
                     return handlePlayer(player, level);
                 }
-                else if(state.getBlock().equals(Blocks.CAULDRON)){ //cauldrons
-                    level.setBlockAndUpdate(pos, Blocks.LAVA_CAULDRON.defaultBlockState());
+            }
+            else if((stateToReplace.isAir() || stateToReplace.canBeReplaced(Fluids.LAVA)) && canPlace){ //air or replaceable block
+                level.setBlockAndUpdate(replacePos, Blocks.LAVA.defaultBlockState());
 
-                    return handlePlayer(player, level);
-                }
-                else if(state.getBlock() instanceof LiquidBlockContainer container){ //lavaloggable blocks
-                    if(container.canPlaceLiquid(level, pos, state, Fluids.LAVA.getSource())){
-                        container.placeLiquid(level, pos, state, Fluids.LAVA.getSource().defaultFluidState());
-                    }
-
-                    return handlePlayer(player, level);
-                }
-                else if(state.hasBlockEntity()){ //fluid containers
-
-                    BlockEntity entity = level.getBlockEntity(pos);
-                    assert entity != null;
-                    if(entity.getCapability(ForgeCapabilities.FLUID_HANDLER).resolve().isPresent()){
-                        IFluidHandler handler = entity.getCapability(ForgeCapabilities.FLUID_HANDLER).resolve().get();
-
-                        int fillAmount = handler.fill(new FluidStack(Fluids.LAVA.getSource(), 1000), IFluidHandler.FluidAction.SIMULATE);
-                        handler.fill(new FluidStack(Fluids.LAVA.getSource(), fillAmount), IFluidHandler.FluidAction.EXECUTE);
-
-                        return handlePlayer(player, level);
-                    }
-                }
+                return handlePlayer(player, level);
             }
 
             return InteractionResult.FAIL;
