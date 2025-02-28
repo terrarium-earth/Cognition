@@ -11,7 +11,7 @@ public class AbstractAgarEntity extends AbstractInfectiveEntity{
         super(type, pos, state);
     }
 
-    double infectivity = 0.005;
+    double infectivity = 0.004;
 
     public static <T> void tick(Level level, BlockPos pos, BlockState state, T blockEntity) {
 
