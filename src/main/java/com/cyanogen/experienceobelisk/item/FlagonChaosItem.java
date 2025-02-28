@@ -6,6 +6,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.cauldron.CauldronInteraction;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -55,8 +56,8 @@ public class FlagonChaosItem extends Item{
                     ItemStack test = bucketpickup.pickupBlock(level, pos, state);
 
                     if(!test.isEmpty()){
-                        bucketpickup.getPickupSound(state).ifPresent((p_150709_) -> {
-                            player.playSound(p_150709_, 1.0F, 1.0F);
+                        bucketpickup.getPickupSound(state).ifPresent((event) -> {
+                            player.playSound(event, 1.0F, 1.0F);
                         });
                         level.gameEvent(player, GameEvent.FLUID_PICKUP, pos);
 
@@ -92,6 +93,7 @@ public class FlagonChaosItem extends Item{
         int k = player.isCreative() ? 0 : 1;
         player.getCooldowns().addCooldown(this, cooldown);
         player.giveExperiencePoints(-cost * k);
+        player.playSound(SoundEvents.BUCKET_FILL, 1f, 1f);
         return InteractionResultHolder.sidedSuccess(item, level.isClientSide);
     }
 

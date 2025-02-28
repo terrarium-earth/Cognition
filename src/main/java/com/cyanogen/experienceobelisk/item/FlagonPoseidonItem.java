@@ -2,6 +2,7 @@ package com.cyanogen.experienceobelisk.item;
 
 import com.cyanogen.experienceobelisk.utils.ExperienceUtils;
 import net.minecraft.core.BlockPos;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -9,8 +10,12 @@ import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LiquidBlockContainer;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluids;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.capability.IFluidHandler;
 
 public class FlagonPoseidonItem extends Item{
 
@@ -32,31 +37,51 @@ public class FlagonPoseidonItem extends Item{
 
         if(player != null && (player.isCreative() || ExperienceUtils.getTotalXp(player) >= cost) && !player.getCooldowns().isOnCooldown(this)){
 
-            int k = player.isCreative() ? 0 : 1;
+            if(level.mayInteract(player, pos) && player.mayUseItemAt(pos, context.getClickedFace(), player.getItemInHand(context.getHand()))){
 
-            if(state.isAir() || state.canBeReplaced(Fluids.WATER)){
-                if(level.dimensionType().ultraWarm()){
-                    Fluids.WATER.getFluidType().onVaporize(player, level, pos, null);
+                if(state.isAir() || state.canBeReplaced(Fluids.WATER)){ //air or replaceable block
+                    if(level.dimensionType().ultraWarm()){
+                        Fluids.WATER.getFluidType().onVaporize(player, level, pos, null);
+                    }
+                    else{
+                        level.setBlockAndUpdate(pos, Blocks.WATER.defaultBlockState());
+                    }
+
+                    return handlePlayer(player, level);
                 }
-                else{
-                    level.setBlockAndUpdate(pos, Blocks.WATER.defaultBlockState());
+                else if(state.getBlock().equals(Blocks.CAULDRON)){ //cauldrons
+                    level.setBlockAndUpdate(pos, Blocks.WATER_CAULDRON.defaultBlockState());
+
+                    return handlePlayer(player, level);
                 }
+                else if(state.hasBlockEntity()){ //fluid containers
 
-                player.getCooldowns().addCooldown(this, cooldown);
-                player.giveExperiencePoints(-cost * k);
-                return InteractionResult.sidedSuccess(level.isClientSide);
+                    BlockEntity entity = level.getBlockEntity(pos);
+                    assert entity != null;
+                    if(entity.getCapability(ForgeCapabilities.FLUID_HANDLER).resolve().isPresent()){
+                        IFluidHandler handler = entity.getCapability(ForgeCapabilities.FLUID_HANDLER).resolve().get();
+
+                        int fillAmount = handler.fill(new FluidStack(Fluids.WATER.getSource(), 1000), IFluidHandler.FluidAction.SIMULATE);
+                        handler.fill(new FluidStack(Fluids.WATER.getSource(), fillAmount), IFluidHandler.FluidAction.EXECUTE);
+
+                        return handlePlayer(player, level);
+                    }
+                }
             }
-            else if(state.getBlock() instanceof LiquidBlockContainer container && container.canPlaceLiquid(level, pos, state, Fluids.WATER)){
-                container.placeLiquid(level, pos, state, Fluids.WATER.defaultFluidState());
 
-                player.getCooldowns().addCooldown(this, cooldown);
-                player.giveExperiencePoints(-cost * k);
-                return InteractionResult.sidedSuccess(level.isClientSide);
-            }
-
+            return InteractionResult.FAIL;
         }
 
         return super.useOn(context);
+    }
+
+    public InteractionResult handlePlayer(Player player, Level level){
+
+        int k = player.isCreative() ? 0 : 1;
+        player.getCooldowns().addCooldown(this, cooldown);
+        player.giveExperiencePoints(-cost * k);
+        player.playSound(SoundEvents.BUCKET_EMPTY, 1f, 1f);
+        return InteractionResult.sidedSuccess(level.isClientSide);
     }
 
 }
