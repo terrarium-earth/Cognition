@@ -21,6 +21,7 @@ public class FlagonPoseidonItem extends Item{
     //-----------BEHAVIOR-----------//
 
     final int cost = 16; // 2 levels
+    final int cooldown = 10;
 
     @Override
     public InteractionResult useOn(UseOnContext context) {
@@ -41,14 +42,14 @@ public class FlagonPoseidonItem extends Item{
                     level.setBlockAndUpdate(pos, Blocks.WATER.defaultBlockState());
                 }
 
-                player.getCooldowns().addCooldown(this, 10);
+                player.getCooldowns().addCooldown(this, cooldown);
                 player.giveExperiencePoints(-cost * k);
                 return InteractionResult.sidedSuccess(level.isClientSide);
             }
             else if(state.getBlock() instanceof LiquidBlockContainer container && container.canPlaceLiquid(level, pos, state, Fluids.WATER)){
                 container.placeLiquid(level, pos, state, Fluids.WATER.defaultFluidState());
 
-                player.getCooldowns().addCooldown(this, 10);
+                player.getCooldowns().addCooldown(this, cooldown);
                 player.giveExperiencePoints(-cost * k);
                 return InteractionResult.sidedSuccess(level.isClientSide);
             }

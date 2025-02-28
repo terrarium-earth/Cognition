@@ -21,6 +21,7 @@ public class FlagonHadesItem extends Item{
     //-----------BEHAVIOR-----------//
 
     final int cost = 160; // 10 levels
+    final int cooldown = 80;
 
     @Override
     public InteractionResult useOn(UseOnContext context) {
@@ -36,14 +37,14 @@ public class FlagonHadesItem extends Item{
             if(state.isAir() || state.canBeReplaced(Fluids.LAVA)){
                 level.setBlockAndUpdate(pos, Blocks.LAVA.defaultBlockState());
 
-                player.getCooldowns().addCooldown(this, 80);
+                player.getCooldowns().addCooldown(this, cooldown);
                 player.giveExperiencePoints(-cost * k);
                 return InteractionResult.sidedSuccess(level.isClientSide);
             }
             else if(state.getBlock() instanceof LiquidBlockContainer container && container.canPlaceLiquid(level, pos, state, Fluids.LAVA)){
                 container.placeLiquid(level, pos, state, Fluids.LAVA.defaultFluidState());
 
-                player.getCooldowns().addCooldown(this, 80);
+                player.getCooldowns().addCooldown(this, cooldown);
                 player.giveExperiencePoints(-cost * k);
                 return InteractionResult.sidedSuccess(level.isClientSide);
             }
