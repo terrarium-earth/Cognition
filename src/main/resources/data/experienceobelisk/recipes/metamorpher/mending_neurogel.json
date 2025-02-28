@@ -1,20 +1,18 @@
 {
   "type": "experienceobelisk:molecular_metamorphosis",
   "ingredient1": {
-    "item": "experienceobelisk:experience_jelly"
+    "item": "experienceobelisk:calcarine_matrix"
   },
   "count1": 1,
   "ingredient2": {
-    "item": "minecraft:amethyst_shard"
+    "item": "experienceobelisk:experience_jelly"
   },
-  "count2": 3,
-  "ingredient3": {
-    "item": "experienceobelisk:forgotten_dust"
-  },
-  "count3": 5,
+  "count2": 2,
+  "ingredient3": [],
+  "count3": 0,
   "result": {
     "item": "experienceobelisk:mending_neurogel",
-    "count": 1
+    "count": 2
   },
   "cost": 315,
   "processTime": 100

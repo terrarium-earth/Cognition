@@ -47,6 +47,7 @@ public class RegisterItems {
             return 100;
         }
     });
+    public static final RegistryObject<Item> CALCARINE_MATRIX = ITEMS.register("calcarine_matrix", RegisterItems::baseItem);
     public static final RegistryObject<Item> NEURAL_ASSEMBLY = ITEMS.register("neural_assembly", RegisterItems::baseItem);
 
     //-----COGNITIVE TOOLSET-----//

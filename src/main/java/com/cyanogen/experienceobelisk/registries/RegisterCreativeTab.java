@@ -27,6 +27,7 @@ public class RegisterCreativeTab {
                         output.accept(RegisterItems.COGNITIVE_CRYSTAL.get());
                         output.accept(RegisterItems.ASTUTE_ASSEMBLY.get());
                         output.accept(RegisterItems.PRIMORDIAL_ASSEMBLY.get());
+                        output.accept(RegisterItems.CALCARINE_MATRIX.get());
 
                         //TOOLSETS & ARMOR
                         output.accept(RegisterItems.COGNITIVE_SWORD.get());

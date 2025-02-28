@@ -58,13 +58,6 @@ public class FlagonHadesItem extends Item{
                     return InteractionResult.FAIL;
                 }
             }
-            else if(clickedState.getBlock() instanceof LiquidBlockContainer container && edit){ //waterloggable blocks
-                if(container.canPlaceLiquid(level, clickedPos, clickedState, Fluids.LAVA.getSource())){
-                    container.placeLiquid(level, clickedPos, clickedState, Fluids.LAVA.getSource().defaultFluidState());
-                }
-
-                return handlePlayer(player, level);
-            }
             else if(clickedState.hasBlockEntity() && edit){ //fluid containers
 
                 BlockEntity entity = level.getBlockEntity(clickedPos);
