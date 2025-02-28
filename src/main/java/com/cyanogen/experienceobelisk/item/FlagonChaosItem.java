@@ -46,13 +46,12 @@ public class FlagonChaosItem extends Item{
         Direction direction = result.getDirection();
         BlockState state = level.getBlockState(pos);
         ItemStack item = player.getItemInHand(hand);
-        int k = player.isCreative() ? 0 : 1;
 
         if((player.isCreative() || ExperienceUtils.getTotalXp(player) >= cost) && !player.getCooldowns().isOnCooldown(this)){
 
             if(level.mayInteract(player, pos) && player.mayUseItemAt(pos.relative(direction), direction, item)){
 
-                if(state.getBlock() instanceof BucketPickup bucketpickup) {
+                if(state.getBlock() instanceof BucketPickup bucketpickup) { //fluid sources & waterlogged blocks
                     ItemStack test = bucketpickup.pickupBlock(level, pos, state);
 
                     if(!test.isEmpty()){
@@ -61,17 +60,25 @@ public class FlagonChaosItem extends Item{
                         });
                         level.gameEvent(player, GameEvent.FLUID_PICKUP, pos);
 
-                        player.getCooldowns().addCooldown(this, cooldown);
-                        player.giveExperiencePoints(-cost * k);
-                        return InteractionResultHolder.sidedSuccess(item, level.isClientSide());
+                        return handlePlayer(player, item, level);
                     }
                 }
-                else if(state.is(Blocks.WATER_CAULDRON) || state.is(Blocks.LAVA_CAULDRON) || state.is(Blocks.POWDER_SNOW_CAULDRON)){
-                    level.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
+                else if(state.getBlock() instanceof AbstractCauldronBlock block && block.isFull(state)){ //cauldrons
+                    level.setBlockAndUpdate(pos, Blocks.CAULDRON.defaultBlockState());
 
-                    player.getCooldowns().addCooldown(this, cooldown);
-                    player.giveExperiencePoints(-cost * k);
-                    return InteractionResultHolder.sidedSuccess(item, level.isClientSide());
+                    return handlePlayer(player, item, level);
+                }
+                else if(state.hasBlockEntity()){ //fluid containers
+
+                    BlockEntity entity = level.getBlockEntity(pos);
+                    assert entity != null;
+                    if(entity.getCapability(ForgeCapabilities.FLUID_HANDLER).resolve().isPresent()){
+                        IFluidHandler handler = entity.getCapability(ForgeCapabilities.FLUID_HANDLER).resolve().get();
+                        handler.drain(1000, IFluidHandler.FluidAction.EXECUTE);
+
+                        return handlePlayer(player, item, level);
+                    }
+
                 }
             }
 
@@ -80,68 +87,12 @@ public class FlagonChaosItem extends Item{
         return super.use(level, player, hand);
     }
 
-    /*
-    @Override
-    public InteractionResult useOn(UseOnContext context) {
-        BlockPos pos = context.getClickedPos().relative(context.getClickedFace(), 1);
-        Direction direction = context.getClickedFace();
-        Level level = context.getLevel();
-        Player player = context.getPlayer();
-        BlockState state = level.getBlockState(pos);
+    public InteractionResultHolder<ItemStack> handlePlayer(Player player, ItemStack item, Level level){
 
-        if(player != null && (player.isCreative() || ExperienceUtils.getTotalXp(player) >= cost) && !player.getCooldowns().isOnCooldown(this)){
-
-            int k = player.isCreative() ? 0 : 1;
-            FluidState fluid = state.getFluidState();
-            ItemStack item = player.getItemInHand(context.getHand());
-
-            if(level.mayInteract(player, pos) && player.mayUseItemAt(pos, direction, item)){
-                if(fluid.isSource()){
-                    level.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
-
-                    player.getCooldowns().addCooldown(this, cooldown);
-                    player.giveExperiencePoints(-cost * k);
-                    return InteractionResult.sidedSuccess(level.isClientSide);
-                }
-                else if (state.getBlock() instanceof BucketPickup pickup) {
-                    ItemStack stack = pickup.pickupBlock(level, pos, state);
-
-                    level.gameEvent(player, GameEvent.FLUID_PICKUP, pos);
-
-                    player.getCooldowns().addCooldown(this, cooldown);
-                    player.giveExperiencePoints(-cost * k);
-                    return InteractionResult.sidedSuccess(level.isClientSide);
-                }
-                else if(state.getBlock() instanceof LiquidBlockContainer container){
-                    container.placeLiquid(level, pos, state, Fluids.EMPTY.defaultFluidState());
-
-                    player.getCooldowns().addCooldown(this, cooldown);
-                    player.giveExperiencePoints(-cost * k);
-                    return InteractionResult.sidedSuccess(level.isClientSide);
-                }
-                else if(state.hasBlockEntity()){
-
-                    BlockEntity entity = level.getBlockEntity(pos);
-                    assert entity != null;
-                    if(entity.getCapability(ForgeCapabilities.FLUID_HANDLER).resolve().isPresent()){
-                        IFluidHandler handler = entity.getCapability(ForgeCapabilities.FLUID_HANDLER).resolve().get();
-                        handler.drain(1000, IFluidHandler.FluidAction.EXECUTE);
-
-                        player.getCooldowns().addCooldown(this, cooldown);
-                        player.giveExperiencePoints(-cost * k);
-                        return InteractionResult.sidedSuccess(level.isClientSide);
-                    }
-
-                }
-            }
-
-        }
-
-        return super.useOn(context);
+        int k = player.isCreative() ? 0 : 1;
+        player.getCooldowns().addCooldown(this, cooldown);
+        player.giveExperiencePoints(-cost * k);
+        return InteractionResultHolder.sidedSuccess(item, level.isClientSide);
     }
-
-     */
-
-
 
 }
