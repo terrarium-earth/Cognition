@@ -69,18 +69,6 @@ public class FlagonChaosItem extends Item{
 
                     return handlePlayer(player, item, level);
                 }
-                else if(state.hasBlockEntity()){ //fluid containers
-
-                    BlockEntity entity = level.getBlockEntity(pos);
-                    assert entity != null;
-                    if(entity.getCapability(ForgeCapabilities.FLUID_HANDLER).resolve().isPresent()){
-                        IFluidHandler handler = entity.getCapability(ForgeCapabilities.FLUID_HANDLER).resolve().get();
-                        handler.drain(1000, IFluidHandler.FluidAction.EXECUTE);
-
-                        return handlePlayer(player, item, level);
-                    }
-
-                }
             }
 
             return InteractionResultHolder.fail(item);
