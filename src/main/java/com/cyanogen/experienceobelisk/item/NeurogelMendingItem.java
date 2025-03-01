@@ -11,7 +11,7 @@ public class NeurogelMendingItem extends Item {
         super(p);
     }
 
-    final static int repairAmount = 250;
+    final static int repairAmount = 200;
 
     public static void handleItem(ItemStackedOnOtherEvent event){
         ItemStack itemToRepair = event.getCarriedItem();
