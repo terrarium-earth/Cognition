@@ -20,13 +20,14 @@ public class RegisterCreativeTab {
                     .withTabsBefore(CreativeModeTabs.SPAWN_EGGS)
                     .displayItems((p_270258_, output) -> {
 
-                        //BASIC INGREDIENTS
+                        //INGREDIENTS
                         output.accept(RegisterItems.COGNITIVE_FLUX.get());
                         output.accept(RegisterItems.COGNITIVE_AMALGAM.get());
                         output.accept(RegisterItems.COGNITIVE_ALLOY.get());
                         output.accept(RegisterItems.COGNITIVE_CRYSTAL.get());
                         output.accept(RegisterItems.ASTUTE_ASSEMBLY.get());
                         output.accept(RegisterItems.PRIMORDIAL_ASSEMBLY.get());
+                        output.accept(RegisterItems.CALCARINE_MATRIX.get());
 
                         //TOOLSETS & ARMOR
                         output.accept(RegisterItems.COGNITIVE_SWORD.get());
@@ -45,6 +46,7 @@ public class RegisterCreativeTab {
                         output.accept(RegisterItems.ATTUNEMENT_STAFF.get());
                         output.accept(RegisterItems.ENLIGHTENED_AMULET.get());
                         output.accept(RegisterItems.BIBLIOPHAGE.get());
+                        output.accept(RegisterItems.MENDING_NEUROGEL.get());
                         output.accept(RegisterItems.POSEIDON_FLAGON.get());
                         output.accept(RegisterItems.HADES_FLAGON.get());
                         output.accept(RegisterItems.CHAOS_FLAGON.get());
@@ -74,8 +76,6 @@ public class RegisterCreativeTab {
                         //MISC
                         output.accept(RegisterItems.FORGOTTEN_DUST.get());
                         output.accept(RegisterItems.EXPERIENCE_JELLY.get());
-                        output.accept(RegisterItems.CALCARINE_MATRIX.get());
-                        output.accept(RegisterItems.MENDING_NEUROGEL.get());
                         output.accept(RegisterItems.NIGHTMARE_BOTTLE.get());
                         output.accept(RegisterItems.DAYDREAM_BOTTLE.get());
                         output.accept(RegisterItems.COGNITIUM_BUCKET.get());
