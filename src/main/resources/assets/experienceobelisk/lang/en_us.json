@@ -57,7 +57,7 @@
 
   "tooltip.experienceobelisk.shift_for_info": "§8§oHold SHIFT for more info",
   "item.experienceobelisk.attunement_staff.description": "Binds, queries, and configures blocks from this mod.",
-  "item.experienceobelisk.enlightened_amulet.description": "Teleports nearby experience orbs to you, and merges them together for faster absorption. §oSHIFT + Right Click§r to activate / deactivate",
+  "item.experienceobelisk.enlightened_amulet.description": "Teleports nearby experience orbs to you, and merges them together for faster absorption. §oSHIFT§r + §oRight Click§r to activate / deactivate",
   "item.experienceobelisk.nightmare_bottle.description": "Increases your insomnia drastically, making phantoms almost guaranteed to spawn.",
   "item.experienceobelisk.daydream_bottle.description": "Resets your insomnia, preventing phantoms from spawning",
   "item.experienceobelisk.bibliophage.description": "Infects bookshelves, generating XP in the process. Use on a valid bookshelf to infect it.",

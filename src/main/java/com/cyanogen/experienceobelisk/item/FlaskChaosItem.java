@@ -24,8 +24,8 @@ public class FlaskChaosItem extends Item{
 
     //-----------BEHAVIOR-----------//
 
-    final int cost = 16; // 2 levels
-    final int cooldown = 10;
+    final int cost = 7; // 1 level
+    final int cooldown = 8;
 
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
