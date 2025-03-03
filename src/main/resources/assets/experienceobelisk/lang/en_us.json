@@ -57,7 +57,7 @@
 
   "tooltip.experienceobelisk.shift_for_info": "§8§oHold SHIFT for more info",
   "item.experienceobelisk.attunement_staff.description": "Binds, queries, and configures blocks from this mod.",
-  "item.experienceobelisk.enlightened_amulet.description": "Teleports nearby experience orbs to you, and merges them together for faster absorption.",
+  "item.experienceobelisk.enlightened_amulet.description": "Teleports nearby experience orbs to you, and merges them together for faster absorption. §oSHIFT + Right Click§r to activate / deactivate",
   "item.experienceobelisk.nightmare_bottle.description": "Increases your insomnia drastically, making phantoms almost guaranteed to spawn.",
   "item.experienceobelisk.daydream_bottle.description": "Resets your insomnia, preventing phantoms from spawning",
   "item.experienceobelisk.bibliophage.description": "Infects bookshelves, generating XP in the process. Use on a valid bookshelf to infect it.",
@@ -72,10 +72,12 @@
   "block.experienceobelisk.molecular_metamorpher.description": "Transforms ingredients into more advanced items. Requires binding to an Obelisk.",
   "block.experienceobelisk.accelerator.description": "Launches entities in the direction it is facing.",
   "block.experienceobelisk.linear_accelerator.description": "Launches entities in the direction it is pointing.",
+  "block.experienceobelisk.archivers_bookshelf.description": "When infected, lasts twice as long as an ordinary bookshelf before decaying. Has an enchantment power bonus of 1.5 when used around an enchanting table.",
+  "block.experienceobelisk.enchanted_bookshelf.description": "When infected, lasts twice as long as and produces orbs with twice the value of an ordinary bookshelf before decaying. Has an enchantment power bonus of 2.0 when used around an enchanting table.",
   "block.experienceobelisk.whisperglass.description": "An extremely slippery block, similar to blue ice.",
   "block.experienceobelisk.nutrient_agar.description": "An infective block that does not decay, but with a slow infection rate.",
-  "block.experienceobelisk.insightful_agar.description": "An infective block that reduces the spawn delay of adjacent bookshelves by 25%.",
-  "block.experienceobelisk.extravagant_agar.description": "An infective block that increases the orb value of adjacent bookshelves by 25%.",
+  "block.experienceobelisk.insightful_agar.description": "An infective block that reduces the spawn delay of adjacent bookshelves by 25%. Does not stack with other Insightful Agar blocks.",
+  "block.experienceobelisk.extravagant_agar.description": "An infective block that increases the orb value of adjacent bookshelves by 25%. Does not stack with other Extravagant Agar blocks.",
 
   "title.experienceobelisk.experience_obelisk": "Experience Obelisk",
   "title.experienceobelisk.experience_obelisk.store": "Store",

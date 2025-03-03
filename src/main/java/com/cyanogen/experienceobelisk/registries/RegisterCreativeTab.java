@@ -27,6 +27,7 @@ public class RegisterCreativeTab {
                         output.accept(RegisterItems.COGNITIVE_CRYSTAL.get());
                         output.accept(RegisterItems.ASTUTE_ASSEMBLY.get());
                         output.accept(RegisterItems.PRIMORDIAL_ASSEMBLY.get());
+                        output.accept(RegisterItems.FORGOTTEN_DUST.get());
                         output.accept(RegisterItems.CALCARINE_MATRIX.get());
 
                         //TOOLSETS & ARMOR
@@ -46,10 +47,13 @@ public class RegisterCreativeTab {
                         output.accept(RegisterItems.ATTUNEMENT_STAFF.get());
                         output.accept(RegisterItems.ENLIGHTENED_AMULET.get());
                         output.accept(RegisterItems.BIBLIOPHAGE.get());
+                        output.accept(RegisterItems.EXPERIENCE_JELLY.get());
                         output.accept(RegisterItems.MENDING_NEUROGEL.get());
                         output.accept(RegisterItems.POSEIDON_FLASK.get());
                         output.accept(RegisterItems.HADES_FLASK.get());
                         output.accept(RegisterItems.CHAOS_FLASK.get());
+                        output.accept(RegisterItems.NIGHTMARE_BOTTLE.get());
+                        output.accept(RegisterItems.DAYDREAM_BOTTLE.get());
 
                         //FUNCTIONAL BLOCKS
                         output.accept(RegisterItems.EXPERIENCE_OBELISK_ITEM.get());
@@ -74,10 +78,6 @@ public class RegisterCreativeTab {
                         output.accept(RegisterItems.FORGOTTEN_DUST_BLOCK_ITEM.get());
 
                         //MISC
-                        output.accept(RegisterItems.FORGOTTEN_DUST.get());
-                        output.accept(RegisterItems.EXPERIENCE_JELLY.get());
-                        output.accept(RegisterItems.NIGHTMARE_BOTTLE.get());
-                        output.accept(RegisterItems.DAYDREAM_BOTTLE.get());
                         output.accept(RegisterItems.COGNITIUM_BUCKET.get());
                     })
                     .build());
