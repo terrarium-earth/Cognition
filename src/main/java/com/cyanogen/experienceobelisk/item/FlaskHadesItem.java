@@ -10,25 +10,23 @@ import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.AbstractCauldronBlock;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.LiquidBlockContainer;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 
-public class FlagonPoseidonItem extends Item{
+public class FlaskHadesItem extends Item{
 
-    public FlagonPoseidonItem(Properties p) {
+    public FlaskHadesItem(Properties p) {
         super(p);
     }
 
     //-----------BEHAVIOR-----------//
 
-    final int cost = 16; // 2 levels
-    final int cooldown = 10;
+    final int cost = 160; // 10 levels
+    final int cooldown = 80;
 
     @Override
     public InteractionResult useOn(UseOnContext context) {
@@ -49,19 +47,12 @@ public class FlagonPoseidonItem extends Item{
             if(clickedState.getBlock() instanceof AbstractCauldronBlock && edit){ //cauldrons
 
                 if(clickedState.getBlock().equals(Blocks.CAULDRON)){
-                    level.setBlockAndUpdate(clickedPos, Blocks.WATER_CAULDRON.defaultBlockState().trySetValue(BlockStateProperties.LEVEL_CAULDRON, 3));
+                    level.setBlockAndUpdate(clickedPos, Blocks.LAVA_CAULDRON.defaultBlockState());
                     return handlePlayer(player, level);
                 }
                 else{
                     return InteractionResult.FAIL;
                 }
-            }
-            else if(clickedState.getBlock() instanceof LiquidBlockContainer container && edit){ //waterloggable blocks
-                if(container.canPlaceLiquid(level, clickedPos, clickedState, Fluids.WATER.getSource())){
-                    container.placeLiquid(level, clickedPos, clickedState, Fluids.WATER.getSource().defaultFluidState());
-                }
-
-                return handlePlayer(player, level);
             }
             else if(clickedState.hasBlockEntity() && edit){ //fluid containers
 
@@ -70,19 +61,14 @@ public class FlagonPoseidonItem extends Item{
                 if(entity.getCapability(ForgeCapabilities.FLUID_HANDLER).resolve().isPresent()){
                     IFluidHandler handler = entity.getCapability(ForgeCapabilities.FLUID_HANDLER).resolve().get();
 
-                    int fillAmount = handler.fill(new FluidStack(Fluids.WATER.getSource(), 1000), IFluidHandler.FluidAction.SIMULATE);
+                    int fillAmount = handler.fill(new FluidStack(Fluids.LAVA.getSource(), 1000), IFluidHandler.FluidAction.SIMULATE);
                     handler.fill(new FluidStack(Fluids.WATER.getSource(), fillAmount), IFluidHandler.FluidAction.EXECUTE);
 
                     return handlePlayer(player, level);
                 }
             }
-            else if((stateToReplace.isAir() || stateToReplace.canBeReplaced(Fluids.WATER)) && canPlace){ //air or replaceable block
-                if(level.dimensionType().ultraWarm()){
-                    Fluids.WATER.getFluidType().onVaporize(player, level, replacePos, null);
-                }
-                else{
-                    level.setBlockAndUpdate(replacePos, Blocks.WATER.defaultBlockState());
-                }
+            else if((stateToReplace.isAir() || stateToReplace.canBeReplaced(Fluids.LAVA)) && canPlace){ //air or replaceable block
+                level.setBlockAndUpdate(replacePos, Blocks.LAVA.defaultBlockState());
 
                 return handlePlayer(player, level);
             }
@@ -98,7 +84,7 @@ public class FlagonPoseidonItem extends Item{
         int k = player.isCreative() ? 0 : 1;
         player.getCooldowns().addCooldown(this, cooldown);
         player.giveExperiencePoints(-cost * k);
-        player.playSound(SoundEvents.BUCKET_EMPTY, 1f, 1f);
+        player.playSound(SoundEvents.BUCKET_EMPTY_LAVA, 1f, 1f);
         return InteractionResult.sidedSuccess(level.isClientSide);
     }
 

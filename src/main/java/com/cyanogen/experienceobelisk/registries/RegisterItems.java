@@ -189,14 +189,14 @@ public class RegisterItems {
     public static final RegistryObject<Item> MENDING_NEUROGEL = ITEMS.register("mending_neurogel",
             () -> new NeurogelMendingItem(new Item.Properties()));
 
-    public static final RegistryObject<Item> POSEIDON_FLAGON = ITEMS.register("poseidon_flagon",
-            () -> new FlagonPoseidonItem(new Item.Properties()));
+    public static final RegistryObject<Item> POSEIDON_FLASK = ITEMS.register("flask_of_poseidon",
+            () -> new FlaskPoseidonItem(new Item.Properties()));
 
-    public static final RegistryObject<Item> HADES_FLAGON = ITEMS.register("hades_flagon",
-            () -> new FlagonHadesItem(new Item.Properties()));
+    public static final RegistryObject<Item> HADES_FLASK = ITEMS.register("flask_of_hades",
+            () -> new FlaskHadesItem(new Item.Properties()));
 
-    public static final RegistryObject<Item> CHAOS_FLAGON = ITEMS.register("chaos_flagon",
-            () -> new FlagonChaosItem(new Item.Properties()));
+    public static final RegistryObject<Item> CHAOS_FLASK = ITEMS.register("flask_of_chaos",
+            () -> new FlaskChaosItem(new Item.Properties()));
 
     //-----FUNCTIONAL BLOCK ITEMS-----//
 

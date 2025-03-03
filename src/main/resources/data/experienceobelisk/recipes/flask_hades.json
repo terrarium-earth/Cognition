@@ -7,20 +7,20 @@
   ],
   "key": {
     "A": {
-      "item": "minecraft:obsidian"
+      "item": "minecraft:nether_brick"
     },
     "B": {
       "item": "experienceobelisk:primordial_assembly"
     },
     "C": {
-      "item": "experienceobelisk:cognitive_alloy"
+      "item": "experienceobelisk:whisperglass"
     },
     "D": {
-      "item": "minecraft:bucket"
+      "item": "minecraft:lava_bucket"
     }
   },
   "result": {
-    "item": "experienceobelisk:chaos_flagon",
+    "item": "experienceobelisk:flask_of_hades",
     "count": 1
   }
 }

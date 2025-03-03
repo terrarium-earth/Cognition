@@ -7,20 +7,20 @@
   ],
   "key": {
     "A": {
-      "item": "minecraft:kelp"
+      "item": "minecraft:obsidian"
     },
     "B": {
       "item": "experienceobelisk:primordial_assembly"
     },
     "C": {
-      "item": "experienceobelisk:cognitive_alloy"
+      "item": "experienceobelisk:whisperglass"
     },
     "D": {
-      "item": "minecraft:water_bucket"
+      "item": "minecraft:bucket"
     }
   },
   "result": {
-    "item": "experienceobelisk:poseidon_flagon",
+    "item": "experienceobelisk:flask_of_chaos",
     "count": 1
   }
 }
