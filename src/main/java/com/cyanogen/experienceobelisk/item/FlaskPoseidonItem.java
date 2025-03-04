@@ -1,6 +1,7 @@
 package com.cyanogen.experienceobelisk.item;
 
 import com.cyanogen.experienceobelisk.utils.ExperienceUtils;
+import com.cyanogen.experienceobelisk.utils.MiscUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.sounds.SoundEvents;
@@ -108,7 +109,7 @@ public class FlaskPoseidonItem extends Item{
         int k = player.isCreative() ? 0 : 1;
         player.getCooldowns().addCooldown(this, cooldown);
         player.giveExperiencePoints(-cost * k);
-        player.playSound(SoundEvents.BUCKET_EMPTY, 1f, 1f);
+        player.playSound(SoundEvents.BUCKET_EMPTY, MiscUtils.randomInRange(0.8f, 1.0f), 1f);
         return InteractionResult.sidedSuccess(level.isClientSide);
     }
 
