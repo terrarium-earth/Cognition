@@ -2,6 +2,7 @@ package com.cyanogen.experienceobelisk.item;
 
 import com.cyanogen.experienceobelisk.utils.ExperienceUtils;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -33,23 +34,25 @@ public class FlaskHadesItem extends Item{
 
     public static final int cost = 160; // 10 levels
     final int cooldown = 80;
+    private final FluidStack fluidStack = new FluidStack(Fluids.WATER.getSource(), 1000);
 
     @Override
-    public InteractionResult useOn(UseOnContext context) {
-        //shift to item use first
-        BlockPos clickedPos = context.getClickedPos(); //the position of the block that was clicked
-        BlockPos replacePos = context.getClickedPos().relative(context.getClickedFace(), 1); //the position adjacent to the clicked block
-        Level level = context.getLevel();
+    public InteractionResult onItemUseFirst(ItemStack stack, UseOnContext context) {
+
         Player player = context.getPlayer();
+        Level level = context.getLevel();
+        BlockPos clickedPos = context.getClickedPos();
+        BlockPos placePos = context.getClickedPos().relative(context.getClickedFace());
+        Direction direction = context.getClickedFace();
 
         if(player != null && (player.isCreative() || ExperienceUtils.getTotalXp(player) >= cost) && !player.getCooldowns().isOnCooldown(this)){
 
             boolean canModifyClicked = level.mayInteract(player, clickedPos) && player.mayUseItemAt(clickedPos, context.getClickedFace(), player.getItemInHand(context.getHand()));
-            boolean canPlace = level.mayInteract(player, replacePos) && player.mayUseItemAt(replacePos, context.getClickedFace(), player.getItemInHand(context.getHand()));
+            boolean canPlace = level.mayInteract(player, placePos) && player.mayUseItemAt(placePos, context.getClickedFace(), player.getItemInHand(context.getHand()));
             boolean edit = !player.isShiftKeyDown() && canModifyClicked;
 
             BlockState clickedState = level.getBlockState(clickedPos);
-            BlockState stateToReplace = level.getBlockState(replacePos);
+            BlockState stateToReplace = level.getBlockState(placePos);
 
             if(clickedState.getBlock() instanceof AbstractCauldronBlock && edit){ //cauldrons
 
@@ -65,25 +68,25 @@ public class FlaskHadesItem extends Item{
 
                 BlockEntity entity = level.getBlockEntity(clickedPos);
                 assert entity != null;
-                if(entity.getCapability(ForgeCapabilities.FLUID_HANDLER, context.getClickedFace()).resolve().isPresent()){
-                    IFluidHandler handler = entity.getCapability(ForgeCapabilities.FLUID_HANDLER, context.getClickedFace()).resolve().get();
+                if(entity.getCapability(ForgeCapabilities.FLUID_HANDLER, direction).resolve().isPresent()){
+                    IFluidHandler handler = entity.getCapability(ForgeCapabilities.FLUID_HANDLER, direction).resolve().get();
 
-                    int fillAmount = handler.fill(new FluidStack(Fluids.LAVA.getSource(), 1000), IFluidHandler.FluidAction.SIMULATE);
-                    handler.fill(new FluidStack(Fluids.WATER.getSource(), fillAmount), IFluidHandler.FluidAction.EXECUTE);
+                    int drainAmount = handler.fill(fluidStack, IFluidHandler.FluidAction.SIMULATE);
 
-                    return handlePlayer(player, level);
+                    if(drainAmount != 0){
+                        handler.fill(fluidStack, IFluidHandler.FluidAction.EXECUTE);
+                        return handlePlayer(player, level);
+                    }
                 }
             }
             else if((stateToReplace.isAir() || stateToReplace.canBeReplaced(Fluids.LAVA)) && canPlace){ //air or replaceable block
-                level.setBlockAndUpdate(replacePos, Blocks.LAVA.defaultBlockState());
+                level.setBlockAndUpdate(placePos, Blocks.LAVA.defaultBlockState());
 
                 return handlePlayer(player, level);
             }
-
-            return InteractionResult.FAIL;
         }
 
-        return super.useOn(context);
+        return super.onItemUseFirst(stack, context);
     }
 
     public InteractionResult handlePlayer(Player player, Level level){

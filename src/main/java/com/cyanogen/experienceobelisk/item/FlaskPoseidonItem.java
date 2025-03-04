@@ -2,6 +2,7 @@ package com.cyanogen.experienceobelisk.item;
 
 import com.cyanogen.experienceobelisk.utils.ExperienceUtils;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -35,13 +36,16 @@ public class FlaskPoseidonItem extends Item{
 
     public static final int cost = 16; // 2 levels
     final int cooldown = 10;
+    private final FluidStack fluidStack = new FluidStack(Fluids.LAVA.getSource(), 1000);
 
     @Override
-    public InteractionResult useOn(UseOnContext context) {
+    public InteractionResult onItemUseFirst(ItemStack stack, UseOnContext context) {
+
         BlockPos clickedPos = context.getClickedPos(); //the position of the block that was clicked
         BlockPos replacePos = context.getClickedPos().relative(context.getClickedFace(), 1); //the position adjacent to the clicked block
         Level level = context.getLevel();
         Player player = context.getPlayer();
+        Direction direction = context.getClickedFace();
 
         if(player != null && (player.isCreative() || ExperienceUtils.getTotalXp(player) >= cost) && !player.getCooldowns().isOnCooldown(this)){
 
@@ -73,13 +77,15 @@ public class FlaskPoseidonItem extends Item{
 
                 BlockEntity entity = level.getBlockEntity(clickedPos);
                 assert entity != null;
-                if(entity.getCapability(ForgeCapabilities.FLUID_HANDLER, context.getClickedFace()).resolve().isPresent()){
-                    IFluidHandler handler = entity.getCapability(ForgeCapabilities.FLUID_HANDLER, context.getClickedFace()).resolve().get();
+                if(entity.getCapability(ForgeCapabilities.FLUID_HANDLER, direction).resolve().isPresent()){
+                    IFluidHandler handler = entity.getCapability(ForgeCapabilities.FLUID_HANDLER, direction).resolve().get();
 
-                    int fillAmount = handler.fill(new FluidStack(Fluids.WATER.getSource(), 1000), IFluidHandler.FluidAction.SIMULATE);
-                    handler.fill(new FluidStack(Fluids.WATER.getSource(), fillAmount), IFluidHandler.FluidAction.EXECUTE);
+                    int drainAmount = handler.fill(fluidStack, IFluidHandler.FluidAction.SIMULATE);
 
-                    return handlePlayer(player, level);
+                    if(drainAmount != 0){
+                        handler.fill(fluidStack, IFluidHandler.FluidAction.EXECUTE);
+                        return handlePlayer(player, level);
+                    }
                 }
             }
             else if((stateToReplace.isAir() || stateToReplace.canBeReplaced(Fluids.WATER)) && canPlace){ //air or replaceable block
@@ -92,8 +98,6 @@ public class FlaskPoseidonItem extends Item{
 
                 return handlePlayer(player, level);
             }
-
-            return InteractionResult.FAIL;
         }
 
         return super.useOn(context);
