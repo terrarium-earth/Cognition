@@ -22,5 +22,11 @@
     "sounds": [
       "experienceobelisk:metamorpher_busy2"
     ]
+  },
+  "neurogel_apply": {
+    "subtitle": "sounds.experienceobelisk.neurogel_apply",
+    "sounds": [
+      "experienceobelisk:neurogel_apply"
+    ]
   }
 }
