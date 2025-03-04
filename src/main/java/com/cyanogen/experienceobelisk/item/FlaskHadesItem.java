@@ -36,6 +36,7 @@ public class FlaskHadesItem extends Item{
 
     @Override
     public InteractionResult useOn(UseOnContext context) {
+        //shift to item use first
         BlockPos clickedPos = context.getClickedPos(); //the position of the block that was clicked
         BlockPos replacePos = context.getClickedPos().relative(context.getClickedFace(), 1); //the position adjacent to the clicked block
         Level level = context.getLevel();

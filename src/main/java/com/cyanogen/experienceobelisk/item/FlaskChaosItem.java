@@ -70,8 +70,6 @@ public class FlaskChaosItem extends Item{
                 }
                 else if(state.hasBlockEntity()){ // block entities
 
-                    System.out.println("check1");
-
                     BlockEntity entity = level.getBlockEntity(pos);
                     assert entity != null;
                     if(entity.getCapability(ForgeCapabilities.FLUID_HANDLER, direction).resolve().isPresent()){
