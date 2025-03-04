@@ -5,18 +5,23 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.AbstractCauldronBlock;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.BucketPickup;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
+import net.minecraftforge.fluids.capability.IFluidHandler;
 
 public class FlaskChaosItem extends Item{
 
@@ -26,18 +31,23 @@ public class FlaskChaosItem extends Item{
 
     //-----------BEHAVIOR-----------//
 
-    final int cost = 7; // 1 level
+    public static final int cost = 7; // 1 level
     final int cooldown = 8;
 
     @Override
-    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
-        BlockHitResult result = getPlayerPOVHitResult(level, player, ClipContext.Fluid.SOURCE_ONLY);
-        BlockPos pos = result.getBlockPos();
-        Direction direction = result.getDirection();
-        BlockState state = level.getBlockState(pos);
-        ItemStack item = player.getItemInHand(hand);
+    public InteractionResult onItemUseFirst(ItemStack stack, UseOnContext context) {
 
-        if((player.isCreative() || ExperienceUtils.getTotalXp(player) >= cost) && !player.getCooldowns().isOnCooldown(this)){
+        Level level = context.getLevel();
+        Player player = context.getPlayer();
+        InteractionHand hand = context.getHand();
+
+        if(player != null && (player.isCreative() || ExperienceUtils.getTotalXp(player) >= cost) && !player.getCooldowns().isOnCooldown(this)){
+
+            BlockHitResult result = getPlayerPOVHitResult(level, player, ClipContext.Fluid.SOURCE_ONLY);
+            BlockPos pos = result.getBlockPos();
+            Direction direction = result.getDirection();
+            BlockState state = level.getBlockState(pos);
+            ItemStack item = player.getItemInHand(hand);
 
             if(level.mayInteract(player, pos) && player.mayUseItemAt(pos.relative(direction), direction, item)){
 
@@ -50,28 +60,44 @@ public class FlaskChaosItem extends Item{
                         });
                         level.gameEvent(player, GameEvent.FLUID_PICKUP, pos);
 
-                        return handlePlayer(player, item, level);
+                        return handlePlayer(player, level);
                     }
                 }
                 else if(state.getBlock() instanceof AbstractCauldronBlock block && block.isFull(state)){ //cauldrons
                     level.setBlockAndUpdate(pos, Blocks.CAULDRON.defaultBlockState());
 
-                    return handlePlayer(player, item, level);
+                    return handlePlayer(player, level);
+                }
+                else if(state.hasBlockEntity()){ // block entities
+
+                    System.out.println("check1");
+
+                    BlockEntity entity = level.getBlockEntity(pos);
+                    assert entity != null;
+                    if(entity.getCapability(ForgeCapabilities.FLUID_HANDLER, direction).resolve().isPresent()){
+                        IFluidHandler handler = entity.getCapability(ForgeCapabilities.FLUID_HANDLER, direction).resolve().get();
+
+                        int drainAmount = handler.drain(1000, IFluidHandler.FluidAction.SIMULATE).getAmount();
+
+                        if(drainAmount != 0){
+                            handler.drain(1000, IFluidHandler.FluidAction.EXECUTE);
+                            return handlePlayer(player, level);
+                        }
+                    }
                 }
             }
-
-            return InteractionResultHolder.fail(item);
         }
-        return super.use(level, player, hand);
+
+        return super.onItemUseFirst(stack, context);
     }
 
-    public InteractionResultHolder<ItemStack> handlePlayer(Player player, ItemStack item, Level level){
+    public InteractionResult handlePlayer(Player player, Level level){
 
         int k = player.isCreative() ? 0 : 1;
         player.getCooldowns().addCooldown(this, cooldown);
         player.giveExperiencePoints(-cost * k);
         player.playSound(SoundEvents.BUCKET_FILL, 1f, 1f);
-        return InteractionResultHolder.sidedSuccess(item, level.isClientSide);
+        return InteractionResult.sidedSuccess(level.isClientSide);
     }
 
 }

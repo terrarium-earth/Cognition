@@ -31,7 +31,7 @@ public class FlaskHadesItem extends Item{
 
     //-----------BEHAVIOR-----------//
 
-    final int cost = 160; // 10 levels
+    public static final int cost = 160; // 10 levels
     final int cooldown = 80;
 
     @Override
@@ -64,8 +64,8 @@ public class FlaskHadesItem extends Item{
 
                 BlockEntity entity = level.getBlockEntity(clickedPos);
                 assert entity != null;
-                if(entity.getCapability(ForgeCapabilities.FLUID_HANDLER).resolve().isPresent()){
-                    IFluidHandler handler = entity.getCapability(ForgeCapabilities.FLUID_HANDLER).resolve().get();
+                if(entity.getCapability(ForgeCapabilities.FLUID_HANDLER, context.getClickedFace()).resolve().isPresent()){
+                    IFluidHandler handler = entity.getCapability(ForgeCapabilities.FLUID_HANDLER, context.getClickedFace()).resolve().get();
 
                     int fillAmount = handler.fill(new FluidStack(Fluids.LAVA.getSource(), 1000), IFluidHandler.FluidAction.SIMULATE);
                     handler.fill(new FluidStack(Fluids.WATER.getSource(), fillAmount), IFluidHandler.FluidAction.EXECUTE);
