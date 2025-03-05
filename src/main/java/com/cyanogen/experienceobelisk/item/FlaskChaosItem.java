@@ -72,8 +72,8 @@ public class FlaskChaosItem extends Item{
 
                     BlockEntity entity = level.getBlockEntity(pos);
                     assert entity != null;
-                    if(entity.getCapability(ForgeCapabilities.FLUID_HANDLER, direction).resolve().isPresent()){
-                        IFluidHandler handler = entity.getCapability(ForgeCapabilities.FLUID_HANDLER, direction).resolve().get();
+                    if(entity.getCapability(ForgeCapabilities.FLUID_HANDLER).resolve().isPresent()){
+                        IFluidHandler handler = entity.getCapability(ForgeCapabilities.FLUID_HANDLER).resolve().get();
 
                         int drainAmount = handler.drain(1000, IFluidHandler.FluidAction.SIMULATE).getAmount();
 

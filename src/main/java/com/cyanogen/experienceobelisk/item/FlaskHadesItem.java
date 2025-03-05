@@ -43,7 +43,6 @@ public class FlaskHadesItem extends Item{
         Level level = context.getLevel();
         BlockPos clickedPos = context.getClickedPos();
         BlockPos placePos = context.getClickedPos().relative(context.getClickedFace());
-        Direction direction = context.getClickedFace();
 
         if(player != null && (player.isCreative() || ExperienceUtils.getTotalXp(player) >= cost) && !player.getCooldowns().isOnCooldown(this)){
 
@@ -68,8 +67,8 @@ public class FlaskHadesItem extends Item{
 
                 BlockEntity entity = level.getBlockEntity(clickedPos);
                 assert entity != null;
-                if(entity.getCapability(ForgeCapabilities.FLUID_HANDLER, direction).resolve().isPresent()){
-                    IFluidHandler handler = entity.getCapability(ForgeCapabilities.FLUID_HANDLER, direction).resolve().get();
+                if(entity.getCapability(ForgeCapabilities.FLUID_HANDLER).resolve().isPresent()){
+                    IFluidHandler handler = entity.getCapability(ForgeCapabilities.FLUID_HANDLER).resolve().get();
 
                     int drainAmount = handler.fill(fluidStack, IFluidHandler.FluidAction.SIMULATE);
 

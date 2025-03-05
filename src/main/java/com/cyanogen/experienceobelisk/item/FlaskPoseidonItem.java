@@ -46,7 +46,6 @@ public class FlaskPoseidonItem extends Item{
         BlockPos replacePos = context.getClickedPos().relative(context.getClickedFace(), 1); //the position adjacent to the clicked block
         Level level = context.getLevel();
         Player player = context.getPlayer();
-        Direction direction = context.getClickedFace();
 
         if(player != null && (player.isCreative() || ExperienceUtils.getTotalXp(player) >= cost) && !player.getCooldowns().isOnCooldown(this)){
 
@@ -78,8 +77,8 @@ public class FlaskPoseidonItem extends Item{
 
                 BlockEntity entity = level.getBlockEntity(clickedPos);
                 assert entity != null;
-                if(entity.getCapability(ForgeCapabilities.FLUID_HANDLER, direction).resolve().isPresent()){
-                    IFluidHandler handler = entity.getCapability(ForgeCapabilities.FLUID_HANDLER, direction).resolve().get();
+                if(entity.getCapability(ForgeCapabilities.FLUID_HANDLER).resolve().isPresent()){
+                    IFluidHandler handler = entity.getCapability(ForgeCapabilities.FLUID_HANDLER).resolve().get();
 
                     int drainAmount = handler.fill(fluidStack, IFluidHandler.FluidAction.SIMULATE);
 
