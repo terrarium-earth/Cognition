@@ -32,21 +32,6 @@ public class Config {
         public final ForgeConfigSpec.ConfigValue<Integer> archiversOrbValue;
         public final ForgeConfigSpec.ConfigValue<Integer> archiversSpawns;
 
-        public final ForgeConfigSpec.ConfigValue<Integer> infectedSpawnDelayMin;
-        public final ForgeConfigSpec.ConfigValue<Integer> infectedSpawnDelayMax;
-        public final ForgeConfigSpec.ConfigValue<Integer> infectedOrbValue;
-        public final ForgeConfigSpec.ConfigValue<Integer> infectedSpawns;
-
-        public final ForgeConfigSpec.ConfigValue<Integer> enchantedSpawnDelayMin;
-        public final ForgeConfigSpec.ConfigValue<Integer> enchantedSpawnDelayMax;
-        public final ForgeConfigSpec.ConfigValue<Integer> enchantedOrbValue;
-        public final ForgeConfigSpec.ConfigValue<Integer> enchantedSpawns;
-
-        public final ForgeConfigSpec.ConfigValue<Integer> archiversSpawnDelayMin;
-        public final ForgeConfigSpec.ConfigValue<Integer> archiversSpawnDelayMax;
-        public final ForgeConfigSpec.ConfigValue<Integer> archiversOrbValue;
-        public final ForgeConfigSpec.ConfigValue<Integer> archiversSpawns;
-
         public List<String> defaultAllowedFluids = new ArrayList<>();
         public int defaultCapacity = 100000000;
         public double defaultAmuletRange = 8.0;
