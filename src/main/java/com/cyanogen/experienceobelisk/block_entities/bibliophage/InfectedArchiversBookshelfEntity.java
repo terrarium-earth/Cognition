@@ -23,5 +23,5 @@ public class InfectedArchiversBookshelfEntity extends AbstractInfectedBookshelfE
         super.orbValue = Config.COMMON.archiversOrbValue.get();
         super.spawns = Config.COMMON.archiversSpawns.get();
     }
-
+  
 }

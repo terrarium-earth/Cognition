@@ -32,7 +32,7 @@ public abstract class AbstractInfectedBookshelfEntity extends AbstractInfectiveE
     int spawns; //the number of times a bookshelf can spawn an orb before decaying
     int decayValue = 0; //the number of times a bookshelf has spawned an orb
     double infectivity = 0.02; //the chance for a bookshelf to infect another adjacent bookshelf every second
-    boolean redstoneEnabled = false; //whether or not the bookshelf is sensitive to redstone. Disabled ookshelves will not infect adjacents, produce XP, or decay
+    boolean redstoneEnabled = false; //whether or not the bookshelf is sensitive to redstone. Disabled bookshelves will not infect adjacents, produce XP, or decay
 
     //-----------BEHAVIOR-----------//
 
@@ -122,7 +122,7 @@ public abstract class AbstractInfectedBookshelfEntity extends AbstractInfectiveE
 
     public void decay(Level level, BlockPos pos){
 
-        setDisabled(true);
+        setRedstoneEnabled(true);
 
         if(!level.isClientSide){
             ServerLevel server = (ServerLevel) level;
@@ -146,14 +146,12 @@ public abstract class AbstractInfectedBookshelfEntity extends AbstractInfectiveE
         return this.redstoneEnabled;
     }
 
-    public void setDisabled(boolean disabled){
-        this.redstoneEnabled = disabled;
+    public void setRedstoneEnabled(boolean redstoneEnabled){
+        this.redstoneEnabled = redstoneEnabled;
         this.setChanged();
     }
 
-    public boolean getRedstoneEnabled(){
-        return this.redstoneEnabled;
-    }
+    public boolean getRedstoneEnabled(){return this.redstoneEnabled;}
 
     public int getDecayValue(){
         return this.decayValue;
