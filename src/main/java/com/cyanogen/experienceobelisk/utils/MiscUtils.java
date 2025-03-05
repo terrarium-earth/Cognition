@@ -31,4 +31,8 @@ public class MiscUtils {
         return outputLines;
     }
 
+    public static float randomInRange(float min, float max){
+        return (float) (min + Math.random() * (max - min));
+    }
+
 }

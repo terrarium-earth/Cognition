@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ABA",
+    "CDC",
+    " C "
+  ],
+  "key": {
+    "A": {
+      "item": "minecraft:obsidian"
+    },
+    "B": {
+      "item": "experienceobelisk:primordial_assembly"
+    },
+    "C": {
+      "item": "experienceobelisk:whisperglass"
+    },
+    "D": {
+      "item": "minecraft:bucket"
+    }
+  },
+  "result": {
+    "item": "experienceobelisk:flask_of_chaos",
+    "count": 1
+  }
+}

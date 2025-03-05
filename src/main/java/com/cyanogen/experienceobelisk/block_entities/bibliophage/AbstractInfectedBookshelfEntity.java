@@ -1,5 +1,6 @@
 package com.cyanogen.experienceobelisk.block_entities.bibliophage;
 
+import com.cyanogen.experienceobelisk.config.Config;
 import com.cyanogen.experienceobelisk.registries.RegisterBlocks;
 import com.cyanogen.experienceobelisk.registries.RegisterItems;
 import net.minecraft.core.BlockPos;
@@ -15,19 +16,10 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import static com.cyanogen.experienceobelisk.item.BibliophageItem.getValidBlocksForInfection;
-import static com.cyanogen.experienceobelisk.item.BibliophageItem.infectBlock;
-
-public abstract class AbstractInfectedBookshelfEntity extends BlockEntity {
+public abstract class AbstractInfectedBookshelfEntity extends AbstractInfectiveEntity {
 
     public AbstractInfectedBookshelfEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
         super(type, pos, state);
@@ -40,7 +32,7 @@ public abstract class AbstractInfectedBookshelfEntity extends BlockEntity {
     int spawns; //the number of times a bookshelf can spawn an orb before decaying
     int decayValue = 0; //the number of times a bookshelf has spawned an orb
     double infectivity = 0.02; //the chance for a bookshelf to infect another adjacent bookshelf every second
-    boolean redstoneEnabled = false; //whether or not the bookshelf is disabled. When disabled, bookshelves will not infect adjacents, produce XP, or decay
+    boolean redstoneEnabled = false; //whether or not the bookshelf is sensitive to redstone. Disabled bookshelves will not infect adjacents, produce XP, or decay
 
     //-----------BEHAVIOR-----------//
 
@@ -77,34 +69,14 @@ public abstract class AbstractInfectedBookshelfEntity extends BlockEntity {
 
     }
 
-    public void infectAdjacent(Level level, BlockPos pos){
-
-        Map<BlockPos, Block> adjacentMap = new HashMap<>();
-        List<BlockPos> posList = new ArrayList<>();
-
-        if(!level.isClientSide){
-            for(BlockPos adjacentPos : getAdjacents(pos)){
-                if(getValidBlocksForInfection().contains(level.getBlockState(adjacentPos).getBlock())){
-
-                    Block adjacentBlock = level.getBlockState(adjacentPos).getBlock();
-                    adjacentMap.put(adjacentPos, adjacentBlock);
-                    posList.add(adjacentPos);
-                }
-            }
-        }
-
-        if(!adjacentMap.isEmpty()){
-
-            int index = (int) Math.floor(Math.random() * posList.size());
-            BlockPos posToInfect = posList.get(index);
-            Block block = adjacentMap.get(posToInfect);
-
-            infectBlock(level, posToInfect, block);
-        }
-    }
-
     public void resetSpawnDelay(){
-        this.timeTillSpawn = (int) (spawnDelayMin + Math.floor((spawnDelayMax - spawnDelayMin) * Math.random()));
+        int delay = (int) (spawnDelayMin + Math.floor((spawnDelayMax - spawnDelayMin) * Math.random()));
+
+        if(isAdjacentTo(RegisterBlocks.INSIGHTFUL_AGAR.get())){
+            delay = (int) (delay / 1.25);
+        }
+
+        this.timeTillSpawn = delay;
         this.setChanged();
     }
 
@@ -113,11 +85,28 @@ public abstract class AbstractInfectedBookshelfEntity extends BlockEntity {
         this.setChanged();
     }
 
+    public boolean isAdjacentTo(Block block){
+        Level level = getLevel();
+        BlockPos pos = getBlockPos();
+
+        for(BlockPos adjacent : getAdjacents(pos)){
+            if(level != null && level.getBlockState(adjacent).is(block)){
+                return true;
+            }
+        }
+        return false;
+    }
+
     public void handleExperience(Level level, BlockPos pos){
 
         int value = orbValue;
 
         if(!level.isClientSide){
+
+            if(isAdjacentTo(RegisterBlocks.EXTRAVAGANT_AGAR.get())){
+                value = (int) (value * 1.25);
+            }
+
             ServerLevel server = (ServerLevel) level;
             ExperienceOrb orb = new ExperienceOrb(server, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, value);
             orb.setDeltaMovement(0,0,0);
@@ -138,46 +127,16 @@ public abstract class AbstractInfectedBookshelfEntity extends BlockEntity {
         if(!level.isClientSide){
             ServerLevel server = (ServerLevel) level;
             ItemStack forgottenDust = new ItemStack(RegisterItems.FORGOTTEN_DUST.get(), 4);
-            Block.popResource(server, pos, forgottenDust);
+
+            if(Config.COMMON.dropDustOnDecay.get()){
+                Block.popResource(server, pos, forgottenDust);
+            }
         }
         level.playSound(null, pos, SoundEvents.WART_BLOCK_BREAK, SoundSource.BLOCKS, 1f,1f); //play break sound
         level.levelEvent(null, 2001, pos, Block.getId(RegisterBlocks.FORGOTTEN_DUST_BLOCK.get().defaultBlockState())); //spawn destroy particles
 
         this.setRemoved();
         level.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
-    }
-
-    public List<BlockPos> getAdjacents(BlockPos pos){
-        List<BlockPos> list = new ArrayList<>();
-        list.add(pos.above());
-        list.add(pos.below());
-        list.add(pos.north());
-        list.add(pos.south());
-        list.add(pos.east());
-        list.add(pos.west());
-
-        return list;
-    }
-
-    public List<BlockState> getAdjacentBlockStates(Level level, BlockPos pos){
-        List<BlockState> list = new ArrayList<>();
-        for(BlockPos adjacent : getAdjacents(pos)){
-            list.add(level.getBlockState(adjacent));
-        }
-
-        return list;
-    }
-
-    public int enumerateAdjacentsOfType(Level level, BlockPos pos, BlockState state){
-
-        int count = 0;
-
-        for(BlockState adjacent : getAdjacentBlockStates(level, pos)){
-            if(adjacent.equals(state)){
-                count++;
-            }
-        }
-        return count;
     }
 
     public boolean toggleActivity(){

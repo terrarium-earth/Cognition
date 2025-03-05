@@ -1,5 +1,8 @@
 package com.cyanogen.experienceobelisk.utils;
 
+import com.cyanogen.experienceobelisk.block_entities.ExperienceObeliskEntity;
+import net.minecraft.world.entity.player.Player;
+
 public class ExperienceUtils {
 
     public static int levelsToXP(int levels){
@@ -20,6 +23,10 @@ public class ExperienceUtils {
         } else {
             return (int) ((Math.sqrt(72 * xp - 54215) + 325) / 18); //when xp >~2980k, breaks int value limit
         }
+    }
+
+    public static long getTotalXp(Player player){
+        return ExperienceObeliskEntity.getTotalXP(player);
     }
 
     public static double getProgressToNextLevel(int experiencePoints, int experienceLevels){

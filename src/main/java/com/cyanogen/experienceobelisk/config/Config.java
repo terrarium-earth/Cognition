@@ -15,6 +15,22 @@ public class Config {
         public final ForgeConfigSpec.ConfigValue<Double> amuletRange;
         public final ForgeConfigSpec.ConfigValue<Double> bindingRange;
         public final ForgeConfigSpec.ConfigValue<Boolean> formatting;
+        public final ForgeConfigSpec.ConfigValue<Boolean> dropDustOnDecay;
+
+        public final ForgeConfigSpec.ConfigValue<Integer> infectedSpawnDelayMin;
+        public final ForgeConfigSpec.ConfigValue<Integer> infectedSpawnDelayMax;
+        public final ForgeConfigSpec.ConfigValue<Integer> infectedOrbValue;
+        public final ForgeConfigSpec.ConfigValue<Integer> infectedSpawns;
+
+        public final ForgeConfigSpec.ConfigValue<Integer> enchantedSpawnDelayMin;
+        public final ForgeConfigSpec.ConfigValue<Integer> enchantedSpawnDelayMax;
+        public final ForgeConfigSpec.ConfigValue<Integer> enchantedOrbValue;
+        public final ForgeConfigSpec.ConfigValue<Integer> enchantedSpawns;
+
+        public final ForgeConfigSpec.ConfigValue<Integer> archiversSpawnDelayMin;
+        public final ForgeConfigSpec.ConfigValue<Integer> archiversSpawnDelayMax;
+        public final ForgeConfigSpec.ConfigValue<Integer> archiversOrbValue;
+        public final ForgeConfigSpec.ConfigValue<Integer> archiversSpawns;
 
         public final ForgeConfigSpec.ConfigValue<Integer> infectedSpawnDelayMin;
         public final ForgeConfigSpec.ConfigValue<Integer> infectedSpawnDelayMax;
@@ -35,7 +51,6 @@ public class Config {
         public int defaultCapacity = 100000000;
         public double defaultAmuletRange = 8.0;
         public double defaultBindingRange = 48.0;
-        public boolean defaultFormatting = true;
 
         public Common(ForgeConfigSpec.Builder builder){
 
@@ -69,10 +84,15 @@ public class Config {
 
             builder.push("Enable Name Formatting Anvil Recipes");
             this.formatting = builder.comment("Whether custom recipes that allow for the changing of item name color & formatting are enabled")
-                    .define("Formatting", defaultFormatting);
+                    .define("Formatting", true);
             builder.pop();
 
-            builder.push("Infected Bookshelf Settings");
+            builder.push("Bookshelf Settings");
+            this.dropDustOnDecay = builder.comment("Whether or not infected bookshelves drop Forgotten Dust upon decaying. Default = true")
+                    .comment("Disabling this will make Forgotten Dust much more costly")
+                    .define("DropDustOnDecay", true);
+
+            builder.push("Infected Bookshelves");
             this.infectedSpawnDelayMin = builder.comment("The minimum spawn delay of Infected Bookshelves in ticks. Default = 150")
                     .defineInRange("SpawnDelayMin", 150, 1, 10000);
             this.infectedSpawnDelayMax = builder.comment("The maximum spawn delay of Infected Bookshelves in ticks. Default = 250")
@@ -83,7 +103,7 @@ public class Config {
                     .defineInRange("Spawns", 100, 1, 10000);
             builder.pop();
 
-            builder.push("Enchanted Bookshelf Settings");
+            builder.push("Infected Enchanted Bookshelves");
             this.enchantedSpawnDelayMin = builder.comment("The minimum spawn delay of Enchanted Bookshelves in ticks. Default = 100")
                     .defineInRange("SpawnDelayMin", 100, 1, 10000);
             this.enchantedSpawnDelayMax = builder.comment("The maximum spawn delay of Enchanted Bookshelves in ticks. Default = 300")
@@ -94,7 +114,7 @@ public class Config {
                     .defineInRange("Range", 200, 1, 10000);
             builder.pop();
 
-            builder.push("Archiver's Bookshelf Settings");
+            builder.push("Infected Archiver's Bookshelves");
             this.archiversSpawnDelayMin = builder.comment("The minimum spawn delay of Archiver's Bookshelves in ticks. Default = 180")
                     .defineInRange("SpawnDelayMin", 180, 1, 10000);
             this.archiversSpawnDelayMax = builder.comment("The maximum spawn delay of Archiver's Bookshelves in ticks. Default = 220")
@@ -104,7 +124,6 @@ public class Config {
             this.archiversSpawns = builder.comment("The number of spawns until the bookshelf decays. Default = 200")
                     .defineInRange("Spawns", 200, 1, 10000);
             builder.pop();
-
         }
 
     }

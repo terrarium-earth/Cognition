@@ -270,8 +270,7 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
 
     @Override
     @Nonnull
-    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> capability, @Nullable Direction facing)
-    {
+    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> capability, @Nullable Direction facing) {
         if (capability == ForgeCapabilities.FLUID_HANDLER)
             return handler.cast();
         return super.getCapability(capability, facing);

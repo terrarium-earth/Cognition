@@ -331,9 +331,10 @@ public class MolecularMetamorpherEntity extends ExperienceReceivingEntity implem
             ItemStack result = recipe.getResultItem(null);
             ItemStack stackInResults = outputHandler.getStackInSlot(0).copy();
             SimpleContainer remainders = deplete(recipe);
+            int count = result.getCount();
 
-            if(stackInResults.getItem().equals(result.getItem())){
-                stackInResults.grow(1);
+            if(ItemStack.isSameItemSameTags(result, stackInResults)){
+                stackInResults.grow(count);
                 outputHandler.setStackInSlot(0, stackInResults);
             }
             else{

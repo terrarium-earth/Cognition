@@ -1,3 +1,25 @@
+v2.3.0
+
+[Content]
+- Added nutrient agar
+- Added insightful agar
+- Added extravagant agar
+- Added flask of poseidon
+- Added flask of hades
+- Added flask of chaos
+- Added mending neurogel
+- Added cognitive armorset
+- Added cognitive rod
+- Added cognitive shears
+- Added calcarine matrix
+
+[Changes]
+
+- Added config option to disable forgotten dust dropping by bookshelves
+- Bottle o' daydream & nightmare now stack to 64
+- Recipe balances and additions
+- Added more information and entries to description tooltips
+
 v2.2.6
 
 [Changes]
