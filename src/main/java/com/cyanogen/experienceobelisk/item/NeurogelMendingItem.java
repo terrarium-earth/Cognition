@@ -26,7 +26,7 @@ public class NeurogelMendingItem extends Item {
             int damage = itemToRepair.getDamageValue();
             stackedOn.shrink(1);
             itemToRepair.setDamageValue(Math.max(damage - repairAmount, 0));
-            player.playSound(RegisterSounds.NEUROGEL_APPLY.get(), 0.5f, MiscUtils.randomInRange(0.8f, 1.2f)); //volume, pitch
+            player.playSound(RegisterSounds.NEUROGEL_APPLY.get(), 0.75f, MiscUtils.randomInRange(0.8f, 1.2f)); //volume, pitch
 
             event.setCanceled(true);
         }
