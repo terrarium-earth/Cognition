@@ -33,7 +33,7 @@ public class FlaskChaosItem extends Item{
 
     //-----------BEHAVIOR-----------//
 
-    public static final int cost = 7; // 1 level
+    public static final int cost = 1; // <1 level
     final int cooldown = 8;
 
     @Override

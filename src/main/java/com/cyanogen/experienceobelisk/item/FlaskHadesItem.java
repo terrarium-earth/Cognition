@@ -34,9 +34,9 @@ public class FlaskHadesItem extends Item{
 
     //-----------BEHAVIOR-----------//
 
-    public static final int cost = 160; // 10 levels
-    final int cooldown = 80;
-    private final FluidStack fluidStack = new FluidStack(Fluids.WATER.getSource(), 1000);
+    public static final int cost = 55; // 5 levels
+    final int cooldown = 100;
+    private final FluidStack fluidStack = new FluidStack(Fluids.LAVA.getSource(), 1000);
 
     @Override
     public InteractionResult onItemUseFirst(ItemStack stack, UseOnContext context) {

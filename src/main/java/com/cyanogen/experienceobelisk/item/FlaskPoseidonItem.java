@@ -36,9 +36,9 @@ public class FlaskPoseidonItem extends Item{
 
     //-----------BEHAVIOR-----------//
 
-    public static final int cost = 16; // 2 levels
+    public static final int cost = 7; // 1 level
     final int cooldown = 10;
-    private final FluidStack fluidStack = new FluidStack(Fluids.LAVA.getSource(), 1000);
+    private final FluidStack fluidStack = new FluidStack(Fluids.WATER.getSource(), 1000);
 
     @Override
     public InteractionResult onItemUseFirst(ItemStack stack, UseOnContext context) {
