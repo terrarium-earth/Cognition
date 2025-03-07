@@ -57,9 +57,6 @@ public class FlaskChaosItem extends Item{
                     ItemStack test = bucketpickup.pickupBlock(level, pos, state);
 
                     if(!test.isEmpty()){
-                        bucketpickup.getPickupSound(state).ifPresent((event) -> {
-                            player.playSound(event, 1.0F, 1.0F);
-                        });
                         level.gameEvent(player, GameEvent.FLUID_PICKUP, pos);
 
                         return handlePlayer(player, level);
@@ -96,7 +93,7 @@ public class FlaskChaosItem extends Item{
         int k = player.isCreative() ? 0 : 1;
         player.getCooldowns().addCooldown(this, cooldown);
         player.giveExperiencePoints(-cost * k);
-        player.playSound(RegisterSounds.FLASK_FILL_VOID.get(), MiscUtils.randomInRange(0.8f, 1.0f), MiscUtils.randomInRange(0.8f, 1.0f));
+        player.playSound(RegisterSounds.FLASK_FILL_VOID.get(), MiscUtils.randomInRange(1.0f, 1.2f), MiscUtils.randomInRange(0.8f, 1.2f));
         return InteractionResult.sidedSuccess(level.isClientSide);
     }
 
