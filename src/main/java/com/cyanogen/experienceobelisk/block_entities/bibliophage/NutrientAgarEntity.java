@@ -8,7 +8,7 @@ public class NutrientAgarEntity extends AbstractAgarEntity {
 
     public NutrientAgarEntity(BlockPos pos, BlockState state) {
         super(RegisterBlockEntities.NUTRIENT_AGAR_BE.get(), pos, state);
-        infectivity = 0.004;
+        infectivity = 0.005;
     }
 
     // An unlimited source of bibliophages (but very slow to infect)

@@ -8,6 +8,7 @@ public class ExtravagantAgarEntity extends AbstractAgarEntity {
 
     public ExtravagantAgarEntity(BlockPos pos, BlockState state) {
         super(RegisterBlockEntities.EXTRAVAGANT_AGAR_BE.get(), pos, state);
+        infectivity = 0.02;
     }
 
     // Increases the orb value of adjacent bookshelves by 1.25x
