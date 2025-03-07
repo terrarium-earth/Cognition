@@ -139,6 +139,9 @@
   "sounds.experienceobelisk.enlightened_amulet_deactivate": "Amulet deactivates",
   "sounds.experienceobelisk.metamorpher_busy": "Metamorpher hums",
   "sounds.experienceobelisk.neurogel_apply": "Neurogel used",
+  "sounds.experienceobelisk.flask_empty_lava": "Flask empties",
+  "sounds.experienceobelisk.flask_empty_water": "Flask empties",
+  "sounds.experienceobelisk.flask_fill_void": "Flask consumes",
 
   "jei.experienceobelisk.metamorpher.cost_xp": "§7Consumes %s §7XP",
   "jei.experienceobelisk.metamorpher.process_time": "§7Process time: %s",
