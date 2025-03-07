@@ -1,3 +1,15 @@
+v2.3.1
+
+[Changes]
+- added sound effect for the application of Mending Neurogel
+- added subtitles for flask sound effects
+- added specific sound effect for the Flask of Chaos
+- increased the infectivity of Nutrient, Insightful and Extravagant Agar
+
+[Bugfixes]
+- fixed a bug in the Metamorpher where recipes with an output item count of more than 1 would only increment the output item by 1
+- fixed flasks being unable to interact with fluid containers extending the forge fluid capability
+
 v2.3.0
 
 [Content]
