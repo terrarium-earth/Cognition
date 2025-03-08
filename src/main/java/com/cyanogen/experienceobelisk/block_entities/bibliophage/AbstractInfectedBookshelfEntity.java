@@ -33,6 +33,8 @@ public abstract class AbstractInfectedBookshelfEntity extends AbstractInfectiveE
     int decayValue = 0; //the number of times a bookshelf has spawned an orb
     double infectivity = 0.02; //the chance for a bookshelf to infect another adjacent bookshelf every second
     boolean redstoneEnabled = false; //whether or not the bookshelf is sensitive to redstone. Disabled bookshelves will not infect adjacents, produce XP, or decay
+    double insightfulBonus = 1.25;
+    double extravagantBonus = 1.25;
 
     //-----------BEHAVIOR-----------//
 
@@ -71,9 +73,10 @@ public abstract class AbstractInfectedBookshelfEntity extends AbstractInfectiveE
 
     public void resetSpawnDelay(){
         int delay = (int) (spawnDelayMin + Math.floor((spawnDelayMax - spawnDelayMin) * Math.random()));
+        int count = countAdjacentsOfType(1);
 
-        if(isAdjacentTo(RegisterBlocks.INSIGHTFUL_AGAR.get())){
-            delay = (int) (delay / 1.25);
+        if(count > 0){
+            delay = (int) (delay / Math.pow(insightfulBonus, count));
         }
 
         this.timeTillSpawn = delay;
@@ -85,7 +88,7 @@ public abstract class AbstractInfectedBookshelfEntity extends AbstractInfectiveE
         this.setChanged();
     }
 
-    public boolean isAdjacentTo(Block block){
+    /*public boolean isAdjacentTo(Block block){
         Level level = getLevel();
         BlockPos pos = getBlockPos();
 
@@ -95,16 +98,43 @@ public abstract class AbstractInfectedBookshelfEntity extends AbstractInfectiveE
             }
         }
         return false;
+    }*/
+
+    public int countAdjacentsOfType(int type){
+
+        Level level = getLevel();
+        BlockPos pos = getBlockPos();
+        Block insightful = RegisterBlocks.INSIGHTFUL_AGAR.get();
+        Block extravagant = RegisterBlocks.EXTRAVAGANT_AGAR.get();
+        int count = 0;
+
+        if(type == 1){ //insightful agar
+            for(BlockPos adjacent : getAdjacents(pos)){
+                if(level != null && level.getBlockState(adjacent).is(insightful)){
+                    count++;
+                }
+            }
+        }
+        else if(type == 2){ //extravagant agar
+            for(BlockPos adjacent : getAdjacents(pos)){
+                if(level != null && level.getBlockState(adjacent).is(extravagant)){
+                    count++;
+                }
+            }
+        }
+
+        return Math.min(count, 6);
     }
 
     public void handleExperience(Level level, BlockPos pos){
 
         int value = orbValue;
+        int count = countAdjacentsOfType(2);
 
         if(!level.isClientSide){
 
-            if(isAdjacentTo(RegisterBlocks.EXTRAVAGANT_AGAR.get())){
-                value = (int) (value * 1.25);
+            if(count > 0){
+                value = (int) (value * Math.pow(extravagantBonus, count));
             }
 
             ServerLevel server = (ServerLevel) level;
