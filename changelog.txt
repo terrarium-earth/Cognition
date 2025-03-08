@@ -1,14 +1,19 @@
 v2.3.1
 
 [Changes]
-- added sound effect for the application of Mending Neurogel
+- the buffs applied by Agar blocks now stack multiplicatively
+- Agar block bonuses increased from x1.25 --> x1.3
+- increased the infectivity of all Agar blocks
+- increased the material cost of all Agar blocks
+- significantly lowered the XP cost for all Agar blocks
+- added sound effects for the application of Mending Neurogel
 - added subtitles for flask sound effects
-- added specific sound effect for the Flask of Chaos
-- increased the infectivity of Nutrient, Insightful and Extravagant Agar
+- added specific sound effects for the Flask of Chaos
+- reduced XP costs for the usage of all three flasks
 
 [Bugfixes]
-- fixed a bug in the Metamorpher where recipes with an output item count of more than 1 would only increment the output item by 1
-- fixed flasks being unable to interact with fluid containers extending the forge fluid capability
+- fixed a bug in the Metamorpher where recipes with an output item count of more than 1 would only increment the output item by 1 upon dispensing results
+- fixed flasks being unable to fill or empty modded fluid containers
 
 v2.3.0
 
