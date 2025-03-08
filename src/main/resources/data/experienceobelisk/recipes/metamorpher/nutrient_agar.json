@@ -16,6 +16,6 @@
     "item": "experienceobelisk:nutrient_agar",
     "count": 1
   },
-  "cost": 315,
-  "processTime": 100
+  "cost": 160,
+  "processTime": 50
 }
