@@ -9,9 +9,9 @@
   },
   "count2": 4,
   "ingredient3": {
-    "item": "experienceobelisk:forgotten_dust"
+    "item": "experienceobelisk:forgotten_dust_block"
   },
-  "count3": 32,
+  "count3": 2,
   "result": {
     "item": "experienceobelisk:nutrient_agar",
     "count": 1

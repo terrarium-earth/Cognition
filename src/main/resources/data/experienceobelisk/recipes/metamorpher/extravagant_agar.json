@@ -7,11 +7,11 @@
   "ingredient2": {
     "item": "experienceobelisk:calcarine_matrix"
   },
-  "count2": 3,
+  "count2": 8,
   "ingredient3": {
-    "item": "experienceobelisk:forgotten_dust"
+    "item": "experienceobelisk:forgotten_dust_block"
   },
-  "count3": 32,
+  "count3": 12,
   "result": {
     "item": "experienceobelisk:extravagant_agar",
     "count": 1
