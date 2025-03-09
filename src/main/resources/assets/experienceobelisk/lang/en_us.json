@@ -76,9 +76,9 @@
   "block.experienceobelisk.archivers_bookshelf.description": "When infected, lasts twice as long as an ordinary bookshelf before decaying. Has an enchantment power bonus of 1.5 when used around an enchanting table.",
   "block.experienceobelisk.enchanted_bookshelf.description": "When infected, lasts twice as long as and produces orbs with twice the value of an ordinary bookshelf before decaying. Has an enchantment power bonus of 2.0 when used around an enchanting table.",
   "block.experienceobelisk.whisperglass.description": "An extremely slippery block, similar to blue ice.",
-  "block.experienceobelisk.nutrient_agar.description": "An infective block that does not decay, but with a slow infection rate.",
-  "block.experienceobelisk.insightful_agar.description": "An infective block that reduces the spawn delay of adjacent bookshelves by 25%. Does not stack with other Insightful Agar blocks.",
-  "block.experienceobelisk.extravagant_agar.description": "An infective block that increases the orb value of adjacent bookshelves by 25%. Does not stack with other Extravagant Agar blocks.",
+  "block.experienceobelisk.nutrient_agar.description": "An infectious block that does not decay, but with a slow infection rate.",
+  "block.experienceobelisk.insightful_agar.description": "An infectious block that reduces the spawn delay of adjacent bookshelves by 30%.",
+  "block.experienceobelisk.extravagant_agar.description": "An infectious block that increases the orb value of adjacent bookshelves by 30%.",
 
   "title.experienceobelisk.experience_obelisk": "Experience Obelisk",
   "title.experienceobelisk.experience_obelisk.store": "Store",
