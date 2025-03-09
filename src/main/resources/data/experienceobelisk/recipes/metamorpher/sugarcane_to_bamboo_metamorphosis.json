@@ -4,8 +4,10 @@
     "item": "minecraft:sugar_cane"
   },
   "count1": 1,
-  "ingredient2": [],
-  "count2": 0,
+  "ingredient2": {
+    "item": "experienceobelisk:transforming_focus"
+  },
+  "count2": 1,
   "ingredient3": [],
   "count3": 0,
   "result": {

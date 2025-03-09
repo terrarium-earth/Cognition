@@ -1,11 +1,13 @@
 {
   "type": "experienceobelisk:molecular_metamorphosis",
   "ingredient1": {
-    "tag": "minecraft:dried_kelp"
+    "item": "minecraft:dried_kelp"
   },
   "count1": 1,
-  "ingredient2": [],
-  "count2": 0,
+  "ingredient2": {
+    "item": "experienceobelisk:transforming_focus"
+  },
+  "count2": 1,
   "ingredient3": [],
   "count3": 0,
   "result": {

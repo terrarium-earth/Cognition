@@ -54,6 +54,7 @@ public class RegisterCreativeTab {
                         output.accept(RegisterItems.CHAOS_FLASK.get());
                         output.accept(RegisterItems.NIGHTMARE_BOTTLE.get());
                         output.accept(RegisterItems.DAYDREAM_BOTTLE.get());
+                        output.accept(RegisterItems.TRANSFORMING_FOCUS.get());
 
                         //FUNCTIONAL BLOCKS
                         output.accept(RegisterItems.EXPERIENCE_OBELISK_ITEM.get());

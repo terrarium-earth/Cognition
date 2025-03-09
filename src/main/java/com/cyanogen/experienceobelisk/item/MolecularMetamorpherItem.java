@@ -25,8 +25,8 @@ import java.util.function.Consumer;
 
 public class MolecularMetamorpherItem extends BlockItem implements GeoItem {
 
-    public MolecularMetamorpherItem(Block p_40565_, Properties p_40566_) {
-        super(p_40565_, p_40566_);
+    public MolecularMetamorpherItem(Block block, Properties properties) {
+        super(block, properties);
     }
 
     //-----ANIMATIONS-----//

@@ -197,6 +197,9 @@ public class RegisterItems {
     public static final RegistryObject<Item> CHAOS_FLASK = ITEMS.register("flask_of_chaos",
             () -> new FlaskChaosItem(new Item.Properties()));
 
+    public static final RegistryObject<Item> TRANSFORMING_FOCUS = ITEMS.register("transforming_focus",
+            () -> new TransformingFocusItem(new Item.Properties()));
+
     //-----FUNCTIONAL BLOCK ITEMS-----//
 
     public static final RegistryObject<Item> EXPERIENCE_OBELISK_ITEM = ITEMS.register("experience_obelisk",
