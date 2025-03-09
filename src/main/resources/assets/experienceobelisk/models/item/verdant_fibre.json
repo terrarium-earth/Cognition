@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "experienceobelisk:item/hydroleather"
+    "layer0": "experienceobelisk:item/verdant_fibre"
   }
 }
