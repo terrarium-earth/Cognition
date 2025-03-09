@@ -1,0 +1,21 @@
+{
+  "type": "experienceobelisk:molecular_metamorphosis",
+  "ingredient1": {
+    "item": "experienceobelisk:cognitive_amalgam"
+  },
+  "count1": 2,
+  "ingredient2": {
+    "item": "minecraft:amethyst_shard"
+  },
+  "count2": 2,
+  "ingredient3": {
+    "item": "minecraft:glowstone_dust"
+  },
+  "count3": 3,
+  "result": {
+    "item": "experienceobelisk:transforming_focus",
+    "count": 1
+  },
+  "cost": 55,
+  "processTime": 40
+}

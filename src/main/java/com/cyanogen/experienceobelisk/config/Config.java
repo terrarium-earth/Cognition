@@ -15,7 +15,9 @@ public class Config {
         public final ForgeConfigSpec.ConfigValue<Double> amuletRange;
         public final ForgeConfigSpec.ConfigValue<Double> bindingRange;
         public final ForgeConfigSpec.ConfigValue<Boolean> formatting;
-        public final ForgeConfigSpec.ConfigValue<Boolean> dropDustOnDecay;
+
+        public final ForgeConfigSpec.ConfigValue<Double> dropDustChance;
+        public final ForgeConfigSpec.ConfigValue<Integer> dropDustCount;
 
         public final ForgeConfigSpec.ConfigValue<Integer> infectedSpawnDelayMin;
         public final ForgeConfigSpec.ConfigValue<Integer> infectedSpawnDelayMax;
@@ -73,9 +75,11 @@ public class Config {
             builder.pop();
 
             builder.push("Bookshelf Settings");
-            this.dropDustOnDecay = builder.comment("Whether or not infected bookshelves drop Forgotten Dust upon decaying. Default = true")
-                    .comment("Disabling this will make Forgotten Dust much more costly")
-                    .define("DropDustOnDecay", true);
+            this.dropDustChance = builder.comment("The chance that infected bookshelves drop Forgotten Dust upon decaying. Default = 0.25")
+                    .comment("Set this value to 0.0 to prevent drops completely")
+                    .define("DropDustChance", 0.25);
+            this.dropDustCount = builder.comment("The amount of Forgotten Dust dropped by each bookshelf upon decaying. Default = 1")
+                    .defineInRange("DropDustCount",1,1,4);
 
             builder.push("Infected Bookshelves");
             this.infectedSpawnDelayMin = builder.comment("The minimum spawn delay of Infected Bookshelves in ticks. Default = 150")

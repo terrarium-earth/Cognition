@@ -153,12 +153,14 @@ public abstract class AbstractInfectedBookshelfEntity extends AbstractInfectiveE
     public void decay(Level level, BlockPos pos){
 
         setRedstoneEnabled(true);
+        double chance = Config.COMMON.dropDustChance.get();
+        int count = Config.COMMON.dropDustCount.get();
 
         if(!level.isClientSide){
             ServerLevel server = (ServerLevel) level;
-            ItemStack forgottenDust = new ItemStack(RegisterItems.FORGOTTEN_DUST.get(), 4);
+            ItemStack forgottenDust = new ItemStack(RegisterItems.FORGOTTEN_DUST.get(), count);
 
-            if(Config.COMMON.dropDustOnDecay.get()){
+            if(Math.random() <= chance){
                 Block.popResource(server, pos, forgottenDust);
             }
         }
