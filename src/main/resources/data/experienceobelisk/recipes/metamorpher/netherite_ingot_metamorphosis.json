@@ -5,13 +5,13 @@
   },
   "count1": 3,
   "ingredient2": {
-    "item": "minecraft:gold_ingot"
-  },
-  "count2": 3,
-  "ingredient3": {
     "item": "experienceobelisk:transforming_focus"
   },
-  "count3": 1,
+  "count2": 1,
+  "ingredient3": {
+    "item": "minecraft:gold_ingot"
+  },
+  "count3": 3,
   "result": {
     "item": "minecraft:netherite_ingot",
     "count": 1

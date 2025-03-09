@@ -6,7 +6,7 @@ import net.minecraft.world.item.enchantment.Enchantment;
 
 public class TransformingFocusItem extends Item {
 
-    public static final int durability = 250;
+    public static final int durability = 500;
 
     public TransformingFocusItem(Properties p) {
         super(p);
