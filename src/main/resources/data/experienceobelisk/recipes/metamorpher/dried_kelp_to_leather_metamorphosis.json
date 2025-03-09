@@ -1,15 +1,15 @@
 {
   "type": "experienceobelisk:molecular_metamorphosis",
   "ingredient1": {
-      "item": "minecraft:dried_kelp"
+    "tag": "minecraft:dried_kelp"
   },
-  "count1": 3,
+  "count1": 1,
   "ingredient2": [],
   "count2": 0,
   "ingredient3": [],
   "count3": 0,
   "result": {
-    "item": "experienceobelisk:verdant_fibre",
+    "item": "minecraft:leather",
     "count": 1
   },
   "cost": 16,
