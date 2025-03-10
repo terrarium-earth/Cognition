@@ -75,7 +75,7 @@ public class Config {
             builder.pop();
 
             builder.push("Bookshelf Settings");
-            this.dropDustChance = builder.comment("The chance that infected bookshelves drop Forgotten Dust upon decaying. Default = 0.25")
+            this.dropDustChance = builder.comment("The chance that infected bookshelves of any kind drop Forgotten Dust upon decaying. Default = 0.25")
                     .comment("Set this value to 0.0 to prevent drops completely")
                     .define("DropDustChance", 0.25);
             this.dropDustCount = builder.comment("The amount of Forgotten Dust dropped by each bookshelf upon decaying. Default = 1")
