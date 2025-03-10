@@ -1,3 +1,13 @@
+v2.3.2
+
+[Changes]
+- added Transforming Focus
+- removed Metamorpher anvil repair recipes
+- Mending Neurogel may now be used to repair anvils, either in-inventory or in-world
+- greatly reduced Forgotten Dust drop rate from decaying bookshelves
+- added config option for Forgotten Dust drop frequency and amount
+- other recipe additions, balances and removals
+
 v2.3.1
 
 [Changes]
