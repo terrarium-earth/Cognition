@@ -154,14 +154,12 @@ public abstract class AbstractInfectedBookshelfEntity extends AbstractInfectiveE
 
         setRedstoneEnabled(true);
         double chance = Config.COMMON.dropDustChance.get();
-        int count = Config.COMMON.dropDustCount.get();
 
         if(!level.isClientSide){
-            ServerLevel server = (ServerLevel) level;
-            ItemStack forgottenDust = new ItemStack(RegisterItems.FORGOTTEN_DUST.get(), count);
+            ItemStack drops = new ItemStack(RegisterItems.FORGOTTEN_DUST.get());
 
             if(Math.random() <= chance){
-                Block.popResource(server, pos, forgottenDust);
+                Block.dropResources(getBlockState(), level, pos, this, null, drops);
             }
         }
         level.playSound(null, pos, SoundEvents.WART_BLOCK_BREAK, SoundSource.BLOCKS, 1f,1f); //play break sound
