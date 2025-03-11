@@ -1,6 +1,7 @@
 v2.3.2
 
 [Changes]
+- finalized Agar textures and recipes
 - added Transforming Focus
 - removed Metamorpher anvil repair recipes
 - Mending Neurogel may now be used to repair anvils, either in-inventory or in-world
