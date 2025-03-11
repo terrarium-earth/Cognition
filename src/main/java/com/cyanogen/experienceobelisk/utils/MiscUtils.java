@@ -2,8 +2,10 @@ package com.cyanogen.experienceobelisk.utils;
 
 import net.minecraft.client.gui.Font;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Vec3i;
 import net.minecraft.network.chat.FormattedText;
 import net.minecraft.network.chat.Style;
+import net.minecraft.world.phys.Vec3;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +35,36 @@ public class MiscUtils {
 
     public static float randomInRange(float min, float max){
         return (float) (min + Math.random() * (max - min));
+    }
+
+    public static float coinflip(float a, float b){
+        return Math.random() <= 0.5 ? a : b;
+    }
+
+    public static Vec3 generateRandomBlockSurfacePos(BlockPos pos, float distanceFromCtr){
+
+        double x = pos.getCenter().x;
+        double y = pos.getCenter().y;
+        double z = pos.getCenter().z;
+        double rand = Math.random();
+
+        if(rand <= 0.33){ //lock to x faces
+            x = x + coinflip(-distanceFromCtr, distanceFromCtr);
+            y = y + randomInRange(-distanceFromCtr, distanceFromCtr);
+            z = z + randomInRange(-distanceFromCtr, distanceFromCtr);
+        }
+        else if(rand <= 0.66){ //lock to y faces
+            x = x + randomInRange(-distanceFromCtr, distanceFromCtr);
+            y = y + coinflip(-distanceFromCtr, distanceFromCtr);
+            z = z + randomInRange(-distanceFromCtr, distanceFromCtr);
+        }
+        else{ //lock to z faces
+            x = x + randomInRange(-distanceFromCtr, distanceFromCtr);
+            y = y + randomInRange(-distanceFromCtr, distanceFromCtr);
+            z = z + coinflip(-distanceFromCtr, distanceFromCtr);
+        }
+
+        return new Vec3(x,y,z);
     }
 
 }
