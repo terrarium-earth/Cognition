@@ -1,9 +1,7 @@
 {   "parent": "block/block",
     "textures": {
         "particle": "experienceobelisk:block/insightful_agar_outer",
-        "inner1": "experienceobelisk:block/insightful_agar_inner1",
-        "inner2": "experienceobelisk:block/insightful_agar_inner2",
-        "inner3": "experienceobelisk:block/insightful_agar_inner3",
+        "inner": "experienceobelisk:block/insightful_agar_inner",
         "outer": "experienceobelisk:block/insightful_agar_outer"
     },
     "elements": [
@@ -18,15 +16,15 @@
                 "east":  { "texture": "#outer", "cullface": "east" }
             }
         },
-        {   "from": [ 1, 1, 1 ],
-            "to": [ 15, 15, 15 ],
+        {   "from": [ 2, 2, 2 ],
+            "to": [ 14, 14, 14 ],
             "faces": {
-                "down":  { "uv": [ 1, 1, 15, 15 ], "texture": "#inner3"},
-                "up":    { "uv": [ 1, 1, 15, 15 ], "texture": "#inner3"},
-                "north": { "uv": [ 1, 1, 15, 15 ], "texture": "#inner3"},
-                "south": { "uv": [ 1, 1, 15, 15 ], "texture": "#inner3"},
-                "west":  { "uv": [ 1, 1, 15, 15 ], "texture": "#inner3"},
-                "east":  { "uv": [ 1, 1, 15, 15 ], "texture": "#inner3"}
+                "down":  { "uv": [ 2, 2, 14, 14 ], "texture": "#inner"},
+                "up":    { "uv": [ 2, 2, 14, 14 ], "texture": "#inner"},
+                "north": { "uv": [ 2, 2, 14, 14 ], "texture": "#inner"},
+                "south": { "uv": [ 2, 2, 14, 14 ], "texture": "#inner"},
+                "west":  { "uv": [ 2, 2, 14, 14 ], "texture": "#inner"},
+                "east":  { "uv": [ 2, 2, 14, 14 ], "texture": "#inner"}
             }
         }
     ],
