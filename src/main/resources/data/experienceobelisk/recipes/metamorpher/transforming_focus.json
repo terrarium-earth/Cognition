@@ -8,8 +8,10 @@
     "item": "minecraft:amethyst_shard"
   },
   "count2": 4,
-  "ingredient3": [],
-  "count3": 0,
+  "ingredient3": {
+    "item": "minecraft:quartz"
+  },
+  "count3": 2,
   "result": {
     "item": "experienceobelisk:transforming_focus",
     "count": 1
