@@ -75,11 +75,11 @@ public class Config {
             builder.pop();
 
             builder.push("Bookshelf Settings");
-            this.dropDustChance = builder.comment("The chance that infected bookshelves of any kind drop Forgotten Dust upon decaying. Default = 0.25")
+            this.dropDustChance = builder.comment("The chance that infected bookshelves of any kind drop Forgotten Dust upon decaying. Default = 0.5")
                     .comment("Set this value to 0.0 to prevent drops completely")
-                    .defineInRange("DropDustChance", 0.0, 0.25, 1.0);
+                    .defineInRange("DropDustChance", 0.0, 0.5, 1.0);
             this.dropDustCount = builder.comment("The amount of Forgotten Dust dropped by each bookshelf upon decaying. Default = 1")
-                    .defineInRange("DropDustCount",1,1,4);
+                    .defineInRange("DropDustCount",2,1,4);
 
             builder.push("Infected Bookshelves");
             this.infectedSpawnDelayMin = builder.comment("The minimum spawn delay of Infected Bookshelves in ticks. Default = 150")

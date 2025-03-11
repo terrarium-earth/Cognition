@@ -5,11 +5,11 @@
   },
   "count1": 2,
   "ingredient2": {
-    "item": "minecraft:amethyst_shard"
+    "item": "experienceobelisk:forgotten_dust"
   },
   "count2": 4,
   "ingredient3": {
-    "item": "experienceobelisk:forgotten_dust"
+    "item": "minecraft:amethyst_shard"
   },
   "count3": 5,
   "result": {

@@ -5,13 +5,13 @@
   },
   "count1": 1,
   "ingredient2": {
-    "item": "minecraft:honeycomb"
-  },
-  "count2": 6,
-  "ingredient3": {
     "item": "experienceobelisk:forgotten_dust_block"
   },
-  "count3": 1,
+  "count2": 1,
+  "ingredient3": {
+    "item": "minecraft:honeycomb"
+  },
+  "count3": 6,
   "result": {
     "item": "experienceobelisk:insightful_agar",
     "count": 1
