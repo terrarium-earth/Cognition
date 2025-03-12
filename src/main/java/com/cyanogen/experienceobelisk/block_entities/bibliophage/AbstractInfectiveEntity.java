@@ -59,4 +59,44 @@ public abstract class AbstractInfectiveEntity extends BlockEntity {
         return list;
     }
 
+    public List<BlockPos> getEdgeBlocks(BlockPos pos){
+        List<BlockPos> list = new ArrayList<>();
+
+        BlockPos above = pos.above();
+        BlockPos below = pos.below();
+
+        list.add(above.north());
+        list.add(above.south());
+        list.add(above.east());
+        list.add(above.west());
+        list.add(below.north());
+        list.add(below.south());
+        list.add(below.east());
+        list.add(below.west());
+        list.add(pos.north().west());
+        list.add(pos.north().east());
+        list.add(pos.south().west());
+        list.add(pos.south().east());
+
+        return list;
+    }
+
+    public List<BlockPos> getVertexBlocks(BlockPos pos){
+        List<BlockPos> list = new ArrayList<>();
+
+        BlockPos above = pos.above();
+        BlockPos below = pos.below();
+
+        list.add(above.north().west());
+        list.add(above.north().east());
+        list.add(above.south().west());
+        list.add(above.south().east());
+        list.add(below.north().west());
+        list.add(below.north().east());
+        list.add(below.south().west());
+        list.add(below.south().east());
+
+        return list;
+    }
+
 }
