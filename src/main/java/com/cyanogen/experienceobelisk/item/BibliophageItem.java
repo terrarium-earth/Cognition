@@ -1,5 +1,6 @@
 package com.cyanogen.experienceobelisk.item;
 
+import com.cyanogen.experienceobelisk.block_entities.bibliophage.FluorescentAgarEntity;
 import com.cyanogen.experienceobelisk.registries.RegisterBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvents;
@@ -50,6 +51,7 @@ public class BibliophageItem extends Item {
         list.add(Blocks.BOOKSHELF);
         list.add(RegisterBlocks.ENCHANTED_BOOKSHELF.get());
         list.add(RegisterBlocks.ARCHIVERS_BOOKSHELF.get());
+        list.add(RegisterBlocks.FLUORESCENT_AGAR.get());
 
         return list;
     }
@@ -57,6 +59,15 @@ public class BibliophageItem extends Item {
     public static void infectBlock(Level level, BlockPos pos, Block block){
 
         BlockState state = null;
+
+        if(block.equals(RegisterBlocks.FLUORESCENT_AGAR.get())){
+            if(level.getBlockEntity(pos) instanceof FluorescentAgarEntity agarEntity){
+                agarEntity.incrementInfectionProgress();
+            }
+            level.playSound(null, pos, SoundEvents.WART_BLOCK_BREAK, SoundSource.BLOCKS, 1f,1f);
+            level.levelEvent(null, 2001, pos, Block.getId(RegisterBlocks.FLUORESCENT_AGAR.get().defaultBlockState()));
+            return;
+        }
 
         if(block.equals(Blocks.BOOKSHELF)){
             state = RegisterBlocks.INFECTED_BOOKSHELF.get().defaultBlockState();
@@ -68,7 +79,7 @@ public class BibliophageItem extends Item {
             state = RegisterBlocks.INFECTED_ARCHIVERS_BOOKSHELF.get().defaultBlockState();
         }
 
-        if(state != null && !level.isClientSide){
+        if(state != null){
             level.setBlockAndUpdate(pos, state);
         }
 

@@ -42,6 +42,9 @@ public class RegisterBlockEntities {
     public static final RegistryObject<BlockEntityType<MolecularMetamorpherEntity>> MOLECULAR_METAMORPHER_BE = BLOCK_ENTITIES.register("molecularmetamorpher_be",
             ()-> BlockEntityType.Builder.of(MolecularMetamorpherEntity::new, RegisterBlocks.MOLECULAR_METAMORPHER.get()).build(Type));
 
+    public static final RegistryObject<BlockEntityType<FluorescentAgarEntity>> FLUORESCENT_AGAR_BE = BLOCK_ENTITIES.register("fluorescentagar_be",
+            ()-> BlockEntityType.Builder.of(FluorescentAgarEntity::new, RegisterBlocks.FLUORESCENT_AGAR.get()).build(Type));
+
     public static final RegistryObject<BlockEntityType<NutrientAgarEntity>> NUTRIENT_AGAR_BE = BLOCK_ENTITIES.register("nutrientagar_be",
             ()-> BlockEntityType.Builder.of(NutrientAgarEntity::new, RegisterBlocks.NUTRIENT_AGAR.get()).build(Type));
 
