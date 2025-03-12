@@ -149,6 +149,7 @@
   "jei.experienceobelisk.metamorpher.process_time": "§7Process time: %s",
   "jei.experienceobelisk.description.forgotten_dust": "Obtained from breaking Infected Bookshelves (any kind), or by waiting for Infected Bookshelves (any kind) to decay",
   "jei.experienceobelisk.description.experience_vessels": "Right click a bound Experience Fountain with an empty bottle / bucket. The bound Obelisk must have enough Cognitium",
+  "jei.experienceobelisk.description.nutrient_agar": "Infect a block of Fluorescent Agar with Bibliophages. After a few infections, it will transform into Nutrient Agar",
   "jei.experienceobelisk.error.missing_items": "§cMissing Items",
   "jei.experienceobelisk.error.inventory_full": "§cInventory Full",
   "jei.experienceobelisk.name.any_item": "Any Item..."

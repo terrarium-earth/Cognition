@@ -1,17 +1,17 @@
 {
   "type": "experienceobelisk:molecular_metamorphosis",
   "ingredient1": {
-    "item": "experienceobelisk:insightful_agar"
+    "item": "experienceobelisk:nutrient_agar"
   },
   "count1": 1,
   "ingredient2": {
-    "item": "experienceobelisk:forgotten_dust_block"
+    "item": "minecraft:phantom_membrane"
   },
-  "count2": 1,
+  "count2": 4,
   "ingredient3": {
     "item": "experienceobelisk:calcarine_matrix"
   },
-  "count3": 8,
+  "count3": 4,
   "result": {
     "item": "experienceobelisk:extravagant_agar",
     "count": 1

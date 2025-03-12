@@ -235,6 +235,9 @@ public class RegisterItems {
     public static final RegistryObject<Item> INFECTED_ARCHIVERS_BOOKSHELF_ITEM = ITEMS.register("infected_archivers_bookshelf",
             () -> new BlockItem(RegisterBlocks.INFECTED_ARCHIVERS_BOOKSHELF.get(), new Item.Properties()));
 
+    public static final RegistryObject<Item> FLUORESCENT_AGAR_ITEM = ITEMS.register("fluorescent_agar",
+            () -> new BlockItem(RegisterBlocks.FLUORESCENT_AGAR.get(), new Item.Properties()));
+
     public static final RegistryObject<Item> NUTRIENT_AGAR_ITEM = ITEMS.register("nutrient_agar",
             () -> new BlockItem(RegisterBlocks.NUTRIENT_AGAR.get(), new Item.Properties()));
 
