@@ -7,7 +7,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 
@@ -19,17 +18,13 @@ public class FluorescentAgarEntity extends BlockEntity {
 
     int infectionProgress = 0;
 
-    public static <T> void tick(Level level, BlockPos pos, BlockState state, T blockEntity) {
-
-        if(level.getGameTime() % 20 == 0 && blockEntity instanceof FluorescentAgarEntity agarEntity){
-            if(agarEntity.infectionProgress >= 4){
-                level.setBlockAndUpdate(pos, RegisterBlocks.NUTRIENT_AGAR.get().defaultBlockState());
-            }
-        }
-    }
-
     public void incrementInfectionProgress(){
         this.infectionProgress++;
+
+        if(level != null && this.infectionProgress >= 4){
+            level.setBlockAndUpdate(this.getBlockPos(), RegisterBlocks.NUTRIENT_AGAR.get().defaultBlockState());
+        }
+
         setChanged();
     }
 

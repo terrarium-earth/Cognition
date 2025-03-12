@@ -47,12 +47,6 @@ public class FluorescentAgarBlock extends HalfTransparentBlock implements Entity
 
     @Nullable
     @Override
-    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> blockEntityType) {
-        return blockEntityType == RegisterBlockEntities.FLUORESCENT_AGAR_BE.get() ? FluorescentAgarEntity::tick : null;
-    }
-
-    @Nullable
-    @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
         return RegisterBlockEntities.FLUORESCENT_AGAR_BE.get().create(pos, state);
     }

@@ -28,7 +28,7 @@ public class RegisterBlocks {
     public static final RegistryObject<Block> INFECTED_ENCHANTED_BOOKSHELF = BLOCKS.register("infected_enchanted_bookshelf", InfectedEnchantedBookshelfBlock::new);
     public static final RegistryObject<Block> INFECTED_ARCHIVERS_BOOKSHELF = BLOCKS.register("infected_archivers_bookshelf", InfectedArchiversBookshelfBlock::new);
     public static final RegistryObject<Block> MOLECULAR_METAMORPHER = BLOCKS.register("molecular_metamorpher", MolecularMetamorpherBlock::new);
-    public static final RegistryObject<Block> FLUORESCENT_AGAR = BLOCKS.register("nutrient_agar", FluorescentAgarBlock::new);
+    public static final RegistryObject<Block> FLUORESCENT_AGAR = BLOCKS.register("fluorescent_agar", FluorescentAgarBlock::new);
     public static final RegistryObject<Block> NUTRIENT_AGAR = BLOCKS.register("nutrient_agar", NutrientAgarBlock::new);
     public static final RegistryObject<Block> INSIGHTFUL_AGAR = BLOCKS.register("insightful_agar", InsightfulAgarBlock::new);
     public static final RegistryObject<Block> EXTRAVAGANT_AGAR = BLOCKS.register("extravagant_agar", ExtravagantAgarBlock::new);

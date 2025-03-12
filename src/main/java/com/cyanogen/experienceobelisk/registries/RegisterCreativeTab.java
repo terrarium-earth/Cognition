@@ -68,6 +68,7 @@ public class RegisterCreativeTab {
                         output.accept(RegisterItems.INFECTED_BOOKSHELF_ITEM.get());
                         output.accept(RegisterItems.INFECTED_ARCHIVERS_BOOKSHELF_ITEM.get());
                         output.accept(RegisterItems.INFECTED_ENCHANTED_BOOKSHELF_ITEM.get());
+                        output.accept(RegisterItems.FLUORESCENT_AGAR_ITEM.get());
                         output.accept(RegisterItems.NUTRIENT_AGAR_ITEM.get());
                         output.accept(RegisterItems.INSIGHTFUL_AGAR_ITEM.get());
                         output.accept(RegisterItems.EXTRAVAGANT_AGAR_ITEM.get());
