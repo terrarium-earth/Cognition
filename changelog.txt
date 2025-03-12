@@ -1,12 +1,17 @@
 v2.3.2
 
-[Changes]
-- finalized Agar textures and recipes
+[Content]
 - added Transforming Focus
-- removed Metamorpher anvil repair recipes
-- Mending Neurogel may now be used to repair anvils, either in-inventory or in-world
+
+[Changes]
+- Insightful & Extravagant Agar now give a small bonus to bookshelves sharing edges and vertices on top of the main bonus to those sharing faces
+- finalized Agar textures and recipes
+- made Agar permeable to experience orbs
 - reduced Forgotten Dust drop rate from decaying bookshelves to 50% from 100%
 - added config option for Forgotten Dust drop rate
+- added config option for Agar bonuses
+- removed Metamorpher anvil repair recipes
+- Mending Neurogel may now be used to repair anvils, either in-inventory or in-world
 - other recipe additions, balances and removals
 
 v2.3.1

@@ -33,6 +33,10 @@ public class Config {
         public final ForgeConfigSpec.ConfigValue<Integer> archiversOrbValue;
         public final ForgeConfigSpec.ConfigValue<Integer> archiversSpawns;
 
+        public final ForgeConfigSpec.ConfigValue<Double> agarFaceBonus;
+        public final ForgeConfigSpec.ConfigValue<Double> agarEdgeBonus;
+        public final ForgeConfigSpec.ConfigValue<Double> agarVertexBonus;
+
         public List<String> defaultAllowedFluids = new ArrayList<>();
         public int defaultCapacity = 100000000;
         public double defaultAmuletRange = 8.0;
@@ -109,6 +113,16 @@ public class Config {
                     .defineInRange("OrbValue", 6, 1, 32767);
             this.archiversSpawns = builder.comment("The number of spawns until the bookshelf decays. Default = 200")
                     .defineInRange("Spawns", 200, 1, 10000);
+            builder.pop();
+            builder.pop();
+
+            builder.push("Agar Settings");
+            this.agarFaceBonus = builder.comment("The bonus that Insightful & Extravagant Agar apply to bookshelves sharing a face. Default = 1.35")
+                    .defineInRange("DropDustChance", 1.35, 0.0, 4);
+            this.agarEdgeBonus = builder.comment("The bonus that Insightful & Extravagant Agar apply to bookshelves sharing an edge. Default = 1.15")
+                    .defineInRange("DropDustChance", 1.15, 0.0, 4);
+            this.agarVertexBonus = builder.comment("The bonus that Insightful & Extravagant Agar apply to bookshelves sharing a vertex. Default = 1.10")
+                    .defineInRange("DropDustChance", 1.10, 0.0, 4);
             builder.pop();
         }
 

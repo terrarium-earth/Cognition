@@ -188,9 +188,9 @@ public abstract class AbstractInfectedBookshelfEntity extends AbstractInfectiveE
         int edges = countNeighborsOfType(type, getEdgeBlocks(this.getBlockPos()));
         int vertices = countNeighborsOfType(type, getVertexBlocks(this.getBlockPos()));
 
-        double faceBonus = 1.35;
-        double edgeBonus = 1.15;
-        double vertexBonus = 1.1;
+        double faceBonus = Config.COMMON.agarFaceBonus.get();
+        double edgeBonus = Config.COMMON.agarEdgeBonus.get();
+        double vertexBonus = Config.COMMON.agarVertexBonus.get();
 
         return Math.pow(faceBonus, faces) * Math.pow(edgeBonus, edges) * Math.pow(vertexBonus, vertices);
     }
