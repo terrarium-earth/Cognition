@@ -57,7 +57,7 @@ public class Config {
 
             builder.push("Experience Obelisk Capacity");
             this.capacity = builder.comment("The fluid capacity of the obelisk in mB. Default = 100000000, which is ~1072 levels' worth. Ensure that the new value is divisible by 20.")
-                    .comment("Warning: setting this value above the default may lead to unintended loss or gain of XP.")
+                    .comment("Warning: setting this value above the default may lead to unintended loss or gain of XP. This is due to a rounding error in Minecraft's XP handling")
                     .defineInRange("Capacity", defaultCapacity, 1000, 2147483640);
             builder.pop();
 
@@ -72,7 +72,7 @@ public class Config {
                     .defineInRange("Range", defaultBindingRange, 4, 100.0);
             builder.pop();
 
-            builder.push("Enable Name Formatting Anvil Recipes");
+            builder.push("Enable Name Formatting Recipes");
             this.formatting = builder.comment("Whether custom recipes that allow for the changing of item name color & formatting are enabled")
                     .define("Formatting", true);
             builder.pop();
@@ -101,7 +101,7 @@ public class Config {
             this.enchantedOrbValue = builder.comment("The XP value of spawned orbs. Default = 12")
                     .defineInRange("OrbValue", 12, 1, 32767);
             this.enchantedSpawns = builder.comment("The number of spawns until the bookshelf decays. Default = 200")
-                    .defineInRange("Range", 200, 1, 10000);
+                    .defineInRange("Spawns", 200, 1, 10000);
             builder.pop();
 
             builder.push("Infected Archiver's Bookshelves");
@@ -118,11 +118,11 @@ public class Config {
 
             builder.push("Agar Settings");
             this.agarFaceBonus = builder.comment("The bonus that Insightful & Extravagant Agar apply to bookshelves sharing a face. Default = 1.35")
-                    .defineInRange("DropDustChance", 1.35, 0.0, 4);
+                    .defineInRange("AgarFaceBonus", 1.35, 0.0, 4);
             this.agarEdgeBonus = builder.comment("The bonus that Insightful & Extravagant Agar apply to bookshelves sharing an edge. Default = 1.15")
-                    .defineInRange("DropDustChance", 1.15, 0.0, 4);
+                    .defineInRange("AgarEdgeBonus", 1.15, 0.0, 4);
             this.agarVertexBonus = builder.comment("The bonus that Insightful & Extravagant Agar apply to bookshelves sharing a vertex. Default = 1.10")
-                    .defineInRange("DropDustChance", 1.10, 0.0, 4);
+                    .defineInRange("AgarVertexBonus", 1.10, 0.0, 4);
             builder.pop();
         }
 
