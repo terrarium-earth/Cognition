@@ -2,6 +2,8 @@ package com.cyanogen.experienceobelisk.block_entities.bibliophage;
 
 import com.cyanogen.experienceobelisk.registries.RegisterBlockEntities;
 import com.cyanogen.experienceobelisk.utils.MiscUtils;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleOptions;
@@ -23,8 +25,8 @@ public class ExtravagantAgarEntity extends AbstractAgarEntity {
         if(level.getGameTime() % 2 == 0){
             Vec3 particlePos = MiscUtils.generateRandomBlockSurfacePos(pos, 0.55f);
 
-            level.addAlwaysVisibleParticle(
-                    ParticleTypes.ENCHANT, true, particlePos.x, particlePos.y, particlePos.z,
+            level.addParticle(
+                    ParticleTypes.ENCHANT, false, particlePos.x, particlePos.y, particlePos.z,
                     MiscUtils.randomInRange(-0.5f, 0.5f),
                     MiscUtils.randomInRange(-0.5f, 0.5f),
                     MiscUtils.randomInRange(-0.5f, 0.5f));
