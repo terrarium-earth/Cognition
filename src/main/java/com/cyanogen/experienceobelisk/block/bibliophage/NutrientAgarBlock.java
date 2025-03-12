@@ -3,6 +3,9 @@ package com.cyanogen.experienceobelisk.block.bibliophage;
 import com.cyanogen.experienceobelisk.block_entities.bibliophage.NutrientAgarEntity;
 import com.cyanogen.experienceobelisk.registries.RegisterBlockEntities;
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.ExperienceOrb;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.EntityBlock;
@@ -11,6 +14,10 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.EntityCollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 
 public class NutrientAgarBlock extends HalfTransparentBlock implements EntityBlock {
@@ -21,6 +28,18 @@ public class NutrientAgarBlock extends HalfTransparentBlock implements EntityBlo
                 .isViewBlocking((state,getter,pos)->false)
                 .lightLevel(value -> 1)
                 .emissiveRendering((state,getter,pos)->true));
+    }
+
+    @Override
+    public VoxelShape getCollisionShape(BlockState state, BlockGetter getter, BlockPos pos, CollisionContext context) {
+
+        if(context instanceof EntityCollisionContext entityCollisionContext){
+            Entity e = entityCollisionContext.getEntity();
+            if(e instanceof ExperienceOrb){
+                return Shapes.empty();
+            }
+        }
+        return super.getCollisionShape(state, getter, pos, context);
     }
 
     //-----BLOCK ENTITY-----//
