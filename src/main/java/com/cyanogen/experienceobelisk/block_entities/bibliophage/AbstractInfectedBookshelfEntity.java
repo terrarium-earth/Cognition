@@ -77,7 +77,6 @@ public abstract class AbstractInfectedBookshelfEntity extends AbstractInfectiveE
 
         if(bonus > 1){
             delay = (int) (delay / bonus);
-            System.out.println("insightful bonus: "+bonus);
         }
 
         this.timeTillSpawn = delay;
@@ -98,7 +97,6 @@ public abstract class AbstractInfectedBookshelfEntity extends AbstractInfectiveE
 
             if(bonus > 1){
                 value = (int) (value * bonus);
-                System.out.println("extravagant bonus: "+bonus);
             }
 
             ServerLevel server = (ServerLevel) level;
