@@ -1,6 +1,6 @@
 {   "parent": "block/block",
     "textures": {
-        "particle": "experienceobelisk:block/nutrient_agar_inner",
+        "particle": "experienceobelisk:block/nutrient_agar_outer",
         "inner": "experienceobelisk:block/nutrient_agar_inner",
         "outer": "experienceobelisk:block/nutrient_agar_outer"
     },

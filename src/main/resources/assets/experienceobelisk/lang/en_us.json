@@ -132,6 +132,7 @@
   "message.experienceobelisk.binding_wand.enable_redstone": "Redstone sensitivity set to §aEnabled",
   "message.experienceobelisk.binding_wand.disable_redstone": "Redstone sensitivity set to §cDisabled",
   "message.experienceobelisk.binding_wand.query_bookshelf": "§b[ⓘ]§r Bookshelf is at %s durability",
+  "message.experienceobelisk.binding_wand.query_fluorescent_agar": "§b[ⓘ]§r Infection progress: %s / 4",
 
   "message.experienceobelisk.experience_fountain.slow": "Experience Fountain set to: §cSlow§r",
   "message.experienceobelisk.experience_fountain.moderate": "Experience Fountain set to: §6Moderate§r",
