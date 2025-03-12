@@ -47,6 +47,7 @@
   "block.experienceobelisk.infected_bookshelf": "Infected Bookshelf",
   "block.experienceobelisk.infected_enchanted_bookshelf": "Infected Enchanted Bookshelf",
   "block.experienceobelisk.infected_archivers_bookshelf": "Infected Archiver's Bookshelf",
+  "block.experienceobelisk.fluorescent_agar": "Fluorescent Agar",
   "block.experienceobelisk.nutrient_agar": "Nutrient Agar",
   "block.experienceobelisk.insightful_agar": "Insightful Agar",
   "block.experienceobelisk.extravagant_agar": "Extravagant Agar",
@@ -77,7 +78,7 @@
   "block.experienceobelisk.archivers_bookshelf.description": "When infected, lasts twice as long as an ordinary bookshelf before decaying. Has an enchantment power bonus of 1.5 when used at an Enchanting Table.",
   "block.experienceobelisk.enchanted_bookshelf.description": "When infected, lasts twice as long as and produces orbs with twice the value of an ordinary bookshelf before decaying. Has an enchantment power bonus of 2.0 when used at an Enchanting Table.",
   "block.experienceobelisk.whisperglass.description": "An extremely slippery block, similar to blue ice.",
-  "block.experienceobelisk.nutrient_agar.description": "An infectious block that does not decay.",
+  "block.experienceobelisk.nutrient_agar.description": "An infectious block that does not decay. Has a slow infection rate.",
   "block.experienceobelisk.insightful_agar.description": "An infectious block that reduces the spawn delay of surrounding bookshelves.",
   "block.experienceobelisk.extravagant_agar.description": "An infectious block that boosts the orb value of surrounding bookshelves.",
 
@@ -144,6 +145,7 @@
   "sounds.experienceobelisk.flask_empty_lava": "Flask empties",
   "sounds.experienceobelisk.flask_empty_water": "Flask empties",
   "sounds.experienceobelisk.flask_fill_void": "Flask consumes",
+  "sounds.experienceobelisk.fluorescent_agar_infect": "Agar converts",
 
   "jei.experienceobelisk.metamorpher.cost_xp": "§7Consumes %s §7XP",
   "jei.experienceobelisk.metamorpher.process_time": "§7Process time: %s",

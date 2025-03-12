@@ -11,7 +11,4 @@ public class InsightfulAgarEntity extends AbstractAgarEntity {
         infectivity = 0.01;
     }
 
-    // Decreases the spawn delay of adjacent bookshelves by 1.25x
-    // Inherits properties of nutrient agar
-
 }

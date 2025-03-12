@@ -22,6 +22,8 @@ public class ExtravagantAgarEntity extends AbstractAgarEntity {
 
     public static <T> void tick(Level level, BlockPos pos, BlockState state, T blockEntity) {
 
+        AbstractAgarEntity.tick(level, pos, state, blockEntity);
+
         if(level.getGameTime() % 2 == 0){
             Vec3 particlePos = MiscUtils.generateRandomBlockSurfacePos(pos, 0.55f);
 
@@ -32,8 +34,5 @@ public class ExtravagantAgarEntity extends AbstractAgarEntity {
                     MiscUtils.randomInRange(-0.5f, 0.5f));
         }
     }
-
-    // Increases the orb value of adjacent bookshelves by 1.25x
-    // Inherits properties of nutrient agar
 
 }

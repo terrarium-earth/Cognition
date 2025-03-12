@@ -11,7 +11,4 @@ public class NutrientAgarEntity extends AbstractAgarEntity {
         infectivity = 0.005;
     }
 
-    // An unlimited source of bibliophages (but very slow to infect)
-    // Can be harvested
-
 }

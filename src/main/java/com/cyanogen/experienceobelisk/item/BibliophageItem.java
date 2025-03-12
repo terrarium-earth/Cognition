@@ -64,8 +64,6 @@ public class BibliophageItem extends Item {
             if(level.getBlockEntity(pos) instanceof FluorescentAgarEntity agarEntity){
                 agarEntity.incrementInfectionProgress();
             }
-            level.playSound(null, pos, SoundEvents.PLAYER_LEVELUP, SoundSource.BLOCKS, 1f,1f);
-            level.levelEvent(null, 2001, pos, Block.getId(RegisterBlocks.FLUORESCENT_AGAR.get().defaultBlockState()));
             return;
         }
 

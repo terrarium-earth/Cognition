@@ -2,11 +2,16 @@ package com.cyanogen.experienceobelisk.block_entities.bibliophage;
 
 import com.cyanogen.experienceobelisk.registries.RegisterBlockEntities;
 import com.cyanogen.experienceobelisk.registries.RegisterBlocks;
+import com.cyanogen.experienceobelisk.registries.RegisterSounds;
+import com.cyanogen.experienceobelisk.utils.MiscUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 
@@ -19,10 +24,17 @@ public class FluorescentAgarEntity extends BlockEntity {
     int infectionProgress = 0;
 
     public void incrementInfectionProgress(){
-        this.infectionProgress++;
 
-        if(level != null && this.infectionProgress >= 4){
-            level.setBlockAndUpdate(this.getBlockPos(), RegisterBlocks.NUTRIENT_AGAR.get().defaultBlockState());
+        infectionProgress++;
+        BlockPos pos = getBlockPos();
+
+        if(level != null){
+            level.levelEvent(null, 2001, pos, Block.getId(RegisterBlocks.FLUORESCENT_AGAR.get().defaultBlockState()));
+
+            if(infectionProgress >= 4){
+                level.playSound(null, pos, RegisterSounds.FLUORESCENT_AGAR_INFECT.get(), SoundSource.BLOCKS, 0.5f,0.5f);
+                level.setBlockAndUpdate(getBlockPos(), RegisterBlocks.NUTRIENT_AGAR.get().defaultBlockState());
+            }
         }
 
         setChanged();

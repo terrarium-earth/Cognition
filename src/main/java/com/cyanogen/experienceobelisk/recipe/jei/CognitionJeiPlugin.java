@@ -56,7 +56,7 @@ public class CognitionJeiPlugin implements IModPlugin {
 
         registration.addIngredientInfo(FORGOTTEN_DUST, VanillaTypes.ITEM_STACK, Component.translatable("jei.experienceobelisk.description.forgotten_dust"));
         registration.addIngredientInfo(EXPERIENCE_VESSELS, VanillaTypes.ITEM_STACK, Component.translatable("jei.experienceobelisk.description.experience_vessels"));
-        registration.addIngredientInfo(FORGOTTEN_DUST, VanillaTypes.ITEM_STACK, Component.translatable("jei.experienceobelisk.description.nutrient_agar"));
+        registration.addIngredientInfo(NUTRIENT_AGAR, VanillaTypes.ITEM_STACK, Component.translatable("jei.experienceobelisk.description.nutrient_agar"));
 
         //HIDE FROM VIEWER
         List<ItemStack> hidden = new ArrayList<>();
