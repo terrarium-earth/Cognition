@@ -1,3 +1,14 @@
+v2.3.3
+
+[Changes]
+- increased Transforming Focus durability 500 --> 512
+- Transforming Foci can now be enchanted with Unbreaking via enchanted books
+- Doubled orb value and spawn interval, and halved spawn count for all types of Infected Bookshelves. Average xp/s and total production remains the same, but large setups should be less laggy.
+
+[Bugfixes]
+- capped maximum value of orbs produced by bookshelves to 32767
+- fixed Fluorescent Agar conversion using the wrong type of sound event
+
 v2.3.2
 
 [Content]
