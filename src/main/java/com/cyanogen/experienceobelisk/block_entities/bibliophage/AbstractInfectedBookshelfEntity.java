@@ -96,7 +96,7 @@ public abstract class AbstractInfectedBookshelfEntity extends AbstractInfectiveE
         if(!level.isClientSide){
 
             if(bonus > 1){
-                value = (int) (value * bonus);
+                value = Math.max(32767, (int) (value * bonus));
             }
 
             ServerLevel server = (ServerLevel) level;
