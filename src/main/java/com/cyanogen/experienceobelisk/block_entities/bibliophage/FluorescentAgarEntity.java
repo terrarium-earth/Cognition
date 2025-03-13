@@ -32,7 +32,7 @@ public class FluorescentAgarEntity extends BlockEntity {
             level.levelEvent(null, 2001, pos, Block.getId(RegisterBlocks.FLUORESCENT_AGAR.get().defaultBlockState()));
 
             if(infectionProgress >= 4){
-                level.playSound(null, pos, RegisterSounds.FLUORESCENT_AGAR_INFECT.get(), SoundSource.BLOCKS, 0.35f,0.5f);
+                level.playSound(null, pos, RegisterSounds.FLUORESCENT_AGAR_INFECT.get(), SoundSource.BLOCKS, 0.45f,0.5f);
                 level.setBlockAndUpdate(getBlockPos(), RegisterBlocks.NUTRIENT_AGAR.get().defaultBlockState());
             }
         }
