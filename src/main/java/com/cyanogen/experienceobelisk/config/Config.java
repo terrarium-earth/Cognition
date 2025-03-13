@@ -83,36 +83,36 @@ public class Config {
                     .defineInRange("DropDustChance", 0.5, 0.0, 1.0);
 
             builder.push("Infected Bookshelves");
-            this.infectedSpawnDelayMin = builder.comment("The minimum spawn delay of Infected Bookshelves in ticks. Default = 150")
-                    .defineInRange("SpawnDelayMin", 150, 1, 10000);
-            this.infectedSpawnDelayMax = builder.comment("The maximum spawn delay of Infected Bookshelves in ticks. Default = 250")
-                    .defineInRange("SpawnDelayMax", 250, 1, 10000);
+            this.infectedSpawnDelayMin = builder.comment("The minimum spawn delay of Infected Bookshelves in ticks. Default = 300")
+                    .defineInRange("SpawnDelayMin", 300, 1, 10000);
+            this.infectedSpawnDelayMax = builder.comment("The maximum spawn delay of Infected Bookshelves in ticks. Default = 500")
+                    .defineInRange("SpawnDelayMax", 500, 1, 10000);
             this.infectedOrbValue = builder.comment("The XP value of spawned orbs. Default = 6")
-                    .defineInRange("OrbValue", 6, 1, 32767);
-            this.infectedSpawns = builder.comment("The number of spawns until the bookshelf decays. Default = 100")
-                    .defineInRange("Spawns", 100, 1, 10000);
+                    .defineInRange("OrbValue", 12, 1, 32767);
+            this.infectedSpawns = builder.comment("The number of spawns until the bookshelf decays. Default = 50")
+                    .defineInRange("Spawns", 50, 1, 10000);
             builder.pop();
 
             builder.push("Infected Enchanted Bookshelves");
             this.enchantedSpawnDelayMin = builder.comment("The minimum spawn delay of Enchanted Bookshelves in ticks. Default = 100")
-                    .defineInRange("SpawnDelayMin", 100, 1, 10000);
+                    .defineInRange("SpawnDelayMin", 300, 1, 10000);
             this.enchantedSpawnDelayMax = builder.comment("The maximum spawn delay of Enchanted Bookshelves in ticks. Default = 300")
-                    .defineInRange("SpawnDelayMax", 300, 1, 10000);
+                    .defineInRange("SpawnDelayMax", 500, 1, 10000);
             this.enchantedOrbValue = builder.comment("The XP value of spawned orbs. Default = 12")
-                    .defineInRange("OrbValue", 12, 1, 32767);
-            this.enchantedSpawns = builder.comment("The number of spawns until the bookshelf decays. Default = 200")
-                    .defineInRange("Spawns", 200, 1, 10000);
+                    .defineInRange("OrbValue", 24, 1, 32767);
+            this.enchantedSpawns = builder.comment("The number of spawns until the bookshelf decays. Default = 100")
+                    .defineInRange("Spawns", 100, 1, 10000);
             builder.pop();
 
             builder.push("Infected Archiver's Bookshelves");
             this.archiversSpawnDelayMin = builder.comment("The minimum spawn delay of Archiver's Bookshelves in ticks. Default = 180")
-                    .defineInRange("SpawnDelayMin", 180, 1, 10000);
+                    .defineInRange("SpawnDelayMin", 300, 1, 10000);
             this.archiversSpawnDelayMax = builder.comment("The maximum spawn delay of Archiver's Bookshelves in ticks. Default = 220")
-                    .defineInRange("SpawnDelayMax", 220, 1, 10000);
+                    .defineInRange("SpawnDelayMax", 500, 1, 10000);
             this.archiversOrbValue = builder.comment("The XP value of spawned orbs. Default = 6")
-                    .defineInRange("OrbValue", 6, 1, 32767);
-            this.archiversSpawns = builder.comment("The number of spawns until the bookshelf decays. Default = 200")
-                    .defineInRange("Spawns", 200, 1, 10000);
+                    .defineInRange("OrbValue", 12, 1, 32767);
+            this.archiversSpawns = builder.comment("The number of spawns until the bookshelf decays. Default = 50")
+                    .defineInRange("Spawns", 100, 1, 10000);
             builder.pop();
             builder.pop();
 
