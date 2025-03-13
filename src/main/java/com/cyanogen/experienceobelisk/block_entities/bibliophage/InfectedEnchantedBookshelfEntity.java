@@ -8,20 +8,11 @@ import net.minecraft.world.level.block.state.BlockState;
 public class InfectedEnchantedBookshelfEntity extends AbstractInfectedBookshelfEntity {
 
     public InfectedEnchantedBookshelfEntity(BlockPos pos, BlockState state) {
-        super(RegisterBlockEntities.INFECTED_ENCHANTED_BOOKSHELF_BE.get(), pos, state);
-
-        super.spawnDelayMin = 100;
-        super.spawnDelayMax = 300;
-        super.orbValue = 12;
-        super.spawns = 200;
-    }
-
-    @Override
-    public void onLoad() {
-        super.spawnDelayMin = Config.COMMON.enchantedSpawnDelayMin.get();
-        super.spawnDelayMax = Config.COMMON.enchantedSpawnDelayMax.get();
-        super.orbValue = Config.COMMON.enchantedOrbValue.get();
-        super.spawns = Config.COMMON.enchantedSpawns.get();
+        super(RegisterBlockEntities.INFECTED_ENCHANTED_BOOKSHELF_BE.get(), pos, state,
+                Config.COMMON.enchantedSpawnDelayMin.get(),
+                Config.COMMON.enchantedSpawnDelayMax.get(),
+                Config.COMMON.enchantedOrbValue.get(),
+                Config.COMMON.enchantedSpawns.get());
     }
 
 }

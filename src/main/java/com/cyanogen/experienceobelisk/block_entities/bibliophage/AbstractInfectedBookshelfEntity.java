@@ -23,15 +23,22 @@ import java.util.List;
 
 public abstract class AbstractInfectedBookshelfEntity extends AbstractInfectiveEntity {
 
-    public AbstractInfectedBookshelfEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
+    public AbstractInfectedBookshelfEntity(BlockEntityType<?> type, BlockPos pos, BlockState state,
+                                           int spawnDelayMin, int spawnDelayMax, int orbValue, int spawns) {
+
         super(type, pos, state);
+
+        this.spawnDelayMin = spawnDelayMin;
+        this.spawnDelayMax = spawnDelayMax;
+        this.orbValue = orbValue;
+        this.spawns = spawns;
     }
 
     int timeTillSpawn = -99; //the current time in ticks until the bookshelf is due to spawn an orb
-    int spawnDelayMin; //the minimum spawn delay for the bookshelf
-    int spawnDelayMax; //the maximum spawn delay for the bookshelf
-    int orbValue; //the value of orbs to spawn
-    int spawns; //the number of times a bookshelf can spawn an orb before decaying
+    final int spawnDelayMin; //the minimum spawn delay for the bookshelf
+    final int spawnDelayMax; //the maximum spawn delay for the bookshelf
+    final int orbValue; //the value of orbs to spawn
+    final int spawns; //the number of times a bookshelf can spawn an orb before decaying
     int decayValue = 0; //the number of times a bookshelf has spawned an orb
     double infectivity = 0.02; //the chance for a bookshelf to infect another adjacent bookshelf every second
     boolean redstoneEnabled = false; //whether or not the bookshelf is sensitive to redstone. Disabled bookshelves will not infect adjacents, produce XP, or decay
@@ -76,7 +83,7 @@ public abstract class AbstractInfectedBookshelfEntity extends AbstractInfectiveE
         double bonus = getTotalBonus(1);
 
         if(bonus > 1){
-            delay = (int) (delay / bonus);
+            delay = Math.max((int) (delay / bonus), 2);
         }
 
         this.timeTillSpawn = delay;
@@ -96,7 +103,7 @@ public abstract class AbstractInfectedBookshelfEntity extends AbstractInfectiveE
         if(!level.isClientSide){
 
             if(bonus > 1){
-                value = Math.max(32767, (int) (value * bonus));
+                value = Math.min(32767, (int) (value * bonus));
             }
 
             ServerLevel server = (ServerLevel) level;
