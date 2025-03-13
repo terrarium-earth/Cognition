@@ -3,10 +3,12 @@ package com.cyanogen.experienceobelisk.item;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.item.enchantment.Enchantments;
 
 public class TransformingFocusItem extends Item {
 
-    public static final int durability = 500;
+    public static final int durability = 512;
 
     public TransformingFocusItem(Properties p) {
         super(p);
@@ -28,18 +30,13 @@ public class TransformingFocusItem extends Item {
     }
 
     @Override
-    public boolean isEnchantable(ItemStack p_41456_) {
-        return false;
+    public boolean isEnchantable(ItemStack stack) {
+        return true;
     }
 
     @Override
     public boolean isBookEnchantable(ItemStack stack, ItemStack book) {
-        return false;
-    }
-
-    @Override
-    public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment) {
-        return false;
+        return EnchantmentHelper.getEnchantments(book).containsKey(Enchantments.UNBREAKING);
     }
 
     @Override
