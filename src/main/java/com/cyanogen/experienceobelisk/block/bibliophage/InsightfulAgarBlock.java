@@ -1,6 +1,7 @@
 package com.cyanogen.experienceobelisk.block.bibliophage;
 
 import com.cyanogen.experienceobelisk.block_entities.bibliophage.InsightfulAgarEntity;
+import com.cyanogen.experienceobelisk.config.Config;
 import com.cyanogen.experienceobelisk.registries.RegisterBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
@@ -27,6 +28,11 @@ public class InsightfulAgarBlock extends HalfTransparentBlock implements EntityB
                 .noOcclusion()
                 .isViewBlocking((state,getter,pos)->false)
                 .emissiveRendering((state,getter,pos)->true));
+    }
+
+    @Override
+    public int getLightEmission(BlockState state, BlockGetter level, BlockPos pos) {
+        return Config.COMMON.agarEmitsLight.get() ? 3 : 0;
     }
 
     @Override

@@ -36,6 +36,7 @@ public class Config {
         public final ForgeConfigSpec.ConfigValue<Double> agarFaceBonus;
         public final ForgeConfigSpec.ConfigValue<Double> agarEdgeBonus;
         public final ForgeConfigSpec.ConfigValue<Double> agarVertexBonus;
+        public final ForgeConfigSpec.ConfigValue<Boolean> agarEmitsLight;
 
         public List<String> defaultAllowedFluids = new ArrayList<>();
         public int defaultCapacity = 100000000;
@@ -123,6 +124,8 @@ public class Config {
                     .defineInRange("AgarEdgeBonus", 1.15, 0.0, 4);
             this.agarVertexBonus = builder.comment("The bonus that Insightful & Extravagant Agar apply to bookshelves sharing a vertex. Default = 1.10")
                     .defineInRange("AgarVertexBonus", 1.10, 0.0, 4);
+            this.agarEmitsLight = builder.comment("Whether or not Agar blocks emit light. Set this to false if you are using intensive shader settings and are experiencing fps drops.")
+                    .define("AgarEmitsLight", true);
             builder.pop();
         }
 
