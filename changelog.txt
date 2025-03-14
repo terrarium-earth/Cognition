@@ -3,8 +3,9 @@ v2.3.3
 [Changes]
 - increased Transforming Focus durability 500 --> 512
 - Transforming Foci can now be enchanted with Unbreaking via enchanted books
-- Doubled default orb value and spawn interval, and halved default spawn count for all types of Infected Bookshelves. Average xp/s and total production remains the same, but large setups should be less laggy.
-(If you're updating from an older version and want these changes to be applied, delete the experienceobelisk-common.toml file before launching the game)
+- Doubled default orb value and spawn interval, and halved default spawn count for all types of Infected Bookshelves. Average xp/s, average lifetime and total production remain the same, but large setups should be less laggy.
+  - If you're updating from an older version and want these changes to be applied, delete the experienceobelisk-common.toml file before launching the game
+- aded config option to turn off light emission from agar blocks
 
 [Bugfixes]
 - fixed existing bookshelf entities not implementing config changes on load
