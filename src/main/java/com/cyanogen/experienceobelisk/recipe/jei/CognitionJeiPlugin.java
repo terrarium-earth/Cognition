@@ -12,12 +12,9 @@ import mezz.jei.api.registration.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.GsonHelper;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Recipe;
-import net.minecraft.world.item.crafting.RecipeManager;
-import net.minecraft.world.item.crafting.RecipeSerializer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,10 +25,14 @@ public class CognitionJeiPlugin implements IModPlugin {
     public static final RecipeType<MolecularMetamorpherRecipe> metamorpherType =
             RecipeType.create(ExperienceObelisk.MOD_ID, MolecularMetamorpherRecipe.Type.ID, MolecularMetamorpherRecipe.class);
 
+    public static final RecipeType<InformationalRecipe> informationalType =
+            RecipeType.create(ExperienceObelisk.MOD_ID, InformationalRecipe.Type.ID, InformationalRecipe.class);
+
     @Override
     public void registerCategories(IRecipeCategoryRegistration registration) {
 
         registration.addRecipeCategories(new MolecularMetamorpherCategory(registration));
+        registration.addRecipeCategories(new InformationalRecipeCategory(registration));
         IModPlugin.super.registerCategories(registration);
     }
 
@@ -46,10 +47,11 @@ public class CognitionJeiPlugin implements IModPlugin {
                 metamorpherRecipes.add(metamorpherRecipe);
             }
         }
-        //try scan directory instead with RecipeManager.scanDirectory();
         metamorpherRecipes.addAll(RecipeUtils.getNameFormattingRecipesForJEI());
-        System.out.println(metamorpherType);
         registration.addRecipes(metamorpherType, metamorpherRecipes);
+
+        //INFO V2
+        registration.addRecipes(informationalType, InformationalRecipes.populate());
 
         //INFO
         ItemStack FORGOTTEN_DUST = new ItemStack(RegisterItems.FORGOTTEN_DUST.get());
