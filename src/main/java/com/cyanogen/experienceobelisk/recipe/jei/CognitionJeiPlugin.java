@@ -12,9 +12,12 @@ import mezz.jei.api.registration.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.GsonHelper;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeManager;
+import net.minecraft.world.item.crafting.RecipeSerializer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +26,7 @@ import java.util.List;
 public class CognitionJeiPlugin implements IModPlugin {
 
     public static final RecipeType<MolecularMetamorpherRecipe> metamorpherType =
-            RecipeType.create(MolecularMetamorpherRecipe.Type.ID, ExperienceObelisk.MOD_ID, MolecularMetamorpherRecipe.class);
+            RecipeType.create(ExperienceObelisk.MOD_ID, MolecularMetamorpherRecipe.Type.ID, MolecularMetamorpherRecipe.class);
 
     @Override
     public void registerCategories(IRecipeCategoryRegistration registration) {
@@ -43,8 +46,9 @@ public class CognitionJeiPlugin implements IModPlugin {
                 metamorpherRecipes.add(metamorpherRecipe);
             }
         }
+        //try scan directory instead with RecipeManager.scanDirectory();
         metamorpherRecipes.addAll(RecipeUtils.getNameFormattingRecipesForJEI());
-
+        System.out.println(metamorpherType);
         registration.addRecipes(metamorpherType, metamorpherRecipes);
 
         //INFO

@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import static com.cyanogen.experienceobelisk.recipe.jei.CognitionJeiPlugin.metamorpherType;
 import static com.cyanogen.experienceobelisk.utils.RecipeUtils.getItemListWithCounts;
 
 public class MolecularMetamorpherCategory implements IRecipeCategory<MolecularMetamorpherRecipe>{
@@ -48,7 +49,7 @@ public class MolecularMetamorpherCategory implements IRecipeCategory<MolecularMe
 
     @Override
     public RecipeType<MolecularMetamorpherRecipe> getRecipeType() {
-        return RecipeType.create(MolecularMetamorpherRecipe.Type.ID, ExperienceObelisk.MOD_ID, MolecularMetamorpherRecipe.class);
+        return metamorpherType;
     }
 
     @Override
