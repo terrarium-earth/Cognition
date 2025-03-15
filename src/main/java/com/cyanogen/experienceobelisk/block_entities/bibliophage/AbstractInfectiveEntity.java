@@ -26,14 +26,12 @@ public abstract class AbstractInfectiveEntity extends BlockEntity {
         Map<BlockPos, Block> adjacentMap = new HashMap<>();
         List<BlockPos> posList = new ArrayList<>();
 
-        if(!level.isClientSide){
-            for(BlockPos adjacentPos : getAdjacents(pos)){
-                if(getValidBlocksForInfection().contains(level.getBlockState(adjacentPos).getBlock())){
+        for(BlockPos adjacentPos : getAdjacents(pos)){
+            if(getValidBlocksForInfection().contains(level.getBlockState(adjacentPos).getBlock())){
 
-                    Block adjacentBlock = level.getBlockState(adjacentPos).getBlock();
-                    adjacentMap.put(adjacentPos, adjacentBlock);
-                    posList.add(adjacentPos);
-                }
+                Block adjacentBlock = level.getBlockState(adjacentPos).getBlock();
+                adjacentMap.put(adjacentPos, adjacentBlock);
+                posList.add(adjacentPos);
             }
         }
 
@@ -45,6 +43,7 @@ public abstract class AbstractInfectiveEntity extends BlockEntity {
 
             infectBlock(level, posToInfect, block);
         }
+
     }
 
     public List<BlockPos> getAdjacents(BlockPos pos){

@@ -1,6 +1,7 @@
 package com.cyanogen.experienceobelisk.item;
 
 import com.cyanogen.experienceobelisk.block_entities.bibliophage.FluorescentAgarEntity;
+import com.cyanogen.experienceobelisk.block_entities.bibliophage.InfectedBookshelfEntity;
 import com.cyanogen.experienceobelisk.registries.RegisterBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvents;
@@ -60,29 +61,33 @@ public class BibliophageItem extends Item {
 
         BlockState state = null;
 
-        if(block.equals(RegisterBlocks.FLUORESCENT_AGAR.get())){
-            if(level.getBlockEntity(pos) instanceof FluorescentAgarEntity agarEntity){
-                agarEntity.incrementInfectionProgress();
+        if(!level.isClientSide){
+            if(block.equals(RegisterBlocks.FLUORESCENT_AGAR.get())){
+                if(level.getBlockEntity(pos) instanceof FluorescentAgarEntity agarEntity){
+                    agarEntity.incrementInfectionProgress();
+                }
+                return;
             }
-            return;
-        }
 
-        if(block.equals(Blocks.BOOKSHELF)){
-            state = RegisterBlocks.INFECTED_BOOKSHELF.get().defaultBlockState();
-        }
-        else if(block.equals(RegisterBlocks.ENCHANTED_BOOKSHELF.get())){
-            state = RegisterBlocks.INFECTED_ENCHANTED_BOOKSHELF.get().defaultBlockState();
-        }
-        else if(block.equals(RegisterBlocks.ARCHIVERS_BOOKSHELF.get())){
-            state = RegisterBlocks.INFECTED_ARCHIVERS_BOOKSHELF.get().defaultBlockState();
-        }
+            if(block.equals(Blocks.BOOKSHELF)){
+                state = RegisterBlocks.INFECTED_BOOKSHELF.get().defaultBlockState();
+            }
+            else if(block.equals(RegisterBlocks.ENCHANTED_BOOKSHELF.get())){
+                state = RegisterBlocks.INFECTED_ENCHANTED_BOOKSHELF.get().defaultBlockState();
+            }
+            else if(block.equals(RegisterBlocks.ARCHIVERS_BOOKSHELF.get())){
+                state = RegisterBlocks.INFECTED_ARCHIVERS_BOOKSHELF.get().defaultBlockState();
+            }
 
-        if(state != null){
-            level.setBlockAndUpdate(pos, state);
-        }
+            if(state != null){
+                boolean success = level.setBlockAndUpdate(pos, state);
 
-        level.playSound(null, pos, SoundEvents.WART_BLOCK_BREAK, SoundSource.BLOCKS, 1f,1f);
-        level.levelEvent(null, 2001, pos, Block.getId(state)); //spawn destroy particles
+                if(success){
+                    level.playSound(null, pos, SoundEvents.WART_BLOCK_BREAK, SoundSource.BLOCKS, 1f,1f);
+                    level.levelEvent(null, 2001, pos, Block.getId(state));
+                }
+            }
+        }
 
     }
 

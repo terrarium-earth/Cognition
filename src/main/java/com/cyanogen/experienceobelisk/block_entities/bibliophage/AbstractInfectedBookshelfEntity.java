@@ -121,21 +121,20 @@ public abstract class AbstractInfectedBookshelfEntity extends AbstractInfectiveE
 
     public void decay(Level level, BlockPos pos){
 
-        setRedstoneEnabled(true);
-        double chance = Config.COMMON.dropDustChance.get();
-
         if(!level.isClientSide){
+            double chance = Config.COMMON.dropDustChance.get();
+
             ItemStack drops = new ItemStack(RegisterItems.FORGOTTEN_DUST.get());
 
             if(Math.random() <= chance){
                 Block.dropResources(getBlockState(), level, pos, this, null, drops);
             }
-        }
-        level.playSound(null, pos, SoundEvents.WART_BLOCK_BREAK, SoundSource.BLOCKS, 1f,1f); //play break sound
-        level.levelEvent(null, 2001, pos, Block.getId(RegisterBlocks.FORGOTTEN_DUST_BLOCK.get().defaultBlockState())); //spawn destroy particles
 
-        this.setRemoved();
-        level.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
+            level.playSound(null, pos, SoundEvents.WART_BLOCK_BREAK, SoundSource.BLOCKS, 1f,1f); //play break sound
+            level.levelEvent(null, 2001, pos, Block.getId(RegisterBlocks.FORGOTTEN_DUST_BLOCK.get().defaultBlockState())); //spawn destroy particles
+            level.removeBlockEntity(pos);
+            level.removeBlock(pos, false);
+        }
     }
 
     public boolean toggleActivity(){
@@ -143,11 +142,6 @@ public abstract class AbstractInfectedBookshelfEntity extends AbstractInfectiveE
         this.setChanged();
 
         return this.redstoneEnabled;
-    }
-
-    public void setRedstoneEnabled(boolean redstoneEnabled){
-        this.redstoneEnabled = redstoneEnabled;
-        this.setChanged();
     }
 
     public int getDecayValue(){
