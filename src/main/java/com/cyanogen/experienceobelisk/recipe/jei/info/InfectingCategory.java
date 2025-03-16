@@ -16,8 +16,6 @@ import net.minecraft.world.item.ItemStack;
 
 public class InfectingCategory implements IRecipeCategory<InfectingRecipe>{
 
-    //this is a dummy recipe used to display in-game mechanics in JEI
-
     IRecipeCategoryRegistration registration;
     IGuiHelper guiHelper;
     private final ResourceLocation texture = new ResourceLocation("");

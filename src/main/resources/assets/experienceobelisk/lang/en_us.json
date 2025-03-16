@@ -78,6 +78,7 @@
   "block.experienceobelisk.archivers_bookshelf.description": "When infected, lasts twice as long as an ordinary bookshelf before decaying. Has an enchantment power bonus of 1.5 when used at an Enchanting Table.",
   "block.experienceobelisk.enchanted_bookshelf.description": "When infected, lasts twice as long as and produces orbs with twice the value of an ordinary bookshelf before decaying. Has an enchantment power bonus of 2.0 when used at an Enchanting Table.",
   "block.experienceobelisk.whisperglass.description": "An extremely slippery block, similar to blue ice.",
+  "block.experienceobelisk.fluorescent_agar.description": "A block of nutritious jelly. Inoculate it to turn it into Nutrient Agar",
   "block.experienceobelisk.nutrient_agar.description": "An infectious block that does not decay. Has a slow infection rate.",
   "block.experienceobelisk.insightful_agar.description": "An infectious block that reduces the spawn delay of surrounding bookshelves.",
   "block.experienceobelisk.extravagant_agar.description": "An infectious block that boosts the orb value of surrounding bookshelves.",
@@ -150,7 +151,7 @@
 
   "jei.experienceobelisk.metamorpher.cost_xp": "§7Consumes %s §7XP",
   "jei.experienceobelisk.metamorpher.process_time": "§7Process time: %s",
-  "jei.experienceobelisk.description.forgotten_dust": "Obtained from breaking Infected Bookshelves (any kind), or by waiting for Infected Bookshelves (any kind) to decay",
+  "jei.experienceobelisk.description.forgotten_dust": "Dropped by Infected Bookshelves upon being broken or upon decaying (50% chance)",
   "jei.experienceobelisk.description.experience_vessels": "Right click a bound Experience Fountain with an empty bottle / bucket. The bound Obelisk must have enough Cognitium",
   "jei.experienceobelisk.description.nutrient_agar": "Infect a block of Fluorescent Agar with Bibliophages. After a few infections, it will transform into Nutrient Agar",
   "jei.experienceobelisk.error.missing_items": "§cMissing Items",
