@@ -1,4 +1,4 @@
-package com.cyanogen.experienceobelisk.recipe.jei;
+package com.cyanogen.experienceobelisk.recipe.jei.info;
 
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.RegistryAccess;
@@ -8,25 +8,22 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 
-public class InformationalRecipe implements Recipe<SimpleContainer> {
+public abstract class AbstractInformationalRecipe implements Recipe<SimpleContainer> {
 
     //this is a dummy recipe used to display in-game mechanics in JEI
 
     private final Ingredient input;
     private final Ingredient catalyst;
     private final ItemStack output;
-    private final String actionType;
     private final String id;
 
-    public InformationalRecipe(Ingredient input, Ingredient catalyst, ItemStack output, String actionType, String id){
+    public AbstractInformationalRecipe(Ingredient input, Ingredient catalyst, ItemStack output, String id){
         this.input = input;
         this.catalyst = catalyst;
         this.output = output;
-        this.actionType = actionType;
         this.id = id;
     }
 
@@ -56,23 +53,9 @@ public class InformationalRecipe implements Recipe<SimpleContainer> {
         return output.copy();
     }
 
-    public String getActionType() {
-        return actionType;
-    }
-
     @Override
     public ResourceLocation getId() {
         return new ResourceLocation(id);
-    }
-
-    @Override
-    public RecipeType<?> getType() {
-        return InformationalRecipe.Type.INSTANCE;
-    }
-
-    public static class Type implements RecipeType<InformationalRecipe>{
-        public static final InformationalRecipe.Type INSTANCE = new InformationalRecipe.Type();
-        public static final String ID = "informational";
     }
 
     //-----UNUSED-----//

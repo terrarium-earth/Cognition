@@ -3,11 +3,13 @@ package com.cyanogen.experienceobelisk.recipe.jei;
 import com.cyanogen.experienceobelisk.ExperienceObelisk;
 import com.cyanogen.experienceobelisk.gui.MolecularMetamorpherScreen;
 import com.cyanogen.experienceobelisk.recipe.MolecularMetamorpherRecipe;
+import com.cyanogen.experienceobelisk.recipe.jei.info.FillingCategory;
+import com.cyanogen.experienceobelisk.recipe.jei.info.InfectingCategory;
+import com.cyanogen.experienceobelisk.recipe.jei.info.InformationalRecipes;
 import com.cyanogen.experienceobelisk.registries.RegisterItems;
 import com.cyanogen.experienceobelisk.utils.RecipeUtils;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.constants.VanillaTypes;
-import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.registration.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
@@ -19,20 +21,17 @@ import net.minecraft.world.item.crafting.Recipe;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.cyanogen.experienceobelisk.recipe.jei.MolecularMetamorpherCategory.metamorpherType;
+
 @mezz.jei.api.JeiPlugin
 public class CognitionJeiPlugin implements IModPlugin {
-
-    public static final RecipeType<MolecularMetamorpherRecipe> metamorpherType =
-            RecipeType.create(ExperienceObelisk.MOD_ID, MolecularMetamorpherRecipe.Type.ID, MolecularMetamorpherRecipe.class);
-
-    public static final RecipeType<InformationalRecipe> informationalType =
-            RecipeType.create(ExperienceObelisk.MOD_ID, InformationalRecipe.Type.ID, InformationalRecipe.class);
 
     @Override
     public void registerCategories(IRecipeCategoryRegistration registration) {
 
         registration.addRecipeCategories(new MolecularMetamorpherCategory(registration));
-        registration.addRecipeCategories(new InformationalRecipeCategory(registration));
+        registration.addRecipeCategories(new FillingCategory(registration));
+        registration.addRecipeCategories(new InfectingCategory(registration));
         IModPlugin.super.registerCategories(registration);
     }
 
@@ -51,7 +50,8 @@ public class CognitionJeiPlugin implements IModPlugin {
         registration.addRecipes(metamorpherType, metamorpherRecipes);
 
         //INFO V2
-        registration.addRecipes(informationalType, InformationalRecipes.populate());
+        registration.addRecipes(FillingCategory.fillingType, InformationalRecipes.populateFillingRecipes());
+        registration.addRecipes(InfectingCategory.infectingType, InformationalRecipes.populateInfectingRecipes());
 
         //INFO
         ItemStack FORGOTTEN_DUST = new ItemStack(RegisterItems.FORGOTTEN_DUST.get());

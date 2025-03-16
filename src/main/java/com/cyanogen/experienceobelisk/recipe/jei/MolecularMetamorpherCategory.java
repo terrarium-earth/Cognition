@@ -29,7 +29,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static com.cyanogen.experienceobelisk.recipe.jei.CognitionJeiPlugin.metamorpherType;
 import static com.cyanogen.experienceobelisk.utils.RecipeUtils.getItemListWithCounts;
 
 public class MolecularMetamorpherCategory implements IRecipeCategory<MolecularMetamorpherRecipe>{
@@ -38,6 +37,9 @@ public class MolecularMetamorpherCategory implements IRecipeCategory<MolecularMe
     IGuiHelper guiHelper;
     private final ResourceLocation texture = new ResourceLocation("experienceobelisk:textures/gui/recipes/molecular_metamorpher_jei.png");
     private final IDrawableAnimated arrow;
+
+    public static final RecipeType<MolecularMetamorpherRecipe> metamorpherType =
+            RecipeType.create(ExperienceObelisk.MOD_ID, MolecularMetamorpherRecipe.Type.ID, MolecularMetamorpherRecipe.class);
 
     public MolecularMetamorpherCategory(IRecipeCategoryRegistration registration){
         this.registration = registration;
