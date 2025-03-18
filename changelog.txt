@@ -1,3 +1,17 @@
+v2.3.4
+
+[Changes]
+- Mending Neurogel now restores durability based on percentage (25% of total durability) instead of a fixed amount
+- Mending Neurogel recipe now requires 2x calcarine matrix instead of 1x, in order to balance it for high-durability items
+- Added visual crafting information in JEI for mechanics such as infecting, filling etc.
+- Fluorescent Jelly now gives 2 hunger points instead of 5
+- Added config option to change the hunger points Fluorescent Jelly gives you, or to disable eating it entirely
+
+[Bugfixes]
+- Fixed bookshelves being displayed as uninfected for a short period if infected twice in the same tick
+- Fixed bookshelves being removed clientside a short period before they actually decay under certain circumstances
+- Minor fixes to the obelisk animation
+
 v2.3.3
 
 [Changes]
