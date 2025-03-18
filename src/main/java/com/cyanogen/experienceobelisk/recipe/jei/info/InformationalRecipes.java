@@ -16,13 +16,13 @@ public class InformationalRecipes {
                 Ingredient.of(Items.GLASS_BOTTLE),
                 Ingredient.of(RegisterItems.EXPERIENCE_FOUNTAIN_ITEM.get()),
                 Items.EXPERIENCE_BOTTLE.getDefaultInstance(),
-                "experience_bottle_filling"));
+                "experienceobelisk:experience_bottle_filling"));
 
         recipes.add(new FillingRecipe(
                 Ingredient.of(Items.BUCKET),
                 Ingredient.of(RegisterItems.EXPERIENCE_FOUNTAIN_ITEM.get()),
                 RegisterItems.COGNITIUM_BUCKET.get().getDefaultInstance(),
-                "cognitium_bucket_filling"));
+                "experienceobelisk:cognitium_bucket_filling"));
 
         return recipes;
     }
@@ -37,25 +37,25 @@ public class InformationalRecipes {
                 Ingredient.of(Items.BOOKSHELF),
                 catalysts,
                 RegisterItems.INFECTED_BOOKSHELF_ITEM.get().getDefaultInstance(),
-                "infected_bookshelf_infecting"));
+                "experienceobelisk:infected_bookshelf_infecting"));
 
         recipes.add(new InfectingRecipe(
                 Ingredient.of(RegisterItems.ARCHIVERS_BOOKSHELF_ITEM.get()),
                 catalysts,
                 RegisterItems.INFECTED_ARCHIVERS_BOOKSHELF_ITEM.get().getDefaultInstance(),
-                "infected_archivers_bookshelf_infecting"));
+                "experienceobelisk:infected_archivers_bookshelf_infecting"));
 
         recipes.add(new InfectingRecipe(
                 Ingredient.of(RegisterItems.ENCHANTED_BOOKSHELF_ITEM.get()),
                 catalysts,
                 RegisterItems.INFECTED_ENCHANTED_BOOKSHELF_ITEM.get().getDefaultInstance(),
-                "infected_enchanted_bookshelf_infecting"));
+                "experienceobelisk:infected_enchanted_bookshelf_infecting"));
 
         recipes.add(new InfectingRecipe(
                 Ingredient.of(RegisterItems.FLUORESCENT_AGAR_ITEM.get()),
                 catalysts,
                 RegisterItems.NUTRIENT_AGAR_ITEM.get().getDefaultInstance(),
-                "nutrient_agar_infecting"));
+                "experienceobelisk:nutrient_agar_infecting", 4));
 
         return recipes;
     }

@@ -7,7 +7,7 @@ import net.minecraft.world.item.crafting.RecipeType;
 public class FillingRecipe extends AbstractInformationalRecipe {
 
     public FillingRecipe(Ingredient input, Ingredient catalyst, ItemStack output, String id) {
-        super(input, catalyst, output, id);
+        super(input, catalyst, output, id, 0);
     }
 
     public RecipeType<?> getType() {

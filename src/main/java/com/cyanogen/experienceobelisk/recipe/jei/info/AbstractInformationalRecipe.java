@@ -19,12 +19,14 @@ public abstract class AbstractInformationalRecipe implements Recipe<SimpleContai
     private final Ingredient catalyst;
     private final ItemStack output;
     private final String id;
+    public final int count;
 
-    public AbstractInformationalRecipe(Ingredient input, Ingredient catalyst, ItemStack output, String id){
+    public AbstractInformationalRecipe(Ingredient input, Ingredient catalyst, ItemStack output, String id, int count){
         this.input = input;
         this.catalyst = catalyst;
         this.output = output;
         this.id = id;
+        this.count = count;
     }
 
     @Override

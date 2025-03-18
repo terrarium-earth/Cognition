@@ -151,10 +151,15 @@
 
   "jei.experienceobelisk.metamorpher.cost_xp": "§7Consumes %s §7XP",
   "jei.experienceobelisk.metamorpher.process_time": "§7Process time: %s",
-  "jei.experienceobelisk.description.forgotten_dust": "Dropped by Infected Bookshelves upon being broken or upon decaying (50% chance)",
+  "jei.experienceobelisk.description.forgotten_dust": "Dropped by Infected Bookshelves upon being broken (100%) and upon decaying (50%)",
   "jei.experienceobelisk.description.experience_vessels": "Right click a bound Experience Fountain with an empty bottle / bucket. The bound Obelisk must have enough Cognitium",
   "jei.experienceobelisk.description.nutrient_agar": "Infect a block of Fluorescent Agar with Bibliophages. After a few infections, it will transform into Nutrient Agar",
   "jei.experienceobelisk.error.missing_items": "§cMissing Items",
   "jei.experienceobelisk.error.inventory_full": "§cInventory Full",
-  "jei.experienceobelisk.name.any_item": "Any Item..."
+  "jei.experienceobelisk.name.any_item": "Any Item...",
+  "jei.experienceobelisk.info.infecting.title": "Infecting",
+  "jei.experienceobelisk.info.infecting.tooltip": "Infect with §aBibliophages§r or by\nplacing next to §ainfectious blocks§r",
+  "jei.experienceobelisk.info.infecting.tooltip_count": "Requires §a%s§r infections",
+  "jei.experienceobelisk.info.filling.title": "Filling",
+  "jei.experienceobelisk.info.filling.tooltip": "Fill from an §aExperience Fountain§r\nthat is bound to an §aExperience Obelisk§r.\nThe Obelisk must have enough XP."
 }
