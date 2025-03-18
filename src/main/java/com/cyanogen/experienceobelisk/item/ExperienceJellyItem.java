@@ -15,21 +15,23 @@ import org.jetbrains.annotations.Nullable;
 
 public class ExperienceJellyItem extends Item {
 
-    private final int nutrition;
-    private final float saturation = 0.8f;
-    private boolean canBeEaten = true;
+    private final float saturation = 1.0f;
 
     public ExperienceJellyItem(Properties properties) {
         super(properties);
-        this.nutrition = Config.COMMON.jellyNutrition.get();
-        if(nutrition <= 0){
-            canBeEaten = false;
-        }
+    }
+
+    public int getNutrition(){
+        return Config.COMMON.jellyNutrition.get();
+    }
+
+    public boolean canBeEaten(){
+        return Config.COMMON.jellyNutrition.get() > 0;
     }
 
     @Override
     public @Nullable FoodProperties getFoodProperties(ItemStack stack, @Nullable LivingEntity entity) {
-        return new FoodProperties.Builder().nutrition(nutrition).saturationMod(saturation).build();
+        return new FoodProperties.Builder().nutrition(getNutrition()).saturationMod(saturation).build();
     }
 
     @Override
@@ -38,9 +40,9 @@ public class ExperienceJellyItem extends Item {
         ItemStack stack = player.getItemInHand(hand);
         FoodData data = player.getFoodData();
 
-        if((data.needsFood() || player.isCreative()) && canBeEaten){
+        if((data.needsFood() || player.isCreative()) && canBeEaten()){
 
-            data.eat(nutrition, saturation);
+            data.eat(getNutrition(), saturation);
             player.playSound(SoundEvents.GENERIC_EAT);
 
             if(!player.isCreative()){

@@ -81,7 +81,7 @@ public class Config {
 
             builder.push("Fluorescent Jelly Nutrition");
             this.jellyNutrition = builder.comment("How many hunger points Fluorescent Jelly gives the player. Set to 0 to disable eating completely. Default = 2")
-                    .define("Formatting", 2);
+                    .define("Nutrition", 2);
             builder.pop();
 
             builder.push("Bookshelf Settings");
