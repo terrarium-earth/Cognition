@@ -64,7 +64,7 @@
   "item.experienceobelisk.daydream_bottle.description": "Resets your insomnia, preventing phantoms from spawning",
   "item.experienceobelisk.bibliophage.description": "Infects bookshelves, generating XP in the process. Use on a valid bookshelf to infect it.",
   "item.experienceobelisk.experience_jelly.description": "Consumed instantly! Good for digestion.",
-  "item.experienceobelisk.mending_neurogel.description": "Restores the durability of a damaged item by up to 200 points. Click onto an item to apply. May also be used on anvils.",
+  "item.experienceobelisk.mending_neurogel.description": "Restores the durability of damaged items. Click onto an item to apply. May also be used on anvils.",
   "item.experienceobelisk.flask_of_poseidon.description": "Places a block of water, consuming XP in the process.",
   "item.experienceobelisk.flask_of_hades.description": "Places a block of lava, consuming XP in the process.",
   "item.experienceobelisk.flask_of_chaos.description": "Erases a block of liquid, consuming XP in the process.",
@@ -161,5 +161,5 @@
   "jei.experienceobelisk.info.infecting.tooltip": "Infect with §aBibliophages§r or by\nplacing next to §ainfectious blocks§r",
   "jei.experienceobelisk.info.infecting.tooltip_count": "Requires §a%s§r infections",
   "jei.experienceobelisk.info.filling.title": "Filling",
-  "jei.experienceobelisk.info.filling.tooltip": "Fill from an §aExperience Fountain§r\nthat is bound to an §aExperience Obelisk§r.\nThe Obelisk must have enough XP."
+  "jei.experienceobelisk.info.filling.tooltip": "Right click an §aExperience Fountain§r\nthat is bound to an §aExperience Obelisk§r.\nThe Obelisk must have enough XP."
 }
