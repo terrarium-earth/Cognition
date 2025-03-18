@@ -16,6 +16,7 @@ public class Config {
         public final ForgeConfigSpec.ConfigValue<Double> bindingRange;
         public final ForgeConfigSpec.ConfigValue<Boolean> formatting;
         public final ForgeConfigSpec.ConfigValue<Integer> jellyNutrition;
+        public final ForgeConfigSpec.ConfigValue<Double> jellySaturation;
 
         public final ForgeConfigSpec.ConfigValue<Double> dropDustChance;
 
@@ -79,9 +80,12 @@ public class Config {
                     .define("Formatting", true);
             builder.pop();
 
-            builder.push("Fluorescent Jelly Nutrition");
+            builder.push("Fluorescent Jelly");
             this.jellyNutrition = builder.comment("How many hunger points Fluorescent Jelly gives the player. Set to 0 to disable eating completely. Default = 2")
                     .define("Nutrition", 2);
+            builder.push("Fluorescent Jelly");
+            this.jellySaturation = builder.comment("How much saturation Fluorescent Jelly gives the player. Default = 1.0")
+                    .define("Saturation", 1.0);
             builder.pop();
 
             builder.push("Bookshelf Settings");
