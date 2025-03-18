@@ -15,6 +15,7 @@ public class Config {
         public final ForgeConfigSpec.ConfigValue<Double> amuletRange;
         public final ForgeConfigSpec.ConfigValue<Double> bindingRange;
         public final ForgeConfigSpec.ConfigValue<Boolean> formatting;
+        public final ForgeConfigSpec.ConfigValue<Integer> jellyNutrition;
 
         public final ForgeConfigSpec.ConfigValue<Double> dropDustChance;
 
@@ -74,8 +75,13 @@ public class Config {
             builder.pop();
 
             builder.push("Enable Name Formatting Recipes");
-            this.formatting = builder.comment("Whether custom recipes that allow for the changing of item name color & formatting are enabled")
+            this.formatting = builder.comment("Whether custom recipes that allow for the changing of item name color & formatting are enabled. Default = true")
                     .define("Formatting", true);
+            builder.pop();
+
+            builder.push("Fluorescent Jelly Nutrition");
+            this.jellyNutrition = builder.comment("How many hunger points Fluorescent Jelly gives the player. Set to 0 to disable eating completely. Default = 2")
+                    .define("Formatting", 2);
             builder.pop();
 
             builder.push("Bookshelf Settings");
@@ -124,7 +130,7 @@ public class Config {
                     .defineInRange("AgarEdgeBonus", 1.15, 0.0, 4);
             this.agarVertexBonus = builder.comment("The bonus that Insightful & Extravagant Agar apply to bookshelves sharing a vertex. Default = 1.10")
                     .defineInRange("AgarVertexBonus", 1.10, 0.0, 4);
-            this.agarEmitsLight = builder.comment("Whether or not Agar blocks emit light. Set this to false if you are using intensive shader settings and are experiencing fps drops.")
+            this.agarEmitsLight = builder.comment("Whether or not Agar blocks emit light. Default = true. Set this to false if you are using intensive shader settings and are experiencing fps drops.")
                     .define("AgarEmitsLight", true);
             builder.pop();
         }

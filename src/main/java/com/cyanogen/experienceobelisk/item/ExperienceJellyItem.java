@@ -1,5 +1,6 @@
 package com.cyanogen.experienceobelisk.item;
 
+import com.cyanogen.experienceobelisk.config.Config;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
@@ -14,11 +15,16 @@ import org.jetbrains.annotations.Nullable;
 
 public class ExperienceJellyItem extends Item {
 
-    private final int nutrition = 5;
+    private final int nutrition;
     private final float saturation = 0.8f;
+    private boolean canBeEaten = true;
 
     public ExperienceJellyItem(Properties properties) {
         super(properties);
+        this.nutrition = Config.COMMON.jellyNutrition.get();
+        if(nutrition <= 0){
+            canBeEaten = false;
+        }
     }
 
     @Override
@@ -32,7 +38,7 @@ public class ExperienceJellyItem extends Item {
         ItemStack stack = player.getItemInHand(hand);
         FoodData data = player.getFoodData();
 
-        if(data.needsFood() || player.isCreative()){
+        if((data.needsFood() || player.isCreative()) && canBeEaten){
 
             data.eat(nutrition, saturation);
             player.playSound(SoundEvents.GENERIC_EAT);
@@ -51,6 +57,7 @@ public class ExperienceJellyItem extends Item {
     @Override
     public boolean isEdible() {
         return false;
+        //Disable normal vanilla eating behavior for this to work properly
     }
 
 }
