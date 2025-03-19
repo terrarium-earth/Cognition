@@ -30,7 +30,10 @@ public class RegisterItems {
     public static final AttributeModifier FEET_RANGE = new AttributeModifier("experienceobelisk:range",0.5, AttributeModifier.Operation.ADDITION);
 
     public static Item baseItem(){
-        return new Item(new Item.Properties());
+        return new Item(baseProperties());
+    }
+    public static Item.Properties baseProperties(){
+        return new Item.Properties().tab(RegisterCreativeTab.MOD_TAB);
     }
 
     //-----CRAFTING INGREDIENTS-----//
@@ -41,7 +44,7 @@ public class RegisterItems {
     public static final RegistryObject<Item> COGNITIVE_CRYSTAL = ITEMS.register("cognitive_crystal", RegisterItems::baseItem);
     public static final RegistryObject<Item> ASTUTE_ASSEMBLY = ITEMS.register("astute_assembly", RegisterItems::baseItem);
     public static final RegistryObject<Item> PRIMORDIAL_ASSEMBLY = ITEMS.register("primordial_assembly", RegisterItems::baseItem);
-    public static final RegistryObject<Item> FORGOTTEN_DUST = ITEMS.register("forgotten_dust", () -> new Item(new Item.Properties()){
+    public static final RegistryObject<Item> FORGOTTEN_DUST = ITEMS.register("forgotten_dust", () -> new Item(baseProperties()){
         @Override
         public int getBurnTime(ItemStack itemStack, @Nullable RecipeType<?> recipeType) {
             return 100;
@@ -52,7 +55,7 @@ public class RegisterItems {
     //-----COGNITIVE TOOLSET-----//
 
     public static final RegistryObject<Item> COGNITIVE_SWORD = ITEMS.register("cognitive_sword",
-            () -> new SwordItem(COGNITIVE_TIER, 3, -2.4f, new Item.Properties()){
+            () -> new SwordItem(COGNITIVE_TIER, 3, -2.4f, baseProperties()){
                 @Override
                 public @NotNull Multimap<Attribute, AttributeModifier> getDefaultAttributeModifiers(@NotNull EquipmentSlot slot) {
                     return addRangeAttributeModifier(super.getDefaultAttributeModifiers(slot), slot, EquipmentSlot.MAINHAND, MAINHAND_RANGE);
@@ -60,7 +63,7 @@ public class RegisterItems {
             });
 
     public static final RegistryObject<Item> COGNITIVE_SHOVEL = ITEMS.register("cognitive_shovel",
-            () -> new ShovelItem(COGNITIVE_TIER, 1.5f, -3f, new Item.Properties()){
+            () -> new ShovelItem(COGNITIVE_TIER, 1.5f, -3f, baseProperties()){
                 @Override
                 public @NotNull Multimap<Attribute, AttributeModifier> getDefaultAttributeModifiers(@NotNull EquipmentSlot slot) {
                     return addRangeAttributeModifier(super.getDefaultAttributeModifiers(slot), slot, EquipmentSlot.MAINHAND, MAINHAND_RANGE);
@@ -68,7 +71,7 @@ public class RegisterItems {
             });
 
     public static final RegistryObject<Item> COGNITIVE_PICKAXE = ITEMS.register("cognitive_pickaxe",
-            () -> new PickaxeItem(COGNITIVE_TIER, 1, -2.8f, new Item.Properties()){
+            () -> new PickaxeItem(COGNITIVE_TIER, 1, -2.8f, baseProperties()){
                 @Override
                 public @NotNull Multimap<Attribute, AttributeModifier> getDefaultAttributeModifiers(@NotNull EquipmentSlot slot) {
                     return addRangeAttributeModifier(super.getDefaultAttributeModifiers(slot), slot, EquipmentSlot.MAINHAND, MAINHAND_RANGE);
@@ -76,7 +79,7 @@ public class RegisterItems {
             });
 
     public static final RegistryObject<Item> COGNITIVE_AXE = ITEMS.register("cognitive_axe",
-            () -> new AxeItem(COGNITIVE_TIER, 6, -3.1f, new Item.Properties()){
+            () -> new AxeItem(COGNITIVE_TIER, 6, -3.1f, baseProperties()){
                 @Override
                 public @NotNull Multimap<Attribute, AttributeModifier> getDefaultAttributeModifiers(@NotNull EquipmentSlot slot) {
                     return addRangeAttributeModifier(super.getDefaultAttributeModifiers(slot), slot, EquipmentSlot.MAINHAND, MAINHAND_RANGE);
@@ -84,7 +87,7 @@ public class RegisterItems {
             });
 
     public static final RegistryObject<Item> COGNITIVE_HOE = ITEMS.register("cognitive_hoe",
-            () -> new HoeItem(COGNITIVE_TIER, -2, -1, new Item.Properties()){
+            () -> new HoeItem(COGNITIVE_TIER, -2, -1, baseProperties()){
                 @Override
                 public @NotNull Multimap<Attribute, AttributeModifier> getDefaultAttributeModifiers(@NotNull EquipmentSlot slot) {
                     return addRangeAttributeModifier(super.getDefaultAttributeModifiers(slot), slot, EquipmentSlot.MAINHAND, MAINHAND_RANGE);
@@ -92,7 +95,7 @@ public class RegisterItems {
             });
 
     public static final RegistryObject<Item> COGNITIVE_HELMET = ITEMS.register("cognitive_helmet",
-            () -> new ArmorItem(COGNITIVE_ARMOR_MATERIAL, EquipmentSlot.HEAD, new Item.Properties()){
+            () -> new ArmorItem(COGNITIVE_ARMOR_MATERIAL, EquipmentSlot.HEAD, baseProperties()){
                 @Override
                 public @NotNull Multimap<Attribute, AttributeModifier> getDefaultAttributeModifiers(@NotNull EquipmentSlot slot) {
                     return addRangeAttributeModifier(super.getDefaultAttributeModifiers(slot), slot, EquipmentSlot.HEAD, HEAD_RANGE);
@@ -100,7 +103,7 @@ public class RegisterItems {
             });
 
     public static final RegistryObject<Item> COGNITIVE_CHESTPLATE = ITEMS.register("cognitive_chestplate",
-            () -> new ArmorItem(COGNITIVE_ARMOR_MATERIAL, EquipmentSlot.CHEST, new Item.Properties()){
+            () -> new ArmorItem(COGNITIVE_ARMOR_MATERIAL, EquipmentSlot.CHEST, baseProperties()){
                 @Override
                 public @NotNull Multimap<Attribute, AttributeModifier> getDefaultAttributeModifiers(@NotNull EquipmentSlot slot) {
                     return addRangeAttributeModifier(super.getDefaultAttributeModifiers(slot), slot, EquipmentSlot.CHEST, CHEST_RANGE);
@@ -108,7 +111,7 @@ public class RegisterItems {
             });
 
     public static final RegistryObject<Item> COGNITIVE_LEGGINGS = ITEMS.register("cognitive_leggings",
-            () -> new ArmorItem(COGNITIVE_ARMOR_MATERIAL, EquipmentSlot.LEGS, new Item.Properties()){
+            () -> new ArmorItem(COGNITIVE_ARMOR_MATERIAL, EquipmentSlot.LEGS, baseProperties()){
                 @Override
                 public @NotNull Multimap<Attribute, AttributeModifier> getDefaultAttributeModifiers(@NotNull EquipmentSlot slot) {
                     return addRangeAttributeModifier(super.getDefaultAttributeModifiers(slot), slot, EquipmentSlot.LEGS, LEGS_RANGE);
@@ -116,7 +119,7 @@ public class RegisterItems {
             });
 
     public static final RegistryObject<Item> COGNITIVE_BOOTS = ITEMS.register("cognitive_boots",
-            () -> new ArmorItem(COGNITIVE_ARMOR_MATERIAL, EquipmentSlot.FEET, new Item.Properties()){
+            () -> new ArmorItem(COGNITIVE_ARMOR_MATERIAL, EquipmentSlot.FEET, baseProperties()){
                 @Override
                 public @NotNull Multimap<Attribute, AttributeModifier> getDefaultAttributeModifiers(@NotNull EquipmentSlot slot) {
                     return addRangeAttributeModifier(super.getDefaultAttributeModifiers(slot), slot, EquipmentSlot.FEET, FEET_RANGE);
@@ -124,7 +127,7 @@ public class RegisterItems {
             });
 
     public static final RegistryObject<Item> COGNITIVE_ROD = ITEMS.register("cognitive_rod",
-            () -> new FishingRodItem(new Item.Properties().defaultDurability(2200)){
+            () -> new FishingRodItem(baseProperties().defaultDurability(2200)){
                 @Override
                 public int getEnchantmentValue() {
                     return 15;
@@ -137,7 +140,7 @@ public class RegisterItems {
             });
 
     public static final RegistryObject<Item> COGNITIVE_SHEARS = ITEMS.register("cognitive_shears",
-            () -> new ShearsItem(new Item.Properties().defaultDurability(2200)){
+            () -> new ShearsItem(baseProperties().defaultDurability(2200)){
 
                 @Override
                 public int getEnchantmentValue(ItemStack stack) {
@@ -166,101 +169,101 @@ public class RegisterItems {
     //-----FUNCTIONAL ITEMS-----//
 
     public static final RegistryObject<Item> ATTUNEMENT_STAFF = ITEMS.register("attunement_staff",
-            () -> new AttunementStaffItem(new Item.Properties()));
+            () -> new AttunementStaffItem(baseProperties()));
 
     public static final RegistryObject<Item> ENLIGHTENED_AMULET = ITEMS.register("enlightened_amulet",
-            () -> new EnlightenedAmuletItem(new Item.Properties()));
+            () -> new EnlightenedAmuletItem(baseProperties()));
 
     public static final RegistryObject<BucketItem> COGNITIUM_BUCKET = ITEMS.register("cognitium_bucket",
-            () -> new BucketItem(RegisterFluids.COGNITIUM, new Item.Properties().craftRemainder(Items.BUCKET).stacksTo(1)));
+            () -> new BucketItem(RegisterFluids.COGNITIUM, baseProperties().craftRemainder(Items.BUCKET).stacksTo(1)));
 
     public static final RegistryObject<Item> NIGHTMARE_BOTTLE = ITEMS.register("nightmare_bottle",
-            () -> new NightmareBottleItem(new Item.Properties().stacksTo(64)));
+            () -> new NightmareBottleItem(baseProperties().stacksTo(64)));
 
     public static final RegistryObject<Item> DAYDREAM_BOTTLE = ITEMS.register("daydream_bottle",
-            () -> new DaydreamBottleItem(new Item.Properties().stacksTo(64)));
+            () -> new DaydreamBottleItem(baseProperties().stacksTo(64)));
 
     public static final RegistryObject<Item> BIBLIOPHAGE = ITEMS.register("bibliophage",
-            () -> new BibliophageItem(new Item.Properties()));
+            () -> new BibliophageItem(baseProperties()));
 
     public static final RegistryObject<Item> EXPERIENCE_JELLY = ITEMS.register("experience_jelly",
-            () -> new ExperienceJellyItem(new Item.Properties()));
+            () -> new ExperienceJellyItem(baseProperties()));
 
     public static final RegistryObject<Item> MENDING_NEUROGEL = ITEMS.register("mending_neurogel",
-            () -> new NeurogelMendingItem(new Item.Properties()));
+            () -> new NeurogelMendingItem(baseProperties()));
 
     public static final RegistryObject<Item> POSEIDON_FLASK = ITEMS.register("flask_of_poseidon",
-            () -> new FlaskPoseidonItem(new Item.Properties()));
+            () -> new FlaskPoseidonItem(baseProperties()));
 
     public static final RegistryObject<Item> HADES_FLASK = ITEMS.register("flask_of_hades",
-            () -> new FlaskHadesItem(new Item.Properties()));
+            () -> new FlaskHadesItem(baseProperties()));
 
     public static final RegistryObject<Item> CHAOS_FLASK = ITEMS.register("flask_of_chaos",
-            () -> new FlaskChaosItem(new Item.Properties()));
+            () -> new FlaskChaosItem(baseProperties()));
 
     public static final RegistryObject<Item> TRANSFORMING_FOCUS = ITEMS.register("transforming_focus",
-            () -> new TransformingFocusItem(new Item.Properties()));
+            () -> new TransformingFocusItem(baseProperties()));
 
     //-----FUNCTIONAL BLOCK ITEMS-----//
 
     public static final RegistryObject<Item> EXPERIENCE_OBELISK_ITEM = ITEMS.register("experience_obelisk",
-            () -> new ExperienceObeliskItem(RegisterBlocks.EXPERIENCE_OBELISK.get(), new Item.Properties()));
+            () -> new ExperienceObeliskItem(RegisterBlocks.EXPERIENCE_OBELISK.get(), baseProperties()));
 
     public static final RegistryObject<Item> EXPERIENCE_FOUNTAIN_ITEM = ITEMS.register("experience_fountain",
-            () -> new ExperienceFountainItem(RegisterBlocks.EXPERIENCE_FOUNTAIN.get(), new Item.Properties()));
+            () -> new ExperienceFountainItem(RegisterBlocks.EXPERIENCE_FOUNTAIN.get(), baseProperties()));
 
     public static final RegistryObject<Item> PRECISION_DISPELLER_ITEM = ITEMS.register("precision_dispeller",
-            () -> new PrecisionDispellerItem(RegisterBlocks.PRECISION_DISPELLER.get(), new Item.Properties()));
+            () -> new PrecisionDispellerItem(RegisterBlocks.PRECISION_DISPELLER.get(), baseProperties()));
 
     public static final RegistryObject<Item> MOLECULAR_METAMORPHER_ITEM = ITEMS.register("molecular_metamorpher",
-            () -> new MolecularMetamorpherItem(RegisterBlocks.MOLECULAR_METAMORPHER.get(), new Item.Properties()));
+            () -> new MolecularMetamorpherItem(RegisterBlocks.MOLECULAR_METAMORPHER.get(), baseProperties()));
 
     public static final RegistryObject<Item> ACCELERATOR_ITEM = ITEMS.register("accelerator",
-            () -> new BlockItem(RegisterBlocks.ACCELERATOR.get(), new Item.Properties()));
+            () -> new BlockItem(RegisterBlocks.ACCELERATOR.get(), baseProperties()));
 
     public static final RegistryObject<Item> LINEAR_ACCELERATOR_ITEM = ITEMS.register("linear_accelerator",
-            () -> new BlockItem(RegisterBlocks.LINEAR_ACCELERATOR.get(), new Item.Properties()));
+            () -> new BlockItem(RegisterBlocks.LINEAR_ACCELERATOR.get(), baseProperties()));
 
     public static final RegistryObject<Item> ENCHANTED_BOOKSHELF_ITEM = ITEMS.register("enchanted_bookshelf",
-            () -> new BlockItem(RegisterBlocks.ENCHANTED_BOOKSHELF.get(), new Item.Properties()));
+            () -> new BlockItem(RegisterBlocks.ENCHANTED_BOOKSHELF.get(), baseProperties()));
 
     public static final RegistryObject<Item> ARCHIVERS_BOOKSHELF_ITEM = ITEMS.register("archivers_bookshelf",
-            () -> new BlockItem(RegisterBlocks.ARCHIVERS_BOOKSHELF.get(), new Item.Properties()));
+            () -> new BlockItem(RegisterBlocks.ARCHIVERS_BOOKSHELF.get(), baseProperties()));
 
     public static final RegistryObject<Item> INFECTED_BOOKSHELF_ITEM = ITEMS.register("infected_bookshelf",
-            () -> new BlockItem(RegisterBlocks.INFECTED_BOOKSHELF.get(), new Item.Properties()));
+            () -> new BlockItem(RegisterBlocks.INFECTED_BOOKSHELF.get(), baseProperties()));
 
     public static final RegistryObject<Item> INFECTED_ENCHANTED_BOOKSHELF_ITEM = ITEMS.register("infected_enchanted_bookshelf",
-            () -> new BlockItem(RegisterBlocks.INFECTED_ENCHANTED_BOOKSHELF.get(), new Item.Properties()));
+            () -> new BlockItem(RegisterBlocks.INFECTED_ENCHANTED_BOOKSHELF.get(), baseProperties()));
 
     public static final RegistryObject<Item> INFECTED_ARCHIVERS_BOOKSHELF_ITEM = ITEMS.register("infected_archivers_bookshelf",
-            () -> new BlockItem(RegisterBlocks.INFECTED_ARCHIVERS_BOOKSHELF.get(), new Item.Properties()));
+            () -> new BlockItem(RegisterBlocks.INFECTED_ARCHIVERS_BOOKSHELF.get(), baseProperties()));
 
     public static final RegistryObject<Item> FLUORESCENT_AGAR_ITEM = ITEMS.register("fluorescent_agar",
-            () -> new BlockItem(RegisterBlocks.FLUORESCENT_AGAR.get(), new Item.Properties()));
+            () -> new BlockItem(RegisterBlocks.FLUORESCENT_AGAR.get(), baseProperties()));
 
     public static final RegistryObject<Item> NUTRIENT_AGAR_ITEM = ITEMS.register("nutrient_agar",
-            () -> new BlockItem(RegisterBlocks.NUTRIENT_AGAR.get(), new Item.Properties()));
+            () -> new BlockItem(RegisterBlocks.NUTRIENT_AGAR.get(), baseProperties()));
 
     public static final RegistryObject<Item> INSIGHTFUL_AGAR_ITEM = ITEMS.register("insightful_agar",
-            () -> new BlockItem(RegisterBlocks.INSIGHTFUL_AGAR.get(), new Item.Properties()));
+            () -> new BlockItem(RegisterBlocks.INSIGHTFUL_AGAR.get(), baseProperties()));
 
     public static final RegistryObject<Item> EXTRAVAGANT_AGAR_ITEM = ITEMS.register("extravagant_agar",
-            () -> new BlockItem(RegisterBlocks.EXTRAVAGANT_AGAR.get(), new Item.Properties()));
+            () -> new BlockItem(RegisterBlocks.EXTRAVAGANT_AGAR.get(), baseProperties()));
 
     //-----BLOCK ITEMS-----//
 
     public static final RegistryObject<Item> COGNITIVE_ALLOY_BLOCK_ITEM = ITEMS.register("cognitive_alloy_block",
-            () -> new BlockItem(RegisterBlocks.COGNITIVE_ALLOY_BLOCK.get(), new Item.Properties()));
+            () -> new BlockItem(RegisterBlocks.COGNITIVE_ALLOY_BLOCK.get(), baseProperties()));
 
     public static final RegistryObject<Item> COGNITIVE_CRYSTAL_BLOCK_ITEM = ITEMS.register("cognitive_crystal_block",
-            () -> new BlockItem(RegisterBlocks.COGNITIVE_CRYSTAL_BLOCK.get(), new Item.Properties()));
+            () -> new BlockItem(RegisterBlocks.COGNITIVE_CRYSTAL_BLOCK.get(), baseProperties()));
 
     public static final RegistryObject<Item> WHISPERGLASS_ITEM = ITEMS.register("whisperglass",
-            () -> new BlockItem(RegisterBlocks.WHISPERGLASS_BLOCK.get(), new Item.Properties()));
+            () -> new BlockItem(RegisterBlocks.WHISPERGLASS_BLOCK.get(), baseProperties()));
 
     public static final RegistryObject<Item> FORGOTTEN_DUST_BLOCK_ITEM = ITEMS.register("forgotten_dust_block",
-            () -> new BlockItem(RegisterBlocks.FORGOTTEN_DUST_BLOCK.get(), new Item.Properties()){
+            () -> new BlockItem(RegisterBlocks.FORGOTTEN_DUST_BLOCK.get(), baseProperties()){
                 @Override
                 public int getBurnTime(ItemStack itemStack, @Nullable RecipeType<?> recipeType) {
                     return 400;
@@ -269,7 +272,7 @@ public class RegisterItems {
 
     //-----DUMMY ITEM-----//
 
-    public static final RegistryObject<Item> DUMMY_SWORD = ITEMS.register("dummy_sword", RegisterItems::baseItem);
+    public static final RegistryObject<Item> DUMMY_SWORD = ITEMS.register("dummy_sword", () -> new Item(new Item.Properties()));
 
 
     public static void register(IEventBus eventBus){

@@ -58,7 +58,7 @@ public class FlaskPoseidonItem extends Item{
             if(clickedState.getBlock() instanceof AbstractCauldronBlock && edit){ //cauldrons
 
                 if(clickedState.getBlock().equals(Blocks.CAULDRON)){
-                    level.setBlockAndUpdate(clickedPos, Blocks.WATER_CAULDRON.defaultBlockState().trySetValue(BlockStateProperties.LEVEL_CAULDRON, 3));
+                    level.setBlockAndUpdate(clickedPos, Blocks.WATER_CAULDRON.defaultBlockState().setValue(BlockStateProperties.LEVEL_CAULDRON, 3));
                     return handlePlayer(player, level);
                 }
                 else{

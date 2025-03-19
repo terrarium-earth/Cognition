@@ -236,7 +236,7 @@ public class MolecularMetamorpherEntity extends ExperienceReceivingEntity implem
 
         if(getRecipe().isPresent()){
             MolecularMetamorpherRecipe recipe = getRecipe().get();
-            ItemStack output = recipe.getResultItem(null);
+            ItemStack output = recipe.getResultItem();
             int cost = recipe.getCost();
 
             if(canPerformRecipe(output, cost)){
@@ -346,7 +346,7 @@ public class MolecularMetamorpherEntity extends ExperienceReceivingEntity implem
         }
 
         if(recipe != null){
-            ItemStack result = recipe.getResultItem(null);
+            ItemStack result = recipe.getResultItem();
             ItemStack stackInResults = outputHandler.getStackInSlot(0).copy();
             SimpleContainer remainders = deplete(recipe);
             int count = result.getCount();
@@ -374,7 +374,7 @@ public class MolecularMetamorpherEntity extends ExperienceReceivingEntity implem
         if(Config.COMMON.formatting.get() && hasNameFormattingRecipe()){
 
             MolecularMetamorpherRecipe recipe = getNameFormattingRecipe();
-            ItemStack output = recipe.getResultItem(null);
+            ItemStack output = recipe.getResultItem();
             int cost = recipe.getCost();
 
             if(canPerformRecipe(output, cost)){
