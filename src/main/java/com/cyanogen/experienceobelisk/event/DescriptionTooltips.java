@@ -8,7 +8,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 
-public class HandleTooltip {
+public class DescriptionTooltips {
 
     public static void handleTooltip(ItemTooltipEvent event){
 
