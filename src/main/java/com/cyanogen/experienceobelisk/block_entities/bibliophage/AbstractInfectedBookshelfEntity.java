@@ -1,5 +1,6 @@
 package com.cyanogen.experienceobelisk.block_entities.bibliophage;
 
+import com.cyanogen.experienceobelisk.config.Config;
 import com.cyanogen.experienceobelisk.registries.RegisterBlocks;
 import com.cyanogen.experienceobelisk.registries.RegisterItems;
 import net.minecraft.core.BlockPos;
@@ -14,33 +15,32 @@ import net.minecraft.world.entity.ExperienceOrb;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import static com.cyanogen.experienceobelisk.item.BibliophageItem.getValidBlocksForInfection;
-import static com.cyanogen.experienceobelisk.item.BibliophageItem.infectBlock;
+public abstract class AbstractInfectedBookshelfEntity extends AbstractInfectiveEntity {
 
-public abstract class AbstractInfectedBookshelfEntity extends BlockEntity {
+    public AbstractInfectedBookshelfEntity(BlockEntityType<?> type, BlockPos pos, BlockState state,
+                                           int spawnDelayMin, int spawnDelayMax, int orbValue, int spawns) {
 
-    public AbstractInfectedBookshelfEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
         super(type, pos, state);
+
+        this.spawnDelayMin = spawnDelayMin;
+        this.spawnDelayMax = spawnDelayMax;
+        this.orbValue = orbValue;
+        this.spawns = spawns;
     }
 
     int timeTillSpawn = -99; //the current time in ticks until the bookshelf is due to spawn an orb
-    int spawnDelayMin; //the minimum spawn delay for the bookshelf
-    int spawnDelayMax; //the maximum spawn delay for the bookshelf
-    int orbValue; //the value of orbs to spawn
-    int spawns; //the number of times a bookshelf can spawn an orb before decaying
+    final int spawnDelayMin; //the minimum spawn delay for the bookshelf
+    final int spawnDelayMax; //the maximum spawn delay for the bookshelf
+    final int orbValue; //the value of orbs to spawn
+    final int spawns; //the number of times a bookshelf can spawn an orb before decaying
     int decayValue = 0; //the number of times a bookshelf has spawned an orb
     double infectivity = 0.02; //the chance for a bookshelf to infect another adjacent bookshelf every second
-    boolean redstoneEnabled = false; //whether or not the bookshelf is disabled. When disabled, bookshelves will not infect adjacents, produce XP, or decay
+    boolean redstoneEnabled = false; //whether or not the bookshelf is sensitive to redstone. Disabled bookshelves will not infect adjacents, produce XP, or decay
 
     //-----------BEHAVIOR-----------//
 
@@ -77,34 +77,15 @@ public abstract class AbstractInfectedBookshelfEntity extends BlockEntity {
 
     }
 
-    public void infectAdjacent(Level level, BlockPos pos){
-
-        Map<BlockPos, Block> adjacentMap = new HashMap<>();
-        List<BlockPos> posList = new ArrayList<>();
-
-        if(!level.isClientSide){
-            for(BlockPos adjacentPos : getAdjacents(pos)){
-                if(getValidBlocksForInfection().contains(level.getBlockState(adjacentPos).getBlock())){
-
-                    Block adjacentBlock = level.getBlockState(adjacentPos).getBlock();
-                    adjacentMap.put(adjacentPos, adjacentBlock);
-                    posList.add(adjacentPos);
-                }
-            }
-        }
-
-        if(!adjacentMap.isEmpty()){
-
-            int index = (int) Math.floor(Math.random() * posList.size());
-            BlockPos posToInfect = posList.get(index);
-            Block block = adjacentMap.get(posToInfect);
-
-            infectBlock(level, posToInfect, block);
-        }
-    }
-
     public void resetSpawnDelay(){
-        this.timeTillSpawn = (int) (spawnDelayMin + Math.floor((spawnDelayMax - spawnDelayMin) * Math.random()));
+        int delay = (int) (spawnDelayMin + Math.floor((spawnDelayMax - spawnDelayMin) * Math.random()));
+        double bonus = getTotalBonus(1);
+
+        if(bonus > 1){
+            delay = Math.max((int) (delay / bonus), 2);
+        }
+
+        this.timeTillSpawn = delay;
         this.setChanged();
     }
 
@@ -116,8 +97,14 @@ public abstract class AbstractInfectedBookshelfEntity extends BlockEntity {
     public void handleExperience(Level level, BlockPos pos){
 
         int value = orbValue;
+        double bonus = getTotalBonus(2);
 
         if(!level.isClientSide){
+
+            if(bonus > 1){
+                value = Math.min(32767, (int) (value * bonus));
+            }
+
             ServerLevel server = (ServerLevel) level;
             ExperienceOrb orb = new ExperienceOrb(server, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, value);
             orb.setDeltaMovement(0,0,0);
@@ -133,51 +120,20 @@ public abstract class AbstractInfectedBookshelfEntity extends BlockEntity {
 
     public void decay(Level level, BlockPos pos){
 
-        setRedstoneEnabled(true);
-
         if(!level.isClientSide){
-            ServerLevel server = (ServerLevel) level;
-            ItemStack forgottenDust = new ItemStack(RegisterItems.FORGOTTEN_DUST.get(), 4);
-            Block.popResource(server, pos, forgottenDust);
-        }
-        level.playSound(null, pos, SoundEvents.WART_BLOCK_BREAK, SoundSource.BLOCKS, 1f,1f); //play break sound
-        level.levelEvent(null, 2001, pos, Block.getId(RegisterBlocks.FORGOTTEN_DUST_BLOCK.get().defaultBlockState())); //spawn destroy particles
+            double chance = Config.COMMON.dropDustChance.get();
 
-        this.setRemoved();
-        level.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
-    }
+            ItemStack drops = new ItemStack(RegisterItems.FORGOTTEN_DUST.get());
 
-    public List<BlockPos> getAdjacents(BlockPos pos){
-        List<BlockPos> list = new ArrayList<>();
-        list.add(pos.above());
-        list.add(pos.below());
-        list.add(pos.north());
-        list.add(pos.south());
-        list.add(pos.east());
-        list.add(pos.west());
-
-        return list;
-    }
-
-    public List<BlockState> getAdjacentBlockStates(Level level, BlockPos pos){
-        List<BlockState> list = new ArrayList<>();
-        for(BlockPos adjacent : getAdjacents(pos)){
-            list.add(level.getBlockState(adjacent));
-        }
-
-        return list;
-    }
-
-    public int enumerateAdjacentsOfType(Level level, BlockPos pos, BlockState state){
-
-        int count = 0;
-
-        for(BlockState adjacent : getAdjacentBlockStates(level, pos)){
-            if(adjacent.equals(state)){
-                count++;
+            if(Math.random() <= chance){
+                Block.dropResources(getBlockState(), level, pos, this, null, drops);
             }
+
+            level.playSound(null, pos, SoundEvents.WART_BLOCK_BREAK, SoundSource.BLOCKS, 1f,1f); //play break sound
+            level.levelEvent(null, 2001, pos, Block.getId(RegisterBlocks.FORGOTTEN_DUST_BLOCK.get().defaultBlockState())); //spawn destroy particles
+            level.removeBlockEntity(pos);
+            level.removeBlock(pos, false);
         }
-        return count;
     }
 
     public boolean toggleActivity(){
@@ -186,13 +142,6 @@ public abstract class AbstractInfectedBookshelfEntity extends BlockEntity {
 
         return this.redstoneEnabled;
     }
-
-    public void setRedstoneEnabled(boolean redstoneEnabled){
-        this.redstoneEnabled = redstoneEnabled;
-        this.setChanged();
-    }
-
-    public boolean getRedstoneEnabled(){return this.redstoneEnabled;}
 
     public int getDecayValue(){
         return this.decayValue;
@@ -204,6 +153,44 @@ public abstract class AbstractInfectedBookshelfEntity extends BlockEntity {
 
     public int getSpawns(){
         return this.spawns;
+    }
+
+    public int countNeighborsOfType(int type, List<BlockPos> neighbors){
+
+        Level level = getLevel();
+        Block insightful = RegisterBlocks.INSIGHTFUL_AGAR.get();
+        Block extravagant = RegisterBlocks.EXTRAVAGANT_AGAR.get();
+        int count = 0;
+
+        if(type == 1){ //insightful agar
+            for(BlockPos pos : neighbors){
+                if(level != null && level.getBlockState(pos).is(insightful)){
+                    count++;
+                }
+            }
+        }
+        else if(type == 2){ //extravagant agar
+            for(BlockPos pos : neighbors){
+                if(level != null && level.getBlockState(pos).is(extravagant)){
+                    count++;
+                }
+            }
+        }
+
+        return Math.min(count, 6);
+    }
+
+    public double getTotalBonus(int type){
+
+        int faces = countNeighborsOfType(type, getAdjacents(this.getBlockPos()));
+        int edges = countNeighborsOfType(type, getEdgeBlocks(this.getBlockPos()));
+        int vertices = countNeighborsOfType(type, getVertexBlocks(this.getBlockPos()));
+
+        double faceBonus = Config.COMMON.agarFaceBonus.get();
+        double edgeBonus = Config.COMMON.agarEdgeBonus.get();
+        double vertexBonus = Config.COMMON.agarVertexBonus.get();
+
+        return Math.pow(faceBonus, faces) * Math.pow(edgeBonus, edges) * Math.pow(vertexBonus, vertices);
     }
 
     //-----------NBT-----------//
