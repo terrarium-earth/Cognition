@@ -1,9 +1,7 @@
 package com.cyanogen.experienceobelisk.block.bibliophage;
 
 import com.cyanogen.experienceobelisk.block_entities.bibliophage.FluorescentAgarEntity;
-import com.cyanogen.experienceobelisk.block_entities.bibliophage.NutrientAgarEntity;
 import com.cyanogen.experienceobelisk.registries.RegisterBlockEntities;
-import com.cyanogen.experienceobelisk.registries.RegisterBlocks;
 import com.cyanogen.experienceobelisk.registries.RegisterItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -18,8 +16,6 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.HalfTransparentBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityTicker;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
