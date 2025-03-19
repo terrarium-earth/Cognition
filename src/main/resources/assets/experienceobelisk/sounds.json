@@ -22,5 +22,35 @@
     "sounds": [
       "experienceobelisk:metamorpher_busy2"
     ]
+  },
+  "neurogel_apply": {
+    "subtitle": "sounds.experienceobelisk.neurogel_apply",
+    "sounds": [
+      "experienceobelisk:neurogel_apply"
+    ]
+  },
+  "flask_empty_lava": {
+    "subtitle": "sounds.experienceobelisk.flask_empty_lava",
+    "sounds": [
+      "experienceobelisk:flask_empty_lava"
+    ]
+  },
+  "flask_empty_water": {
+    "subtitle": "sounds.experienceobelisk.flask_empty_water",
+    "sounds": [
+      "experienceobelisk:flask_empty_water"
+    ]
+  },
+  "flask_fill_void": {
+    "subtitle": "sounds.experienceobelisk.flask_fill_void",
+    "sounds": [
+      "experienceobelisk:flask_fill_void"
+    ]
+  },
+  "fluorescent_agar_infect": {
+    "subtitle": "sounds.experienceobelisk.fluorescent_agar_infect",
+    "sounds": [
+      "experienceobelisk:fluorescent_agar_infect"
+    ]
   }
 }
