@@ -3,6 +3,9 @@ package com.cyanogen.experienceobelisk.recipe.jei;
 import com.cyanogen.experienceobelisk.ExperienceObelisk;
 import com.cyanogen.experienceobelisk.gui.MolecularMetamorpherScreen;
 import com.cyanogen.experienceobelisk.recipe.MolecularMetamorpherRecipe;
+import com.cyanogen.experienceobelisk.recipe.jei.info.FillingCategory;
+import com.cyanogen.experienceobelisk.recipe.jei.info.InfectingCategory;
+import com.cyanogen.experienceobelisk.recipe.jei.info.InformationalRecipes;
 import com.cyanogen.experienceobelisk.registries.RegisterItems;
 import com.cyanogen.experienceobelisk.utils.RecipeUtils;
 import mezz.jei.api.IModPlugin;
@@ -13,22 +16,22 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Recipe;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.cyanogen.experienceobelisk.recipe.jei.MolecularMetamorpherCategory.metamorpherType;
+
 @mezz.jei.api.JeiPlugin
 public class CognitionJeiPlugin implements IModPlugin {
-
-    public static final RecipeType<MolecularMetamorpherRecipe> metamorpherType =
-            RecipeType.create(MolecularMetamorpherRecipe.Type.ID, ExperienceObelisk.MOD_ID, MolecularMetamorpherRecipe.class);
 
     @Override
     public void registerCategories(IRecipeCategoryRegistration registration) {
 
         registration.addRecipeCategories(new MolecularMetamorpherCategory(registration));
+        registration.addRecipeCategories(new FillingCategory(registration));
+        registration.addRecipeCategories(new InfectingCategory(registration));
         IModPlugin.super.registerCategories(registration);
     }
 
@@ -44,17 +47,20 @@ public class CognitionJeiPlugin implements IModPlugin {
             }
         }
         metamorpherRecipes.addAll(RecipeUtils.getNameFormattingRecipesForJEI());
-
         registration.addRecipes(metamorpherType, metamorpherRecipes);
+
+        //INFO V2
+        registration.addRecipes(FillingCategory.fillingType, InformationalRecipes.populateFillingRecipes());
+        registration.addRecipes(InfectingCategory.infectingType, InformationalRecipes.populateInfectingRecipes());
 
         //INFO
         ItemStack FORGOTTEN_DUST = new ItemStack(RegisterItems.FORGOTTEN_DUST.get());
-        List<ItemStack> EXPERIENCE_VESSELS = new ArrayList<>();
-        EXPERIENCE_VESSELS.add(new ItemStack(Items.EXPERIENCE_BOTTLE));
-        EXPERIENCE_VESSELS.add(new ItemStack(RegisterItems.COGNITIUM_BUCKET.get()));
-
         registration.addIngredientInfo(FORGOTTEN_DUST, VanillaTypes.ITEM_STACK, Component.translatable("jei.experienceobelisk.description.forgotten_dust"));
-        registration.addIngredientInfo(EXPERIENCE_VESSELS, VanillaTypes.ITEM_STACK, Component.translatable("jei.experienceobelisk.description.experience_vessels"));
+
+        //HIDE FROM VIEWER
+        List<ItemStack> hidden = new ArrayList<>();
+        hidden.add(new ItemStack(RegisterItems.DUMMY_SWORD.get(), 1));
+        registration.getIngredientManager().removeIngredientsAtRuntime(VanillaTypes.ITEM_STACK, hidden);
 
         IModPlugin.super.registerRecipes(registration);
     }

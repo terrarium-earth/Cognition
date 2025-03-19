@@ -40,6 +40,9 @@ public class MolecularMetamorpherCategory implements IRecipeCategory<MolecularMe
     private final IDrawableAnimated arrow;
     private final IDrawable xpBar;
 
+    public static final RecipeType<MolecularMetamorpherRecipe> metamorpherType =
+            RecipeType.create(MolecularMetamorpherRecipe.Type.ID, ExperienceObelisk.MOD_ID, MolecularMetamorpherRecipe.class);
+
     public MolecularMetamorpherCategory(IRecipeCategoryRegistration registration){
         this.registration = registration;
         this.guiHelper = registration.getJeiHelpers().getGuiHelper();

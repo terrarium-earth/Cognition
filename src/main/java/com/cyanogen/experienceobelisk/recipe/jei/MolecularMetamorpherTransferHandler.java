@@ -45,7 +45,7 @@ public class MolecularMetamorpherTransferHandler implements IRecipeTransferHandl
 
     @Override
     public RecipeType<MolecularMetamorpherRecipe> getRecipeType() {
-        return CognitionJeiPlugin.metamorpherType;
+        return MolecularMetamorpherCategory.metamorpherType;
     }
 
     @Override
