@@ -1,13 +1,10 @@
 {
-  "type": "minecraft:smithing_transform",
-  "template": {
+  "type": "minecraft:smithing",
+  "addition": {
     "item": "experienceobelisk:astute_assembly"
   },
   "base": {
     "item": "minecraft:grindstone"
-  },
-  "addition": {
-    "item": "experienceobelisk:cognitive_crystal"
   },
   "result": {
     "item": "experienceobelisk:precision_dispeller"
