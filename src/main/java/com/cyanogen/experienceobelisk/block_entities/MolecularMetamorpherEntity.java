@@ -2,8 +2,10 @@ package com.cyanogen.experienceobelisk.block_entities;
 
 import com.cyanogen.experienceobelisk.ExperienceObelisk;
 import com.cyanogen.experienceobelisk.config.Config;
+import com.cyanogen.experienceobelisk.item.TransformingFocusItem;
 import com.cyanogen.experienceobelisk.recipe.MolecularMetamorpherRecipe;
 import com.cyanogen.experienceobelisk.registries.RegisterBlockEntities;
+import com.cyanogen.experienceobelisk.registries.RegisterItems;
 import com.cyanogen.experienceobelisk.registries.RegisterSounds;
 import com.cyanogen.experienceobelisk.utils.RecipeUtils;
 import com.google.common.collect.ImmutableMap;
@@ -17,6 +19,7 @@ import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.RandomSource;
 import net.minecraft.util.Tuple;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.item.DyeItem;
@@ -233,7 +236,7 @@ public class MolecularMetamorpherEntity extends ExperienceReceivingEntity implem
 
         if(getRecipe().isPresent()){
             MolecularMetamorpherRecipe recipe = getRecipe().get();
-            ItemStack output = recipe.getResultItem();
+            ItemStack output = recipe.getResultItem(null);
             int cost = recipe.getCost();
 
             if(canPerformRecipe(output, cost)){
@@ -306,7 +309,15 @@ public class MolecularMetamorpherEntity extends ExperienceReceivingEntity implem
 
                 if(ingredient.test(stack)){
 
-                    if(stack.hasCraftingRemainingItem()){
+                    if(stack.is(RegisterItems.TRANSFORMING_FOCUS.get())){
+                        if(stack.getDamageValue() >= TransformingFocusItem.durability - 1){
+                            stack.shrink(1);
+                        }
+                        else{
+                            stack.hurt(1, RandomSource.create(), null);
+                        }
+                    }
+                    else if(stack.hasCraftingRemainingItem()){
                         container.setItem(i, stack.getCraftingRemainingItem());
                     }
                     else{
@@ -335,12 +346,13 @@ public class MolecularMetamorpherEntity extends ExperienceReceivingEntity implem
         }
 
         if(recipe != null){
-            ItemStack result = recipe.getResultItem();
+            ItemStack result = recipe.getResultItem(null);
             ItemStack stackInResults = outputHandler.getStackInSlot(0).copy();
             SimpleContainer remainders = deplete(recipe);
+            int count = result.getCount();
 
-            if(stackInResults.getItem().equals(result.getItem())){
-                stackInResults.grow(1);
+            if(ItemStack.isSameItemSameTags(result, stackInResults)){
+                stackInResults.grow(count);
                 outputHandler.setStackInSlot(0, stackInResults);
             }
             else{
@@ -362,7 +374,7 @@ public class MolecularMetamorpherEntity extends ExperienceReceivingEntity implem
         if(Config.COMMON.formatting.get() && hasNameFormattingRecipe()){
 
             MolecularMetamorpherRecipe recipe = getNameFormattingRecipe();
-            ItemStack output = recipe.getResultItem();
+            ItemStack output = recipe.getResultItem(null);
             int cost = recipe.getCost();
 
             if(canPerformRecipe(output, cost)){

@@ -47,7 +47,7 @@ import static com.cyanogen.experienceobelisk.utils.ExperienceUtils.xpToLevels;
 import static com.cyanogen.experienceobelisk.utils.MiscUtils.isSameAnimation;
 
 
-public class ExperienceObeliskEntity extends BlockEntity implements IAnimatable{
+public class ExperienceObeliskEntity extends BlockEntity implements IAnimatable {
 
     public ExperienceObeliskEntity(BlockPos pos, BlockState state) {
         super(RegisterBlockEntities.EXPERIENCE_OBELISK_BE.get(), pos, state);
@@ -78,6 +78,7 @@ public class ExperienceObeliskEntity extends BlockEntity implements IAnimatable{
                 || !isSameAnimation(animation, animationToPlay)
                 || controller.getAnimationState().equals(AnimationState.Stopped)){
 
+            controller.clearAnimationCache();
             controller.setAnimation(animationToPlay);
         }
 
@@ -175,7 +176,7 @@ public class ExperienceObeliskEntity extends BlockEntity implements IAnimatable{
 
     private static final Fluid cognitium = RegisterFluids.COGNITIUM.get().getSource();
 
-    public static final int capacity = Config.COMMON.capacity.get() % 20 == 0 ? Config.COMMON.capacity.get() : Config.COMMON.defaultCapacity;
+    public static final int capacity = (int) Math.min((Math.round((double) Config.COMMON.capacity.get() / 20) * 20), 2147483640);
 
     private FluidTank experienceObeliskTank() {
         return new FluidTank(capacity){
@@ -273,8 +274,7 @@ public class ExperienceObeliskEntity extends BlockEntity implements IAnimatable{
 
     @Override
     @Nonnull
-    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> capability, @Nullable Direction facing)
-    {
+    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> capability, @Nullable Direction facing) {
         if (capability == ForgeCapabilities.FLUID_HANDLER)
             return handler.cast();
         return super.getCapability(capability, facing);
