@@ -1,3 +1,92 @@
+v2.3.4
+
+[Changes]
+- Added visual crafting information in JEI for mechanics such as infecting and filling
+- Mending Neurogel now restores 200 pts of durability or a number of points equivalent to 20% of total durability, whichever is higher
+- Mending Neurogel recipe now requires 2x calcarine matrix instead of 1x, in order to balance it for high-durability items
+- Fluorescent Jelly now gives 2 hunger points instead of 5
+- Added config option to change the hunger points Fluorescent Jelly gives you, or to disable eating it entirely
+- Added config option to change Fluorescent Jelly saturation
+
+[Bugfixes]
+- Fixed bookshelves being displayed as uninfected for a short period if infected twice in the same tick
+- Fixed bookshelves being removed clientside a short period before they actually decay under certain circumstances
+- Minor fixes to the obelisk animation
+- Disabled taking fall damage from the top face of active accelerators
+- Disabled taking fall damage from all agar blocks
+
+v2.3.3
+
+[Changes]
+- increased Transforming Focus durability 500 --> 512
+- Transforming Foci can now be enchanted with Unbreaking via enchanted books
+- Doubled default orb value and spawn interval, and halved default spawn count for all types of Infected Bookshelves. Average xp/s, average lifetime and total production remain the same, but large setups should be less laggy.
+  - If you're updating from an older version and want these changes to be applied, delete the experienceobelisk-common.toml file before launching the game
+- aded config option to turn off light emission from agar blocks
+
+[Bugfixes]
+- fixed existing bookshelf entities not implementing config changes on load
+- capped maximum value of orbs produced by bookshelves to 32767
+- capped minimum orb spawn interval to 2 ticks
+- fixed Fluorescent Agar conversion using the wrong type of sound event
+
+v2.3.2
+
+[Content]
+- added Transforming Focus
+- added Fluorescent Agar
+
+[Changes]
+- reworked Agar crafting
+- Insightful & Extravagant Agar now give a small bonus to bookshelves sharing edges and vertices on top of the main bonus to those sharing faces
+- finalized Agar textures
+- made Agar permeable to experience orbs
+- reduced Forgotten Dust drop rate from decaying bookshelves to 50% from 100%
+- added config option for Forgotten Dust drop rate
+- added config option for Agar bonuses
+- removed Metamorpher anvil repair recipes
+- Mending Neurogel may now be used to repair anvils, either in-inventory or in-world
+- other recipe additions, balances and removals
+
+v2.3.1
+
+[Changes]
+- the buffs applied by Agar blocks now stack multiplicatively
+- Agar block bonuses increased from x1.25 --> x1.3
+- increased the infectivity of all Agar blocks
+- increased the material cost of all Agar blocks
+- significantly lowered the XP cost for all Agar blocks
+- added sound effects for the application of Mending Neurogel
+- added subtitles for flask sound effects
+- added specific sound effects for the Flask of Chaos
+- reduced XP costs for the usage of all three flasks
+
+[Bugfixes]
+- fixed a bug in the Metamorpher where recipes with an output item count of more than 1 would only increment the output item by 1 upon dispensing results
+- fixed flasks being unable to fill or empty modded fluid containers
+
+v2.3.0
+
+[Content]
+- Added nutrient agar
+- Added insightful agar
+- Added extravagant agar
+- Added flask of poseidon
+- Added flask of hades
+- Added flask of chaos
+- Added mending neurogel
+- Added cognitive armorset
+- Added cognitive rod
+- Added cognitive shears
+- Added calcarine matrix
+
+[Changes]
+
+- Added config option to disable forgotten dust dropping by bookshelves
+- Bottle o' daydream & nightmare now stack to 64
+- Recipe balances and additions
+- Added more information and entries to description tooltips
+
 v2.2.6
 
 [Changes]
