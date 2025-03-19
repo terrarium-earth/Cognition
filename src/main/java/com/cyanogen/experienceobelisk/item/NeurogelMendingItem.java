@@ -41,7 +41,7 @@ public class NeurogelMendingItem extends Item {
             if(itemToRepair.isDamaged()){
                 int maxDurability = itemToRepair.getMaxDamage();
                 int damage = itemToRepair.getDamageValue();
-                int repairAmount = maxDurability / 4; //changed to be a percentage of total durability
+                int repairAmount = Math.max(maxDurability / 5, 200); //restores 20% of item max durability or 200 pts, whichever is higher
 
                 stackedOn.shrink(1);
                 itemToRepair.setDamageValue(Math.max(damage - repairAmount, 0));
