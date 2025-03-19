@@ -3,14 +3,14 @@
 	"animations": {
 		"idle": {
 			"loop": true,
-			"animation_length": 6.04167,
+			"animation_length": 6.0,
 			"bones": {
 				"Squishywashere": {
 					"rotation": {
 						"0.0": {
 							"vector": [0, 0, 0]
 						},
-						"6.0417": {
+						"6.0": {
 							"vector": [360, 360, 360]
 						}
 					}
@@ -79,7 +79,7 @@
 						"3.0833": {
 							"vector": [0, 0, 0]
 						},
-						"6.0417": {
+						"6.0": {
 							"vector": ["-360*2", 360, -360]
 						}
 					},
@@ -157,7 +157,7 @@
 						"3.7083": {
 							"vector": [0, 0, 0]
 						},
-						"6.0417": {
+						"6.0": {
 							"vector": [-481.54, -240.77, 240.77]
 						}
 					},
@@ -174,7 +174,7 @@
 						"4.0833": {
 							"vector": [1, 1, 1]
 						},
-						"6.0417": {
+						"6.0": {
 							"vector": [1, 1, 1]
 						}
 					}
@@ -196,7 +196,7 @@
 							"vector": [0, 1, 0],
 							"easing": "easeInOutQuad"
 						},
-						"6.0417": {
+						"6.0": {
 							"vector": [0, -1, 0],
 							"easing": "easeInOutQuad"
 						}
@@ -211,7 +211,7 @@
 							"vector": [1, 0.8, 1],
 							"easing": "easeInOutQuad"
 						},
-						"6.0417": {
+						"6.0": {
 							"vector": [1, 1.2, 1],
 							"easing": "easeInOutQuad"
 						}
@@ -221,14 +221,14 @@
 		},
 		"idle.inactive": {
 			"loop": true,
-			"animation_length": 6.04167,
+			"animation_length": 6.0,
 			"bones": {
 				"Squishywashere": {
 					"rotation": {
 						"0.0": {
 							"vector": [0, 0, 0]
 						},
-						"6.0417": {
+						"6.0": {
 							"vector": [360, 360, 360]
 						}
 					}
