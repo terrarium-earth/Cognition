@@ -39,6 +39,9 @@ public class FluorescentAgarBlock extends HalfTransparentBlock implements Entity
     }
 
     @Override
+    public void fallOn(Level level, BlockState state, BlockPos pos, Entity entity, float damage) { }
+
+    @Override
     public VoxelShape getCollisionShape(BlockState state, BlockGetter getter, BlockPos pos, CollisionContext context) {
 
         if(context instanceof EntityCollisionContext entityCollisionContext){
