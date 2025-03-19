@@ -172,7 +172,7 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
 
     private static final Fluid cognitium = RegisterFluids.COGNITIUM.get().getSource();
 
-    public static final int capacity = Config.COMMON.capacity.get() % 20 == 0 ? Config.COMMON.capacity.get() : Config.COMMON.defaultCapacity;
+    public static final int capacity = (int) Math.min((Math.round((double) Config.COMMON.capacity.get() / 20) * 20), 2147483640);
 
     private FluidTank experienceObeliskTank() {
         return new FluidTank(capacity){
