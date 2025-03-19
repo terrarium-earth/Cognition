@@ -109,12 +109,15 @@ public class ExperienceObeliskBlock extends Block implements EntityBlock {
 
     @Override
     public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+
         if (level.isClientSide) {
             return InteractionResult.SUCCESS;
-        } else {
+        }
+        else {
             NetworkHooks.openScreen((ServerPlayer) player, state.getMenuProvider(level,pos), pos);
             return InteractionResult.CONSUME;
         }
+
     }
 
     @Nullable

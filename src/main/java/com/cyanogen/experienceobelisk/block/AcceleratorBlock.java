@@ -7,6 +7,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -42,6 +43,16 @@ public class AcceleratorBlock extends ExperienceReceivingBlock implements Entity
         );
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.UP));
         this.registerDefaultState(this.stateDefinition.any().setValue(ACTIVE, true));
+    }
+
+    @Override
+    public void fallOn(Level level, BlockState state, BlockPos pos, Entity entity, float damage) {
+        boolean isActive = state.getValue(ACTIVE);
+        Direction direction = state.getValue(FACING);
+
+        if(!isActive || direction != Direction.UP){
+            super.fallOn(level, state, pos, entity, damage);
+        }
     }
 
     @Override

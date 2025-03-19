@@ -45,6 +45,7 @@ public class ExperienceFountainBlock extends ExperienceReceivingBlock implements
                 .destroyTime(1.2f)
                 .explosionResistance(9f)
                 .noOcclusion()
+                .sound(SoundType.METAL)
         );
     }
 

@@ -20,6 +20,7 @@ import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.RenderShape;
+import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -48,6 +49,7 @@ public class PrecisionDispellerBlock extends ExperienceReceivingBlock implements
                 .explosionResistance(9f)
                 .noOcclusion()
                 .lightLevel(pLightEmission -> 7)
+                .sound(SoundType.METAL)
         );
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH));
     }

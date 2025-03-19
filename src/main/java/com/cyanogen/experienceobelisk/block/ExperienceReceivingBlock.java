@@ -21,7 +21,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ExperienceReceivingBlock extends Block {
+public abstract class ExperienceReceivingBlock extends Block {
 
     public ExperienceReceivingBlock(Properties p) {
         super(p);
