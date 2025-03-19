@@ -12,6 +12,8 @@ v2.3.4
 - Fixed bookshelves being displayed as uninfected for a short period if infected twice in the same tick
 - Fixed bookshelves being removed clientside a short period before they actually decay under certain circumstances
 - Minor fixes to the obelisk animation
+- Disabled taking fall damage from the top face of active accelerators
+- Disabled taking fall damage from all agar blocks
 
 v2.3.3
 

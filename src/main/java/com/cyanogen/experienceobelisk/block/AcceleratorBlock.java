@@ -47,7 +47,9 @@ public class AcceleratorBlock extends ExperienceReceivingBlock implements Entity
     @Override
     public void fallOn(Level level, BlockState state, BlockPos pos, Entity entity, float damage) {
         boolean isActive = state.getValue(ACTIVE);
-        if(!isActive){
+        Direction direction = state.getValue(FACING);
+
+        if(!isActive || direction != Direction.UP){
             super.fallOn(level, state, pos, entity, damage);
         }
     }
