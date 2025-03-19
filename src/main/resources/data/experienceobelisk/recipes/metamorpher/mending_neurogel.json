@@ -1,0 +1,19 @@
+{
+  "type": "experienceobelisk:molecular_metamorphosis",
+  "ingredient1": {
+    "item": "experienceobelisk:calcarine_matrix"
+  },
+  "count1": 2,
+  "ingredient2": {
+    "item": "experienceobelisk:experience_jelly"
+  },
+  "count2": 1,
+  "ingredient3": [],
+  "count3": 0,
+  "result": {
+    "item": "experienceobelisk:mending_neurogel",
+    "count": 4
+  },
+  "cost": 315,
+  "processTime": 100
+}

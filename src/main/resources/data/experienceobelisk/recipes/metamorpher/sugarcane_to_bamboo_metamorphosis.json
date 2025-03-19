@@ -1,17 +1,17 @@
 {
   "type": "experienceobelisk:molecular_metamorphosis",
   "ingredient1": {
-    "item": "experienceobelisk:cognitive_flux"
+    "item": "minecraft:sugar_cane"
   },
-  "count1": 2,
+  "count1": 1,
   "ingredient2": {
-    "item": "minecraft:emerald"
+    "item": "experienceobelisk:transforming_focus"
   },
   "count2": 1,
   "ingredient3": [],
   "count3": 0,
   "result": {
-    "item": "experienceobelisk:cognitive_crystal",
+    "item": "minecraft:bamboo",
     "count": 1
   },
   "cost": 16,

@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ABA",
+    "BAB",
+    "ABA"
+  ],
+  "key": {
+    "A": {
+      "item": "experienceobelisk:experience_jelly"
+    },
+    "B": {
+      "item": "experienceobelisk:forgotten_dust"
+    }
+  },
+  "result": {
+    "item": "experienceobelisk:fluorescent_agar",
+    "count": 1
+  }
+}

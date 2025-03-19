@@ -1,10 +1,13 @@
 {
-  "type": "minecraft:smithing",
-  "addition": {
-    "item": "experienceobelisk:cognitive_alloy"
+  "type": "minecraft:smithing_transform",
+  "template": {
+    "item": "experienceobelisk:astute_assembly"
   },
   "base": {
     "item": "minecraft:iron_axe"
+  },
+  "addition": {
+    "item": "experienceobelisk:cognitive_alloy"
   },
   "result": {
     "item": "experienceobelisk:cognitive_axe"

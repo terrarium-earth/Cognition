@@ -1,0 +1,21 @@
+{
+  "type": "experienceobelisk:molecular_metamorphosis",
+  "ingredient1": {
+    "item": "experienceobelisk:nutrient_agar"
+  },
+  "count1": 1,
+  "ingredient2": {
+    "item": "minecraft:phantom_membrane"
+  },
+  "count2": 4,
+  "ingredient3": {
+    "item": "experienceobelisk:calcarine_matrix"
+  },
+  "count3": 4,
+  "result": {
+    "item": "experienceobelisk:extravagant_agar",
+    "count": 1
+  },
+  "cost": 1395,
+  "processTime": 200
+}

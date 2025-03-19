@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "minecraft:experience_bottle"
+    },
+    [
+      {
+        "item": "minecraft:twisting_vines"
+      },
+      {
+        "item": "minecraft:weeping_vines"
+      }
+    ],
+    [
+      {
+        "item": "minecraft:warped_fungus"
+      },
+      {
+        "item": "minecraft:crimson_fungus"
+      }
+    ]
+  ],
+  "result": {
+    "item": "experienceobelisk:nightmare_bottle",
+    "count": 1
+  }
+}

@@ -1,19 +1,19 @@
 {
   "type": "experienceobelisk:molecular_metamorphosis",
   "ingredient1": {
-    "item": "minecraft:chipped_anvil"
+    "item": "experienceobelisk:cognitive_crystal"
   },
   "count1": 1,
   "ingredient2": {
-    "item": "minecraft:iron_ingot"
+    "item": "minecraft:amethyst_shard"
   },
-  "count2": 1,
+  "count2": 4,
   "ingredient3": {
-    "item": "minecraft:barrier"
+    "item": "minecraft:quartz"
   },
-  "count3": 0,
+  "count3": 2,
   "result": {
-    "item": "minecraft:anvil",
+    "item": "experienceobelisk:transforming_focus",
     "count": 1
   },
   "cost": 55,

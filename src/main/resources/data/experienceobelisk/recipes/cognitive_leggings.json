@@ -4,12 +4,12 @@
     "item": "experienceobelisk:astute_assembly"
   },
   "base": {
-    "item": "minecraft:iron_shovel"
+    "item": "minecraft:iron_leggings"
   },
   "addition": {
     "item": "experienceobelisk:cognitive_alloy"
   },
   "result": {
-    "item": "experienceobelisk:cognitive_shovel"
+    "item": "experienceobelisk:cognitive_leggings"
   }
 }
