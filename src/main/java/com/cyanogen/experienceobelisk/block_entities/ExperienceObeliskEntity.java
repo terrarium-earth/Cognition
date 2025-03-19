@@ -76,7 +76,7 @@ public class ExperienceObeliskEntity extends BlockEntity implements IAnimatable 
 
         if(controller.getCurrentAnimation() == null
                 || !isSameAnimation(animation, animationToPlay)
-                || controller.getAnimationState().equals(AnimationState.Stopped)){
+                || controller.getAnimationState().equals(AnimationState.Stopped) || (level != null && level.getGameTime() % 6000 == 0)){
 
             controller.clearAnimationCache();
             controller.setAnimation(animationToPlay);
