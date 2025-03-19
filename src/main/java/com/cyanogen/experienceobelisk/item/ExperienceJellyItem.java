@@ -1,6 +1,6 @@
 package com.cyanogen.experienceobelisk.item;
 
-import net.minecraft.network.chat.Component;
+import com.cyanogen.experienceobelisk.config.Config;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
@@ -10,24 +10,31 @@ import net.minecraft.world.food.FoodData;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.List;
-
 public class ExperienceJellyItem extends Item {
-
-    private final int nutrition = 5;
-    private final float saturation = 0.8f;
 
     public ExperienceJellyItem(Properties properties) {
         super(properties);
     }
 
+    public int getNutrition(){
+        return Config.COMMON.jellyNutrition.get();
+    }
+
+    public float getSaturation(){
+        double saturation = Config.COMMON.jellySaturation.get();
+        return (float) saturation;
+    }
+
+    public boolean canBeEaten(){
+        return Config.COMMON.jellyNutrition.get() > 0;
+    }
+
     @Override
     public @Nullable FoodProperties getFoodProperties(ItemStack stack, @Nullable LivingEntity entity) {
-        return new FoodProperties.Builder().nutrition(nutrition).saturationMod(saturation).build();
+        return new FoodProperties.Builder().nutrition(getNutrition()).saturationMod(getSaturation()).build();
     }
 
     @Override
@@ -36,9 +43,9 @@ public class ExperienceJellyItem extends Item {
         ItemStack stack = player.getItemInHand(hand);
         FoodData data = player.getFoodData();
 
-        if(data.needsFood() || player.isCreative()){
+        if((data.needsFood() || player.isCreative()) && canBeEaten()){
 
-            data.eat(nutrition, saturation);
+            data.eat(getNutrition(), getSaturation());
             player.playSound(SoundEvents.GENERIC_EAT);
 
             if(!player.isCreative()){
@@ -55,13 +62,7 @@ public class ExperienceJellyItem extends Item {
     @Override
     public boolean isEdible() {
         return false;
-    }
-
-    @Override
-    public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
-
-        tooltip.add(Component.translatable("tooltip.experienceobelisk.experience_jelly.comment"));
-        super.appendHoverText(stack, level, tooltip, flag);
+        //Disable normal vanilla eating behavior for this to work properly
     }
 
 }
