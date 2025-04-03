@@ -97,7 +97,7 @@ public class Config {
                     .defineInRange("SpawnDelayMin", 300, 1, 10000);
             this.infectedSpawnDelayMax = builder.comment("The maximum spawn delay of Infected Bookshelves in ticks. Default = 500")
                     .defineInRange("SpawnDelayMax", 500, 1, 10000);
-            this.infectedOrbValue = builder.comment("The XP value of spawned orbs. Default = 6")
+            this.infectedOrbValue = builder.comment("The XP value of spawned orbs. Default = 12")
                     .defineInRange("OrbValue", 12, 1, 32767);
             this.infectedSpawns = builder.comment("The number of spawns until the bookshelf decays. Default = 50")
                     .defineInRange("Spawns", 50, 1, 10000);
@@ -108,7 +108,7 @@ public class Config {
                     .defineInRange("SpawnDelayMin", 300, 1, 10000);
             this.enchantedSpawnDelayMax = builder.comment("The maximum spawn delay of Enchanted Bookshelves in ticks. Default = 300")
                     .defineInRange("SpawnDelayMax", 500, 1, 10000);
-            this.enchantedOrbValue = builder.comment("The XP value of spawned orbs. Default = 12")
+            this.enchantedOrbValue = builder.comment("The XP value of spawned orbs. Default = 24")
                     .defineInRange("OrbValue", 24, 1, 32767);
             this.enchantedSpawns = builder.comment("The number of spawns until the bookshelf decays. Default = 100")
                     .defineInRange("Spawns", 100, 1, 10000);
@@ -119,7 +119,7 @@ public class Config {
                     .defineInRange("SpawnDelayMin", 300, 1, 10000);
             this.archiversSpawnDelayMax = builder.comment("The maximum spawn delay of Archiver's Bookshelves in ticks. Default = 220")
                     .defineInRange("SpawnDelayMax", 500, 1, 10000);
-            this.archiversOrbValue = builder.comment("The XP value of spawned orbs. Default = 6")
+            this.archiversOrbValue = builder.comment("The XP value of spawned orbs. Default = 12")
                     .defineInRange("OrbValue", 12, 1, 32767);
             this.archiversSpawns = builder.comment("The number of spawns until the bookshelf decays. Default = 50")
                     .defineInRange("Spawns", 100, 1, 10000);
