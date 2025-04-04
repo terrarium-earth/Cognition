@@ -1,3 +1,9 @@
+v2.3.5
+
+[Changes]
+- Added config option to make Infected Bookshelves & Agar permeable to Forgotten Dust items.
+This will allow Forgotten Dust to pass through bibliophage setups as if they aren't there. Option is false by default.
+
 v2.3.4
 
 [Changes]
