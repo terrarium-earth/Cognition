@@ -13,6 +13,7 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.ExperienceOrb;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
@@ -39,13 +40,18 @@ public class InfectedBookshelfBlock extends BookshelfBlock implements EntityBloc
     @Override
     public VoxelShape getCollisionShape(BlockState state, BlockGetter getter, BlockPos pos, CollisionContext context) {
 
+        VoxelShape shape = super.getCollisionShape(state, getter, pos, context);
+
         if(context instanceof EntityCollisionContext entityCollisionContext){
             Entity e = entityCollisionContext.getEntity();
             if(e instanceof ExperienceOrb){
                 return Shapes.empty();
             }
+            else if(e instanceof ItemEntity item){
+                return item.getItem().is(RegisterItems.FORGOTTEN_DUST.get()) ? Shapes.empty() : shape;
+            }
         }
-        return super.getCollisionShape(state, getter, pos, context);
+        return shape;
     }
 
     @Override

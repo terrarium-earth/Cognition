@@ -24,29 +24,10 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 
-public class FluorescentAgarBlock extends HalfTransparentBlock implements EntityBlock {
+public class FluorescentAgarBlock extends AbstractAgarBlock implements EntityBlock {
 
     public FluorescentAgarBlock() {
-        super(Properties.copy(Blocks.SLIME_BLOCK)
-                .noOcclusion()
-                .isViewBlocking((state,getter,pos)->false)
-                .lightLevel(value -> 0)
-                .emissiveRendering((state,getter,pos)->false));
-    }
-
-    @Override
-    public void fallOn(Level level, BlockState state, BlockPos pos, Entity entity, float damage) { }
-
-    @Override
-    public VoxelShape getCollisionShape(BlockState state, BlockGetter getter, BlockPos pos, CollisionContext context) {
-
-        if(context instanceof EntityCollisionContext entityCollisionContext){
-            Entity e = entityCollisionContext.getEntity();
-            if(e instanceof ExperienceOrb){
-                return Shapes.empty();
-            }
-        }
-        return super.getCollisionShape(state, getter, pos, context);
+        super(0);
     }
 
     @Override
