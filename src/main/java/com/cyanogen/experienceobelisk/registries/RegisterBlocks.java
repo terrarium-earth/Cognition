@@ -2,7 +2,14 @@ package com.cyanogen.experienceobelisk.registries;
 
 import com.cyanogen.experienceobelisk.ExperienceObelisk;
 import com.cyanogen.experienceobelisk.block.*;
-import com.cyanogen.experienceobelisk.block.bibliophage.*;
+import com.cyanogen.experienceobelisk.block.bibliophage.agar.ExtravagantAgarBlock;
+import com.cyanogen.experienceobelisk.block.bibliophage.agar.FluorescentAgarBlock;
+import com.cyanogen.experienceobelisk.block.bibliophage.agar.InsightfulAgarBlock;
+import com.cyanogen.experienceobelisk.block.bibliophage.agar.NutrientAgarBlock;
+import com.cyanogen.experienceobelisk.block.bibliophage.bookshelves.BookshelfBlock;
+import com.cyanogen.experienceobelisk.block.bibliophage.bookshelves.InfectedArchiversBookshelfBlock;
+import com.cyanogen.experienceobelisk.block.bibliophage.bookshelves.InfectedBookshelfBlock;
+import com.cyanogen.experienceobelisk.block.bibliophage.bookshelves.InfectedEnchantedBookshelfBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LiquidBlock;

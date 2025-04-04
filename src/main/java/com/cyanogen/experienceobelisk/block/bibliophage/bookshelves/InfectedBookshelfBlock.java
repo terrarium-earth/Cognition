@@ -1,7 +1,8 @@
-package com.cyanogen.experienceobelisk.block.bibliophage;
+package com.cyanogen.experienceobelisk.block.bibliophage.bookshelves;
 
-import com.cyanogen.experienceobelisk.block_entities.bibliophage.AbstractInfectedBookshelfEntity;
-import com.cyanogen.experienceobelisk.block_entities.bibliophage.InfectedBookshelfEntity;
+import com.cyanogen.experienceobelisk.block_entities.bibliophage.bookshelves.AbstractInfectedBookshelfEntity;
+import com.cyanogen.experienceobelisk.block_entities.bibliophage.bookshelves.InfectedBookshelfEntity;
+import com.cyanogen.experienceobelisk.config.Config;
 import com.cyanogen.experienceobelisk.registries.RegisterBlockEntities;
 import com.cyanogen.experienceobelisk.registries.RegisterItems;
 import net.minecraft.ChatFormatting;
@@ -47,7 +48,7 @@ public class InfectedBookshelfBlock extends BookshelfBlock implements EntityBloc
             if(e instanceof ExperienceOrb){
                 return Shapes.empty();
             }
-            else if(e instanceof ItemEntity item){
+            else if(e instanceof ItemEntity item && Config.COMMON.shelvesPermeableToDust.get()){
                 return item.getItem().is(RegisterItems.FORGOTTEN_DUST.get()) ? Shapes.empty() : shape;
             }
         }

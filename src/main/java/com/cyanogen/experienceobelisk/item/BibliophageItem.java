@@ -1,6 +1,6 @@
 package com.cyanogen.experienceobelisk.item;
 
-import com.cyanogen.experienceobelisk.block_entities.bibliophage.FluorescentAgarEntity;
+import com.cyanogen.experienceobelisk.block_entities.bibliophage.agar.FluorescentAgarEntity;
 import com.cyanogen.experienceobelisk.registries.RegisterBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvents;

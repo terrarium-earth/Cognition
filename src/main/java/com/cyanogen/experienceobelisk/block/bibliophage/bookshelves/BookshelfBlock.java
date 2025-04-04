@@ -1,4 +1,4 @@
-package com.cyanogen.experienceobelisk.block.bibliophage;
+package com.cyanogen.experienceobelisk.block.bibliophage.bookshelves;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.LevelReader;

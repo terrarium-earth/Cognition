@@ -2,7 +2,13 @@ package com.cyanogen.experienceobelisk.registries;
 
 import com.cyanogen.experienceobelisk.ExperienceObelisk;
 import com.cyanogen.experienceobelisk.block_entities.*;
-import com.cyanogen.experienceobelisk.block_entities.bibliophage.*;
+import com.cyanogen.experienceobelisk.block_entities.bibliophage.agar.ExtravagantAgarEntity;
+import com.cyanogen.experienceobelisk.block_entities.bibliophage.agar.FluorescentAgarEntity;
+import com.cyanogen.experienceobelisk.block_entities.bibliophage.agar.InsightfulAgarEntity;
+import com.cyanogen.experienceobelisk.block_entities.bibliophage.agar.NutrientAgarEntity;
+import com.cyanogen.experienceobelisk.block_entities.bibliophage.bookshelves.InfectedArchiversBookshelfEntity;
+import com.cyanogen.experienceobelisk.block_entities.bibliophage.bookshelves.InfectedBookshelfEntity;
+import com.cyanogen.experienceobelisk.block_entities.bibliophage.bookshelves.InfectedEnchantedBookshelfEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;

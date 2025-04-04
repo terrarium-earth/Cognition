@@ -1,4 +1,4 @@
-package com.cyanogen.experienceobelisk.block_entities.bibliophage;
+package com.cyanogen.experienceobelisk.block_entities.bibliophage.agar;
 
 import com.cyanogen.experienceobelisk.registries.RegisterBlockEntities;
 import com.cyanogen.experienceobelisk.utils.MiscUtils;

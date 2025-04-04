@@ -1,4 +1,4 @@
-package com.cyanogen.experienceobelisk.block.bibliophage;
+package com.cyanogen.experienceobelisk.block.bibliophage.agar;
 
 import com.cyanogen.experienceobelisk.config.Config;
 import com.cyanogen.experienceobelisk.registries.RegisterItems;
@@ -20,12 +20,12 @@ public abstract class AbstractAgarBlock extends HalfTransparentBlock {
 
     private final int lightLevel;
 
-    public AbstractAgarBlock(int lightLevel) {
+    public AbstractAgarBlock(int lightLevel, boolean emissiveRendering) {
         super(Properties.copy(Blocks.SLIME_BLOCK)
                 .noOcclusion()
                 .isViewBlocking((state,getter,pos)->false)
                 .lightLevel(value -> 0)
-                .emissiveRendering((state,getter,pos)->false));
+                .emissiveRendering((state,getter,pos)-> emissiveRendering));
 
         this.lightLevel = lightLevel;
     }
@@ -48,7 +48,7 @@ public abstract class AbstractAgarBlock extends HalfTransparentBlock {
             if(e instanceof ExperienceOrb){
                 return Shapes.empty();
             }
-            else if(e instanceof ItemEntity item){
+            else if(e instanceof ItemEntity item && Config.COMMON.agarPermeableToDust.get()){
                 return item.getItem().is(RegisterItems.FORGOTTEN_DUST.get()) ? Shapes.empty() : shape;
             }
         }

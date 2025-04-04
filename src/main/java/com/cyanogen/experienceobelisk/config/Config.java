@@ -19,6 +19,8 @@ public class Config {
         public final ForgeConfigSpec.ConfigValue<Double> jellySaturation;
 
         public final ForgeConfigSpec.ConfigValue<Double> dropDustChance;
+        public final ForgeConfigSpec.ConfigValue<Boolean> shelvesPermeableToDust;
+        public final ForgeConfigSpec.ConfigValue<Boolean> agarPermeableToDust;
 
         public final ForgeConfigSpec.ConfigValue<Integer> infectedSpawnDelayMin;
         public final ForgeConfigSpec.ConfigValue<Integer> infectedSpawnDelayMax;
@@ -91,6 +93,8 @@ public class Config {
             this.dropDustChance = builder.comment("The chance that infected bookshelves of any kind drop Forgotten Dust upon decaying. Default = 0.5")
                     .comment("Set this value to 0.0 to prevent drops from decaying bookshelves completely")
                     .defineInRange("DropDustChance", 0.5, 0.0, 1.0);
+            this.shelvesPermeableToDust = builder.comment("Whether Bookshelves are permeable to Forgotten Dust item entities. Default = false")
+                    .define("ShelvesPermeableToDust", false);
 
             builder.push("Infected Bookshelves");
             this.infectedSpawnDelayMin = builder.comment("The minimum spawn delay of Infected Bookshelves in ticks. Default = 300")
@@ -133,8 +137,11 @@ public class Config {
                     .defineInRange("AgarEdgeBonus", 1.15, 0.0, 4);
             this.agarVertexBonus = builder.comment("The bonus that Insightful & Extravagant Agar apply to bookshelves sharing a vertex. Default = 1.10")
                     .defineInRange("AgarVertexBonus", 1.10, 0.0, 4);
-            this.agarEmitsLight = builder.comment("Whether or not Agar blocks emit light. Default = true. Set this to false if you are using intensive shader settings and are experiencing fps drops.")
+            this.agarEmitsLight = builder.comment("Whether or not Agar blocks emit light. Default = true.")
+                    .comment("Set this to false if you are using intensive shader settings and are experiencing fps drops.")
                     .define("AgarEmitsLight", true);
+            this.agarPermeableToDust = builder.comment("Whether Agar blocks are permeable to Forgotten Dust item entities. Default = false")
+                    .define("ShelvesPermeableToDust", false);
             builder.pop();
         }
 

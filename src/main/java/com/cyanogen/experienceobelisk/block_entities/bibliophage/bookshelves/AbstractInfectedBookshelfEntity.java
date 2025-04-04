@@ -1,5 +1,6 @@
-package com.cyanogen.experienceobelisk.block_entities.bibliophage;
+package com.cyanogen.experienceobelisk.block_entities.bibliophage.bookshelves;
 
+import com.cyanogen.experienceobelisk.block_entities.bibliophage.AbstractInfectiveEntity;
 import com.cyanogen.experienceobelisk.config.Config;
 import com.cyanogen.experienceobelisk.registries.RegisterBlocks;
 import com.cyanogen.experienceobelisk.registries.RegisterItems;
