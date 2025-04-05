@@ -77,8 +77,7 @@ public class NeurogelMendingItem extends Item {
 
         BlockState state = level.getBlockState(context.getClickedPos());
 
-        if(player != null && player.isShiftKeyDown() &&
-                (state.is(Blocks.CHIPPED_ANVIL) || state.is(Blocks.DAMAGED_ANVIL))){
+        if(player != null && (state.is(Blocks.CHIPPED_ANVIL) || state.is(Blocks.DAMAGED_ANVIL))){
 
             BlockState anvil = Blocks.ANVIL.withPropertiesOf(state);
             BlockState chipped = Blocks.CHIPPED_ANVIL.withPropertiesOf(state);
@@ -92,11 +91,11 @@ public class NeurogelMendingItem extends Item {
 
             stack.shrink(1);
             player.playSound(RegisterSounds.NEUROGEL_APPLY.get(), 0.75f, MiscUtils.randomInRange(0.8f, 1.2f));
+
+            return InteractionResult.CONSUME;
         }
 
         return super.onItemUseFirst(stack, context);
     }
 
-    //Repairs items by a set percentage of durability points when applied
-    //Can be applied to items you wouldn't be able to otherwise mend, such as those with conflicting enchants, or those that don't accept mending
 }
