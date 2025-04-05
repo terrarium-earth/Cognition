@@ -1,7 +1,7 @@
 package com.cyanogen.experienceobelisk.recipe.jei;
 
 import com.cyanogen.experienceobelisk.ExperienceObelisk;
-import com.cyanogen.experienceobelisk.recipe.MolecularMetamorpherRecipe2;
+import com.cyanogen.experienceobelisk.recipe.MolecularMetamorpherRecipe;
 import com.cyanogen.experienceobelisk.registries.RegisterItems;
 import com.cyanogen.experienceobelisk.utils.ExperienceUtils;
 import com.cyanogen.experienceobelisk.utils.RecipeUtils;
@@ -21,7 +21,6 @@ import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.Tuple;
 import net.minecraft.world.item.DyeItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -31,19 +30,18 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import static com.cyanogen.experienceobelisk.utils.RecipeUtils.*;
 
-public class MolecularMetamorpherCategory implements IRecipeCategory<MolecularMetamorpherRecipe2>{
+public class MolecularMetamorpherCategory implements IRecipeCategory<MolecularMetamorpherRecipe>{
 
     IRecipeCategoryRegistration registration;
     IGuiHelper guiHelper;
     private final ResourceLocation texture = new ResourceLocation("experienceobelisk:textures/gui/recipes/molecular_metamorpher_jei.png");
     private final IDrawableAnimated arrow;
 
-    public static final RecipeType<MolecularMetamorpherRecipe2> metamorpherType =
-            RecipeType.create(ExperienceObelisk.MOD_ID, MolecularMetamorpherRecipe2.Type.ID, MolecularMetamorpherRecipe2.class);
+    public static final RecipeType<MolecularMetamorpherRecipe> metamorpherType =
+            RecipeType.create(ExperienceObelisk.MOD_ID, MolecularMetamorpherRecipe.Type.ID, MolecularMetamorpherRecipe.class);
 
     public MolecularMetamorpherCategory(IRecipeCategoryRegistration registration){
         this.registration = registration;
@@ -54,7 +52,7 @@ public class MolecularMetamorpherCategory implements IRecipeCategory<MolecularMe
     }
 
     @Override
-    public RecipeType<MolecularMetamorpherRecipe2> getRecipeType() {
+    public RecipeType<MolecularMetamorpherRecipe> getRecipeType() {
         return metamorpherType;
     }
 
@@ -69,7 +67,7 @@ public class MolecularMetamorpherCategory implements IRecipeCategory<MolecularMe
     }
 
     @Override
-    public @Nullable ResourceLocation getRegistryName(MolecularMetamorpherRecipe2 recipe) {
+    public @Nullable ResourceLocation getRegistryName(MolecularMetamorpherRecipe recipe) {
         return IRecipeCategory.super.getRegistryName(recipe);
     }
 
@@ -81,7 +79,7 @@ public class MolecularMetamorpherCategory implements IRecipeCategory<MolecularMe
     }
 
     @Override
-    public void draw(MolecularMetamorpherRecipe2 recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY) {
+    public void draw(MolecularMetamorpherRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY) {
 
         arrow.draw(guiGraphics, 108, 47);
 
@@ -102,7 +100,7 @@ public class MolecularMetamorpherCategory implements IRecipeCategory<MolecularMe
     }
 
     @Override
-    public List<Component> getTooltipStrings(MolecularMetamorpherRecipe2 recipe, IRecipeSlotsView recipeSlotsView, double mouseX, double mouseY) {
+    public List<Component> getTooltipStrings(MolecularMetamorpherRecipe recipe, IRecipeSlotsView recipeSlotsView, double mouseX, double mouseY) {
 
         int cost = recipe.getCost();
         int time = recipe.getProcessTime() / 20;
@@ -131,7 +129,7 @@ public class MolecularMetamorpherCategory implements IRecipeCategory<MolecularMe
     }
 
     @Override
-    public void setRecipe(IRecipeLayoutBuilder builder, MolecularMetamorpherRecipe2 recipe, IFocusGroup focuses) {
+    public void setRecipe(IRecipeLayoutBuilder builder, MolecularMetamorpherRecipe recipe, IFocusGroup focuses) {
 
         if(!recipe.getId().equals(new ResourceLocation(ExperienceObelisk.MOD_ID, "item_name_formatting"))){
             builder.setShapeless();
@@ -143,7 +141,7 @@ public class MolecularMetamorpherCategory implements IRecipeCategory<MolecularMe
 
     }
 
-    public void setJsonRecipe(IRecipeLayoutBuilder builder, MolecularMetamorpherRecipe2 recipe){
+    public void setJsonRecipe(IRecipeLayoutBuilder builder, MolecularMetamorpherRecipe recipe){
 
         int[] x = {19,50,70};
         int[] y = {35,52,18};

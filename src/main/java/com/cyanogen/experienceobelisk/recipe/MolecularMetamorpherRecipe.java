@@ -1,7 +1,6 @@
 package com.cyanogen.experienceobelisk.recipe;
 
 import com.cyanogen.experienceobelisk.ExperienceObelisk;
-import com.google.common.collect.ImmutableMap;
 import com.google.gson.JsonObject;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.RegistryAccess;
@@ -16,19 +15,16 @@ import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 public class MolecularMetamorpherRecipe implements Recipe<SimpleContainer> {
 
-    private final ImmutableMap<Ingredient, Tuple<Integer, Integer>> ingredients; //A -- ingredient no., B -- count
-
+    private final ArrayList<Tuple<Ingredient, Integer>> ingredients; //A -- ingredient, B -- count
     private final ItemStack output;
     private final int cost;
     private final int processTime;
     private final ResourceLocation id;
 
-    public MolecularMetamorpherRecipe(ImmutableMap<Ingredient, Tuple<Integer, Integer>> ingredients, ItemStack output, int cost, int processTime, ResourceLocation id){
+    public MolecularMetamorpherRecipe(ArrayList<Tuple<Ingredient, Integer>> ingredients, ItemStack output, int cost, int processTime, ResourceLocation id){
         this.ingredients = ingredients;
         this.output = output;
         this.cost = cost;
@@ -36,59 +32,58 @@ public class MolecularMetamorpherRecipe implements Recipe<SimpleContainer> {
         this.id = id;
     }
 
+    public static ArrayList<Tuple<Ingredient, Integer>> assembleIngredients(Ingredient ingredient1, int count1,
+                                                                            Ingredient ingredient2, int count2,
+                                                                            Ingredient ingredient3 ,int count3){
+
+        ArrayList<Tuple<Ingredient, Integer>> ingredients = new ArrayList<>(4);
+        //skipping index 0 to make things more intuitive
+        ingredients.add(0, new Tuple<>(Ingredient.EMPTY, 0));
+        ingredients.add(1, new Tuple<>(ingredient1, count1));
+        ingredients.add(2, new Tuple<>(ingredient2, count2));
+        ingredients.add(3, new Tuple<>(ingredient3, count3));
+
+        return ingredients;
+    }
+
     @Override
     public boolean matches(SimpleContainer container, @Nullable Level level) {
 
-        ArrayList<ItemStack> contents = new ArrayList<>();
-        for(int i = 0; i < container.getContainerSize(); i++){
+        ArrayList<ItemStack> contents = new ArrayList<>(4);
+        contents.add(ItemStack.EMPTY);
+        Boolean[] matches = {false, false, false, false};
+
+        for(int i = 1; i <= container.getContainerSize(); i++){
             contents.add(i, container.getItem(i));
         }
 
-        Map<Ingredient, Tuple<Integer, Integer>> ingredientMap = getIngredientMapNoFiller();
-        ArrayList<Ingredient> ingredientSet = new ArrayList<>(ingredientMap.keySet());
+        for(int i = 1; i <= 3; i++){
 
-        if(!ingredientMap.isEmpty()){
-            for(Map.Entry<Ingredient, Tuple<Integer, Integer>> entry : ingredientMap.entrySet()){
+            Ingredient ingredient = ingredients.get(i).getA();
+            int count = ingredients.get(i).getB();
 
-                Ingredient ingredient = entry.getKey();
-                int count = entry.getValue().getB();
-
-                for(ItemStack stack : contents){
-                    if(ingredient.test(stack) && stack.getCount() >= count){
-                        ingredientSet.remove(ingredient);
-                        break;
-                    }
+            for(ItemStack stack : contents){
+                if((ingredient.test(stack) && stack.getCount() >= count) || ingredient.isEmpty() || count <= 0){ //to handle recipes with less than 3 ingredients
+                    matches[i] = true;
+                    break;
                 }
             }
         }
-        else{
-            return false;
-        }
 
-        return ingredientSet.isEmpty();
+        return matches[1] && matches[2] && matches[3];
     }
 
     @Override
     public NonNullList<Ingredient> getIngredients() {
         NonNullList<Ingredient> list = NonNullList.create();
-        list.addAll(this.ingredients.keySet());
-
+        for(Tuple<Ingredient, Integer> ingredient : this.ingredients){
+            list.add(ingredient.getA());
+        }
         return list;
     }
 
-    public ImmutableMap<Ingredient, Tuple<Integer, Integer>> getIngredientMap(){
+    public ArrayList<Tuple<Ingredient, Integer>> getIngredients(boolean k){
         return this.ingredients;
-    }
-
-    public Map<Ingredient, Tuple<Integer, Integer>> getIngredientMapNoFiller(){
-        Map<Ingredient, Tuple<Integer, Integer>> ingredients = new HashMap<>();
-
-        for(Map.Entry<Ingredient, Tuple<Integer, Integer>> entry : getIngredientMap().entrySet()){
-            if(!entry.getKey().isEmpty() && entry.getValue().getB() > 0){
-                ingredients.put(entry.getKey(), entry.getValue());
-            }
-        }
-        return ingredients;
     }
 
     @Override
@@ -151,16 +146,13 @@ public class MolecularMetamorpherRecipe implements Recipe<SimpleContainer> {
             int count2 = GsonHelper.getAsInt(recipe, "count2");
             int count3 = GsonHelper.getAsInt(recipe, "count3");
 
-            Map<Ingredient, Tuple<Integer, Integer>> ingredients = new HashMap<>();
-            ingredients.put(ingredient1, new Tuple<>(1, count1));
-            ingredients.put(ingredient2, new Tuple<>(2, count2));
-            ingredients.put(ingredient3, new Tuple<>(3, count3));
+            ArrayList<Tuple<Ingredient, Integer>> ingredients = assembleIngredients(ingredient1, count1, ingredient2, count2, ingredient3, count3);
 
             ItemStack result = ShapedRecipe.itemStackFromJson(GsonHelper.getAsJsonObject(recipe, "result"));
             int cost = GsonHelper.getAsInt(recipe, "cost");
             int processTime = GsonHelper.getAsInt(recipe, "processTime");
 
-            return new MolecularMetamorpherRecipe(ImmutableMap.copyOf(ingredients), result, cost, processTime, id);
+            return new MolecularMetamorpherRecipe(ingredients, result, cost, processTime, id);
         }
 
         @Override
@@ -173,36 +165,21 @@ public class MolecularMetamorpherRecipe implements Recipe<SimpleContainer> {
             Ingredient ingredient3 = Ingredient.fromNetwork(buffer);
             int count3 = buffer.readInt();
 
-            Map<Ingredient, Tuple<Integer, Integer>> ingredients = new HashMap<>();
-            ingredients.put(ingredient1, new Tuple<>(1, count1));
-            ingredients.put(ingredient2, new Tuple<>(2, count2));
-            ingredients.put(ingredient3, new Tuple<>(3, count3));
+            ArrayList<Tuple<Ingredient, Integer>> ingredients = assembleIngredients(ingredient1, count1, ingredient2, count2, ingredient3, count3);
 
             ItemStack result = buffer.readItem();
             int cost = buffer.readInt();
             int processTime = buffer.readInt();
 
-            return new MolecularMetamorpherRecipe(ImmutableMap.copyOf(ingredients), result, cost, processTime, id);
+            return new MolecularMetamorpherRecipe(ingredients, result, cost, processTime, id);
         }
 
         @Override
         public void toNetwork(FriendlyByteBuf buffer, MolecularMetamorpherRecipe recipe) {
 
-            Ingredient[] ingredients = {Ingredient.EMPTY, Ingredient.EMPTY, Ingredient.EMPTY};
-            int[] counts = {0, 0, 0};
-
-            for(Map.Entry<Ingredient, Tuple<Integer, Integer>> entry : recipe.getIngredientMap().entrySet()){
-                Ingredient ingredient = entry.getKey();
-                int index = entry.getValue().getA() - 1;
-                int count = entry.getValue().getB();
-
-                ingredients[index] = ingredient;
-                counts[index] = count;
-            }
-
-            for(int i = 0; i < 3; i++){
-                ingredients[i].toNetwork(buffer);
-                buffer.writeInt(counts[i]);
+            for(Tuple<Ingredient, Integer> ingredientWithCount : recipe.ingredients){
+                ingredientWithCount.getA().toNetwork(buffer);
+                buffer.writeInt(ingredientWithCount.getB());
             }
 
             buffer.writeItemStack(recipe.getResultItem(null), false);

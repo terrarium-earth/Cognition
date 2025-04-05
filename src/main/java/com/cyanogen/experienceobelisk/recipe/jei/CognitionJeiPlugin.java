@@ -2,7 +2,7 @@ package com.cyanogen.experienceobelisk.recipe.jei;
 
 import com.cyanogen.experienceobelisk.ExperienceObelisk;
 import com.cyanogen.experienceobelisk.gui.MolecularMetamorpherScreen;
-import com.cyanogen.experienceobelisk.recipe.MolecularMetamorpherRecipe2;
+import com.cyanogen.experienceobelisk.recipe.MolecularMetamorpherRecipe;
 import com.cyanogen.experienceobelisk.recipe.jei.info.FillingCategory;
 import com.cyanogen.experienceobelisk.recipe.jei.info.InfectingCategory;
 import com.cyanogen.experienceobelisk.recipe.jei.info.InformationalRecipes;
@@ -38,10 +38,10 @@ public class CognitionJeiPlugin implements IModPlugin {
     public void registerRecipes(IRecipeRegistration registration) {
 
         //RECIPES
-        List<MolecularMetamorpherRecipe2> metamorpherRecipes = new ArrayList<>();
+        List<MolecularMetamorpherRecipe> metamorpherRecipes = new ArrayList<>();
 
         for(Recipe<?> recipe : Minecraft.getInstance().level.getRecipeManager().getRecipes()){
-            if(recipe instanceof MolecularMetamorpherRecipe2 metamorpherRecipe){
+            if(recipe instanceof MolecularMetamorpherRecipe metamorpherRecipe){
                 metamorpherRecipes.add(metamorpherRecipe);
             }
         }

@@ -2,7 +2,7 @@ package com.cyanogen.experienceobelisk.recipe.jei;
 
 import com.cyanogen.experienceobelisk.gui.MolecularMetamorpherMenu;
 import com.cyanogen.experienceobelisk.network.shared.UpdateInventory;
-import com.cyanogen.experienceobelisk.recipe.MolecularMetamorpherRecipe2;
+import com.cyanogen.experienceobelisk.recipe.MolecularMetamorpherRecipe;
 import com.cyanogen.experienceobelisk.registries.RegisterMenus;
 import mezz.jei.api.gui.ingredient.IRecipeSlotView;
 import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
@@ -12,7 +12,6 @@ import mezz.jei.api.recipe.transfer.IRecipeTransferHandler;
 import mezz.jei.api.recipe.transfer.IRecipeTransferHandlerHelper;
 import mezz.jei.api.registration.IRecipeTransferRegistration;
 import net.minecraft.network.chat.Component;
-import net.minecraft.util.Tuple;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.ItemStack;
@@ -22,10 +21,9 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
-public class MolecularMetamorpherTransferHandler implements IRecipeTransferHandler<MolecularMetamorpherMenu, MolecularMetamorpherRecipe2> {
+public class MolecularMetamorpherTransferHandler implements IRecipeTransferHandler<MolecularMetamorpherMenu, MolecularMetamorpherRecipe> {
 
     public final IRecipeTransferHandlerHelper helper;
 
@@ -44,18 +42,18 @@ public class MolecularMetamorpherTransferHandler implements IRecipeTransferHandl
     }
 
     @Override
-    public RecipeType<MolecularMetamorpherRecipe2> getRecipeType() {
+    public RecipeType<MolecularMetamorpherRecipe> getRecipeType() {
         return MolecularMetamorpherCategory.metamorpherType;
     }
 
     @Override
-    public @Nullable IRecipeTransferError transferRecipe(MolecularMetamorpherMenu menu, MolecularMetamorpherRecipe2 recipe,
+    public @Nullable IRecipeTransferError transferRecipe(MolecularMetamorpherMenu menu, MolecularMetamorpherRecipe recipe,
                                                          IRecipeSlotsView recipeSlots, Player player, boolean maxTransfer, boolean doTransfer) {
 
         return checkAndTransfer(menu, recipe, recipeSlots, player, maxTransfer, doTransfer);
     }
 
-    public IRecipeTransferError checkAndTransfer(MolecularMetamorpherMenu menu, MolecularMetamorpherRecipe2 recipe,
+    public IRecipeTransferError checkAndTransfer(MolecularMetamorpherMenu menu, MolecularMetamorpherRecipe recipe,
                                                  IRecipeSlotsView recipeSlots, Player player, boolean maxTransfer, boolean doTransfer){
 
         ItemStack[] playerItems = {ItemStack.EMPTY, ItemStack.EMPTY, ItemStack.EMPTY};
@@ -83,7 +81,7 @@ public class MolecularMetamorpherTransferHandler implements IRecipeTransferHandl
     }
 
     public IRecipeTransferError checkOnly(ItemStack[] playerItems, int[] playerItemCount, int[] requiredCount, MolecularMetamorpherMenu menu,
-                                          MolecularMetamorpherRecipe2 recipe, Player player, IRecipeSlotsView recipeSlots){
+                                          MolecularMetamorpherRecipe recipe, Player player, IRecipeSlotsView recipeSlots){
 
         //check if player inventory has space to move menu items into
         int[] spaces = {-1,-1,-1};
@@ -187,7 +185,7 @@ public class MolecularMetamorpherTransferHandler implements IRecipeTransferHandl
     }
 
     public void getItemInfo(ItemStack[] playerItems, int[] playerItemCount, int[] requiredCount, MolecularMetamorpherMenu menu,
-                            MolecularMetamorpherRecipe2 recipe, Player player){
+                            MolecularMetamorpherRecipe recipe, Player player){
 
         //fills each of the passed in arrays with information
         //playerItems -- the items in the player's inventory and the menu (if any) which are valid ingredients for each recipe slot
