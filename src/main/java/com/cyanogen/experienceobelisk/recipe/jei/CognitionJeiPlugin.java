@@ -45,7 +45,8 @@ public class CognitionJeiPlugin implements IModPlugin {
                 metamorpherRecipes.add(metamorpherRecipe);
             }
         }
-        metamorpherRecipes.addAll(RecipeUtils.getNameFormattingRecipesForJEI());
+        //metamorpherRecipes.addAll(RecipeUtils.getNameFormattingRecipesForJEI());
+        metamorpherRecipes.add(RecipeUtils.getEmptyNameFormattingRecipe());
         registration.addRecipes(metamorpherType, metamorpherRecipes);
 
         //INFO V2

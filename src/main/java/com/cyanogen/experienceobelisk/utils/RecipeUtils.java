@@ -13,6 +13,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.level.ItemLike;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -90,52 +91,21 @@ public class RecipeUtils {
 
     }
 
-    public static List<MolecularMetamorpherRecipe> getNameFormattingRecipesForJEI(){
+    public static List<ItemStack> convertItemListToItemStackList(List<Item> itemList){
+        List<ItemStack> itemStackList = new ArrayList<>();
+        for(Item item : itemList){
+            itemStackList.add(item.getDefaultInstance());
+        }
+        return itemStackList;
+    }
 
-        List<MolecularMetamorpherRecipe> recipes = new ArrayList<>();
-
-        ItemStack exampleItem = new ItemStack(RegisterItems.DUMMY_SWORD.get(), 1);
-        ItemStack inputItem = exampleItem.copy().setHoverName(Component.translatable("jei.experienceobelisk.name.any_item"));
-        int cost = 315;
-        int processTime = 60;
+    public static MolecularMetamorpherRecipe getEmptyNameFormattingRecipe(){
+        Map<Ingredient, Tuple<Integer, Integer>> ingredientMap = new HashMap<>();
+        ingredientMap.put(Ingredient.EMPTY, new Tuple<>(1,0));
+        ingredientMap.put(Ingredient.of(Items.AIR), new Tuple<>(2,0));
+        ingredientMap.put(Ingredient.of(Items.BEDROCK), new Tuple<>(3,0));
         ResourceLocation id = new ResourceLocation(ExperienceObelisk.MOD_ID, "item_name_formatting");
-
-        HashMap<Ingredient, Tuple<Integer, Integer>> ingredientMap = new HashMap<>();
-        ingredientMap.put(Ingredient.of(inputItem), new Tuple<>(1, 1));
-        ingredientMap.put(Ingredient.of(Items.NAME_TAG), new Tuple<>(2, 1));
-
-        for(Item dye : getValidDyes()){
-
-            HashMap<Ingredient, Tuple<Integer, Integer>> ingredientMap2 = new HashMap<>(Map.copyOf(ingredientMap));
-            ingredientMap2.put(Ingredient.of(dye), new Tuple<>(3, 1));
-
-            if(dye instanceof DyeItem dyeItem){
-                int dyeColor = dyeItem.getDyeColor().getId();
-                ChatFormatting format = ChatFormatting.getById(RecipeUtils.dyeColorToTextColor(dyeColor));
-                assert format != null;
-                ItemStack outputItem = exampleItem.copy()
-                        .setHoverName(Component.translatable("jei.experienceobelisk.name.any_item").withStyle(format));
-
-                recipes.add(new MolecularMetamorpherRecipe(ImmutableMap.copyOf(ingredientMap2), outputItem, cost, processTime, id));
-            }
-        }
-        for(Item item : getValidFormattingItems()){
-
-            HashMap<Ingredient, Tuple<Integer, Integer>> ingredientMap2 = new HashMap<>(Map.copyOf(ingredientMap));
-            ingredientMap2.put(Ingredient.of(item.getDefaultInstance()), new Tuple<>(3, 1));
-
-            int index = RecipeUtils.getValidFormattingItems().indexOf(item);
-            char code = RecipeUtils.itemToFormat(index);
-            ChatFormatting format = ChatFormatting.getByCode(code);
-
-            assert format != null;
-            ItemStack outputItem = exampleItem.copy()
-                    .setHoverName(Component.translatable("jei.experienceobelisk.name.any_item").withStyle(format));
-
-            recipes.add(new MolecularMetamorpherRecipe(ImmutableMap.copyOf(ingredientMap2), outputItem, cost, processTime, id));
-        }
-
-        return recipes;
+        return new MolecularMetamorpherRecipe(ImmutableMap.copyOf(ingredientMap), ItemStack.EMPTY, 315, 60, id);
 
     }
 

@@ -1,3 +1,11 @@
+v2.3.6
+
+[Changes]
+- Mending Neurogel may now be applied onto Anvils with either right-click or shift-right-click
+
+[Bugfixes]
+- Fixed Mending Neurogel opening anvil GUIs on use in-world
+
 v2.3.5
 
 [Changes]
