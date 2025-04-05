@@ -195,19 +195,19 @@ public class MolecularMetamorpherTransferHandler implements IRecipeTransferHandl
         //requiredCount -- the count required by the recipe for each ingredient
         //this is done rather than using recipe.match() as the extra information is useful for later
 
-        for(Map.Entry<Ingredient, Tuple<Integer, Integer>> entry : recipe.getIngredientMapNoFiller().entrySet()){
+        for(int i = 1; i <= 3; i++){
 
-            Ingredient ingredient = entry.getKey();
-            int position = entry.getValue().getA() - 1;
-            int count = entry.getValue().getB();
+            Ingredient ingredient = recipe.getIngredients(true).get(i).getA();
+            int count = recipe.getIngredients(true).get(i).getB();
+            int position = i - 1;
             requiredCount[position] = count;
 
             for(ItemStack ingredientStack : ingredient.getItems()){
 
                 playerItemCount[position] = 0;
 
-                for(int i = 0; i < player.getInventory().items.size(); i++){
-                    ItemStack playerStack = player.getInventory().getItem(i);
+                for(int j = 0; j < player.getInventory().items.size(); j++){
+                    ItemStack playerStack = player.getInventory().getItem(j);
 
                     if(ItemStack.isSameItemSameTags(playerStack, ingredientStack)){
 
@@ -216,8 +216,8 @@ public class MolecularMetamorpherTransferHandler implements IRecipeTransferHandl
                     }
                 }
 
-                for(int i = 0; i < 3; i++){
-                    ItemStack menuStack = menu.getSlot(i).getItem();
+                for(int k = 0; k < 3; k++){
+                    ItemStack menuStack = menu.getSlot(k).getItem();
 
                     if(ItemStack.isSameItemSameTags(menuStack, ingredientStack)){
 

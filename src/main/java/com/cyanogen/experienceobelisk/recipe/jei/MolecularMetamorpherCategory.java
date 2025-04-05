@@ -150,25 +150,13 @@ public class MolecularMetamorpherCategory implements IRecipeCategory<MolecularMe
 
 
         for(int i = 1; i <= 3; i++){
+
             Ingredient ingredient = recipe.getIngredients(true).get(i).getA();
             int count = recipe.getIngredients(true).get(i).getB();
 
-
-
-        }
-
-        for(Tuple<Ingredient, Integer> ingredientWithCounts : recipe.getIngredients(true)){
-
-            int position = entry.getValue().getA();
-            int count = entry.getValue().getB();
-            Ingredient ingredient = entry.getKey();
-
-            builder.addSlot(RecipeIngredientRole.INPUT, slotsX[position], slotsY[position])
-                    .setSlotName("input" + position)
-                    .addItemStacks(getItemListWithCounts(ingredient, count));
+            builder.addSlot(RecipeIngredientRole.INPUT, x[i - 1], y[i - 1]).setSlotName("input" + i).addItemStacks(getItemListWithCounts(ingredient, count));
         }
         builder.addSlot(RecipeIngredientRole.OUTPUT, 140,35).setSlotName("output").addItemStack(recipe.getResultItem(null));
-
     }
 
     public void setNameFormattingRecipe(IRecipeLayoutBuilder builder){
