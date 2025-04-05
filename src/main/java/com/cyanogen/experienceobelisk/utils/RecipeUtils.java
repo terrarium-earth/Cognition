@@ -2,18 +2,15 @@ package com.cyanogen.experienceobelisk.utils;
 
 import com.cyanogen.experienceobelisk.ExperienceObelisk;
 import com.cyanogen.experienceobelisk.recipe.MolecularMetamorpherRecipe;
-import com.cyanogen.experienceobelisk.registries.RegisterItems;
+import com.cyanogen.experienceobelisk.recipe.MolecularMetamorpherRecipe2;
+import com.cyanogen.experienceobelisk.recipe.jei.MolecularMetamorpherCategory;
 import com.google.common.collect.ImmutableMap;
-import net.minecraft.ChatFormatting;
-import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Tuple;
-import net.minecraft.world.item.DyeItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.level.ItemLike;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -99,13 +96,16 @@ public class RecipeUtils {
         return itemStackList;
     }
 
-    public static MolecularMetamorpherRecipe getEmptyNameFormattingRecipe(){
-        Map<Ingredient, Tuple<Integer, Integer>> ingredientMap = new HashMap<>();
-        ingredientMap.put(Ingredient.EMPTY, new Tuple<>(1,0));
-        ingredientMap.put(Ingredient.of(Items.AIR), new Tuple<>(2,0));
-        ingredientMap.put(Ingredient.of(Items.BEDROCK), new Tuple<>(3,0));
+    /**
+     * Creates a dummy recipe to pass into JEI's recipe handling. Actual population of the slots will occur in the category class.
+     * See {@link MolecularMetamorpherCategory#setNameFormattingRecipe}
+     */
+    public static MolecularMetamorpherRecipe2 getEmptyNameFormattingRecipe(){
+
+        ArrayList<Tuple<Ingredient, Integer>> ingredients = MolecularMetamorpherRecipe2.assembleIngredients(
+                Ingredient.EMPTY, 0, Ingredient.EMPTY, 0, Ingredient.EMPTY , 0);
         ResourceLocation id = new ResourceLocation(ExperienceObelisk.MOD_ID, "item_name_formatting");
-        return new MolecularMetamorpherRecipe(ImmutableMap.copyOf(ingredientMap), ItemStack.EMPTY, 315, 60, id);
+        return new MolecularMetamorpherRecipe2(ingredients, ItemStack.EMPTY, 315, 60, id);
 
     }
 
