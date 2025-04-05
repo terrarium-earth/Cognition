@@ -49,12 +49,11 @@ public class MolecularMetamorpherRecipe implements Recipe<SimpleContainer> {
     @Override
     public boolean matches(SimpleContainer container, @Nullable Level level) {
 
-        ArrayList<ItemStack> contents = new ArrayList<>(4);
-        contents.add(ItemStack.EMPTY);
+        ArrayList<ItemStack> contents = new ArrayList<>();
         Boolean[] matches = {false, false, false, false};
 
-        for(int i = 1; i <= container.getContainerSize(); i++){
-            contents.add(i, container.getItem(i));
+        for(int j = 0; j <= container.getContainerSize(); j++){
+            contents.add(container.getItem(j));
         }
 
         for(int i = 1; i <= 3; i++){
