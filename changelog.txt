@@ -2,11 +2,16 @@ v2.3.6
 
 [Changes]
 - Mending Neurogel may now be applied onto Anvils with either right-click or shift-right-click
-- Optimized Metamorpher recipes
+- Optimized Metamorpher recipe loading
+- Merged name change recipes into a single recipe in JEI
 
 [Bugfixes]
 - Fixed Mending Neurogel opening anvil GUIs on use in-world
--
+- Metamorphers can now handle recipes where two or more ingredients use identical items
+
+ For modpack makers, etc. adding new recipes: Generally avoid this if possible.
+ If you are adding custom recipes to the metamorpher where this is the case,
+ ensure the ingredient with the greater count is assigned to the earlier slot.
 
 v2.3.5
 
