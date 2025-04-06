@@ -15,6 +15,7 @@ import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class MolecularMetamorpherRecipe implements Recipe<SimpleContainer> {
 
@@ -50,26 +51,34 @@ public class MolecularMetamorpherRecipe implements Recipe<SimpleContainer> {
     public boolean matches(SimpleContainer container, @Nullable Level level) {
 
         ArrayList<ItemStack> contents = new ArrayList<>();
-        Boolean[] matches = {false, false, false, false};
-
         for(int j = 0; j <= container.getContainerSize(); j++){
             contents.add(container.getItem(j));
         }
+        int tracker = 3;
 
-        for(int i = 1; i <= 3; i++){
+        for(int k = 1; k <= 3; k++){
 
-            Ingredient ingredient = ingredients.get(i).getA();
-            int count = ingredients.get(i).getB();
+            Ingredient ingredient = ingredients.get(k).getA();
+            int count = ingredients.get(k).getB();
 
-            for(ItemStack stack : contents){
-                if((ingredient.test(stack) && stack.getCount() >= count) || ingredient.isEmpty() || count <= 0){ //to handle recipes with less than 3 ingredients
-                    matches[i] = true;
-                    break;
+            if(ingredient.isEmpty() || count <= 0){
+                tracker = tracker - 1;
+            }
+            else{
+                if(!contents.isEmpty()){
+                    for(ItemStack item : contents){
+                        if(ingredient.test(item) && count >= item.getCount()){
+                            tracker = tracker - 1;
+                            contents.remove(item);
+                            break;
+                        }
+                    }
                 }
+
             }
         }
 
-        return matches[1] && matches[2] && matches[3];
+        return tracker <= 0;
     }
 
     @Override
@@ -126,6 +135,41 @@ public class MolecularMetamorpherRecipe implements Recipe<SimpleContainer> {
     public static class Type implements RecipeType<MolecularMetamorpherRecipe>{
         public static final Type INSTANCE = new Type();
         public static final String ID = "molecular_metamorphosis";
+    }
+
+    public boolean isNameFormatting(){
+        return id.getPath().equals("item_name_formatting");
+    }
+
+    public String getInfo() {
+        return "----- Molecular Metamorphosis ----- \n" +
+                "ID: " + id + "\n" +
+                "Ingredients: " + "\n" + getIngredientInfoString() +
+                "Output: " + output + "\n" +
+                "Cost: " + cost + "\n" +
+                "Process Time: " + processTime + "\n";
+    }
+
+    public String getIngredientInfoString(){
+
+        StringBuilder info = new StringBuilder();
+
+        for(Tuple<Ingredient, Integer> ingredient : ingredients){
+
+            if(!(ingredient.getA().isEmpty() || ingredient.getB() <= 0)){
+                ItemStack first = ingredient.getA().getItems()[0];
+                int count = ingredient.getB();
+
+                info.append(count).append("- ").append(first.getItem());
+
+                if(ingredient.getA().getItems().length > 1){
+                    info.append(" etc...");
+                }
+
+                info.append("\n");
+            }
+        }
+        return info.toString();
     }
 
     //-----SERIALIZER-----//

@@ -50,7 +50,12 @@ public class MolecularMetamorpherTransferHandler implements IRecipeTransferHandl
     public @Nullable IRecipeTransferError transferRecipe(MolecularMetamorpherMenu menu, MolecularMetamorpherRecipe recipe,
                                                          IRecipeSlotsView recipeSlots, Player player, boolean maxTransfer, boolean doTransfer) {
 
-        return checkAndTransfer(menu, recipe, recipeSlots, player, maxTransfer, doTransfer);
+        if(recipe.isNameFormatting()){
+            return helper.createInternalError();
+        }
+        else{
+            return checkAndTransfer(menu, recipe, recipeSlots, player, maxTransfer, doTransfer);
+        }
     }
 
     public IRecipeTransferError checkAndTransfer(MolecularMetamorpherMenu menu, MolecularMetamorpherRecipe recipe,

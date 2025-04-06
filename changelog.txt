@@ -6,6 +6,7 @@ v2.3.6
 
 [Bugfixes]
 - Fixed Mending Neurogel opening anvil GUIs on use in-world
+-
 
 v2.3.5
 
