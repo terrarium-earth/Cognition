@@ -288,10 +288,9 @@ public class MolecularMetamorpherEntity extends ExperienceReceivingEntity implem
 
         SimpleContainer container = getSimpleContainer();
 
-        for(Tuple<Ingredient, Integer> ingredientWithCount : recipe.getIngredients(true)){
-
-            Ingredient ingredient = ingredientWithCount.getA();
-            int count = ingredientWithCount.getB();
+        for(int j = 1; j <= 3; j++){
+            Ingredient ingredient = recipe.getIngredients(true).get(j).getA();
+            int count = recipe.getIngredients(true).get(j).getB();
 
             for(int i = 0; i < 3; i++){
                 ItemStack stack = container.getItem(i);

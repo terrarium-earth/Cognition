@@ -51,7 +51,7 @@ public class MolecularMetamorpherRecipe implements Recipe<SimpleContainer> {
     public boolean matches(SimpleContainer container, @Nullable Level level) {
 
         ArrayList<ItemStack> contents = new ArrayList<>();
-        for(int j = 0; j <= container.getContainerSize(); j++){
+        for(int j = 0; j < 3; j++){
             contents.add(container.getItem(j));
         }
         int tracker = 3;
@@ -67,7 +67,7 @@ public class MolecularMetamorpherRecipe implements Recipe<SimpleContainer> {
             else{
                 if(!contents.isEmpty()){
                     for(ItemStack item : contents){
-                        if(ingredient.test(item) && count >= item.getCount()){
+                        if(ingredient.test(item) && item.getCount() >= count){
                             tracker = tracker - 1;
                             contents.remove(item);
                             break;
