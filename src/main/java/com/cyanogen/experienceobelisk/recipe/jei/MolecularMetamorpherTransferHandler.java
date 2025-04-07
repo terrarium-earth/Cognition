@@ -124,11 +124,12 @@ public class MolecularMetamorpherTransferHandler implements IRecipeTransferHandl
         if(playerItemCount[0] >= requiredCount[0] && playerItemCount[1] >= requiredCount[1] && playerItemCount[2] >= requiredCount[2]){
             return null;
         }
-        else{
+        else{ //of-by-one somewhere here
             List<IRecipeSlotView> slotsList = new ArrayList<>();
             for(int i = 0; i < 3; i++){
 
-                Optional<IRecipeSlotView> slot = recipeSlots.findSlotByName("input"+i);
+                int slotNumber = i + 1;
+                Optional<IRecipeSlotView> slot = recipeSlots.findSlotByName("input"+slotNumber);
 
                 if(playerItemCount[i] < requiredCount[i] && slot.isPresent()){
                     slotsList.add(slot.get());
