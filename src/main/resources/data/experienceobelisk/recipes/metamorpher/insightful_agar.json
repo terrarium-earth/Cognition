@@ -5,11 +5,11 @@
   },
   "count1": 1,
   "ingredient2": {
-    "item": "minecraft:glowstone_dust"
+    "item": "minecraft:honeycomb"
   },
   "count2": 4,
   "ingredient3": {
-    "item": "minecraft:honeycomb"
+    "item": "minecraft:glowstone_dust"
   },
   "count3": 4,
   "result": {

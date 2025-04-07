@@ -304,14 +304,20 @@ public class MolecularMetamorpherEntity extends ExperienceReceivingEntity implem
                         else{
                             stack.hurt(1, RandomSource.create(), null);
                         }
+                        break;
                     }
                     else if(stack.hasCraftingRemainingItem()){
                         container.setItem(i, stack.getCraftingRemainingItem());
+                        break;
+                    }
+                    else if(stack.getCount() >= count){
+                        stack.shrink(count);
+                        break;
                     }
                     else{
-                        stack.shrink(count);
+                        count = count - stack.getCount();
+                        stack.shrink(stack.getCount());
                     }
-                    break;
                 }
             }
         }
