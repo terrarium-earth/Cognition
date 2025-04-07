@@ -13,6 +13,7 @@ public class Config {
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> allowedFluids;
         public final ForgeConfigSpec.ConfigValue<Integer> capacity;
         public final ForgeConfigSpec.ConfigValue<Double> amuletRange;
+        public final ForgeConfigSpec.ConfigValue<Boolean> amuletIgnoresFountainOrbs;
         public final ForgeConfigSpec.ConfigValue<Double> bindingRange;
         public final ForgeConfigSpec.ConfigValue<Boolean> formatting;
         public final ForgeConfigSpec.ConfigValue<Integer> jellyNutrition;
@@ -66,9 +67,11 @@ public class Config {
                     .defineInRange("Capacity", defaultCapacity, 1000, 2147483640);
             builder.pop();
 
-            builder.push("Enlightened Amulet Range");
+            builder.push("Enlightened Amulet");
             this.amuletRange = builder.comment("The range of the enlightened amulet in blocks. Accepts decimals. Default = 8.0.")
                     .defineInRange("Range", defaultAmuletRange, 1, 16.0);
+            this.amuletIgnoresFountainOrbs = builder.comment("Whether the enlightened amulet ignores orbs spawned by Experience Fountains. Default = true")
+                    .define("Ignores", true);
             builder.pop();
 
             builder.push("Staff of Attunement Range");
@@ -77,7 +80,7 @@ public class Config {
                     .defineInRange("Range", defaultBindingRange, 4, 100.0);
             builder.pop();
 
-            builder.push("Enable Name Formatting Recipes");
+            builder.push("Metamorpher Name Formatting Recipes");
             this.formatting = builder.comment("Whether custom recipes that allow for the changing of item name color & formatting are enabled. Default = true")
                     .define("Formatting", true);
             builder.pop();

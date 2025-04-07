@@ -4,12 +4,14 @@ import com.cyanogen.experienceobelisk.registries.RegisterBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.world.entity.ExperienceOrb;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
@@ -111,6 +113,8 @@ public class ExperienceFountainEntity extends ExperienceReceivingEntity implemen
 
     //-----------PASSIVE BEHAVIOR-----------//
 
+    public static final Component customName = Component.literal("SpawnedFromFountain");
+
     public static <T> void tick(Level level, BlockPos pos, BlockState state, T blockEntity) {
 
         if(blockEntity instanceof ExperienceFountainEntity fountain && fountain.isBound){
@@ -165,6 +169,10 @@ public class ExperienceFountainEntity extends ExperienceReceivingEntity implemen
                 if(level.getGameTime() % interval == 0){
                     ServerLevel server = (ServerLevel) level;
                     ExperienceOrb orb = new ExperienceOrb(server, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, value);
+
+                    orb.setCustomName(customName);
+                    orb.setCustomNameVisible(false);
+
                     obelisk.drain(value * 20);
                     orb.setDeltaMovement(0, 0.25, 0);
                     server.addFreshEntity(orb);

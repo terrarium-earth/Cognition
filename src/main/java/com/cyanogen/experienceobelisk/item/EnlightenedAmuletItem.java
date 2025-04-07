@@ -19,6 +19,9 @@ import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
+import java.util.Objects;
+
+import static com.cyanogen.experienceobelisk.block_entities.ExperienceFountainEntity.customName;
 
 public class EnlightenedAmuletItem extends Item{
 
@@ -93,19 +96,25 @@ public class EnlightenedAmuletItem extends Item{
                     CompoundTag tag = new CompoundTag();
                     orb.addAdditionalSaveData(tag);
 
-                    int value = orb.value;
-                    int count = tag.getInt("Count");
-                    totalValue += value * count;
-                    orb.discard();
+                    boolean spawnedFromFountain = orb.hasCustomName() && Objects.equals(orb.getCustomName(), customName);
+                    boolean ignore = Config.COMMON.amuletIgnoresFountainOrbs.get();
+                    boolean shouldCollect = !(ignore && spawnedFromFountain);
+
+                    if(shouldCollect){
+                        int value = orb.value;
+                        int count = tag.getInt("Count");
+                        totalValue += value * count;
+                        orb.discard();
+                    }
                 }
 
                 ServerLevel server = (ServerLevel) level;
 
-                if(totalValue < 32768){
+                if(totalValue < 32768 && totalValue > 0){
                     ExperienceOrb orb = new ExperienceOrb(server, pos.x(), pos.y(), pos.z(), totalValue);
                     server.addFreshEntity(orb);
                 }
-                else{ //edge case if total value of orbs exceeds 32767
+                else if(totalValue > 0){ //edge case if total value of orbs exceeds 32767
                     while(totalValue > 0){
                         int v = Math.min(totalValue, 32767);
                         ExperienceOrb orb = new ExperienceOrb(server, pos.x(), pos.y(), pos.z(), v);
@@ -113,6 +122,8 @@ public class EnlightenedAmuletItem extends Item{
                         totalValue = totalValue - v;
                     }
                 }
+                //case totalValue = 0 will result if all detected orbs are spawned from fountains
+                //in this case we ignore them
             }
         }
 

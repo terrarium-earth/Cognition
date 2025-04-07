@@ -15,7 +15,6 @@ import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class MolecularMetamorpherRecipe implements Recipe<SimpleContainer> {
 
