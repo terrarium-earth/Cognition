@@ -1,17 +1,13 @@
 v2.3.6
 
 [Changes]
-- Mending Neurogel may now be applied onto Anvils with either right-click or shift-right-click
-- Optimized Metamorpher recipe loading
+- Enlightened Amulets now ignore orbs spawned by Fountains. This may be disabled in the config file
+- Mending Neurogel may now be applied onto anvils in-world with either right-click or shift-right-click
+- Optimized Metamorpher recipe loading and matching
 - Merged name change recipes into a single recipe in JEI
 
 [Bugfixes]
-- Fixed Mending Neurogel opening anvil GUIs on use in-world
-- Metamorphers can now handle recipes where two or more ingredients use identical items
-
- For modpack makers, etc. adding new recipes: Generally avoid this if possible.
- If you are adding custom recipes to the metamorpher where this is the case,
- ensure the ingredient with the greater count is assigned to the earlier slot.
+- Stopped Mending Neurogel opening anvil GUIs when using them to repair anvils in-world
 
 v2.3.5
 
