@@ -11,6 +11,7 @@ import com.cyanogen.experienceobelisk.utils.RecipeUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.protocol.Packet;
@@ -227,7 +228,7 @@ public class MolecularMetamorpherEntity extends ExperienceReceivingEntity implem
 
         if(getRecipe().isPresent()){
             MolecularMetamorpherRecipe recipe = getRecipe().get();
-            ItemStack output = recipe.getResultItem(null);
+            ItemStack output = recipe.assemble(getSimpleContainer(), level == null ? null : level.registryAccess());
             int cost = recipe.getCost();
 
             if(canPerformRecipe(output, cost)){

@@ -94,7 +94,7 @@ public class MolecularMetamorpherRecipe implements Recipe<SimpleContainer> {
     }
 
     @Override
-    public ItemStack assemble(SimpleContainer container, RegistryAccess access) {
+    public ItemStack assemble(SimpleContainer container, @Nullable RegistryAccess access) {
         return output.copy();
     }
 
