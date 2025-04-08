@@ -22,9 +22,9 @@ import java.util.List;
 
 public class ExperienceObeliskOptionsScreen extends Screen {
 
-    public BlockPos pos;
-    public ExperienceObeliskEntity xpobelisk;
-    public ExperienceObeliskMenu menu;
+    public final BlockPos pos;
+    public final ExperienceObeliskEntity xpobelisk;
+    public final ExperienceObeliskMenu menu;
 
     private final ResourceLocation texture = new ResourceLocation("experienceobelisk:textures/gui/screens/experience_obelisk.png");
 

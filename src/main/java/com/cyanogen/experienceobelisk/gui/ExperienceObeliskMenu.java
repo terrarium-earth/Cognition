@@ -14,7 +14,7 @@ import net.minecraft.world.phys.Vec3;
 public class ExperienceObeliskMenu extends AbstractContainerMenu {
 
     BlockPos pos;
-    BlockPos posServer;
+    final BlockPos posServer;
     ExperienceObeliskEntity entity;
     Inventory inventory;
 

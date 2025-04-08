@@ -565,10 +565,4 @@ public class MolecularMetamorpherEntity extends ExperienceReceivingEntity implem
         return tag;
     }
 
-    @Override
-    public Packet<ClientGamePacketListener> getUpdatePacket()
-    {
-        return ClientboundBlockEntityDataPacket.create(this);
-    }
-
 }

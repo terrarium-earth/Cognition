@@ -22,8 +22,7 @@ import java.util.List;
 
 public class FillingCategory implements IRecipeCategory<FillingRecipe>{
 
-    IRecipeCategoryRegistration registration;
-    IGuiHelper guiHelper;
+    private final IGuiHelper guiHelper;
     private final ResourceLocation texture = new ResourceLocation("experienceobelisk:textures/gui/recipes/information_jei.png");
     private final IDrawableAnimated arrow;
 
@@ -31,7 +30,6 @@ public class FillingCategory implements IRecipeCategory<FillingRecipe>{
             RecipeType.create(ExperienceObelisk.MOD_ID, FillingRecipe.Type.ID, FillingRecipe.class);
 
     public FillingCategory(IRecipeCategoryRegistration registration){
-        this.registration = registration;
         this.guiHelper = registration.getJeiHelpers().getGuiHelper();
 
         this.arrow = guiHelper.drawableBuilder(texture,0,66,41,7)

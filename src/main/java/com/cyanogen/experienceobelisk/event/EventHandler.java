@@ -19,6 +19,7 @@ public class EventHandler {
     @SubscribeEvent
     @OnlyIn(Dist.CLIENT)
     public void onRegisterItemDecorator(RegisterItemDecorationsEvent event){
+        //this is for adding custom item bars (if needed in the future)
     }
 
     @SubscribeEvent

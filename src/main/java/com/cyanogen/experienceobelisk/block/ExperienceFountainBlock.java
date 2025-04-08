@@ -34,6 +34,7 @@ import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandlerItem;
 import net.minecraftforge.items.ItemHandlerHelper;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class ExperienceFountainBlock extends ExperienceReceivingBlock implements EntityBlock {
@@ -74,14 +75,7 @@ public class ExperienceFountainBlock extends ExperienceReceivingBlock implements
             }
 
             fountain.cycleActivityState();
-            MutableComponent message = Component.empty();
-
-            switch (fountain.getActivityState()) {
-                case 0 -> message = Component.translatable("message.experienceobelisk.experience_fountain.slow");
-                case 1 -> message = Component.translatable("message.experienceobelisk.experience_fountain.moderate");
-                case 2 -> message = Component.translatable("message.experienceobelisk.experience_fountain.fast");
-                case 3 -> message = Component.translatable("message.experienceobelisk.experience_fountain.hyper");
-            }
+            MutableComponent message = getMutableComponent(fountain);
             player.displayClientMessage(message, true);
             level.sendBlockUpdated(pos, state, state, 2);
 
@@ -94,6 +88,18 @@ public class ExperienceFountainBlock extends ExperienceReceivingBlock implements
             return InteractionResult.SUCCESS;
         }
 
+    }
+
+    private static @NotNull MutableComponent getMutableComponent(ExperienceFountainEntity fountain) {
+        MutableComponent message = Component.empty();
+
+        switch (fountain.getActivityState()) {
+            case 0 -> message = Component.translatable("message.experienceobelisk.experience_fountain.slow");
+            case 1 -> message = Component.translatable("message.experienceobelisk.experience_fountain.moderate");
+            case 2 -> message = Component.translatable("message.experienceobelisk.experience_fountain.fast");
+            case 3 -> message = Component.translatable("message.experienceobelisk.experience_fountain.hyper");
+        }
+        return message;
     }
 
     public void handleExperienceItem(ItemStack heldItem, IFluidHandlerItem fluidHandler, Player player, InteractionHand hand, ExperienceObeliskEntity obelisk){
@@ -182,11 +188,11 @@ public class ExperienceFountainBlock extends ExperienceReceivingBlock implements
     }
 
 
-    VoxelShape center = Shapes.create(new AABB(4.5 / 16D,0 / 16D,4.5 / 16D,11.5 / 16D,8.5 / 16D,11.5 / 16D));
-    VoxelShape shape1 = Shapes.create(new AABB(2 / 16D,1.3 / 16D,4.6 / 16D,14 / 16D,2.3 / 16D,11.4 / 16D));
-    VoxelShape shape2 = Shapes.create(new AABB(4.6 / 16D,1.3 / 16D,2 / 16D,11.4 / 16D,2.3 / 16D,14 / 16D));
     @Override
     public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+        VoxelShape center = Shapes.create(new AABB(4.5 / 16D,0 / 16D,4.5 / 16D,11.5 / 16D,8.5 / 16D,11.5 / 16D));
+        VoxelShape shape1 = Shapes.create(new AABB(2 / 16D,1.3 / 16D,4.6 / 16D,14 / 16D,2.3 / 16D,11.4 / 16D));
+        VoxelShape shape2 = Shapes.create(new AABB(4.6 / 16D,1.3 / 16D,2 / 16D,11.4 / 16D,2.3 / 16D,14 / 16D));
         return Shapes.join(Shapes.join(center, shape1, BooleanOp.OR), shape2, BooleanOp.OR).optimize();
     }
 

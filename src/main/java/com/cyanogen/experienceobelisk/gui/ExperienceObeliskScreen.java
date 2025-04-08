@@ -25,8 +25,8 @@ import static com.cyanogen.experienceobelisk.network.experience_obelisk.UpdateCo
 
 public class ExperienceObeliskScreen extends AbstractContainerScreen<ExperienceObeliskMenu> {
 
-    public BlockPos pos;
-    public ExperienceObeliskEntity xpobelisk;
+    public final BlockPos pos;
+    public final ExperienceObeliskEntity xpobelisk;
     private final ResourceLocation texture = new ResourceLocation("experienceobelisk:textures/gui/screens/experience_obelisk.png");
 
     public ExperienceObeliskScreen(ExperienceObeliskMenu menu, Inventory inventory, Component component) {

@@ -166,7 +166,7 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
 
     //-----------FLUID HANDLER-----------//
 
-    protected FluidTank tank = experienceObeliskTank();
+    protected final FluidTank tank = experienceObeliskTank();
 
     private final LazyOptional<IFluidHandler> handler = LazyOptional.of(() -> tank);
 
