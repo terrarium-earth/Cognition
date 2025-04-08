@@ -62,6 +62,7 @@ public abstract class AbstractInformationalRecipe implements Recipe<SimpleContai
 
     //-----UNUSED-----//
 
+    @Nullable
     @Override
     public RecipeSerializer<?> getSerializer() {
         return null;

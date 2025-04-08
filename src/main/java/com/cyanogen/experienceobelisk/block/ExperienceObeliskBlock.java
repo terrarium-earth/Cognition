@@ -60,9 +60,7 @@ public class ExperienceObeliskBlock extends Block implements EntityBlock {
         VoxelShape shape2 = Shapes.create(new AABB(1 / 16D,0 / 16D,1 / 16D,15 / 16D,4.3 / 16D,15 / 16D));
         //base
         VoxelShape shape3 = Shapes.create(new AABB(5 / 16D,4 / 16D,5 / 16D,11 / 16D,5 / 16D,11 / 16D));
-        VoxelShape shape = Shapes.join(Shapes.join(shape1, shape2, BooleanOp.OR), shape3, BooleanOp.OR).optimize();
-
-        return shape;
+        return Shapes.join(Shapes.join(shape1, shape2, BooleanOp.OR), shape3, BooleanOp.OR).optimize();
     }
 
     public ItemStack stack;

@@ -40,11 +40,6 @@ public class ExperienceObeliskScreen extends AbstractContainerScreen<ExperienceO
     }
 
     @Override
-    public boolean isPauseScreen() {
-        return false;
-    }
-
-    @Override
     protected void init() {
         setupWidgetElements();
         super.init();

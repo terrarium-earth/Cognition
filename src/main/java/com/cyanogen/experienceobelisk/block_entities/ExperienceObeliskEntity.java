@@ -233,10 +233,6 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
                 setChanged();
             }
 
-            @Override
-            public int getTanks() {
-                return 1;
-            }
         };
     }
 

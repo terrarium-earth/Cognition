@@ -50,10 +50,6 @@ public class BottleDaydreamItem extends BottleItem {
         return UseAnim.DRINK;
     }
 
-    public SoundEvent getDrinkingSound() {
-        return SoundEvents.GENERIC_DRINK;
-    }
-
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
         return ItemUtils.startUsingInstantly(level, player, hand);
     }
