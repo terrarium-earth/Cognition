@@ -219,9 +219,9 @@ public class MolecularMetamorpherRecipe implements Recipe<SimpleContainer> {
         @Override
         public void toNetwork(FriendlyByteBuf buffer, MolecularMetamorpherRecipe recipe) {
 
-            for(Tuple<Ingredient, Integer> ingredientWithCount : recipe.ingredients){
-                ingredientWithCount.getA().toNetwork(buffer);
-                buffer.writeInt(ingredientWithCount.getB());
+            for(int i = 1; i <= 3; i++){
+                recipe.ingredients.get(i).getA().toNetwork(buffer);
+                buffer.writeInt(recipe.ingredients.get(i).getB());
             }
 
             buffer.writeItemStack(recipe.getResultItem(null), false);
