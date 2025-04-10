@@ -1,7 +1,7 @@
-v2.3.6
+v2.3.6.1
 
 [Bugfixes]
-- Fixed Serializer inconsitency causing crash upon joining a server
+- Fixed Serializer inconsistency causing crash upon joining a server
 - Internal changes and optimizations
 
 v2.3.6
