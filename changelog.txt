@@ -1,5 +1,11 @@
 v2.3.6
 
+[Bugfixes]
+- Fixed Serializer inconsitency causing crash upon joining a server
+- Internal changes and optimizations
+
+v2.3.6
+
 [Changes]
 - Enlightened Amulets now ignore orbs spawned by Fountains. This may be disabled in the config file
 - Mending Neurogel may now be applied onto anvils in-world with either right-click or shift-right-click
