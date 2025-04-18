@@ -193,14 +193,17 @@ public class MolecularMetamorpherEntity extends ExperienceReceivingEntity implem
         return outputHandler;
     }
 
+    public boolean isEmpty(){
+
+        return inputHandler.getStackInSlot(0).isEmpty() &&
+                inputHandler.getStackInSlot(1).isEmpty() &&
+                inputHandler.getStackInSlot(2).isEmpty() &&
+                outputHandler.getStackInSlot(0).isEmpty();
+    }
+
     public static @Nullable IItemHandler getCapability(Level level, BlockPos blockPos, BlockState blockState, @Nullable BlockEntity blockEntity, Direction direction) {
         if(blockEntity instanceof MolecularMetamorpherEntity metamorpher){
-            if(direction == Direction.DOWN){
-                return metamorpher.getOutputHandler();
-            }
-            else if(direction != Direction.UP){
-                return metamorpher.getInputHandler();
-            }
+            metamorpher.getCapability(direction);
         }
         return null;
     }

@@ -71,12 +71,8 @@ public class MolecularMetamorpherItem extends BlockItem implements GeoItem {
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltipComponents, TooltipFlag tooltipFlag) {
 
-        CompoundTag inputs = ItemUtils.getBlockEntityTag(stack).getCompound("Inputs");
-        CompoundTag outputs = ItemUtils.getBlockEntityTag(stack).getCompound("Outputs");
-
-        boolean isEmpty = inputs.getList("Items", 9).isEmpty() && outputs.getList("Items",9).isEmpty();
-
-        if(!isEmpty){
+        CompoundTag tag = ItemUtils.getCustomDataTag(stack);
+        if(tag.contains("isEmpty") && !tag.getBoolean("isEmpty")){
             tooltipComponents.add(Component.translatable("tooltip.experienceobelisk.molecular_metamorpher.has_contents"));
         }
 

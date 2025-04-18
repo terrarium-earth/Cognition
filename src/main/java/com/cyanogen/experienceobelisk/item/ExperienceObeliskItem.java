@@ -69,14 +69,13 @@ public class ExperienceObeliskItem extends BlockItem implements GeoItem{
 
     //-----CUSTOM HOVER TEXT-----//
 
-
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltipComponents, TooltipFlag tooltipFlag) {
 
         CompoundTag tag = ItemUtils.getBlockEntityTag(stack);
 
-        if(tag.contains("Amount")){
-            int amount = tag.getInt("Amount");
+        if(tag.contains("Fluid")){
+            int amount = tag.getCompound("Fluid").getInt("amount");
             int levels = xpToLevels(amount / 20);
 
             tooltipComponents.add(Component.translatable("tooltip.experienceobelisk.experience_obelisk.item_levels",

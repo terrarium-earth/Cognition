@@ -3,7 +3,9 @@ package com.cyanogen.experienceobelisk.block;
 import com.cyanogen.experienceobelisk.block_entities.MolecularMetamorpherEntity;
 import com.cyanogen.experienceobelisk.gui.MolecularMetamorpherMenu;
 import com.cyanogen.experienceobelisk.registries.RegisterBlockEntities;
+import com.cyanogen.experienceobelisk.utils.ItemUtils;
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -15,6 +17,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.SoundType;
@@ -123,6 +126,27 @@ public class MolecularMetamorpherBlock extends ExperienceReceivingBlock implemen
                 return new MolecularMetamorpherMenu(containerId, inventory, inputs, output, pos);
             }
         };
+    }
+
+    public void saveContentsToItem(Level level, BlockPos pos){
+        if(level.getBlockEntity(pos) instanceof MolecularMetamorpherEntity metamorpher && !metamorpher.isEmpty() && super.stack != null){
+            CompoundTag tag = ItemUtils.getCustomDataTag(stack);
+            tag.putBoolean("isEmpty", false);
+            ItemUtils.saveCustomDataTag(stack, tag);
+        }
+    }
+
+    @Override
+    public BlockState playerWillDestroy(Level level, BlockPos pos, BlockState state, Player player) {
+        BlockState blockState = super.playerWillDestroy(level, pos, state, player);
+        saveContentsToItem(level, pos);
+        return blockState;
+    }
+
+    @Override
+    public void onBlockExploded(BlockState state, Level level, BlockPos pos, Explosion explosion) {
+        super.onBlockExploded(state, level, pos, explosion);
+        saveContentsToItem(level, pos);
     }
 
     @Nullable
