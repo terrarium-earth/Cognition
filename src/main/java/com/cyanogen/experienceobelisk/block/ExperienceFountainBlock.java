@@ -100,46 +100,19 @@ public class ExperienceFountainBlock extends ExperienceReceivingBlock implements
         return message;
     }
 
+    private static final FluidStack cognitium = new FluidStack(RegisterFluids.COGNITIUM_SOURCE.get(), 1000);
+
     public void handleExperienceItem(ItemStack heldItem, IFluidHandlerItem fluidHandler, Player player, InteractionHand hand, ExperienceObeliskEntity obelisk){
 
-        FluidStack cognitium = new FluidStack(RegisterFluids.COGNITIUM_SOURCE.get(), 1000);
-
         if(obelisk.getFluidAmount() >= 1000 && fluidHandler.fill(cognitium, IFluidHandler.FluidAction.SIMULATE) >= 1000){
-            //todo: why am i replacing the item again
-            if(!player.isCreative()){
-                heldItem.shrink(1);
-                fluidHandler.fill(cognitium, IFluidHandler.FluidAction.EXECUTE);
 
-                ItemStack fluidItem = fluidHandler.getContainer();
-
-                if(heldItem.isEmpty()){
-                    player.setItemInHand(hand, fluidItem);
-                }
-                else if(!player.addItem(fluidItem)){
-                    player.drop(fluidItem, false); //in case player inventory is full
-                }
-
-            }
-
+            replaceFluidHandlerItem(heldItem, fluidHandler, player, hand, true);
             obelisk.drain(1000);
             player.playSound(SoundEvents.BUCKET_FILL, 1f, 1f);
         }
         else if(obelisk.getSpace() >= 1000 && fluidHandler.drain(cognitium, IFluidHandler.FluidAction.SIMULATE).getAmount() >= 1000){
 
-            if(!player.isCreative()){
-                heldItem.shrink(1);
-                fluidHandler.drain(cognitium, IFluidHandler.FluidAction.EXECUTE);
-
-                ItemStack fluidItem = fluidHandler.getContainer();
-
-                if(heldItem.isEmpty()){
-                    player.setItemInHand(hand, fluidItem);
-                }
-                else if(!player.addItem(fluidItem)){
-                    player.drop(fluidItem, false);
-                }
-            }
-
+            replaceFluidHandlerItem(heldItem, fluidHandler, player, hand, false);
             obelisk.fill(1000);
             player.playSound(SoundEvents.BUCKET_EMPTY, 1f, 1f);
         }
@@ -152,36 +125,49 @@ public class ExperienceFountainBlock extends ExperienceReceivingBlock implements
 
         if(heldItem.is(Items.GLASS_BOTTLE) && obelisk.getFluidAmount() >= 250){
 
-            if(!player.isCreative()){
-                heldItem.shrink(1);
-
-                if(heldItem.isEmpty()){
-                    player.setItemInHand(hand, experienceBottle);
-                }
-                else if(!player.addItem(experienceBottle)){
-                    player.drop(experienceBottle, false);
-                }
-
-            }
-
+            replaceBottle(heldItem, experienceBottle, player, hand);
             obelisk.drain(250);
             player.playSound(SoundEvents.BOTTLE_FILL, 1f, 1f);
         }
         else if(heldItem.is(Items.EXPERIENCE_BOTTLE) && obelisk.getSpace() >= 250){
 
-            if(!player.isCreative()){
-                heldItem.shrink(1);
-
-                if(heldItem.isEmpty()){
-                    player.setItemInHand(hand, glassBottle);
-                }
-                else if(!player.addItem(glassBottle)){
-                    player.drop(glassBottle, false);
-                }
-            }
-
+            replaceBottle(heldItem, glassBottle, player, hand);
             obelisk.fill(250);
             player.playSound(SoundEvents.BOTTLE_EMPTY, 1f, 1f);
+        }
+    }
+
+    public void replaceBottle(ItemStack heldItem, ItemStack bottle, Player player, InteractionHand hand){
+        if(!player.isCreative()){
+            heldItem.shrink(1);
+
+            if(heldItem.isEmpty()){
+                player.setItemInHand(hand, bottle);
+            }
+            else if(!player.addItem(bottle)){
+                player.drop(bottle, false);
+            }
+        }
+    }
+
+    public void replaceFluidHandlerItem(ItemStack heldItem, IFluidHandlerItem fluidHandler, Player player, InteractionHand hand, boolean fill){
+        if(!player.isCreative()){
+            heldItem.shrink(1);
+
+            if(fill){
+                fluidHandler.fill(cognitium, IFluidHandler.FluidAction.EXECUTE);
+            }
+            else{
+                fluidHandler.drain(cognitium, IFluidHandler.FluidAction.EXECUTE);
+            }
+            ItemStack fluidItem = fluidHandler.getContainer();
+
+            if(heldItem.isEmpty()){
+                player.setItemInHand(hand, fluidItem);
+            }
+            else if(!player.addItem(fluidItem)){
+                player.drop(fluidItem, false);
+            }
         }
     }
 
