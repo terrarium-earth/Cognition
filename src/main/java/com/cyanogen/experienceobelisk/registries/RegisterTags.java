@@ -10,6 +10,7 @@ public class RegisterTags {
     public static class Fluids{
         public static final TagKey<Fluid> EXPERIENCE =
                 TagKey.create(Registries.FLUID, ResourceLocation.fromNamespaceAndPath("c", "experience"));
-
     }
+
+
 }

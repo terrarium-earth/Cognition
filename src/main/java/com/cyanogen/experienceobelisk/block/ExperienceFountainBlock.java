@@ -105,7 +105,7 @@ public class ExperienceFountainBlock extends ExperienceReceivingBlock implements
         FluidStack cognitium = new FluidStack(RegisterFluids.COGNITIUM_SOURCE.get(), 1000);
 
         if(obelisk.getFluidAmount() >= 1000 && fluidHandler.fill(cognitium, IFluidHandler.FluidAction.SIMULATE) >= 1000){
-
+            //todo: why am i replacing the item again
             if(!player.isCreative()){
                 heldItem.shrink(1);
                 fluidHandler.fill(cognitium, IFluidHandler.FluidAction.EXECUTE);

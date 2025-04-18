@@ -3,12 +3,12 @@ package com.cyanogen.experienceobelisk.event;
 import com.cyanogen.experienceobelisk.gui.ExperienceObeliskScreen;
 import com.cyanogen.experienceobelisk.gui.MolecularMetamorpherScreen;
 import com.cyanogen.experienceobelisk.gui.PrecisionDispellerScreen;
-import com.cyanogen.experienceobelisk.registries.RegisterFluids;
-import com.cyanogen.experienceobelisk.registries.RegisterMenus;
-import com.cyanogen.experienceobelisk.registries.RegisterPackets;
+import com.cyanogen.experienceobelisk.registries.*;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
+import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.RegisterItemDecorationsEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
@@ -40,6 +40,17 @@ public class IModBusEventHandler {
     @OnlyIn(Dist.CLIENT)
     public void onRegisterClientExtensions(RegisterClientExtensionsEvent event){
         event.registerFluidType(RegisterFluids.COGNITIUM_FLUID_TYPE.get(), RegisterFluids.COGNITIUM_FLUID_TYPE);
+    }
+
+    @SubscribeEvent
+    @OnlyIn(Dist.CLIENT)
+    public void onRegisterRenderers(EntityRenderersEvent.RegisterRenderers event){
+        RegisterRenderers.register(event);
+    }
+
+    @SubscribeEvent
+    public void onRegisterCapabilities(RegisterCapabilitiesEvent event){
+        RegisterCapabilities.register(event);
     }
 
 }

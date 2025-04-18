@@ -10,8 +10,6 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 
 public class RegisterTiers {
 
-    //-----  REGISTRATION  -----//
-
     public static final DeferredRegister<ArmorMaterial> ARMOR_MATERIALS = DeferredRegister.create(BuiltInRegistries.ARMOR_MATERIAL, ExperienceObelisk.MOD_ID);
     public static final DeferredHolder<ArmorMaterial, ArmorMaterial> COGNITIVE_ARMOR_MATERIAL =
             ARMOR_MATERIALS.register("cognitive", () -> CognitiveArmorset.COGNITIVE_ARMOR_MATERIAL);

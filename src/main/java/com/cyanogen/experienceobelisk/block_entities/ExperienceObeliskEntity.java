@@ -4,7 +4,6 @@ import com.cyanogen.experienceobelisk.config.Config;
 import com.cyanogen.experienceobelisk.network.experience_obelisk.UpdateContents;
 import com.cyanogen.experienceobelisk.registries.RegisterBlockEntities;
 import com.cyanogen.experienceobelisk.registries.RegisterFluids;
-import com.cyanogen.experienceobelisk.registries.RegisterTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
@@ -21,6 +20,8 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.phys.AABB;
+import net.neoforged.neoforge.capabilities.BlockCapability;
+import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
@@ -161,74 +162,84 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
 
     //-----------FLUID HANDLER-----------//
 
-    protected FluidTank tank = experienceObeliskTank();
+    public static final BlockCapability<IFluidHandler, Direction> FLUID_HANDLER = Capabilities.FluidHandler.BLOCK;
+
+    public static @Nullable IFluidHandler getCapability(ExperienceObeliskEntity obelisk, Direction direction) {
+        return direction == null || !direction.equals(Direction.UP) ? obelisk.tank : null;
+    }
+
+    protected ExperienceObeliskTank tank = new ExperienceObeliskTank();
     private static final Fluid cognitium = RegisterFluids.COGNITIUM_SOURCE.get();
     public static final int capacity = (int) Math.min((Math.round((double) Config.COMMON.capacity.get() / 20) * 20), 2147483640);
 
-    private FluidTank experienceObeliskTank() {
-        return new FluidTank(capacity){
+    public class ExperienceObeliskTank extends FluidTank{
 
-            @Override
-            protected void onContentsChanged()
-            {
+        public ExperienceObeliskTank() {
+            super(ExperienceObeliskEntity.capacity);
+        }
+
+        @Override
+        protected void onContentsChanged()
+        {
+            setChanged();
+        }
+
+        @Override
+        public boolean isFluidValid(int tank, @Nonnull FluidStack stack) {
+            return isFluidValid(stack);
+        }
+
+        @Override
+        public boolean isFluidValid(FluidStack stack) {
+            String fluidName = BuiltInRegistries.FLUID.getKey(stack.getFluid()).toString();
+
+            if(stack.getFluid() == cognitium){
+                return true;
+            }
+            else{
+                return Config.COMMON.allowedFluids.get().contains(fluidName);
+//                return stack.getFluid().is(RegisterTags.Fluids.EXPERIENCE) && Config.COMMON.allowedFluids.get().contains(fluidName);
+            }
+        }
+
+        @Override
+        public int fill(FluidStack resource, FluidAction action) {
+
+            if(isFluidValid(resource)){
                 setChanged();
+                return super.fill(new FluidStack(cognitium, resource.getAmount()), action);
             }
-
-            @Override
-            public boolean isFluidValid(int tank, @Nonnull FluidStack stack) {
-                return isFluidValid(stack);
+            else{
+                return 0;
             }
+        }
 
-            @Override
-            public boolean isFluidValid(FluidStack stack) {
-                String fluidName = BuiltInRegistries.FLUID.getKey(stack.getFluid()).toString();
+        @NotNull
+        @Override
+        public FluidStack drain(int maxDrain, FluidAction action) {
+            setChanged();
+            return super.drain(maxDrain, action);
+        }
 
-                if(stack.getFluid() == cognitium){
-                    return true;
-                }
-                else{
-                    return stack.getFluid().is(RegisterTags.Fluids.EXPERIENCE) && Config.COMMON.allowedFluids.get().contains(fluidName);
-                }
-            }
+        @NotNull
+        @Override
+        public FluidStack drain(FluidStack resource, FluidAction action) {
+            setChanged();
+            return super.drain(resource, action);
+        }
 
-            @Override
-            public int fill(FluidStack resource, FluidAction action) {
+        @Override
+        public void setFluid(FluidStack stack)
+        {
+            this.fluid = stack;
+            setChanged();
+        }
 
-                if(isFluidValid(resource)){
-                    setChanged();
-                    return super.fill(new FluidStack(cognitium, resource.getAmount()), action);
-                }
-                else{
-                    return 0;
-                }
-            }
+        @Override
+        public int getTanks() {
+            return 1;
+        }
 
-            @NotNull
-            @Override
-            public FluidStack drain(int maxDrain, FluidAction action) {
-                setChanged();
-                return super.drain(maxDrain, action);
-            }
-
-            @NotNull
-            @Override
-            public FluidStack drain(FluidStack resource, FluidAction action) {
-                setChanged();
-                return super.drain(resource, action);
-            }
-
-            @Override
-            public void setFluid(FluidStack stack)
-            {
-                this.fluid = stack;
-                setChanged();
-            }
-
-            @Override
-            public int getTanks() {
-                return 1;
-            }
-        };
     }
 
     public int fill(int amount){
@@ -257,28 +268,6 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
 
     public int getLevels(){
         return xpToLevels(getExperiencePoints());
-    }
-
-    public static @Nullable IFluidHandler getCapability(Level level, BlockPos blockPos, BlockState blockState, @Nullable BlockEntity blockEntity, Direction direction) {
-        //for modded compatibility
-
-        if(blockEntity instanceof ExperienceObeliskEntity obelisk && direction != Direction.UP){
-            return obelisk.tank;
-        }
-        else{
-            return null;
-        }
-    }
-
-    public @Nullable IFluidHandler getCapability(Direction direction) {
-        //for internal usage, if I already know i'm querying an Experience Obelisk
-
-        if(direction != Direction.UP){
-            return experienceObeliskTank();
-        }
-        else{
-            return null;
-        }
     }
 
     //-----------NBT-----------//

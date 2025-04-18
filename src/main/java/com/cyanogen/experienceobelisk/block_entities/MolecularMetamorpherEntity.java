@@ -27,8 +27,9 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeInput;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.neoforged.neoforge.capabilities.BlockCapability;
+import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.ItemStackHandler;
 import org.jetbrains.annotations.NotNull;
@@ -163,17 +164,22 @@ public class MolecularMetamorpherEntity extends ExperienceReceivingEntity implem
 
     //-----------ITEM HANDLER-----------//
 
-    protected ItemStackHandler inputHandler = inputHandler(this);
+    public static final BlockCapability<IItemHandler, Direction> ITEM_HANDLER = Capabilities.ItemHandler.BLOCK;
+
+    public static @Nullable IItemHandler getCapability(MolecularMetamorpherEntity metamorpher, Direction direction){
+        if(direction == null || direction.equals(Direction.UP)){
+            return null;
+        }
+        else{
+            return direction.equals(Direction.DOWN) ? metamorpher.outputHandler : metamorpher.inputHandler;
+        }
+    }
+
+    protected ItemStackHandler inputHandler = inputHandler();
     protected ItemStackHandler outputHandler = outputHandler();
 
-    public ItemStackHandler inputHandler(MolecularMetamorpherEntity metamorpher) {
-        return new ItemStackHandler(3){
-            @Override
-            protected void onContentsChanged(int slot) {
-
-                super.onContentsChanged(slot);
-            }
-        };
+    public ItemStackHandler inputHandler() {
+        return new ItemStackHandler(3);
     }
 
     public ItemStackHandler outputHandler(){
@@ -199,23 +205,6 @@ public class MolecularMetamorpherEntity extends ExperienceReceivingEntity implem
                 inputHandler.getStackInSlot(1).isEmpty() &&
                 inputHandler.getStackInSlot(2).isEmpty() &&
                 outputHandler.getStackInSlot(0).isEmpty();
-    }
-
-    public static @Nullable IItemHandler getCapability(Level level, BlockPos blockPos, BlockState blockState, @Nullable BlockEntity blockEntity, Direction direction) {
-        if(blockEntity instanceof MolecularMetamorpherEntity metamorpher){
-            metamorpher.getCapability(direction);
-        }
-        return null;
-    }
-
-    public @Nullable IItemHandler getCapability(Direction direction) {
-        if(direction == Direction.DOWN){
-            return getOutputHandler();
-        }
-        else if(direction != Direction.UP){
-            return getInputHandler();
-        }
-        return null;
     }
 
     //-----------RECIPE HANDLER-----------//
@@ -588,5 +577,6 @@ public class MolecularMetamorpherEntity extends ExperienceReceivingEntity implem
 
         return tag;
     }
+
 
 }
