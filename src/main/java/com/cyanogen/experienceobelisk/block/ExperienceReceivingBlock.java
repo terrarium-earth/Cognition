@@ -7,7 +7,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Explosion;
@@ -28,17 +28,15 @@ public abstract class ExperienceReceivingBlock extends Block {
     }
 
     @Override
-    public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult result) {
-
-        ItemStack stack = player.getItemInHand(hand);
+    protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
 
         if(stack.is(RegisterItems.ATTUNEMENT_STAFF.get()) && !player.isShiftKeyDown()
                 && level.getBlockEntity(pos) instanceof ExperienceReceivingEntity receiver){
 
             handleInfoRequest(receiver, player, level);
-            return InteractionResult.sidedSuccess(true);
+            return ItemInteractionResult.sidedSuccess(true);
         }
-        return InteractionResult.PASS;
+        return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
     }
 
     public void handleInfoRequest(ExperienceReceivingEntity entity, Player player, Level level){
@@ -65,18 +63,19 @@ public abstract class ExperienceReceivingBlock extends Block {
     //-----DROPS-----//
 
     public ItemStack stack;
+
     @Override
-    public void playerWillDestroy(Level level, BlockPos pos, BlockState state, Player player) {
+    public BlockState playerWillDestroy(Level level, BlockPos pos, BlockState state, Player player) {
+
         if (!level.isClientSide) {
             BlockEntity entity = level.getBlockEntity(pos);
-            if (player.hasCorrectToolForDrops(state) && entity != null) {
-
+            if (player.hasCorrectToolForDrops(state, level, pos) && entity != null) {
                 stack = new ItemStack(state.getBlock(), 1);
-                entity.saveToItem(stack);
+                entity.saveToItem(stack, level.registryAccess());
             }
         }
 
-        super.playerWillDestroy(level, pos, state, player);
+        return super.playerWillDestroy(level, pos, state, player);
     }
 
     @Override
@@ -85,7 +84,7 @@ public abstract class ExperienceReceivingBlock extends Block {
             BlockEntity entity = level.getBlockEntity(pos);
             if(entity != null){
                 stack = new ItemStack(state.getBlock(), 1);
-                entity.saveToItem(stack);
+                entity.saveToItem(stack, level.registryAccess());
             }
         }
 
@@ -103,7 +102,5 @@ public abstract class ExperienceReceivingBlock extends Block {
             return super.getDrops(state, params);
         }
     }
-
-
 
 }

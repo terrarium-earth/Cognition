@@ -1,46 +1,53 @@
 package com.cyanogen.experienceobelisk.network.precision_dispeller;
 
-import net.minecraft.network.FriendlyByteBuf;
+import com.cyanogen.experienceobelisk.ExperienceObelisk;
+import io.netty.buffer.ByteBuf;
+import net.minecraft.nbt.Tag;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.network.NetworkEvent;
+import net.neoforged.neoforge.network.handling.IPayloadContext;
 
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.function.Supplier;
+import java.util.Optional;
 
-public class UpdateSlot {
+/**
+ * This is sent from the client to the server whenever a SelectablePanel in the Precision Dispeller screen is selected or deselected.
+ *             Upon reception, the item in the output slot is updated to the appropriate state.
+ */
+public record UpdateSlot(int slot, Tag itemTag) implements CustomPacketPayload {
 
-    public static int slot;
-    public static ItemStack stack;
+    public static final StreamCodec<ByteBuf, UpdateSlot> STREAM_CODEC = StreamCodec.composite(
+            ByteBufCodecs.VAR_INT,
+            UpdateSlot::slot,
+            ByteBufCodecs.TAG,
+            UpdateSlot::itemTag,
+            UpdateSlot::new
+    );
 
-    public UpdateSlot(int slot, ItemStack stack) {
-        UpdateSlot.slot = slot;
-        UpdateSlot.stack = stack;
+    public static final Type<UpdateSlot> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(ExperienceObelisk.MOD_ID,
+            "precision_dispeller_update_slot"));
+
+    @Override
+    public Type<? extends CustomPacketPayload> type() {
+        return TYPE;
     }
 
-    public UpdateSlot(FriendlyByteBuf buffer) {
-        slot = buffer.readInt();
-        stack = buffer.readItem();
+    public static void handleServer(UpdateSlot packet, IPayloadContext context) {
 
-    }
+        context.enqueueWork(() -> {
 
-    public void encode(FriendlyByteBuf buffer){
-        buffer.writeInt(slot);
-        buffer.writeItem(stack);
-    }
+            if (!context.player().level().isClientSide) {
+                ServerPlayer player = (ServerPlayer) context.player();
+                Optional<ItemStack> optional = ItemStack.parse(player.level().registryAccess(), packet.itemTag);
+                ItemStack resultStack = optional.orElse(ItemStack.EMPTY);
 
-    public boolean handle(Supplier<NetworkEvent.Context> ctx) {
-        final var success = new AtomicBoolean(false);
-        ctx.get().enqueueWork(() -> {
-            ServerPlayer sender = ctx.get().getSender();
-            assert sender != null;
-
-            sender.containerMenu.getSlot(slot).set(stack);
-
-            success.set(true);
+                player.containerMenu.getSlot(packet.slot).set(resultStack);
+            }
 
         });
-        ctx.get().setPacketHandled(true);
-        return success.get();
     }
+
 }

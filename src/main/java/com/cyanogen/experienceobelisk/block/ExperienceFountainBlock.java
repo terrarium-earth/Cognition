@@ -9,7 +9,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -29,12 +29,10 @@ import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.FluidUtil;
-import net.minecraftforge.fluids.capability.IFluidHandler;
-import net.minecraftforge.fluids.capability.IFluidHandlerItem;
-import net.minecraftforge.items.ItemHandlerHelper;
-import org.jetbrains.annotations.NotNull;
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.FluidUtil;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler;
+import net.neoforged.neoforge.fluids.capability.IFluidHandlerItem;
 import org.jetbrains.annotations.Nullable;
 
 public class ExperienceFountainBlock extends ExperienceReceivingBlock implements EntityBlock {
@@ -50,47 +48,47 @@ public class ExperienceFountainBlock extends ExperienceReceivingBlock implements
     }
 
     @Override
-    public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+    protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
 
-        if(super.use(state, level, pos, player, hand, hit) != InteractionResult.PASS){
-            return InteractionResult.CONSUME;
+        if(super.useItemOn(stack, state, level, pos, player, hand, hitResult) != ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION){
+            return ItemInteractionResult.CONSUME;
         }
 
         BlockEntity entity = level.getBlockEntity(pos);
         ItemStack heldItem = player.getItemInHand(hand);
-        IFluidHandlerItem fluidHandler = FluidUtil.getFluidHandler(ItemHandlerHelper.copyStackWithSize(heldItem, 1)).orElse(null);
+
+        IFluidHandlerItem fluidHandler = FluidUtil.getFluidHandler(heldItem.copy()).orElse(null);
 
         if(entity instanceof ExperienceFountainEntity fountain){
 
             if(fountain.isBound && level.getBlockEntity(fountain.getBoundPos()) instanceof ExperienceObeliskEntity obelisk){
 
-              if(heldItem.getItem() == Items.EXPERIENCE_BOTTLE || heldItem.getItem() == Items.GLASS_BOTTLE){
+                if(heldItem.getItem() == Items.EXPERIENCE_BOTTLE || heldItem.getItem() == Items.GLASS_BOTTLE){
                     handleExperienceBottle(heldItem, player, hand, obelisk);
-                    return InteractionResult.sidedSuccess(true);
+                    return ItemInteractionResult.sidedSuccess(level.isClientSide);
                 }
                 else if(fluidHandler != null){
                     handleExperienceItem(heldItem, fluidHandler, player, hand, obelisk);
-                    return InteractionResult.sidedSuccess(true);
+                    return ItemInteractionResult.sidedSuccess(level.isClientSide);
                 }
             }
 
             fountain.cycleActivityState();
-            MutableComponent message = getMutableComponent(fountain);
+            MutableComponent message = getMessage(fountain);
             player.displayClientMessage(message, true);
             level.sendBlockUpdated(pos, state, state, 2);
 
         }
 
         if(!level.isClientSide){
-            return InteractionResult.CONSUME;
+            return ItemInteractionResult.CONSUME;
         }
         else{
-            return InteractionResult.SUCCESS;
+            return ItemInteractionResult.sidedSuccess(true);
         }
-
     }
 
-    private static @NotNull MutableComponent getMutableComponent(ExperienceFountainEntity fountain) {
+    private MutableComponent getMessage(ExperienceFountainEntity fountain) {
         MutableComponent message = Component.empty();
 
         switch (fountain.getActivityState()) {
@@ -104,7 +102,7 @@ public class ExperienceFountainBlock extends ExperienceReceivingBlock implements
 
     public void handleExperienceItem(ItemStack heldItem, IFluidHandlerItem fluidHandler, Player player, InteractionHand hand, ExperienceObeliskEntity obelisk){
 
-        FluidStack cognitium = new FluidStack(RegisterFluids.COGNITIUM.get(), 1000);
+        FluidStack cognitium = new FluidStack(RegisterFluids.COGNITIUM_SOURCE.get(), 1000);
 
         if(obelisk.getFluidAmount() >= 1000 && fluidHandler.fill(cognitium, IFluidHandler.FluidAction.SIMULATE) >= 1000){
 
@@ -187,7 +185,6 @@ public class ExperienceFountainBlock extends ExperienceReceivingBlock implements
         }
     }
 
-
     @Override
     public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
         VoxelShape center = Shapes.create(new AABB(4.5 / 16D,0 / 16D,4.5 / 16D,11.5 / 16D,8.5 / 16D,11.5 / 16D));
@@ -222,13 +219,13 @@ public class ExperienceFountainBlock extends ExperienceReceivingBlock implements
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> blockEntityType) {
-        return blockEntityType == RegisterBlockEntities.EXPERIENCE_FOUNTAIN_BE.get() ? ExperienceFountainEntity::tick : null;
+        return blockEntityType == RegisterBlockEntities.EXPERIENCE_FOUNTAIN.get() ? ExperienceFountainEntity::tick : null;
     }
 
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return RegisterBlockEntities.EXPERIENCE_FOUNTAIN_BE.get().create(pos, state);
+        return RegisterBlockEntities.EXPERIENCE_FOUNTAIN.get().create(pos, state);
     }
 
 }

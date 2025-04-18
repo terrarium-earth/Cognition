@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "experienceobelisk:accelerator"
+    }
+  ],
+  "result": {
+    "id": "experienceobelisk:linear_accelerator",
+    "count": 1
+  }
+}

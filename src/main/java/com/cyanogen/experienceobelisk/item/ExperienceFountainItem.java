@@ -4,15 +4,11 @@ import com.cyanogen.experienceobelisk.renderer.ExperienceFountainItemRenderer;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.level.block.Block;
-import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import software.bernie.geckolib.animatable.GeoItem;
 import software.bernie.geckolib.animatable.SingletonGeoAnimatable;
-import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.core.animation.AnimatableManager;
-import software.bernie.geckolib.core.animation.AnimationController;
-import software.bernie.geckolib.core.animation.AnimationState;
-import software.bernie.geckolib.core.animation.RawAnimation;
-import software.bernie.geckolib.core.object.PlayState;
+import software.bernie.geckolib.animatable.client.GeoRenderProvider;
+import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
+import software.bernie.geckolib.animation.*;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
 import java.util.function.Consumer;
@@ -49,16 +45,15 @@ public class ExperienceFountainItem extends BlockItem implements GeoItem{
     }
 
     @Override
-    public void initializeClient(Consumer<IClientItemExtensions> consumer) {
-        super.initializeClient(consumer);
-        consumer.accept(new IClientItemExtensions() {
+    public void createGeoRenderer(Consumer<GeoRenderProvider> consumer) {
+
+        consumer.accept(new GeoRenderProvider() {
             private final BlockEntityWithoutLevelRenderer renderer = new ExperienceFountainItemRenderer();
 
             @Override
-            public BlockEntityWithoutLevelRenderer getCustomRenderer() {
+            public BlockEntityWithoutLevelRenderer getGeoItemRenderer() {
                 return renderer;
             }
         });
     }
-
 }

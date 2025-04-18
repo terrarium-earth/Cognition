@@ -2,6 +2,7 @@ package com.cyanogen.experienceobelisk.block_entities;
 
 import com.cyanogen.experienceobelisk.utils.ExperienceUtils;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
@@ -93,9 +94,9 @@ public abstract class ExperienceReceivingEntity extends BlockEntity {
     //-----------NBT-----------//
 
     @Override
-    public void load(CompoundTag tag)
-    {
-        super.load(tag);
+    protected void loadAdditional(CompoundTag tag, HolderLookup.Provider provider) {
+
+        super.loadAdditional(tag, provider);
 
         this.isBound = tag.getBoolean("isBound");
         this.boundX = tag.getInt("BoundX");
@@ -105,9 +106,9 @@ public abstract class ExperienceReceivingEntity extends BlockEntity {
     }
 
     @Override
-    protected void saveAdditional(CompoundTag tag)
-    {
-        super.saveAdditional(tag);
+    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider provider) {
+
+        super.saveAdditional(tag, provider);
 
         tag.putBoolean("isBound", isBound);
         tag.putInt("BoundX", boundX);
@@ -117,9 +118,21 @@ public abstract class ExperienceReceivingEntity extends BlockEntity {
     }
 
     @Override
-    public CompoundTag getUpdateTag()
-    {
-        CompoundTag tag = super.getUpdateTag();
+    public void handleUpdateTag(CompoundTag tag, HolderLookup.Provider provider) {
+
+        super.handleUpdateTag(tag, provider);
+
+        this.isBound = tag.getBoolean("isBound");
+        this.boundX = tag.getInt("BoundX");
+        this.boundY = tag.getInt("BoundY");
+        this.boundZ = tag.getInt("BoundZ");
+        this.redstoneEnabled = tag.getBoolean("RedstoneEnabled");
+    }
+
+    @Override
+    public CompoundTag getUpdateTag(HolderLookup.Provider provider) {
+
+        CompoundTag tag = super.getUpdateTag(provider);
 
         tag.putBoolean("isBound", isBound);
         tag.putInt("BoundX", boundX);

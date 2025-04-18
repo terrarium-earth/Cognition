@@ -1,8 +1,0 @@
-{
-  "type": "minecraft:smelting",
-  "cookingtime": 200,
-  "ingredient": {
-    "item": "experienceobelisk:experience_jelly"
-  },
-  "result": "minecraft:slime_ball"
-}

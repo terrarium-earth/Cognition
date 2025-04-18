@@ -4,7 +4,6 @@ import com.cyanogen.experienceobelisk.ExperienceObelisk;
 import com.cyanogen.experienceobelisk.recipe.MolecularMetamorpherRecipe;
 import com.cyanogen.experienceobelisk.recipe.jei.MolecularMetamorpherCategory;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.Tuple;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -97,11 +96,9 @@ public class RecipeUtils {
      * See {@link MolecularMetamorpherCategory#setNameFormattingRecipe}
      */
     public static MolecularMetamorpherRecipe getEmptyNameFormattingRecipe(){
-
-        ArrayList<Tuple<Ingredient, Integer>> ingredients = MolecularMetamorpherRecipe.assembleIngredients(
-                Ingredient.EMPTY, 0, Ingredient.EMPTY, 0, Ingredient.EMPTY , 0);
-        ResourceLocation id = new ResourceLocation(ExperienceObelisk.MOD_ID, "item_name_formatting");
-        return new MolecularMetamorpherRecipe(ingredients, ItemStack.EMPTY, 315, 60, id);
+        ResourceLocation id = ResourceLocation.fromNamespaceAndPath(ExperienceObelisk.MOD_ID, "item_name_formatting");
+        return new MolecularMetamorpherRecipe(Ingredient.EMPTY, 0, Ingredient.EMPTY, 0, Ingredient.EMPTY, 0,
+                ItemStack.EMPTY, 315, 60, id);
 
     }
 

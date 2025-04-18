@@ -19,11 +19,11 @@ import static com.cyanogen.experienceobelisk.block.AcceleratorBlock.ACTIVE;
 public class AcceleratorEntity extends AbstractAcceleratorEntity{
 
     public AcceleratorEntity(BlockPos pos, BlockState state) {
-        super(RegisterBlockEntities.ACCELERATOR_BE.get(), pos, state);
+        super(RegisterBlockEntities.ACCELERATOR.get(), pos, state);
     }
 
-    final static double orbSpeed = 2.0;
-    final static double entitySpeed = 1.3;
+    static double orbSpeed = 2.0;
+    static double entitySpeed = 1.3;
 
     public static <T> void tick(Level level, BlockPos pos, BlockState state, T blockEntity) {
 

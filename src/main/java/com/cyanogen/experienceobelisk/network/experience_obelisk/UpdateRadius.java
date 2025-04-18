@@ -1,64 +1,109 @@
 package com.cyanogen.experienceobelisk.network.experience_obelisk;
 
+import com.cyanogen.experienceobelisk.ExperienceObelisk;
 import com.cyanogen.experienceobelisk.block_entities.ExperienceObeliskEntity;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraftforge.network.NetworkEvent;
+import net.neoforged.neoforge.network.handling.IPayloadContext;
 
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.function.Supplier;
+import javax.annotation.Nullable;
 
-public class UpdateRadius {
 
-    public static BlockPos pos;
-    public static double changeInRadius;
+public class UpdateRadius implements CustomPacketPayload {
 
-    public UpdateRadius(BlockPos pos, double changeInRadius) {
-        UpdateRadius.pos = pos;
-        UpdateRadius.changeInRadius = changeInRadius;
+    /**
+     * This is sent from the client to the server whenever a request to change the Experience Obelisk radius is made in the Experience Obelisk GUI.
+     */
+
+    public final int posX;
+    public final int posY;
+    public final int posZ;
+    public final double changeInRadius;
+
+    public static final StreamCodec<ByteBuf, UpdateRadius> STREAM_CODEC = StreamCodec.composite(
+            ByteBufCodecs.VAR_INT,
+            UpdateRadius::getPosX,
+            ByteBufCodecs.VAR_INT,
+            UpdateRadius::getPosY,
+            ByteBufCodecs.VAR_INT,
+            UpdateRadius::getPosZ,
+            ByteBufCodecs.DOUBLE,
+            UpdateRadius::getChangeInRadius,
+            UpdateRadius::new
+    );
+
+    public static final Type<UpdateRadius> TYPE = new CustomPacketPayload.Type<>(ResourceLocation.fromNamespaceAndPath(ExperienceObelisk.MOD_ID,
+            "experience_obelisk_update_radius"));
+
+    public UpdateRadius(@Nullable BlockPos pos, double changeInRadius) {
+        if(pos == null){
+            this.posX = 0; this.posY = 0; this.posZ = 0;
+        }
+        else{
+            this.posX = pos.getX();
+            this.posY = pos.getY();
+            this.posZ = pos.getZ();
+        }
+        this.changeInRadius = changeInRadius;
     }
 
-    public UpdateRadius(FriendlyByteBuf buffer) {
-
-        pos = buffer.readBlockPos();
-        changeInRadius = buffer.readDouble();
-
+    public UpdateRadius(int posX, int posY, int posZ, double changeInRadius) {
+        this.posX = posX;
+        this.posY = posY;
+        this.posZ = posZ;
+        this.changeInRadius = changeInRadius;
     }
 
-    public void encode(FriendlyByteBuf buffer){
-
-        buffer.writeBlockPos(pos);
-        buffer.writeDouble(changeInRadius);
-
+    @Override
+    public Type<? extends CustomPacketPayload> type() {
+        return TYPE;
     }
 
-    public boolean handle(Supplier<NetworkEvent.Context> ctx) {
-        final var success = new AtomicBoolean(false);
-        ctx.get().enqueueWork(() -> {
-            ServerPlayer sender = ctx.get().getSender();
-            assert sender != null;
+    public int getPosX() {
+        return posX;
+    }
 
-            BlockEntity serverEntity = sender.level().getBlockEntity(pos);
+    public int getPosY() {
+        return posY;
+    }
 
-            if(serverEntity instanceof ExperienceObeliskEntity xpobelisk){
+    public int getPosZ() {
+        return posZ;
+    }
 
-                double finalRadius = xpobelisk.getRadius() + changeInRadius;
+    public double getChangeInRadius() {
+        return changeInRadius;
+    }
 
-                if(changeInRadius == 0){
-                    xpobelisk.setRadius(2.5); //set to default
+    public static void handleServer(UpdateRadius packet, IPayloadContext context) {
+
+        context.enqueueWork(() -> {
+
+            if(!context.player().level().isClientSide){
+                ServerPlayer player = (ServerPlayer) context.player();
+                BlockEntity entity = player.level().getBlockEntity(new BlockPos(packet.posX, packet.posY, packet.posZ));
+
+                if(entity instanceof ExperienceObeliskEntity obelisk){
+
+                    double finalRadius = obelisk.getRadius() + packet.changeInRadius;
+
+                    if(packet.changeInRadius == 0){
+                        obelisk.setRadius(2.5); //set to default
+                    }
+                    else if(finalRadius >= 1 && finalRadius <= 5){
+                        obelisk.setRadius(finalRadius);
+                    }
+
                 }
-                else if(finalRadius >= 1 && finalRadius <= 5){
-                    xpobelisk.setRadius(finalRadius);
-                }
-
             }
 
-            success.set(true);
-
         });
-        ctx.get().setPacketHandled(true);
-        return success.get();
     }
+
 }

@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "###",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "experienceobelisk:cognitive_crystal"
+    }
+  },
+  "result": {
+    "id": "experienceobelisk:cognitive_crystal_block",
+    "count": 1
+  }
+}

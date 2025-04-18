@@ -22,12 +22,12 @@ public class InsightfulAgarBlock extends AbstractAgarBlock implements EntityBloc
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> blockEntityType) {
-        return blockEntityType == RegisterBlockEntities.INSIGHTFUL_AGAR_BE.get() ? InsightfulAgarEntity::tick : null;
+        return blockEntityType == RegisterBlockEntities.INSIGHTFUL_AGAR.get() ? InsightfulAgarEntity::tick : null;
     }
 
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return RegisterBlockEntities.INSIGHTFUL_AGAR_BE.get().create(pos, state);
+        return RegisterBlockEntities.INSIGHTFUL_AGAR.get().create(pos, state);
     }
 }

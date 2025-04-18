@@ -1,17 +1,17 @@
 package com.cyanogen.experienceobelisk.recipe.jei.info;
 
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
-import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeInput;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 
-public abstract class AbstractInformationalRecipe implements Recipe<SimpleContainer> {
+public abstract class AbstractInformationalRecipe implements Recipe<RecipeInput> {
 
     //this is a dummy recipe used to display in-game mechanics in JEI
 
@@ -30,7 +30,7 @@ public abstract class AbstractInformationalRecipe implements Recipe<SimpleContai
     }
 
     @Override
-    public ItemStack assemble(SimpleContainer container, RegistryAccess access) {
+    public ItemStack assemble(RecipeInput recipeInput, HolderLookup.Provider provider) {
         return output.copy();
     }
 
@@ -51,13 +51,12 @@ public abstract class AbstractInformationalRecipe implements Recipe<SimpleContai
     }
 
     @Override
-    public ItemStack getResultItem(@Nullable RegistryAccess access) {
+    public ItemStack getResultItem(HolderLookup.Provider provider) {
         return output.copy();
     }
 
-    @Override
     public ResourceLocation getId() {
-        return new ResourceLocation(id);
+        return ResourceLocation.parse(id);
     }
 
     //-----UNUSED-----//
@@ -74,7 +73,8 @@ public abstract class AbstractInformationalRecipe implements Recipe<SimpleContai
     }
 
     @Override
-    public boolean matches(SimpleContainer container, Level level) {
+    public boolean matches(RecipeInput recipeInput, Level level) {
         return false;
     }
+
 }

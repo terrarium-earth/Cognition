@@ -1,14 +1,15 @@
 package com.cyanogen.experienceobelisk.recipe;
 
 import com.cyanogen.experienceobelisk.ExperienceObelisk;
-import com.google.gson.JsonObject;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
-import net.minecraft.core.RegistryAccess;
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.GsonHelper;
 import net.minecraft.util.Tuple;
-import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
@@ -16,20 +17,41 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 
-public class MolecularMetamorpherRecipe implements Recipe<SimpleContainer> {
+public class MolecularMetamorpherRecipe implements Recipe<RecipeInput> {
 
     private final ArrayList<Tuple<Ingredient, Integer>> ingredients; //A -- ingredient, B -- count
-    private final ItemStack output;
+    private final ItemStack result;
     private final int cost;
     private final int processTime;
     private final ResourceLocation id;
 
-    public MolecularMetamorpherRecipe(ArrayList<Tuple<Ingredient, Integer>> ingredients, ItemStack output, int cost, int processTime, ResourceLocation id){
-        this.ingredients = ingredients;
-        this.output = output;
+    //for serializer use only
+    public final Ingredient ingredient1;
+    public final int count1;
+    public final Ingredient ingredient2;
+    public final int count2;
+    public final Ingredient ingredient3;
+    public final int count3;
+
+    //for serializer use only
+    public MolecularMetamorpherRecipe(Ingredient ingredient1, int count1,
+                                      Ingredient ingredient2, int count2,
+                                      Ingredient ingredient3, int count3,
+                                      ItemStack result, int cost, int processTime, ResourceLocation id){
+
+        this.ingredient1 = ingredient1;
+        this.count1 = count1;
+        this.ingredient2 = ingredient2;
+        this.count2 = count2;
+        this.ingredient3 = ingredient3;
+        this.count3 = count3;
+
+        this.result = result;
         this.cost = cost;
         this.processTime = processTime;
         this.id = id;
+
+        this.ingredients = assembleIngredients(ingredient1, count1, ingredient2, count2, ingredient3, count3);
     }
 
     public static ArrayList<Tuple<Ingredient, Integer>> assembleIngredients(Ingredient ingredient1, int count1,
@@ -47,11 +69,11 @@ public class MolecularMetamorpherRecipe implements Recipe<SimpleContainer> {
     }
 
     @Override
-    public boolean matches(SimpleContainer container, @Nullable Level level) {
+    public boolean matches(RecipeInput recipeInput, @Nullable Level level) {
 
         ArrayList<ItemStack> contents = new ArrayList<>();
         for(int j = 0; j < 3; j++){
-            contents.add(container.getItem(j));
+            contents.add(recipeInput.getItem(j));
         }
         int tracker = 3;
 
@@ -94,8 +116,8 @@ public class MolecularMetamorpherRecipe implements Recipe<SimpleContainer> {
     }
 
     @Override
-    public ItemStack assemble(SimpleContainer container, @Nullable RegistryAccess access) {
-        return output.copy();
+    public ItemStack assemble(RecipeInput recipeInput, @Nullable HolderLookup.Provider provider) {
+        return result.copy();
     }
 
     @Override
@@ -104,13 +126,8 @@ public class MolecularMetamorpherRecipe implements Recipe<SimpleContainer> {
     }
 
     @Override
-    public ItemStack getResultItem(@Nullable RegistryAccess p_267052_) {
-        return output.copy();
-    }
-
-    @Override
-    public ResourceLocation getId() {
-        return id;
+    public ItemStack getResultItem(@Nullable HolderLookup.Provider provider) {
+        return result.copy();
     }
 
     public int getCost(){
@@ -119,6 +136,15 @@ public class MolecularMetamorpherRecipe implements Recipe<SimpleContainer> {
 
     public int getProcessTime(){
         return processTime;
+    }
+
+    public ResourceLocation getId() {
+        return id;
+    }
+
+    @Override
+    public boolean isSpecial() {
+        return false;
     }
 
     @Override
@@ -140,11 +166,13 @@ public class MolecularMetamorpherRecipe implements Recipe<SimpleContainer> {
         return id.getPath().equals("item_name_formatting");
     }
 
+    //----- FOR DEBUGGING USE... -----//
+
     public String getInfo() {
         return "----- Molecular Metamorphosis ----- \n" +
                 "ID: " + id + "\n" +
                 "Ingredients: " + "\n" + getIngredientInfoString() +
-                "Output: " + output + "\n" +
+                "Result: " + result + "\n" +
                 "Cost: " + cost + "\n" +
                 "Process Time: " + processTime + "\n";
     }
@@ -176,57 +204,67 @@ public class MolecularMetamorpherRecipe implements Recipe<SimpleContainer> {
     public static class Serializer implements RecipeSerializer<MolecularMetamorpherRecipe> {
 
         public static final Serializer INSTANCE = new Serializer();
-        public static final ResourceLocation ID = new ResourceLocation(ExperienceObelisk.MOD_ID, "molecular_metamorphosis");
+        public static final ResourceLocation ID = ResourceLocation.fromNamespaceAndPath(ExperienceObelisk.MOD_ID, "molecular_metamorphosis");
 
-        @Override
-        public MolecularMetamorpherRecipe fromJson(ResourceLocation id, JsonObject recipe) {
+        public static MolecularMetamorpherRecipe fromNetwork(RegistryFriendlyByteBuf buffer) {
 
-            Ingredient ingredient1 = Ingredient.fromJson(GsonHelper.getNonNull(recipe, "ingredient1"));
-            Ingredient ingredient2 = Ingredient.fromJson(GsonHelper.getNonNull(recipe, "ingredient2"));
-            Ingredient ingredient3 = Ingredient.fromJson(GsonHelper.getNonNull(recipe, "ingredient3"));
-            int count1 = GsonHelper.getAsInt(recipe, "count1");
-            int count2 = GsonHelper.getAsInt(recipe, "count2");
-            int count3 = GsonHelper.getAsInt(recipe, "count3");
-
-            ArrayList<Tuple<Ingredient, Integer>> ingredients = assembleIngredients(ingredient1, count1, ingredient2, count2, ingredient3, count3);
-
-            ItemStack result = ShapedRecipe.itemStackFromJson(GsonHelper.getAsJsonObject(recipe, "result"));
-            int cost = GsonHelper.getAsInt(recipe, "cost");
-            int processTime = GsonHelper.getAsInt(recipe, "processTime");
-
-            return new MolecularMetamorpherRecipe(ingredients, result, cost, processTime, id);
-        }
-
-        @Override
-        public @Nullable MolecularMetamorpherRecipe fromNetwork(ResourceLocation id, FriendlyByteBuf buffer) {
-
-            Ingredient ingredient1 = Ingredient.fromNetwork(buffer);
+            Ingredient ingredient1 = Ingredient.CONTENTS_STREAM_CODEC.decode(buffer);
             int count1 = buffer.readInt();
-            Ingredient ingredient2 = Ingredient.fromNetwork(buffer);
+            Ingredient ingredient2 = Ingredient.CONTENTS_STREAM_CODEC.decode(buffer);
             int count2 = buffer.readInt();
-            Ingredient ingredient3 = Ingredient.fromNetwork(buffer);
+            Ingredient ingredient3 = Ingredient.CONTENTS_STREAM_CODEC.decode(buffer);
             int count3 = buffer.readInt();
 
-            ArrayList<Tuple<Ingredient, Integer>> ingredients = assembleIngredients(ingredient1, count1, ingredient2, count2, ingredient3, count3);
-
-            ItemStack result = buffer.readItem();
+            ItemStack result = ItemStack.STREAM_CODEC.decode(buffer);
             int cost = buffer.readInt();
             int processTime = buffer.readInt();
+            ResourceLocation id = ResourceLocation.STREAM_CODEC.decode(buffer);
 
-            return new MolecularMetamorpherRecipe(ingredients, result, cost, processTime, id);
+            return new MolecularMetamorpherRecipe(ingredient1, count1, ingredient2, count2, ingredient3, count3, result, cost, processTime, id);
+        }
+
+        public static void toNetwork(RegistryFriendlyByteBuf buffer, MolecularMetamorpherRecipe recipe) {
+
+            Ingredient.CONTENTS_STREAM_CODEC.encode(buffer, recipe.ingredient1);
+            buffer.writeInt(recipe.count1);
+            Ingredient.CONTENTS_STREAM_CODEC.encode(buffer, recipe.ingredient2);
+            buffer.writeInt(recipe.count2);
+            Ingredient.CONTENTS_STREAM_CODEC.encode(buffer, recipe.ingredient3);
+            buffer.writeInt(recipe.count3);
+
+            ItemStack.STREAM_CODEC.encode(buffer, recipe.result);
+            buffer.writeInt(recipe.cost);
+            buffer.writeInt(recipe.processTime);
+            ResourceLocation.STREAM_CODEC.encode(buffer, recipe.id);
+        }
+
+        private static final MapCodec<MolecularMetamorpherRecipe> CODEC =
+                RecordCodecBuilder.mapCodec((recipeInstance) -> recipeInstance.group(
+                        Ingredient.CODEC.fieldOf("ingredient1").forGetter((recipe) -> recipe.ingredient1),
+                                Codec.INT.fieldOf("count1").forGetter((recipe) -> recipe.count1),
+                        Ingredient.CODEC.fieldOf("ingredient2").forGetter((recipe) -> recipe.ingredient2),
+                                Codec.INT.fieldOf("count2").forGetter((recipe) -> recipe.count2),
+                        Ingredient.CODEC.fieldOf("ingredient3").forGetter((recipe) -> recipe.ingredient3),
+                                Codec.INT.fieldOf("count3").forGetter((recipe) -> recipe.count3),
+
+                        ItemStack.CODEC.fieldOf("result").forGetter((recipe) -> recipe.result),
+                        Codec.INT.fieldOf("cost").forGetter((recipe) -> recipe.cost),
+                        Codec.INT.fieldOf("processTime").forGetter((recipe) -> recipe.processTime),
+                        ResourceLocation.CODEC.fieldOf("id").forGetter((recipe) -> recipe.id)
+                        )
+                        .apply(recipeInstance, MolecularMetamorpherRecipe::new));
+
+        public static final StreamCodec<RegistryFriendlyByteBuf, MolecularMetamorpherRecipe> STREAM_CODEC =
+                StreamCodec.of(MolecularMetamorpherRecipe.Serializer::toNetwork, MolecularMetamorpherRecipe.Serializer::fromNetwork);
+
+        @Override
+        public MapCodec<MolecularMetamorpherRecipe> codec() {
+            return CODEC;
         }
 
         @Override
-        public void toNetwork(FriendlyByteBuf buffer, MolecularMetamorpherRecipe recipe) {
-
-            for(int i = 1; i <= 3; i++){
-                recipe.ingredients.get(i).getA().toNetwork(buffer);
-                buffer.writeInt(recipe.ingredients.get(i).getB());
-            }
-
-            buffer.writeItemStack(recipe.getResultItem(null), false);
-            buffer.writeInt(recipe.cost);
-            buffer.writeInt(recipe.processTime);
+        public StreamCodec<RegistryFriendlyByteBuf, MolecularMetamorpherRecipe> streamCodec() {
+            return STREAM_CODEC;
         }
     }
 

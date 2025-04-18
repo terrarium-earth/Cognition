@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "tag": "forge:bookshelves"
+    }
+  ],
+  "result": {
+    "id": "minecraft:bookshelf",
+    "count": 1
+  }
+}

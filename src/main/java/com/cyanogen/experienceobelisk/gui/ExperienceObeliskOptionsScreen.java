@@ -1,7 +1,6 @@
 package com.cyanogen.experienceobelisk.gui;
 
 import com.cyanogen.experienceobelisk.block_entities.ExperienceObeliskEntity;
-import com.cyanogen.experienceobelisk.network.PacketHandler;
 import com.cyanogen.experienceobelisk.network.experience_obelisk.UpdateRadius;
 import com.cyanogen.experienceobelisk.network.shared.UpdateRedstone;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -16,23 +15,28 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.level.Level;
+import net.neoforged.neoforge.network.PacketDistributor;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ExperienceObeliskOptionsScreen extends Screen {
 
-    public final BlockPos pos;
-    public final ExperienceObeliskEntity xpobelisk;
-    public final ExperienceObeliskMenu menu;
+    public ExperienceObeliskMenu menu;
+    public Level clientLevel;
+    public final Inventory inventory;
+    public final Component component;
 
-    private final ResourceLocation texture = new ResourceLocation("experienceobelisk:textures/gui/screens/experience_obelisk.png");
+    private final ResourceLocation texture = ResourceLocation.fromNamespaceAndPath("experienceobelisk","textures/gui/screens/experience_obelisk.png");
 
-    protected ExperienceObeliskOptionsScreen(BlockPos pos, ExperienceObeliskMenu menu) {
+    protected ExperienceObeliskOptionsScreen(ExperienceObeliskMenu menu, Inventory inventory, Component component) {
         super(Component.literal("Experience Obelisk"));
-        this.pos = pos;
-        this.xpobelisk = menu.entity;
         this.menu = menu;
+        this.clientLevel = menu.level;
+        this.inventory = inventory;
+        this.component = component;
     }
 
     @Override
@@ -49,7 +53,7 @@ public class ExperienceObeliskOptionsScreen extends Screen {
     @Override
     public void render(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {
 
-        renderBackground(gui);
+        renderBackground(gui, mouseX, mouseY, partialTick);
 
         RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
         RenderSystem.setShaderTexture(0, texture);
@@ -70,11 +74,19 @@ public class ExperienceObeliskOptionsScreen extends Screen {
         gui.drawString(this.font, Component.translatable("title.experienceobelisk.experience_obelisk.redstone"),
                 this.width / 2 - 77,this.height / 2 - 10, 0xFFFFFF);
 
+        double radius = 2.5;
+        boolean isRedstoneEnabled = false;
+
+        BlockPos pos = menu.getBlockPos();
+        if(pos != null && clientLevel.getBlockEntity(pos) instanceof ExperienceObeliskEntity obelisk){
+            radius = obelisk.getRadius();
+            isRedstoneEnabled = obelisk.isRedstoneEnabled();
+        }
 
         //render widgets
         clearWidgets();
-        buttons.get(2).setMessage(Component.literal(String.valueOf(xpobelisk.getRadius())));
-        if(xpobelisk.isRedstoneEnabled()){
+        buttons.get(2).setMessage(Component.literal(String.valueOf(radius)));
+        if(isRedstoneEnabled){
             buttons.get(4).setMessage(Component.translatable("button.experienceobelisk.experience_obelisk.enabled"));
         }
         else{
@@ -98,6 +110,20 @@ public class ExperienceObeliskOptionsScreen extends Screen {
         }
     }
 
+    private void updateRadius(double change){
+        BlockPos pos = menu.getBlockPos();
+        if(pos != null){
+            PacketDistributor.sendToServer(new UpdateRadius(pos, change));
+        }
+    }
+
+    private void toggleRedstone(){
+        BlockPos pos = menu.getBlockPos();
+        if(pos != null && clientLevel.getBlockEntity(pos) instanceof ExperienceObeliskEntity obelisk){
+            PacketDistributor.sendToServer(new UpdateRedstone(menu.getBlockPos(), !obelisk.isRedstoneEnabled()));
+        }
+    }
+
     private final List<Button> buttons = new ArrayList<>();
     private void setupWidgetElements(){
 
@@ -109,12 +135,22 @@ public class ExperienceObeliskOptionsScreen extends Screen {
         int y1 = 43;
         int y2 = -3;
 
+        double radius = 2.5;
+        boolean isRedstoneEnabled;
+
+        BlockPos pos = menu.getBlockPos();
+        if(pos != null && clientLevel.getBlockEntity(pos) instanceof ExperienceObeliskEntity obelisk){
+            radius = obelisk.getRadius();
+            isRedstoneEnabled = obelisk.isRedstoneEnabled();
+        } else {
+            isRedstoneEnabled = false;
+        }
+
         Style green = Style.EMPTY.withColor(0x45FF5B);
         Style red = Style.EMPTY.withColor(0xFF454B);
-        double radius = xpobelisk.getRadius();
 
         MutableComponent status;
-        if(xpobelisk.isRedstoneEnabled()){
+        if(isRedstoneEnabled){
             status = Component.translatable("button.experienceobelisk.experience_obelisk.enabled");
         }
         else{
@@ -122,39 +158,33 @@ public class ExperienceObeliskOptionsScreen extends Screen {
         }
 
         Button back = Button.builder(Component.translatable("button.experienceobelisk.experience_obelisk.back"),
-                        (onPress) -> Minecraft.getInstance().setScreen(new ExperienceObeliskScreen(this.menu)))
+                        (onPress) -> Minecraft.getInstance().setScreen(new ExperienceObeliskScreen(menu, inventory, component)))
                 .size(20,20)
                 .pos(this.width / 2 + 91, this.height / 2 - 78)
                 .tooltip(Tooltip.create(Component.translatable("tooltip.experienceobelisk.experience_obelisk.back")))
                 .build();
 
         Button decreaseRadius = Button.builder(Component.literal("-").setStyle(red),
-                        (onPress) -> PacketHandler.INSTANCE.sendToServer(new UpdateRadius(pos, -0.5)))
+                        (onPress) -> updateRadius(-0.5))
                 .size(26, h)
                 .pos(this.width / 2 - 56, this.height / 2 - y1)
                 .build();
 
         Button resetRadius = Button.builder(Component.literal(String.valueOf(radius)),
-                        (onPress) -> PacketHandler.INSTANCE.sendToServer(new UpdateRadius(pos, 0)))
+                        (onPress) -> updateRadius(0))
                 .size(50, h)
                 .pos(this.width / 2 - 25, this.height / 2 - y1)
                 .tooltip(Tooltip.create(Component.translatable("tooltip.experienceobelisk.experience_obelisk.radius")))
                 .build();
 
         Button increaseRadius = Button.builder(Component.literal("+").setStyle(green),
-                        (onPress) -> PacketHandler.INSTANCE.sendToServer(new UpdateRadius(pos, 0.5)))
+                        (onPress) -> updateRadius(0.5))
                 .size(26, h)
                 .pos(this.width / 2 + 30, this.height / 2 - y1)
                 .build();
 
         Button toggleRedstone = Button.builder(status,
-                        (onPress) -> {
-                            if (!xpobelisk.isRedstoneEnabled()) {
-                                PacketHandler.INSTANCE.sendToServer(new UpdateRedstone(pos, true));
-                            } else {
-                                PacketHandler.INSTANCE.sendToServer(new UpdateRedstone(pos, false));
-                            }
-                        })
+                        (onPress) -> toggleRedstone())
                 .size(w, h)
                 .pos(this.width / 2 - 25, this.height / 2 - y2)
                 .build();

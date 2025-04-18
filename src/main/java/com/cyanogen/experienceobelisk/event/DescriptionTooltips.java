@@ -6,7 +6,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.event.entity.player.ItemTooltipEvent;
+import net.neoforged.neoforge.event.entity.player.ItemTooltipEvent;
 
 public class DescriptionTooltips {
 

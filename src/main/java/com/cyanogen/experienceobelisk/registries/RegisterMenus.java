@@ -4,26 +4,26 @@ import com.cyanogen.experienceobelisk.ExperienceObelisk;
 import com.cyanogen.experienceobelisk.gui.ExperienceObeliskMenu;
 import com.cyanogen.experienceobelisk.gui.MolecularMetamorpherMenu;
 import com.cyanogen.experienceobelisk.gui.PrecisionDispellerMenu;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.world.flag.FeatureFlagSet;
 import net.minecraft.world.inventory.MenuType;
-import net.minecraftforge.common.extensions.IForgeMenuType;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.neoforge.registries.DeferredHolder;
+import net.neoforged.neoforge.registries.DeferredRegister;
 
 public class RegisterMenus {
 
     public static final DeferredRegister<MenuType<?>> MENUS =
-            DeferredRegister.create(ForgeRegistries.MENU_TYPES, ExperienceObelisk.MOD_ID);
+            DeferredRegister.create(BuiltInRegistries.MENU, ExperienceObelisk.MOD_ID);
 
-    public static final RegistryObject<MenuType<PrecisionDispellerMenu>> PRECISION_DISPELLER_MENU = MENUS.register("precision_dispeller_menu",
-            ()-> IForgeMenuType.create(PrecisionDispellerMenu::new));
+    public static final DeferredHolder<MenuType<?>, MenuType<PrecisionDispellerMenu>> PRECISION_DISPELLER_MENU = MENUS.register("precision_dispeller_menu",
+            () -> new MenuType<>(PrecisionDispellerMenu::new, FeatureFlagSet.of()));
 
-    public static final RegistryObject<MenuType<ExperienceObeliskMenu>> EXPERIENCE_OBELISK_MENU = MENUS.register("experience_obelisk_menu",
-            ()-> IForgeMenuType.create(ExperienceObeliskMenu::new));
+    public static final DeferredHolder<MenuType<?>, MenuType<ExperienceObeliskMenu>> EXPERIENCE_OBELISK_MENU = MENUS.register("experience_obelisk_menu",
+            ()-> new MenuType<>(ExperienceObeliskMenu::new, FeatureFlagSet.of()));
 
-    public static final RegistryObject<MenuType<MolecularMetamorpherMenu>> MOLECULAR_METAMORPHER_MENU = MENUS.register("molecular_metamorpher_menu",
-            ()-> IForgeMenuType.create(MolecularMetamorpherMenu::new));
+    public static final DeferredHolder<MenuType<?>, MenuType<MolecularMetamorpherMenu>> MOLECULAR_METAMORPHER_MENU = MENUS.register("molecular_metamorpher_menu",
+            ()-> new MenuType<>(MolecularMetamorpherMenu::new, FeatureFlagSet.of()));
 
     public static void register(IEventBus eventBus) {
         MENUS.register(eventBus);

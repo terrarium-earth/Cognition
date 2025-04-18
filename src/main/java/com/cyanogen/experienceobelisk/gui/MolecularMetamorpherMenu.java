@@ -1,45 +1,57 @@
 package com.cyanogen.experienceobelisk.gui;
 
-import com.cyanogen.experienceobelisk.block_entities.MolecularMetamorpherEntity;
 import com.cyanogen.experienceobelisk.registries.RegisterMenus;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.ContainerData;
+import net.minecraft.world.inventory.SimpleContainerData;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.SlotItemHandler;
+import net.neoforged.neoforge.items.IItemHandler;
+import net.neoforged.neoforge.items.SlotItemHandler;
+
+import javax.annotation.Nullable;
 
 public class MolecularMetamorpherMenu extends AbstractContainerMenu {
 
     SimpleContainer container = new SimpleContainer(5);
-    BlockPos pos;
-    BlockPos posServer;
-    MolecularMetamorpherEntity metamorpherClient;
-    Inventory inventory;
+    private ContainerData blockPositionData;
+    public Inventory inventory;
     Component component = Component.literal("Molecular Metamorpher");
 
-    public MolecularMetamorpherMenu(int id, Inventory inventory, FriendlyByteBuf data){
-        this(id, inventory, null, null, inventory.player, new BlockPos(0,0,0));
-
-        Level level = inventory.player.level();
-        this.pos = data.readBlockPos();
-        this.metamorpherClient = (MolecularMetamorpherEntity) level.getBlockEntity(pos);
+    //constructor used by client
+    public MolecularMetamorpherMenu(int id, Inventory inventory){
+        this(id, inventory, null, null, null);
         this.inventory = inventory;
+
+        //data slots (client)
+        this.blockPositionData = new SimpleContainerData(3);
+        this.addDataSlots(blockPositionData);
     }
 
-    //-----SLOTS-----//
-
-    public MolecularMetamorpherMenu(int id, Inventory inventoryPlayer, IItemHandler inputs, IItemHandler output, Player player, BlockPos pos){
+    //constructor used by server
+    public MolecularMetamorpherMenu(int id, Inventory inventory, IItemHandler inputs, IItemHandler output, @Nullable BlockPos pos){
 
         super(RegisterMenus.MOLECULAR_METAMORPHER_MENU.get(), id);
-        this.posServer = pos;
+
+        //data slots (server)
+        if(pos != null){
+            blockPositionData = new SimpleContainerData(3);
+            blockPositionData.set(0, pos.getX());
+            blockPositionData.set(1, pos.getY());
+            blockPositionData.set(2, pos.getZ());
+            this.addDataSlots(blockPositionData);
+
+            sendAllDataToRemote();
+        }
+        else{
+            blockPositionData = new SimpleContainerData(3);
+        }
 
         if(inputs != null && output != null){
             // INPUT 1
@@ -51,7 +63,7 @@ public class MolecularMetamorpherMenu extends AbstractContainerMenu {
             // OUTPUT 1
             this.addSlot(new SlotItemHandler(output, 0, 140, 35){
                 @Override
-                public boolean mayPlace(ItemStack p_40231_) {
+                public boolean mayPlace(ItemStack stack) {
                     return false;
                 }
             });
@@ -66,14 +78,14 @@ public class MolecularMetamorpherMenu extends AbstractContainerMenu {
             // OUTPUT 1
             this.addSlot(new Slot(this.container, 3, 140, 35){
                 @Override
-                public boolean mayPlace(ItemStack p_40231_) {
+                public boolean mayPlace(ItemStack stack) {
                     return false;
                 }
             });
         }
 
-        addPlayerInventory(inventoryPlayer);
-        addPlayerHotbar(inventoryPlayer);
+        addPlayerInventory(inventory);
+        addPlayerHotbar(inventory);
     }
 
     public int put(ItemStack stack, int amount){
@@ -95,7 +107,7 @@ public class MolecularMetamorpherMenu extends AbstractContainerMenu {
                 stack.shrink(amount);
                 return amount;
             }
-            else if(ItemStack.isSameItemSameTags(slot.getItem(), copy)){
+            else if(ItemStack.isSameItemSameComponents(slot.getItem(), copy)){
                 int grow = Math.min(amount, slot.getItem().getMaxStackSize() - slot.getItem().getCount());
                 slot.getItem().grow(grow);
                 stack.shrink(grow);
@@ -118,6 +130,10 @@ public class MolecularMetamorpherMenu extends AbstractContainerMenu {
         for (int i = 0; i < 9; ++i) {
             this.addSlot(new Slot(playerInventory, i, 8 + i * 18, 142));
         }
+    }
+
+    public BlockPos getBlockPos(){
+        return new BlockPos(blockPositionData.get(0), blockPositionData.get(1), blockPositionData.get(2));
     }
 
     @Override
@@ -155,6 +171,6 @@ public class MolecularMetamorpherMenu extends AbstractContainerMenu {
 
     @Override
     public boolean stillValid(Player player) {
-        return player.position().distanceTo(Vec3.atCenterOf(posServer)) <= 7;
+        return player.position().distanceTo(Vec3.atCenterOf(getBlockPos())) <= 7;
     }
 }

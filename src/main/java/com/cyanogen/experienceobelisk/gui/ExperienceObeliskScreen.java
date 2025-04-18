@@ -1,7 +1,6 @@
 package com.cyanogen.experienceobelisk.gui;
 
 import com.cyanogen.experienceobelisk.block_entities.ExperienceObeliskEntity;
-import com.cyanogen.experienceobelisk.network.PacketHandler;
 import com.cyanogen.experienceobelisk.network.experience_obelisk.UpdateContents;
 import com.cyanogen.experienceobelisk.utils.ExperienceUtils;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -16,27 +15,33 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.level.Level;
+import net.neoforged.neoforge.network.PacketDistributor;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static com.cyanogen.experienceobelisk.network.experience_obelisk.UpdateContents.Request.*;
+import static com.cyanogen.experienceobelisk.network.experience_obelisk.UpdateContents.*;
 
 public class ExperienceObeliskScreen extends AbstractContainerScreen<ExperienceObeliskMenu> {
 
-    public final BlockPos pos;
-    public final ExperienceObeliskEntity xpobelisk;
-    private final ResourceLocation texture = new ResourceLocation("experienceobelisk:textures/gui/screens/experience_obelisk.png");
+    private final ResourceLocation texture = ResourceLocation.parse("experienceobelisk:textures/gui/screens/experience_obelisk.png");
+    private final Level clientLevel;
+    public final Inventory inventory;
+    public final Component component;
 
     public ExperienceObeliskScreen(ExperienceObeliskMenu menu, Inventory inventory, Component component) {
         super(menu, inventory, component);
-        this.pos = menu.pos;
-        this.xpobelisk = menu.entity;
+        this.clientLevel = menu.level;
+        this.inventory = inventory;
+        this.component = component;
     }
 
-    protected ExperienceObeliskScreen(ExperienceObeliskMenu menu) {
-        this(menu, menu.inventory, Component.literal("Experience Obelisk"));
+    @Override
+    public boolean isPauseScreen() {
+        return false;
     }
 
     @Override
@@ -48,7 +53,7 @@ public class ExperienceObeliskScreen extends AbstractContainerScreen<ExperienceO
     @Override
     public void render(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {
 
-        renderBackground(gui);
+        renderBackground(gui, mouseX, mouseY, partialTick);
 
         RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
         RenderSystem.setShaderTexture(0, texture);
@@ -56,11 +61,15 @@ public class ExperienceObeliskScreen extends AbstractContainerScreen<ExperienceO
         int x = this.width / 2 - 176 / 2;
         int y = this.height / 2 - 166 / 2;
 
-        //breaks around 2980000 mB for some reason
+        int experiencePoints = 0, levels = 0, fluidAmount = 0, progress = 0;
 
-        int experiencePoints = xpobelisk.getExperiencePoints();
-        int levels = xpobelisk.getLevels();
-        int progress = (int) (ExperienceUtils.getProgressToNextLevel(experiencePoints, levels) * 138);
+        BlockPos pos = menu.getBlockPos();
+        if(pos != null && clientLevel.getBlockEntity(pos) instanceof ExperienceObeliskEntity obelisk){
+            experiencePoints = obelisk.getExperiencePoints();
+            levels = obelisk.getLevels();
+            fluidAmount = obelisk.getFluidAmount();
+            progress = (int) (ExperienceUtils.getProgressToNextLevel(experiencePoints, levels) * 138);
+        }
 
         //render gui texture
         gui.blit(texture, x, y, 0, 0, 176, 166);
@@ -76,7 +85,7 @@ public class ExperienceObeliskScreen extends AbstractContainerScreen<ExperienceO
                 this.width / 2 - 77,this.height / 2 - 56, 0xFFFFFF);
         gui.drawString(this.font, Component.translatable("title.experienceobelisk.experience_obelisk.retrieve"),
                 this.width / 2 - 77,this.height / 2 - 10, 0xFFFFFF);
-        gui.drawCenteredString(this.font, xpobelisk.getFluidAmount() + " mB",
+        gui.drawCenteredString(this.font, fluidAmount + " mB",
                 this.width / 2,this.height / 2 + 35, 0xFFFFFF);
         gui.drawCenteredString(this.font, String.valueOf(levels),
                 this.width / 2,this.height / 2 + 60, 0x4DFF12);
@@ -113,81 +122,53 @@ public class ExperienceObeliskScreen extends AbstractContainerScreen<ExperienceO
 
     }
 
+    public static void updateContents(ExperienceObeliskMenu menu, int levels, String request){
+        BlockPos pos = menu.getBlockPos();
+        if(pos != null){
+            PacketDistributor.sendToServer(new UpdateContents(pos, levels, request));
+        }
+    }
+
     private void loadWidgetElements(){
         if(!this.buttons.isEmpty()){
-            for(Button b : this.buttons){
-                b.setFocused(false);
-                addRenderableWidget(b);
+            for(Button button : this.buttons){
+                button.setFocused(false);
+                addRenderableWidget(button);
             }
         }
     }
 
-    //buttons and whatnot go here
     private final List<Button> buttons = new ArrayList<>();
     private void setupWidgetElements() {
 
         buttons.clear();
 
-        int w = 50; //width (divisible by 2)
-        int h = 20; //height
-        int s = 2; //spacing
+        int buttonWidth = 50; //width (divisible by 2)
+        int buttonHeight = 20; //height
+        int spacing = 2; //spacing
         int y1 = 43;
         int y2 = -3;
 
-        //settings
+        Button settings = new MenuSwitchingButton(this.width / 2 + 91, this.height / 2 - 78, 20, 20,
+                Component.translatable("button.experienceobelisk.experience_obelisk.settings"), menu, this);
 
-        Button settings = Button.builder(Component.translatable("button.experienceobelisk.experience_obelisk.settings"),
-                        (onPress) -> Minecraft.getInstance().setScreen(new ExperienceObeliskOptionsScreen(pos, menu)))
-                .size(20,20)
-                .pos(this.width / 2 + 91, this.height / 2 - 78)
-                .tooltip(Tooltip.create(Component.translatable("tooltip.experienceobelisk.experience_obelisk.settings")))
-                .build();
+        Button deposit1 = new XPHandlingButton((int) (this.width / 2f - 1.5*buttonWidth - spacing), this.height / 2 - y1, buttonWidth, buttonHeight,
+                menu, FILL, 1);
 
-        //deposit
+        Button deposit10 = new XPHandlingButton(this.width / 2 - buttonWidth/2, this.height / 2 - y1, buttonWidth, buttonHeight,
+                menu, FILL, 10);
 
-        Button deposit1 = Button.builder(Component.literal("+1").withStyle(ChatFormatting.GREEN),
-                        (onPress) -> PacketHandler.INSTANCE.sendToServer(new UpdateContents(pos, 1, FILL)))
-                .size(w,h)
-                .pos((int) (this.width / 2 - 1.5*w - s), this.height / 2 - y1)
-                .tooltip(Tooltip.create(Component.translatable("tooltip.experienceobelisk.experience_obelisk.add1")))
-                .build();
+        Button depositAll = new XPHandlingButton((int) (this.width / 2f + 0.5*buttonWidth + spacing), this.height / 2 - y1, buttonWidth, buttonHeight,
+                menu, FILL_ALL, 0);
 
-        Button deposit10 = Button.builder(Component.literal("+10").withStyle(ChatFormatting.GREEN),
-                        (onPress) -> PacketHandler.INSTANCE.sendToServer(new UpdateContents(pos, 10, FILL)))
-                .size(w,h)
-                .pos(this.width / 2 - w/2, this.height / 2 - y1)
-                .tooltip(Tooltip.create(Component.translatable("tooltip.experienceobelisk.experience_obelisk.add10")))
-                .build();
+        Button withdraw1 = new XPHandlingButton((int) (this.width / 2f - 1.5*buttonWidth - spacing), this.height / 2 - y2, buttonWidth, buttonHeight,
+                menu, DRAIN, 1);
 
-        Button depositAll = Button.builder(Component.literal("+All").withStyle(ChatFormatting.GREEN),
-                        (onPress) -> PacketHandler.INSTANCE.sendToServer(new UpdateContents(pos, 0, FILL_ALL)))
-                .size(w,h)
-                .pos((int) (this.width / 2 + 0.5*w + s), this.height / 2 - y1)
-                .tooltip(Tooltip.create(Component.translatable("tooltip.experienceobelisk.experience_obelisk.addAll")))
-                .build();
+        Button withdraw10 = new XPHandlingButton(this.width / 2 - buttonWidth/2, this.height / 2 - y2, buttonWidth, buttonHeight,
+                menu, DRAIN, 10);
 
-        //withdraw
-
-        Button withdraw1 = Button.builder(Component.literal("-1").withStyle(ChatFormatting.RED),
-                        (onPress) -> PacketHandler.INSTANCE.sendToServer(new UpdateContents(pos, 1, DRAIN)))
-                .size(w,h)
-                .pos((int) (this.width / 2 - 1.5*w - s), this.height / 2 - y2)
-                .tooltip(Tooltip.create(Component.translatable("tooltip.experienceobelisk.experience_obelisk.drain1")))
-                .build();
-
-        Button withdraw10 = Button.builder(Component.literal("-10").withStyle(ChatFormatting.RED),
-                        (onPress) -> PacketHandler.INSTANCE.sendToServer(new UpdateContents(pos, 10, DRAIN)))
-                .size(w,h)
-                .pos(this.width / 2 - w/2, this.height / 2 - y2)
-                .tooltip(Tooltip.create(Component.translatable("tooltip.experienceobelisk.experience_obelisk.drain10")))
-                .build();
-
-        Button withdrawAll = Button.builder(Component.literal("-All").withStyle(ChatFormatting.RED),
-                        (onPress) -> PacketHandler.INSTANCE.sendToServer(new UpdateContents(pos, 0, DRAIN_ALL)))
-                .size(w,h)
-                .pos((int) (this.width / 2 + 0.5*w + s), this.height / 2 - y2)
-                .tooltip(Tooltip.create(Component.translatable("tooltip.experienceobelisk.experience_obelisk.drainAll")))
-                .build();
+        Button withdrawAll = new XPHandlingButton((int) (this.width / 2f + 0.5*buttonWidth + spacing), this.height / 2 - y2, buttonWidth, buttonHeight,
+                menu, DRAIN_ALL, 0);
 
         buttons.add(settings);
         buttons.add(deposit1);
@@ -196,6 +177,70 @@ public class ExperienceObeliskScreen extends AbstractContainerScreen<ExperienceO
         buttons.add(withdraw1);
         buttons.add(withdraw10);
         buttons.add(withdrawAll);
+    }
+
+    //-----BUTTONS-----//
+
+    //for handling XP transfer requests in or out
+    public static class XPHandlingButton extends Button{
+
+        private final ExperienceObeliskMenu menu;
+        private final String request;
+        private final int levels;
+
+        protected XPHandlingButton(int x, int y, int width, int height, ExperienceObeliskMenu menu, String request, int levels) {
+            super(x, y, width, height, Component.empty(), (onPress) -> {}, Button.DEFAULT_NARRATION);
+            this.menu = menu;
+            this.request = request;
+            this.levels = levels;
+        }
+
+        @Override
+        public void onPress() {
+            ExperienceObeliskScreen.updateContents(menu, levels, request);
+            super.onPress();
+        }
+
+        @Override
+        public Component getMessage() {
+            return switch (request) {
+                case FILL -> Component.literal("+" + levels).withStyle(ChatFormatting.GREEN);
+                case FILL_ALL -> Component.literal("+All").withStyle(ChatFormatting.GREEN);
+                case DRAIN -> Component.literal("+" + levels).withStyle(ChatFormatting.RED);
+                case DRAIN_ALL -> Component.literal("+All").withStyle(ChatFormatting.RED);
+                default -> Component.empty();
+            };
+        }
+
+        @Override
+        public @Nullable Tooltip getTooltip() {
+            return switch (request) {
+                case FILL -> Tooltip.create(Component.translatable("tooltip.experienceobelisk.experience_obelisk.add" + levels));
+                case FILL_ALL -> Tooltip.create(Component.translatable("tooltip.experienceobelisk.experience_obelisk.addAll"));
+                case DRAIN -> Tooltip.create(Component.translatable("tooltip.experienceobelisk.experience_obelisk.drain" + levels));
+                case DRAIN_ALL -> Tooltip.create(Component.translatable("tooltip.experienceobelisk.experience_obelisk.drainAll"));
+                default -> null;
+            };
+        }
+    }
+
+    //for switching menus
+    public static class MenuSwitchingButton extends Button{
+
+        private final ExperienceObeliskMenu menu;
+        private final ExperienceObeliskScreen screen;
+
+        protected MenuSwitchingButton(int x, int y, int width, int height, Component message, ExperienceObeliskMenu menu, ExperienceObeliskScreen screen) {
+            super(x, y, width, height, message, (onPress) -> {}, Button.DEFAULT_NARRATION);
+            this.menu = menu;
+            this.screen = screen;
+        }
+
+        @Override
+        public void onPress() {
+            Minecraft.getInstance().setScreen(new ExperienceObeliskOptionsScreen(menu, screen.inventory, screen.component));
+            super.onPress();
+        }
     }
 
 }

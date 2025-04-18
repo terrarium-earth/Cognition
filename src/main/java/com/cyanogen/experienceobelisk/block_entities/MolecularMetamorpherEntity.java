@@ -6,53 +6,45 @@ import com.cyanogen.experienceobelisk.item.TransformingFocusItem;
 import com.cyanogen.experienceobelisk.recipe.MolecularMetamorpherRecipe;
 import com.cyanogen.experienceobelisk.registries.RegisterBlockEntities;
 import com.cyanogen.experienceobelisk.registries.RegisterItems;
+import com.cyanogen.experienceobelisk.registries.RegisterRecipes;
 import com.cyanogen.experienceobelisk.registries.RegisterSounds;
 import com.cyanogen.experienceobelisk.utils.RecipeUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
-import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.util.RandomSource;
-import net.minecraft.util.Tuple;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.item.DyeItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeHolder;
+import net.minecraft.world.item.crafting.RecipeInput;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.ItemStackHandler;
+import net.neoforged.neoforge.items.IItemHandler;
+import net.neoforged.neoforge.items.ItemStackHandler;
 import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib.animatable.GeoBlockEntity;
-import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.core.animation.AnimatableManager;
-import software.bernie.geckolib.core.animation.AnimationController;
-import software.bernie.geckolib.core.animation.AnimationState;
-import software.bernie.geckolib.core.animation.RawAnimation;
-import software.bernie.geckolib.core.object.PlayState;
+import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
+import software.bernie.geckolib.animation.*;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 public class MolecularMetamorpherEntity extends ExperienceReceivingEntity implements GeoBlockEntity {
 
     public MolecularMetamorpherEntity(BlockPos pos, BlockState state) {
-        super(RegisterBlockEntities.MOLECULAR_METAMORPHER_BE.get(), pos, state);
+        super(RegisterBlockEntities.MOLECULAR_METAMORPHER.get(), pos, state);
     }
 
     boolean isProcessing = false;
@@ -171,13 +163,17 @@ public class MolecularMetamorpherEntity extends ExperienceReceivingEntity implem
 
     //-----------ITEM HANDLER-----------//
 
-    protected ItemStackHandler inputHandler = inputHandler();
+    protected ItemStackHandler inputHandler = inputHandler(this);
     protected ItemStackHandler outputHandler = outputHandler();
-    private final LazyOptional<IItemHandler> inputHandlerOptional = LazyOptional.of(() -> inputHandler);
-    private final LazyOptional<IItemHandler> outputHandlerOptional = LazyOptional.of(() -> outputHandler);
 
-    public ItemStackHandler inputHandler() {
-        return new ItemStackHandler(3);
+    public ItemStackHandler inputHandler(MolecularMetamorpherEntity metamorpher) {
+        return new ItemStackHandler(3){
+            @Override
+            protected void onContentsChanged(int slot) {
+
+                super.onContentsChanged(slot);
+            }
+        };
     }
 
     public ItemStackHandler outputHandler(){
@@ -197,37 +193,35 @@ public class MolecularMetamorpherEntity extends ExperienceReceivingEntity implem
         return outputHandler;
     }
 
-    @Override
-    @Nonnull
-    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> capability, @Nullable Direction facing)
-    {
-        if(capability == ForgeCapabilities.ITEM_HANDLER){
-
-            if(facing == Direction.DOWN){
-                return outputHandlerOptional.cast();
+    public static @Nullable IItemHandler getCapability(Level level, BlockPos blockPos, BlockState blockState, @Nullable BlockEntity blockEntity, Direction direction) {
+        if(blockEntity instanceof MolecularMetamorpherEntity metamorpher){
+            if(direction == Direction.DOWN){
+                return metamorpher.getOutputHandler();
             }
-            else if(facing != Direction.UP){
-                return inputHandlerOptional.cast();
+            else if(direction != Direction.UP){
+                return metamorpher.getInputHandler();
             }
         }
-
-        return super.getCapability(capability, facing);
+        return null;
     }
 
-    @Override
-    public void invalidateCaps() {
-        inputHandlerOptional.invalidate();
-        outputHandlerOptional.invalidate();
-        super.invalidateCaps();
+    public @Nullable IItemHandler getCapability(Direction direction) {
+        if(direction == Direction.DOWN){
+            return getOutputHandler();
+        }
+        else if(direction != Direction.UP){
+            return getInputHandler();
+        }
+        return null;
     }
 
     //-----------RECIPE HANDLER-----------//
 
     public boolean handleJsonRecipes(){
 
-        if(getRecipe().isPresent()){
-            MolecularMetamorpherRecipe recipe = getRecipe().get();
-            ItemStack output = recipe.assemble(getSimpleContainer(), level == null ? null : level.registryAccess());
+        if(getRecipe() != null){
+            MolecularMetamorpherRecipe recipe = getRecipe();
+            ItemStack output = recipe.assemble(getRecipeInput(), level == null ? null : level.registryAccess());
             int cost = recipe.getCost();
 
             if(canPerformRecipe(output, cost)){
@@ -246,8 +240,7 @@ public class MolecularMetamorpherEntity extends ExperienceReceivingEntity implem
 
         return getBoundObelisk() != null //has been bound to a valid obelisk
                 && getBoundObelisk().getFluidAmount() >= cost * 20 //obelisk has enough Cognitium
-                && (ItemStack.isSameItemSameTags(stackInResults, output)
-                || stackInResults.isEmpty() || stackInResults.is(Items.AIR)) //results slot empty or same as output
+                && (ItemStack.isSameItemSameComponents(stackInResults, output) || stackInResults.isEmpty() || stackInResults.is(Items.AIR)) //results slot empty or same as output
                 && stackInResults.getCount() <= output.getMaxStackSize() - output.getCount(); //results slot can accommodate output
     }
 
@@ -261,15 +254,15 @@ public class MolecularMetamorpherEntity extends ExperienceReceivingEntity implem
         this.getBoundObelisk().drain(recipe.getCost() * 20);
     }
 
+    /**Returns true if the recipe has not been changed
+     * or if the inputs have been changed to equivalent ones, such as: swapping out an ingredient for another valid ingredient.
+    *Returns false if the recipe has been changed to a different one or if the recipe is now invalid --
+     * in which case, the XP is refunded and the metamorpher is reset
+     */
+
     public boolean validateRecipe(){
 
-        //returns true if the recipe has not been changed
-        //or if the inputs have been changed to equivalent ones, such as: swapping out an ingredient for another valid ingredient
-
-        //returns false if the recipe has been changed to a different one or if the recipe is now invalid
-        //in which case, the XP is refunded and the metamorpher is reset
-
-        boolean hasValidJsonRecipe = getRecipe().isPresent() && getRecipe().get().getId().equals(recipeId);
+        boolean hasValidJsonRecipe = (getRecipe() != null) && getRecipe().getId().equals(recipeId);
 
         if(hasValidJsonRecipe || hasNameFormattingRecipe()){
             return true;
@@ -286,7 +279,10 @@ public class MolecularMetamorpherEntity extends ExperienceReceivingEntity implem
 
     public SimpleContainer deplete(MolecularMetamorpherRecipe recipe){
 
-        SimpleContainer container = getSimpleContainer();
+        SimpleContainer container = new SimpleContainer(3);
+        for(int k = 0; k < 3; k++){
+            container.setItem(k, inputHandler.getStackInSlot(k).copy());
+        }
 
         for(int j = 1; j <= 3; j++){
             Ingredient ingredient = recipe.getIngredients(true).get(j).getA();
@@ -302,7 +298,8 @@ public class MolecularMetamorpherEntity extends ExperienceReceivingEntity implem
                             stack.shrink(1);
                         }
                         else{
-                            stack.hurt(1, RandomSource.create(), null);
+                            int damage = stack.getDamageValue();
+                            stack.setDamageValue(damage + 1);
                         }
                         break;
                     }
@@ -321,43 +318,40 @@ public class MolecularMetamorpherEntity extends ExperienceReceivingEntity implem
                 }
             }
         }
-
         return container;
     }
 
     public void dispenseResult(){
 
-        setProcessing(false);
-
-        Optional<? extends Recipe<?>> optional = level.getRecipeManager().byKey(recipeId);
         MolecularMetamorpherRecipe recipe = null;
 
-        if(optional.isPresent() && optional.get() instanceof MolecularMetamorpherRecipe){
-            recipe = (MolecularMetamorpherRecipe) optional.get();
-        }
-        else if(hasNameFormattingRecipe()){
-            recipe = getNameFormattingRecipe();
+        List<RecipeHolder<MolecularMetamorpherRecipe>> list = level.getRecipeManager().getAllRecipesFor(RegisterRecipes.MOLECULAR_METAMORPHER_TYPE.get());
+        for(RecipeHolder<MolecularMetamorpherRecipe> holder : list){
+            if(holder.value().getId().equals(recipeId)){
+                recipe = holder.value();
+            }
         }
 
         if(recipe != null){
-            ItemStack result = recipe.getResultItem(null);
+            setProcessing(false);
+            SimpleContainer resultState = deplete(recipe);
+            ItemStack resultItem = recipe.getResultItem(null);
             ItemStack stackInResults = outputHandler.getStackInSlot(0).copy();
-            SimpleContainer remainders = deplete(recipe);
-            int count = result.getCount();
 
-            if(ItemStack.isSameItemSameTags(result, stackInResults)){
+            int count = resultItem.getCount();
+
+            if(ItemStack.isSameItemSameComponents(resultItem, stackInResults)){
                 stackInResults.grow(count);
                 outputHandler.setStackInSlot(0, stackInResults);
             }
             else{
-                outputHandler.setStackInSlot(0, result);
+                outputHandler.setStackInSlot(0, resultItem);
             }
 
             for(int i = 0; i < 3; i++){
-                inputHandler.setStackInSlot(i, remainders.getItem(i));
+                inputHandler.setStackInSlot(i, resultState.getItem(i));
             }
         }
-
         resetAll();
     }
 
@@ -416,36 +410,49 @@ public class MolecularMetamorpherEntity extends ExperienceReceivingEntity implem
             }
         }
 
-        ArrayList<Tuple<Ingredient, Integer>> ingredients = MolecularMetamorpherRecipe.assembleIngredients(
-                Ingredient.of(inputItem.copy()), inputItem.getCount(),
-                Ingredient.of(nameTag.copy()), nameTag.getCount(),
-                Ingredient.of(formatStack.copy()), formatStack.getCount());
+        Ingredient ingredient1 = Ingredient.of(inputItem.copy());
+        int count1 = inputItem.getCount();
+        Ingredient ingredient2 = Ingredient.of(nameTag.copy());
+        int count2 = nameTag.getCount();
+        Ingredient ingredient3 = Ingredient.of(formatStack.copy());
+        int count3 = formatStack.getCount();
 
-        ItemStack output = inputItem.copy().setHoverName(name);
+        ItemStack output = inputItem.copy();
+        output.set(DataComponents.ITEM_NAME, name);
         int cost = 315;
         int processTime = 60;
 
-        return new MolecularMetamorpherRecipe(ingredients, output, cost, processTime,
-                new ResourceLocation(ExperienceObelisk.MOD_ID, "item_name_formatting"));
+        return new MolecularMetamorpherRecipe(ingredient1, count1, ingredient2, count2, ingredient3, count3, output, cost, processTime,
+                ResourceLocation.fromNamespaceAndPath(ExperienceObelisk.MOD_ID, "item_name_formatting"));
     }
 
     //-----------UTILITY METHODS-----------//
 
-    public Optional<MolecularMetamorpherRecipe> getRecipe(){
-        return this.level.getRecipeManager().getRecipeFor(MolecularMetamorpherRecipe.Type.INSTANCE, getSimpleContainer(), level);
+    public @Nullable MolecularMetamorpherRecipe getRecipe(){
+        Optional<RecipeHolder<MolecularMetamorpherRecipe>> holder =
+                this.level.getRecipeManager().getRecipeFor(MolecularMetamorpherRecipe.Type.INSTANCE, getRecipeInput(), level);
+
+        return holder.map(RecipeHolder::value).orElse(null);
     }
 
-    public SimpleContainer getSimpleContainer(){
-        SimpleContainer container = new SimpleContainer(3);
-        container.setItem(0, inputHandler.getStackInSlot(0).copy());
-        container.setItem(1, inputHandler.getStackInSlot(1).copy());
-        container.setItem(2, inputHandler.getStackInSlot(2).copy());
+    public RecipeInput getRecipeInput(){
 
-        return container;
-    }
+        return new RecipeInput() {
+            @Override
+            public ItemStack getItem(int slot) {
+                return switch (slot) {
+                    case 0 -> inputHandler.getStackInSlot(0).copy();
+                    case 1 -> inputHandler.getStackInSlot(1).copy();
+                    case 2 -> inputHandler.getStackInSlot(2).copy();
+                    default -> ItemStack.EMPTY;
+                };
+            }
 
-    public boolean isProcessing(){
-        return isProcessing;
+            @Override
+            public int size() {
+                return 3;
+            }
+        };
     }
 
     public void setProcessing(boolean isProcessing){
@@ -493,7 +500,6 @@ public class MolecularMetamorpherEntity extends ExperienceReceivingEntity implem
     }
 
     public void resetAll(){
-
         processProgress = 0;
         processTime = 0;
         recipeId = null;
@@ -513,27 +519,27 @@ public class MolecularMetamorpherEntity extends ExperienceReceivingEntity implem
     }
 
     @Override
-    public void load(CompoundTag tag)
-    {
-        super.load(tag);
+    protected void loadAdditional(CompoundTag tag, HolderLookup.Provider provider) {
 
-        inputHandler.deserializeNBT(tag.getCompound("Inputs"));
-        outputHandler.deserializeNBT(tag.getCompound("Outputs"));
+        super.loadAdditional(tag, provider);
+
+        inputHandler.deserializeNBT(provider, tag.getCompound("Inputs"));
+        outputHandler.deserializeNBT(provider, tag.getCompound("Outputs"));
 
         this.isProcessing = tag.getBoolean("IsProcessing");
         this.processTime = tag.getInt("ProcessTime");
         this.processProgress = tag.getInt("ProcessProgress");
-        this.recipeId = new ResourceLocation(tag.getString("RecipeID"));
+        this.recipeId = ResourceLocation.bySeparator(tag.getString("RecipeID"),':');
         this.recipeCost = tag.getInt("RecipeCost");
     }
 
     @Override
-    protected void saveAdditional(CompoundTag tag)
-    {
-        super.saveAdditional(tag);
+    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider provider) {
 
-        tag.put("Inputs", inputHandler.serializeNBT());
-        tag.put("Outputs", outputHandler.serializeNBT());
+        super.saveAdditional(tag, provider);
+
+        tag.put("Inputs", inputHandler.serializeNBT(provider));
+        tag.put("Outputs", outputHandler.serializeNBT(provider));
 
         tag.putBoolean("IsProcessing", isProcessing);
         tag.putInt("ProcessTime", processTime);
@@ -546,12 +552,27 @@ public class MolecularMetamorpherEntity extends ExperienceReceivingEntity implem
     }
 
     @Override
-    public CompoundTag getUpdateTag()
-    {
-        CompoundTag tag = super.getUpdateTag();
+    public void handleUpdateTag(CompoundTag tag, HolderLookup.Provider provider) {
 
-        tag.put("Inputs", inputHandler.serializeNBT());
-        tag.put("Outputs", outputHandler.serializeNBT());
+        super.handleUpdateTag(tag, provider);
+
+        inputHandler.deserializeNBT(provider, tag.getCompound("Inputs"));
+        outputHandler.deserializeNBT(provider, tag.getCompound("Outputs"));
+
+        this.isProcessing = tag.getBoolean("IsProcessing");
+        this.processTime = tag.getInt("ProcessTime");
+        this.processProgress = tag.getInt("ProcessProgress");
+        this.recipeId = ResourceLocation.bySeparator(tag.getString("RecipeID"),':');
+        this.recipeCost = tag.getInt("RecipeCost");
+    }
+
+    @Override
+    public CompoundTag getUpdateTag(HolderLookup.Provider provider) {
+
+        CompoundTag tag = super.getUpdateTag(provider);
+
+        tag.put("Inputs", inputHandler.serializeNBT(provider));
+        tag.put("Outputs", outputHandler.serializeNBT(provider));
 
         tag.putBoolean("IsProcessing", isProcessing);
         tag.putInt("ProcessTime", processTime);

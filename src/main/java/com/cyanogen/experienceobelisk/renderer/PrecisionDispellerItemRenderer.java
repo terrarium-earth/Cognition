@@ -13,17 +13,17 @@ public class PrecisionDispellerItemRenderer extends GeoItemRenderer<PrecisionDis
         super(new GeoModel<>() {
             @Override
             public ResourceLocation getModelResource(PrecisionDispellerItem object) {
-                return new ResourceLocation(ExperienceObelisk.MOD_ID, "geo/precision_dispeller.geo.json");
+                return ResourceLocation.fromNamespaceAndPath(ExperienceObelisk.MOD_ID, "geo/precision_dispeller.geo.json");
             }
 
             @Override
             public ResourceLocation getTextureResource(PrecisionDispellerItem object) {
-                return new ResourceLocation(ExperienceObelisk.MOD_ID, "textures/custom_models/precision_dispeller.png");
+                return ResourceLocation.fromNamespaceAndPath(ExperienceObelisk.MOD_ID, "textures/custom_models/precision_dispeller.png");
             }
 
             @Override
             public ResourceLocation getAnimationResource(PrecisionDispellerItem animatable) {
-                return new ResourceLocation(ExperienceObelisk.MOD_ID, "animations/precision_dispeller.json");
+                return ResourceLocation.fromNamespaceAndPath(ExperienceObelisk.MOD_ID, "animations/precision_dispeller.json");
             }
 
             @Override

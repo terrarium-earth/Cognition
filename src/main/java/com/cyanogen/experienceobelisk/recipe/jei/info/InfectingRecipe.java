@@ -15,11 +15,11 @@ public class InfectingRecipe extends AbstractInformationalRecipe {
     }
 
     public RecipeType<?> getType() {
-        return InfectingRecipe.Type.INSTANCE;
+        return Type.INSTANCE;
     }
 
     public static class Type implements RecipeType<InfectingRecipe>{
-        public static final InfectingRecipe.Type INSTANCE = new InfectingRecipe.Type();
+        public static final Type INSTANCE = new Type();
         public static final String ID = "infecting";
     }
 

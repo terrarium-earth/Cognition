@@ -1,19 +1,19 @@
 package com.cyanogen.experienceobelisk.registries;
 
 import com.cyanogen.experienceobelisk.ExperienceObelisk;
-import net.minecraft.core.registries.Registries;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CreativeModeTabs;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.neoforge.registries.DeferredHolder;
+import net.neoforged.neoforge.registries.DeferredRegister;
 
 public class RegisterCreativeTab {
 
-    public static final DeferredRegister<CreativeModeTab> TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, ExperienceObelisk.MOD_ID);
+    public static final DeferredRegister<CreativeModeTab> TABS = DeferredRegister.create(BuiltInRegistries.CREATIVE_MODE_TAB, ExperienceObelisk.MOD_ID);
 
-    public static final RegistryObject<CreativeModeTab> EXPERIENCE_OBELISK_TAB = TABS.register("experienceobelisk_tab",
+    public static final DeferredHolder<CreativeModeTab, CreativeModeTab> EXPERIENCE_OBELISK_TAB = TABS.register("experienceobelisk_tab",
             () -> CreativeModeTab.builder()
                     .title(Component.translatable("itemGroup.experienceobelisk"))
                     .icon(RegisterItems.EXPERIENCE_OBELISK_ITEM.get()::getDefaultInstance)
@@ -47,7 +47,7 @@ public class RegisterCreativeTab {
                         output.accept(RegisterItems.ATTUNEMENT_STAFF.get());
                         output.accept(RegisterItems.ENLIGHTENED_AMULET.get());
                         output.accept(RegisterItems.BIBLIOPHAGE.get());
-                        output.accept(RegisterItems.EXPERIENCE_JELLY.get());
+                        output.accept(RegisterItems.FLUORESCENT_JELLY.get());
                         output.accept(RegisterItems.MENDING_NEUROGEL.get());
                         output.accept(RegisterItems.POSEIDON_FLASK.get());
                         output.accept(RegisterItems.HADES_FLASK.get());

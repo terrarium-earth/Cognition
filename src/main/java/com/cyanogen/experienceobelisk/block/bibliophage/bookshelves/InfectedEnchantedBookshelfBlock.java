@@ -22,13 +22,13 @@ public class InfectedEnchantedBookshelfBlock extends InfectedBookshelfBlock impl
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> blockEntityType) {
-        return blockEntityType == RegisterBlockEntities.INFECTED_ENCHANTED_BOOKSHELF_BE.get() ? InfectedEnchantedBookshelfEntity::tick : null;
+        return blockEntityType == RegisterBlockEntities.INFECTED_ENCHANTED_BOOKSHELF.get() ? InfectedEnchantedBookshelfEntity::tick : null;
     }
 
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return RegisterBlockEntities.INFECTED_ENCHANTED_BOOKSHELF_BE.get().create(pos, state);
+        return RegisterBlockEntities.INFECTED_ENCHANTED_BOOKSHELF.get().create(pos, state);
     }
 
 }

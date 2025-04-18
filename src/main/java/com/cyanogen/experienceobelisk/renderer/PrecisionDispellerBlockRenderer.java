@@ -15,17 +15,17 @@ public class PrecisionDispellerBlockRenderer extends GeoBlockRenderer<PrecisionD
 
             @Override
             public ResourceLocation getModelResource(PrecisionDispellerEntity animatable) {
-                return new ResourceLocation(ExperienceObelisk.MOD_ID, "geo/precision_dispeller.geo.json");
+                return ResourceLocation.fromNamespaceAndPath(ExperienceObelisk.MOD_ID, "geo/precision_dispeller.geo.json");
             }
 
             @Override
             public ResourceLocation getTextureResource(PrecisionDispellerEntity entity) {
-                return new ResourceLocation(ExperienceObelisk.MOD_ID, "textures/custom_models/precision_dispeller.png");
+                return ResourceLocation.fromNamespaceAndPath(ExperienceObelisk.MOD_ID, "textures/custom_models/precision_dispeller.png");
             }
 
             @Override
             public ResourceLocation getAnimationResource(PrecisionDispellerEntity animatable) {
-                return new ResourceLocation(ExperienceObelisk.MOD_ID, "animations/precision_dispeller.json");
+                return ResourceLocation.fromNamespaceAndPath(ExperienceObelisk.MOD_ID, "animations/precision_dispeller.json");
             }
 
             @Override

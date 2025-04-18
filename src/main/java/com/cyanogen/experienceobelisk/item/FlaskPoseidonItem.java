@@ -4,6 +4,7 @@ import com.cyanogen.experienceobelisk.registries.RegisterSounds;
 import com.cyanogen.experienceobelisk.utils.ExperienceUtils;
 import com.cyanogen.experienceobelisk.utils.MiscUtils;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -17,9 +18,9 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.material.Fluids;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.capability.IFluidHandler;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 
 public class FlaskPoseidonItem extends Item{
 
@@ -45,8 +46,9 @@ public class FlaskPoseidonItem extends Item{
         BlockPos replacePos = context.getClickedPos().relative(context.getClickedFace(), 1); //the position adjacent to the clicked block
         Level level = context.getLevel();
         Player player = context.getPlayer();
+        Direction direction = context.getClickedFace();
 
-        if(player != null && (player.isCreative() || ExperienceUtils.getTotalXp(player) >= cost) && !player.getCooldowns().isOnCooldown(this)){
+        if(player != null && (player.isCreative() || ExperienceUtils.getTotalXP(player) >= cost) && !player.getCooldowns().isOnCooldown(this)){
 
             boolean canModifyClicked = level.mayInteract(player, clickedPos) && player.mayUseItemAt(clickedPos, context.getClickedFace(), player.getItemInHand(context.getHand()));
             boolean canPlace = level.mayInteract(player, replacePos) && player.mayUseItemAt(replacePos, context.getClickedFace(), player.getItemInHand(context.getHand()));
@@ -66,7 +68,7 @@ public class FlaskPoseidonItem extends Item{
                 }
             }
             else if(clickedState.getBlock() instanceof LiquidBlockContainer container && edit){ //waterloggable blocks
-                if(container.canPlaceLiquid(level, clickedPos, clickedState, Fluids.WATER.getSource())){
+                if(container.canPlaceLiquid(player, level, clickedPos, clickedState, Fluids.WATER.getSource())){
                     container.placeLiquid(level, clickedPos, clickedState, Fluids.WATER.getSource().defaultFluidState());
                 }
 
@@ -76,9 +78,10 @@ public class FlaskPoseidonItem extends Item{
 
                 BlockEntity entity = level.getBlockEntity(clickedPos);
                 assert entity != null;
-                if(entity.getCapability(ForgeCapabilities.FLUID_HANDLER).resolve().isPresent()){
-                    IFluidHandler handler = entity.getCapability(ForgeCapabilities.FLUID_HANDLER).resolve().get();
 
+                IFluidHandler handler = level.getCapability(Capabilities.FluidHandler.BLOCK, clickedPos, direction);
+
+                if(handler != null){
                     int drainAmount = handler.fill(fluidStack, IFluidHandler.FluidAction.SIMULATE);
 
                     if(drainAmount != 0){

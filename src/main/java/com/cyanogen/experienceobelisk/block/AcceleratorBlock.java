@@ -6,7 +6,7 @@ import com.cyanogen.experienceobelisk.registries.RegisterItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -26,7 +26,7 @@ import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.phys.BlockHitResult;
 import org.jetbrains.annotations.Nullable;
 
-public class AcceleratorBlock extends ExperienceReceivingBlock implements EntityBlock {
+public class AcceleratorBlock extends Block implements EntityBlock {
 
     public static final DirectionProperty FACING = BlockStateProperties.FACING;
     public static final BooleanProperty ACTIVE = BooleanProperty.create("active");
@@ -72,12 +72,11 @@ public class AcceleratorBlock extends ExperienceReceivingBlock implements Entity
     }
 
     @Override
-    public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult result) {
-        ItemStack stack = player.getItemInHand(hand);
-        Direction useDirection = player.getDirection();
+    protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
 
         if(stack.is(RegisterItems.ATTUNEMENT_STAFF.get()) && !player.isShiftKeyDown()){
 
+            Direction useDirection = player.getDirection();
             Direction direction = state.getValue(FACING);
 
             if(useDirection.getAxisDirection().equals(Direction.AxisDirection.POSITIVE)){
@@ -88,10 +87,10 @@ public class AcceleratorBlock extends ExperienceReceivingBlock implements Entity
             }
 
             level.setBlockAndUpdate(pos, state);
-            return InteractionResult.sidedSuccess(level.isClientSide);
+            return ItemInteractionResult.sidedSuccess(level.isClientSide);
         }
 
-        return super.use(state, level, pos, player, hand, result);
+        return super.useItemOn(stack, state, level, pos, player, hand, hitResult);
     }
 
     //-----BLOCK ENTITY-----//
@@ -99,12 +98,12 @@ public class AcceleratorBlock extends ExperienceReceivingBlock implements Entity
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> blockEntityType) {
-        return blockEntityType == RegisterBlockEntities.ACCELERATOR_BE.get() ? AcceleratorEntity::tick : null;
+        return blockEntityType == RegisterBlockEntities.ACCELERATOR.get() ? AcceleratorEntity::tick : null;
     }
 
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return RegisterBlockEntities.ACCELERATOR_BE.get().create(pos, state);
+        return RegisterBlockEntities.ACCELERATOR.get().create(pos, state);
     }
 }

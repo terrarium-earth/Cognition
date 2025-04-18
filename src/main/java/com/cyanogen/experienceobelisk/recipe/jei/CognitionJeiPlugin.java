@@ -9,25 +9,25 @@ import com.cyanogen.experienceobelisk.recipe.jei.info.InformationalRecipes;
 import com.cyanogen.experienceobelisk.registries.RegisterItems;
 import com.cyanogen.experienceobelisk.utils.RecipeUtils;
 import mezz.jei.api.IModPlugin;
+import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.registration.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeHolder;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static com.cyanogen.experienceobelisk.recipe.jei.MolecularMetamorpherCategory.metamorpherType;
 
-@mezz.jei.api.JeiPlugin
+@JeiPlugin
 public class CognitionJeiPlugin implements IModPlugin {
 
     @Override
     public void registerCategories(IRecipeCategoryRegistration registration) {
-
         registration.addRecipeCategories(new MolecularMetamorpherCategory(registration));
         registration.addRecipeCategories(new FillingCategory(registration));
         registration.addRecipeCategories(new InfectingCategory(registration));
@@ -41,8 +41,8 @@ public class CognitionJeiPlugin implements IModPlugin {
         List<MolecularMetamorpherRecipe> metamorpherRecipes = new ArrayList<>();
 
         assert Minecraft.getInstance().level != null;
-        for(Recipe<?> recipe : Minecraft.getInstance().level.getRecipeManager().getRecipes()){
-            if(recipe instanceof MolecularMetamorpherRecipe metamorpherRecipe){
+        for(RecipeHolder<?> recipe : Minecraft.getInstance().level.getRecipeManager().getRecipes()){
+            if(recipe.value() instanceof MolecularMetamorpherRecipe metamorpherRecipe){
                 metamorpherRecipes.add(metamorpherRecipe);
             }
         }
@@ -92,7 +92,7 @@ public class CognitionJeiPlugin implements IModPlugin {
 
     @Override
     public ResourceLocation getPluginUid() {
-        return new ResourceLocation(ExperienceObelisk.MOD_ID, "jei_plugin");
+        return ResourceLocation.fromNamespaceAndPath(ExperienceObelisk.MOD_ID, "jei_plugin");
     }
 
 }

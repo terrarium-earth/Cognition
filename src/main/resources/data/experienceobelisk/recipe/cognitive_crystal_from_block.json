@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "experienceobelisk:cognitive_crystal_block"
+    }
+  ],
+  "result": {
+    "id": "experienceobelisk:cognitive_crystal",
+    "count": 9
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "type": "experienceobelisk:molecular_metamorphosis",
+  "ingredient1": {
+    "item": "experienceobelisk:astute_assembly"
+  },
+  "count1": 1,
+  "ingredient2": {
+    "item": "minecraft:gold_ingot"
+  },
+  "count2": 1,
+  "ingredient3": {
+    "tag": "minecraft:saplings"
+  },
+  "count3": 1,
+  "result": {
+    "id": "experienceobelisk:primordial_assembly",
+    "count": 1
+  },
+  "cost": 315,
+  "processTime": 100,
+  "id": "experienceobelisk:primordial_assembly"
+}

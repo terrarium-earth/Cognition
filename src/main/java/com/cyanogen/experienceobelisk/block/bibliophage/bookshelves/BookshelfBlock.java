@@ -11,7 +11,7 @@ public class BookshelfBlock extends Block {
     public final float enchantPowerBonus;
 
     public BookshelfBlock(float enchantPowerBonus) {
-        super(Properties.copy(Blocks.BOOKSHELF));
+        super(Properties.ofFullCopy(Blocks.BOOKSHELF));
         this.enchantPowerBonus = enchantPowerBonus;
     }
 

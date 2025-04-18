@@ -1,8 +1,9 @@
 package com.cyanogen.experienceobelisk.item;
 
+import net.minecraft.core.Holder;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.Enchantments;
 
 public class TransformingFocusItem extends Item {
@@ -34,8 +35,13 @@ public class TransformingFocusItem extends Item {
     }
 
     @Override
+    public boolean supportsEnchantment(ItemStack stack, Holder<Enchantment> enchantment) {
+        return enchantment.is(Enchantments.UNBREAKING);
+    }
+
+    @Override
     public boolean isBookEnchantable(ItemStack stack, ItemStack book) {
-        return EnchantmentHelper.getEnchantments(book).containsKey(Enchantments.UNBREAKING);
+        return true;
     }
 
     @Override

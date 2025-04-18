@@ -1,9 +1,0 @@
-{
-  "type": "minecraft:smelting",
-  "ingredient": {
-    "item": "experienceobelisk:cognitive_flux"
-  },
-  "result": "experienceobelisk:cognitive_amalgam",
-  "experience": 0.175,
-  "cookingtime": 50
-}

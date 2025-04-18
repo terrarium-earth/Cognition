@@ -3,6 +3,7 @@ package com.cyanogen.experienceobelisk.recipe.jei.info;
 import com.cyanogen.experienceobelisk.ExperienceObelisk;
 import com.cyanogen.experienceobelisk.registries.RegisterItems;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
+import mezz.jei.api.gui.builder.ITooltipBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.gui.drawable.IDrawableAnimated;
 import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
@@ -19,14 +20,11 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class InfectingCategory implements IRecipeCategory<InfectingRecipe>{
 
     IRecipeCategoryRegistration registration;
     IGuiHelper guiHelper;
-    private final ResourceLocation texture = new ResourceLocation("experienceobelisk:textures/gui/recipes/information_jei.png");
+    private final ResourceLocation texture = ResourceLocation.parse("experienceobelisk:textures/gui/recipes/information_jei.png");
     private final IDrawableAnimated arrow;
     private final IDrawable counterArrow;
 
@@ -48,6 +46,16 @@ public class InfectingCategory implements IRecipeCategory<InfectingRecipe>{
     }
 
     @Override
+    public int getWidth() {
+        return 136;
+    }
+
+    @Override
+    public int getHeight() {
+        return 66;
+    }
+
+    @Override
     public Component getTitle() {
         return Component.translatable("jei.experienceobelisk.info.infecting.title");
     }
@@ -61,6 +69,8 @@ public class InfectingCategory implements IRecipeCategory<InfectingRecipe>{
     @Override
     public void draw(InfectingRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY) {
 
+        guiHelper.createDrawable(texture, 0, 0, 136, 66).draw(guiGraphics);
+
         if(recipe.count > 0){
             counterArrow.draw(guiGraphics, 52, 8);
             guiGraphics.drawString(Minecraft.getInstance().font, "x"+recipe.count,67,8,0xFFFFFF);
@@ -71,9 +81,8 @@ public class InfectingCategory implements IRecipeCategory<InfectingRecipe>{
     }
 
     @Override
-    public List<Component> getTooltipStrings(InfectingRecipe recipe, IRecipeSlotsView recipeSlotsView, double mouseX, double mouseY) {
+    public void getTooltip(ITooltipBuilder tooltip, InfectingRecipe recipe, IRecipeSlotsView recipeSlotsView, double mouseX, double mouseY) {
 
-        List<Component> tooltipList = new ArrayList<>();
         Component desc = Component.translatable("jei.experienceobelisk.info.infecting.tooltip");
         Component requiredCount = Component.translatable("jei.experienceobelisk.info.infecting.tooltip_count",
                 Component.literal(String.valueOf(recipe.count)).withStyle(ChatFormatting.GREEN));
@@ -89,15 +98,13 @@ public class InfectingCategory implements IRecipeCategory<InfectingRecipe>{
         int counterarrow_y2 = counterarrow_y1 + 9;
 
         if(mouseX >= arrow_x1 && mouseX <= arrow_x2 && mouseY >= arrow_y1 && mouseY <= arrow_y2){
-            tooltipList.add(desc);
-            return tooltipList;
+            tooltip.add(desc);
         }
         else if(recipe.getCount() > 0 && mouseX >= counterarrow_x1 && mouseX <= counterarrow_x2 && mouseY >= counterarrow_y1 && mouseY <= counterarrow_y2){
-            tooltipList.add(requiredCount);
-            return tooltipList;
+            tooltip.add(requiredCount);
         }
 
-        return IRecipeCategory.super.getTooltipStrings(recipe, recipeSlotsView, mouseX, mouseY);
+        IRecipeCategory.super.getTooltip(tooltip, recipe, recipeSlotsView, mouseX, mouseY);
     }
 
     @Override
@@ -106,11 +113,5 @@ public class InfectingCategory implements IRecipeCategory<InfectingRecipe>{
         builder.addSlot(RecipeIngredientRole.CATALYST, 58,35).setSlotName("catalyst").addIngredients(recipe.getCatalyst());
         builder.addSlot(RecipeIngredientRole.OUTPUT, 99,19).setSlotName("output").addItemStack(recipe.getResultItem(null));
     }
-
-    @Override
-    public IDrawable getBackground() {
-        return guiHelper.createDrawable(texture, 0, 0, 136, 66);
-    }
-
 
 }

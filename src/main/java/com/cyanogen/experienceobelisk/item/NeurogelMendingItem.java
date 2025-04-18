@@ -14,7 +14,7 @@ import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.event.ItemStackedOnOtherEvent;
+import net.neoforged.neoforge.event.ItemStackedOnOtherEvent;
 
 public class NeurogelMendingItem extends Item {
 
@@ -23,31 +23,31 @@ public class NeurogelMendingItem extends Item {
     }
 
     public static void handleItem(ItemStackedOnOtherEvent event){
-        ItemStack itemToRepair = event.getCarriedItem();
-        ItemStack stackedOn = event.getStackedOnItem();
+        ItemStack itemToRepair = event.getStackedOnItem();
+        ItemStack neurogel = event.getCarriedItem();
         Player player = event.getPlayer();
 
         ItemStack chippedAnvil = new ItemStack(Items.CHIPPED_ANVIL, 1);
         ItemStack anvil = new ItemStack(Items.ANVIL, 1);
 
-        if(stackedOn.is(RegisterItems.MENDING_NEUROGEL.get())){
+        if(neurogel.is(RegisterItems.MENDING_NEUROGEL.get())){
 
             if(itemToRepair.isDamaged()){
                 int maxDurability = itemToRepair.getMaxDamage();
                 int damage = itemToRepair.getDamageValue();
                 int repairAmount = Math.max(maxDurability / 5, 200); //restores 20% of item max durability or 200 pts, whichever is higher
 
-                stackedOn.shrink(1);
+                neurogel.shrink(1);
                 itemToRepair.setDamageValue(Math.max(damage - repairAmount, 0));
                 player.playSound(RegisterSounds.NEUROGEL_APPLY.get(), 0.75f, MiscUtils.randomInRange(0.8f, 1.2f));
                 event.setCanceled(true);
             }
             else if(itemToRepair.is(Items.CHIPPED_ANVIL)){
-                setItem(anvil, event.getSlot(), player, stackedOn, itemToRepair);
+                setItem(anvil, event.getSlot(), player, neurogel, itemToRepair);
                 event.setCanceled(true);
             }
             else if(itemToRepair.is(Items.DAMAGED_ANVIL)){
-                setItem(chippedAnvil, event.getSlot(), player, stackedOn, itemToRepair);
+                setItem(chippedAnvil, event.getSlot(), player, neurogel, itemToRepair);
                 event.setCanceled(true);
             }
         }

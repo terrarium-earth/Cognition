@@ -11,7 +11,7 @@ import net.minecraft.world.phys.Vec3;
 public class ExtravagantAgarEntity extends AbstractAgarEntity {
 
     public ExtravagantAgarEntity(BlockPos pos, BlockState state) {
-        super(RegisterBlockEntities.EXTRAVAGANT_AGAR_BE.get(), pos, state);
+        super(RegisterBlockEntities.EXTRAVAGANT_AGAR.get(), pos, state);
         infectivity = 0.02;
     }
 

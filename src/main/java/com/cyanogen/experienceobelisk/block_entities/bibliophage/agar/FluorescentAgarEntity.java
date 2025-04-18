@@ -4,6 +4,7 @@ import com.cyanogen.experienceobelisk.registries.RegisterBlockEntities;
 import com.cyanogen.experienceobelisk.registries.RegisterBlocks;
 import com.cyanogen.experienceobelisk.registries.RegisterSounds;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
@@ -16,7 +17,7 @@ import net.minecraft.world.level.block.state.BlockState;
 public class FluorescentAgarEntity extends BlockEntity {
 
     public FluorescentAgarEntity(BlockPos pos, BlockState state) {
-        super(RegisterBlockEntities.FLUORESCENT_AGAR_BE.get(), pos, state);
+        super(RegisterBlockEntities.FLUORESCENT_AGAR.get(), pos, state);
     }
 
     int infectionProgress = 0;
@@ -45,23 +46,34 @@ public class FluorescentAgarEntity extends BlockEntity {
     //-----------NBT-----------//
 
     @Override
-    public void load(CompoundTag tag)
-    {
-        super.load(tag);
+    protected void loadAdditional(CompoundTag tag, HolderLookup.Provider provider) {
+
+        super.loadAdditional(tag, provider);
+
         this.infectionProgress = tag.getInt("InfectionProgress");
     }
 
     @Override
-    protected void saveAdditional(CompoundTag tag)
-    {
-        super.saveAdditional(tag);
+    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider provider) {
+
+        super.saveAdditional(tag, provider);
+
         tag.putInt("InfectionProgress", infectionProgress);
     }
 
     @Override
-    public CompoundTag getUpdateTag()
-    {
-        CompoundTag tag = super.getUpdateTag();
+    public void handleUpdateTag(CompoundTag tag, HolderLookup.Provider provider) {
+
+        super.handleUpdateTag(tag, provider);
+
+        this.infectionProgress = tag.getInt("InfectionProgress");
+    }
+
+    @Override
+    public CompoundTag getUpdateTag(HolderLookup.Provider provider) {
+
+        CompoundTag tag = super.getUpdateTag(provider);
+
         tag.putInt("InfectionProgress", infectionProgress);
         return tag;
     }

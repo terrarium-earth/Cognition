@@ -1,11 +1,11 @@
 package com.cyanogen.experienceobelisk.block;
 
-import net.minecraft.world.level.block.AbstractGlassBlock;
 import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.TransparentBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.MapColor;
 
-public class WhisperglassBlock extends AbstractGlassBlock {
+public class WhisperglassBlock extends TransparentBlock {
 
     public WhisperglassBlock() {
         super(BlockBehaviour.Properties.of()

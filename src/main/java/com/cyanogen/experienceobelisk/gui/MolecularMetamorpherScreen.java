@@ -9,9 +9,11 @@ import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.level.Level;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,21 +21,35 @@ import java.util.Optional;
 
 public class MolecularMetamorpherScreen extends AbstractContainerScreen<MolecularMetamorpherMenu>{
 
-    private final ResourceLocation texture = new ResourceLocation("experienceobelisk:textures/gui/screens/molecular_metamorpher.png");
-    public MolecularMetamorpherEntity metamorpher;
+    private final ResourceLocation texture = ResourceLocation.parse("experienceobelisk:textures/gui/screens/molecular_metamorpher.png");
     private final Component title = Component.translatable("title.experienceobelisk.molecular_metamorpher");
     private final Component inventoryTitle = Component.translatable("title.experienceobelisk.precision_dispeller.inventory");
-    private final MolecularMetamorpherMenu menu;
+    private final Level clientLevel;
+    public final Inventory inventory;
+    public final Component component;
 
     public MolecularMetamorpherScreen(MolecularMetamorpherMenu menu, Inventory inventory, Component component) {
-        super(menu, menu.inventory, menu.component);
-        this.metamorpher = menu.metamorpherClient;
-        this.menu = menu;
+        super(menu, inventory, component);
+        this.clientLevel = inventory.player.level();
+        this.inventory = inventory;
+        this.component = component;
     }
 
     @Override
     protected void renderBg(GuiGraphics gui, float f, int a, int b) {
+    }
 
+    @Override
+    public void renderBackground(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
+    }
+
+    @Override
+    protected void renderLabels(GuiGraphics gui, int mouseX, int mouseY) {
+    }
+
+    @Override
+    public boolean isPauseScreen() {
+        return false;
     }
 
     @Override
@@ -42,16 +58,16 @@ public class MolecularMetamorpherScreen extends AbstractContainerScreen<Molecula
         super.init();
     }
 
-    @Override
-    protected void renderLabels(GuiGraphics gui, int mouseX, int mouseY) {
-        gui.drawString(this.font, this.title, this.titleLabelX, this.titleLabelY, 0xFFFFFF);
-        gui.drawString(this.font, this.inventoryTitle, this.inventoryLabelX, this.inventoryLabelY, 0xFFFFFF);
+    protected void renderTitles(GuiGraphics gui, int titleX, int titleY, int inventoryX, int inventoryY){
+        gui.drawString(this.font, this.title, titleX, titleY, 0xFFFFFF);
+        gui.drawString(this.font, this.inventoryTitle, inventoryX, inventoryY, 0xFFFFFF);
     }
 
     @Override
     public void render(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {
 
-        renderBackground(gui);
+        //render background shading
+        renderTransparentBackground(gui);
 
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         RenderSystem.setShaderTexture(0, texture);
@@ -61,12 +77,17 @@ public class MolecularMetamorpherScreen extends AbstractContainerScreen<Molecula
 
         int arrowWidth = 26;
         double completion = 0;
-        if(metamorpher.getProcessTime() != 0){
+
+        BlockPos pos = menu.getBlockPos();
+        if(pos != null && clientLevel.getBlockEntity(pos) instanceof MolecularMetamorpherEntity metamorpher && metamorpher.getProcessTime() != 0){
             completion = metamorpher.getProcessProgress() / (float) metamorpher.getProcessTime();
         }
 
         //render background texture
         gui.blit(texture, x, y, 0, 0, 176, 166);
+
+        //render selection highlights
+        super.render(gui, mouseX, mouseY, partialTick);
 
         //render recipe progress
         gui.blit(texture, this.width / 2 + 109 - 88, this.height / 2 + 48 - 83, 0, 175, (int) (arrowWidth * completion), 4);
@@ -77,7 +98,7 @@ public class MolecularMetamorpherScreen extends AbstractContainerScreen<Molecula
         int points;
         double progress;
 
-        if(metamorpher.obeliskStillExists){
+        if(pos != null && clientLevel.getBlockEntity(pos) instanceof MolecularMetamorpherEntity metamorpher && metamorpher.obeliskStillExists){
             levels = metamorpher.obeliskLevels;
             points = metamorpher.obeliskPoints;
             progress = metamorpher.obeliskProgress;
@@ -115,7 +136,7 @@ public class MolecularMetamorpherScreen extends AbstractContainerScreen<Molecula
             widget.render(gui, mouseX, mouseY, partialTick);
         }
 
-        super.render(gui, mouseX, mouseY, partialTick);
+        this.renderTitles(gui, x + 8, y + 6, x + 8, y + 72);
         this.renderTooltip(gui, mouseX, mouseY);
     }
 
@@ -134,7 +155,7 @@ public class MolecularMetamorpherScreen extends AbstractContainerScreen<Molecula
         buttons.clear();
 
         Button settings = Button.builder(Component.translatable("button.experienceobelisk.experience_obelisk.settings"),
-                        (onPress) -> Minecraft.getInstance().setScreen(new MolecularMetamorpherOptionsScreen(menu)))
+                        (onPress) -> Minecraft.getInstance().setScreen(new MolecularMetamorpherOptionsScreen(menu, clientLevel)))
                 .size(20,20)
                 .pos(this.width / 2 + 91, this.height / 2 - 78)
                 .tooltip(Tooltip.create(Component.translatable("tooltip.experienceobelisk.experience_obelisk.settings")))

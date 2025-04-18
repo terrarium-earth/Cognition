@@ -8,7 +8,8 @@ import net.minecraft.world.level.material.Fluid;
 public class RegisterTags {
 
     public static class Fluids{
-        public static final TagKey<Fluid> EXPERIENCE = TagKey.create(Registries.FLUID, new ResourceLocation("forge", "experience"));
+        public static final TagKey<Fluid> EXPERIENCE =
+                TagKey.create(Registries.FLUID, ResourceLocation.fromNamespaceAndPath("c", "experience"));
 
     }
 }

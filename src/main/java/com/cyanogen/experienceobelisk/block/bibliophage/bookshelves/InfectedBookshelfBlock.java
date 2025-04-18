@@ -11,7 +11,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.ExperienceOrb;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -56,8 +56,7 @@ public class InfectedBookshelfBlock extends BookshelfBlock implements EntityBloc
     }
 
     @Override
-    public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult result) {
-        ItemStack stack = player.getItemInHand(hand);
+    protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
 
         if(stack.is(RegisterItems.ATTUNEMENT_STAFF.get()) && !player.isShiftKeyDown()
                 && level.getBlockEntity(pos) instanceof AbstractInfectedBookshelfEntity bookshelf){
@@ -84,10 +83,10 @@ public class InfectedBookshelfBlock extends BookshelfBlock implements EntityBloc
                 player.displayClientMessage(message, true);
             }
 
-            return InteractionResult.sidedSuccess(level.isClientSide);
+            return ItemInteractionResult.sidedSuccess(level.isClientSide);
         }
 
-        return super.use(state, level, pos, player, hand, result);
+        return super.useItemOn(stack, state, level, pos, player, hand, hitResult);
     }
 
     @Override
@@ -118,12 +117,12 @@ public class InfectedBookshelfBlock extends BookshelfBlock implements EntityBloc
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> blockEntityType) {
-        return blockEntityType == RegisterBlockEntities.INFECTED_BOOKSHELF_BE.get() ? InfectedBookshelfEntity::tick : null;
+        return blockEntityType == RegisterBlockEntities.INFECTED_BOOKSHELF.get() ? InfectedBookshelfEntity::tick : null;
     }
 
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return RegisterBlockEntities.INFECTED_BOOKSHELF_BE.get().create(pos, state);
+        return RegisterBlockEntities.INFECTED_BOOKSHELF.get().create(pos, state);
     }
 }

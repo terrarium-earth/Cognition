@@ -1,0 +1,20 @@
+{
+  "type": "experienceobelisk:molecular_metamorphosis",
+  "ingredient1": {
+    "item": "minecraft:sugar"
+  },
+  "count1": 1,
+  "ingredient2": {
+    "tag": "c:foods/fruit"
+  },
+  "count2": 1,
+  "ingredient3": [],
+  "count3": 0,
+  "result": {
+    "id": "experienceobelisk:fluorescent_jelly",
+    "count": 1
+  },
+  "cost": 16,
+  "processTime": 20,
+  "id": "experienceobelisk:fluorescent_jelly"
+}

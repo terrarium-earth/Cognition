@@ -6,6 +6,7 @@ import com.cyanogen.experienceobelisk.block_entities.ExperienceReceivingEntity;
 import com.cyanogen.experienceobelisk.block_entities.bibliophage.bookshelves.AbstractInfectedBookshelfEntity;
 import com.cyanogen.experienceobelisk.config.Config;
 import com.cyanogen.experienceobelisk.registries.RegisterItems;
+import com.cyanogen.experienceobelisk.utils.ItemUtils;
 import com.cyanogen.experienceobelisk.utils.MiscUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
@@ -37,7 +38,7 @@ public class AttunementStaffItem extends Item {
 
         ItemStack stack = player.getItemInHand(hand);
 
-        if(player.isShiftKeyDown() && stack.is(RegisterItems.ATTUNEMENT_STAFF.get()) && stack.getOrCreateTag().contains("type")){
+        if(player.isShiftKeyDown() && stack.is(RegisterItems.ATTUNEMENT_STAFF.get()) && ItemUtils.getCustomDataTag(stack).contains("Type")){
             reset(stack);
             player.displayClientMessage(Component.translatable("message.experienceobelisk.binding_wand.unbind_obelisk"), true);
 
@@ -81,13 +82,14 @@ public class AttunementStaffItem extends Item {
     public void handleObelisk(ExperienceObeliskEntity obelisk, ItemStack stack, Player player){
 
         BlockPos thisPos = obelisk.getBlockPos();
-        CompoundTag tag = stack.getOrCreateTag();
+        CompoundTag tag = ItemUtils.getCustomDataTag(stack);
 
-        tag.putInt("boundX", thisPos.getX());
-        tag.putInt("boundY", thisPos.getY());
-        tag.putInt("boundZ", thisPos.getZ());
-        tag.putString("type", "obelisk");
+        tag.putInt("BoundX", thisPos.getX());
+        tag.putInt("BoundY", thisPos.getY());
+        tag.putInt("BoundZ", thisPos.getZ());
+        tag.putString("Type", "Obelisk");
 
+        ItemUtils.saveCustomDataTag(stack, tag);
         player.displayClientMessage(Component.translatable("message.experienceobelisk.binding_wand.bind_obelisk"), true);
     }
 
@@ -96,13 +98,13 @@ public class AttunementStaffItem extends Item {
         final double range = Config.COMMON.bindingRange.get();
 
         BlockPos thisPos = receiver.getBlockPos();
-        CompoundTag tag = stack.getOrCreateTag();
+        CompoundTag tag = ItemUtils.getCustomDataTag(stack);
 
-        if(tag.getString("type").equals("obelisk")){
+        if(tag.getString("Type").equals("Obelisk")){
             BlockPos savedPos = new BlockPos(
-                    tag.getInt("boundX"),
-                    tag.getInt("boundY"),
-                    tag.getInt("boundZ"));
+                    tag.getInt("BoundX"),
+                    tag.getInt("BoundY"),
+                    tag.getInt("BoundZ"));
 
             BlockEntity savedEntity = level.getBlockEntity(savedPos);
 
@@ -159,11 +161,12 @@ public class AttunementStaffItem extends Item {
     }
 
     public void reset(ItemStack stack){
-        CompoundTag tag = stack.getOrCreateTag();
-        tag.remove("type");
-        tag.remove("boundX");
-        tag.remove("boundY");
-        tag.remove("boundZ");
+        CompoundTag tag = ItemUtils.getCustomDataTag(stack);
+        tag.remove("Type");
+        tag.remove("BoundX");
+        tag.remove("BoundY");
+        tag.remove("BoundZ");
+        ItemUtils.saveCustomDataTag(stack, tag);
     }
 
 }

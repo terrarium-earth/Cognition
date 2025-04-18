@@ -15,17 +15,17 @@ public class MolecularMetamorpherBlockRenderer extends GeoBlockRenderer<Molecula
 
             @Override
             public ResourceLocation getModelResource(MolecularMetamorpherEntity animatable) {
-                return new ResourceLocation(ExperienceObelisk.MOD_ID, "geo/molecular_metamorpher.geo.json");
+                return ResourceLocation.fromNamespaceAndPath(ExperienceObelisk.MOD_ID, "geo/molecular_metamorpher.geo.json");
             }
 
             @Override
             public ResourceLocation getTextureResource(MolecularMetamorpherEntity entity) {
-                return new ResourceLocation(ExperienceObelisk.MOD_ID, "textures/custom_models/molecular_metamorpher.png");
+                return ResourceLocation.fromNamespaceAndPath(ExperienceObelisk.MOD_ID, "textures/custom_models/molecular_metamorpher.png");
             }
 
             @Override
             public ResourceLocation getAnimationResource(MolecularMetamorpherEntity animatable) {
-                return new ResourceLocation(ExperienceObelisk.MOD_ID, "animations/molecular_metamorpher.json");
+                return ResourceLocation.fromNamespaceAndPath(ExperienceObelisk.MOD_ID, "animations/molecular_metamorpher.json");
             }
 
             @Override

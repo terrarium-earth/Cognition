@@ -13,17 +13,17 @@ public class ExperienceFountainItemRenderer extends GeoItemRenderer<ExperienceFo
         super(new GeoModel<>() {
             @Override
             public ResourceLocation getModelResource(ExperienceFountainItem object) {
-                return new ResourceLocation(ExperienceObelisk.MOD_ID, "geo/experience_fountain.geo.json");
+                return ResourceLocation.fromNamespaceAndPath(ExperienceObelisk.MOD_ID, "geo/experience_fountain.geo.json");
             }
 
             @Override
             public ResourceLocation getTextureResource(ExperienceFountainItem object) {
-                return new ResourceLocation(ExperienceObelisk.MOD_ID, "textures/custom_models/experience_fountain.png");
+                return ResourceLocation.fromNamespaceAndPath(ExperienceObelisk.MOD_ID, "textures/custom_models/experience_fountain.png");
             }
 
             @Override
             public ResourceLocation getAnimationResource(ExperienceFountainItem animatable) {
-                return new ResourceLocation(ExperienceObelisk.MOD_ID, "animations/experience_fountain.json");
+                return ResourceLocation.fromNamespaceAndPath(ExperienceObelisk.MOD_ID, "animations/experience_fountain.json");
             }
 
             @Override

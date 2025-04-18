@@ -15,17 +15,17 @@ public class ExperienceObeliskBlockRenderer extends GeoBlockRenderer<ExperienceO
 
             @Override
             public ResourceLocation getModelResource(ExperienceObeliskEntity animatable) {
-                return new ResourceLocation(ExperienceObelisk.MOD_ID, "geo/experience_obelisk.geo.json");
+                return ResourceLocation.fromNamespaceAndPath(ExperienceObelisk.MOD_ID, "geo/experience_obelisk.geo.json");
             }
 
             @Override
             public ResourceLocation getTextureResource(ExperienceObeliskEntity entity) {
-                return new ResourceLocation(ExperienceObelisk.MOD_ID, "textures/custom_models/experience_obelisk.png");
+                return ResourceLocation.fromNamespaceAndPath(ExperienceObelisk.MOD_ID, "textures/custom_models/experience_obelisk.png");
             }
 
             @Override
             public ResourceLocation getAnimationResource(ExperienceObeliskEntity animatable) {
-                return new ResourceLocation(ExperienceObelisk.MOD_ID, "animations/experience_obelisk.json");
+                return ResourceLocation.fromNamespaceAndPath(ExperienceObelisk.MOD_ID, "animations/experience_obelisk.json");
             }
 
             @Override

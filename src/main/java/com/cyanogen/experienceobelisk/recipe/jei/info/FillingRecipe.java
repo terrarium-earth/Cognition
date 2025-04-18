@@ -11,11 +11,11 @@ public class FillingRecipe extends AbstractInformationalRecipe {
     }
 
     public RecipeType<?> getType() {
-        return FillingRecipe.Type.INSTANCE;
+        return Type.INSTANCE;
     }
 
     public static class Type implements RecipeType<FillingRecipe>{
-        public static final FillingRecipe.Type INSTANCE = new FillingRecipe.Type();
+        public static final Type INSTANCE = new Type();
         public static final String ID = "filling";
     }
 

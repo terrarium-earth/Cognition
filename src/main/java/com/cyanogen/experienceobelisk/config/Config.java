@@ -1,6 +1,5 @@
 package com.cyanogen.experienceobelisk.config;
-
-import net.minecraftforge.common.ForgeConfigSpec;
+import net.neoforged.neoforge.common.ModConfigSpec;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.ArrayList;
@@ -10,42 +9,42 @@ public class Config {
 
     public static class Common{
 
-        public final ForgeConfigSpec.ConfigValue<List<? extends String>> allowedFluids;
-        public final ForgeConfigSpec.ConfigValue<Integer> capacity;
-        public final ForgeConfigSpec.ConfigValue<Double> amuletRange;
-        public final ForgeConfigSpec.ConfigValue<Boolean> amuletIgnoresFountainOrbs;
-        public final ForgeConfigSpec.ConfigValue<Double> bindingRange;
-        public final ForgeConfigSpec.ConfigValue<Boolean> formatting;
-        public final ForgeConfigSpec.ConfigValue<Integer> jellyNutrition;
-        public final ForgeConfigSpec.ConfigValue<Double> jellySaturation;
+        public final ModConfigSpec.ConfigValue<List<? extends String>> allowedFluids;
+        public final ModConfigSpec.ConfigValue<Integer> capacity;
+        public final ModConfigSpec.ConfigValue<Double> amuletRange;
+        public final ModConfigSpec.ConfigValue<Double> bindingRange;
+        public final ModConfigSpec.ConfigValue<Boolean> amuletIgnoresFountainOrbs;
+        public final ModConfigSpec.ConfigValue<Boolean> formatting;
+        public final ModConfigSpec.ConfigValue<Integer> jellyNutrition;
+        public final ModConfigSpec.ConfigValue<Double> jellySaturation;
 
-        public final ForgeConfigSpec.ConfigValue<Double> dropDustChance;
-        public final ForgeConfigSpec.ConfigValue<Boolean> shelvesPermeableToDust;
-        public final ForgeConfigSpec.ConfigValue<Boolean> agarPermeableToDust;
+        public final ModConfigSpec.ConfigValue<Double> dropDustChance;
+        public final ModConfigSpec.ConfigValue<Boolean> shelvesPermeableToDust;
+        public final ModConfigSpec.ConfigValue<Boolean> agarPermeableToDust;
 
-        public final ForgeConfigSpec.ConfigValue<Integer> infectedSpawnDelayMin;
-        public final ForgeConfigSpec.ConfigValue<Integer> infectedSpawnDelayMax;
-        public final ForgeConfigSpec.ConfigValue<Integer> infectedOrbValue;
-        public final ForgeConfigSpec.ConfigValue<Integer> infectedSpawns;
+        public final ModConfigSpec.ConfigValue<Integer> infectedSpawnDelayMin;
+        public final ModConfigSpec.ConfigValue<Integer> infectedSpawnDelayMax;
+        public final ModConfigSpec.ConfigValue<Integer> infectedOrbValue;
+        public final ModConfigSpec.ConfigValue<Integer> infectedSpawns;
 
-        public final ForgeConfigSpec.ConfigValue<Integer> enchantedSpawnDelayMin;
-        public final ForgeConfigSpec.ConfigValue<Integer> enchantedSpawnDelayMax;
-        public final ForgeConfigSpec.ConfigValue<Integer> enchantedOrbValue;
-        public final ForgeConfigSpec.ConfigValue<Integer> enchantedSpawns;
+        public final ModConfigSpec.ConfigValue<Integer> enchantedSpawnDelayMin;
+        public final ModConfigSpec.ConfigValue<Integer> enchantedSpawnDelayMax;
+        public final ModConfigSpec.ConfigValue<Integer> enchantedOrbValue;
+        public final ModConfigSpec.ConfigValue<Integer> enchantedSpawns;
 
-        public final ForgeConfigSpec.ConfigValue<Integer> archiversSpawnDelayMin;
-        public final ForgeConfigSpec.ConfigValue<Integer> archiversSpawnDelayMax;
-        public final ForgeConfigSpec.ConfigValue<Integer> archiversOrbValue;
-        public final ForgeConfigSpec.ConfigValue<Integer> archiversSpawns;
+        public final ModConfigSpec.ConfigValue<Integer> archiversSpawnDelayMin;
+        public final ModConfigSpec.ConfigValue<Integer> archiversSpawnDelayMax;
+        public final ModConfigSpec.ConfigValue<Integer> archiversOrbValue;
+        public final ModConfigSpec.ConfigValue<Integer> archiversSpawns;
 
-        public final ForgeConfigSpec.ConfigValue<Double> agarFaceBonus;
-        public final ForgeConfigSpec.ConfigValue<Double> agarEdgeBonus;
-        public final ForgeConfigSpec.ConfigValue<Double> agarVertexBonus;
-        public final ForgeConfigSpec.ConfigValue<Boolean> agarEmitsLight;
+        public final ModConfigSpec.ConfigValue<Double> agarFaceBonus;
+        public final ModConfigSpec.ConfigValue<Double> agarEdgeBonus;
+        public final ModConfigSpec.ConfigValue<Double> agarVertexBonus;
+        public final ModConfigSpec.ConfigValue<Boolean> agarEmitsLight;
 
-        public final List<String> defaultAllowedFluids = new ArrayList<>();
+        public List<String> defaultAllowedFluids = new ArrayList<>();
 
-        public Common(ForgeConfigSpec.Builder builder){
+        public Common(ModConfigSpec.Builder builder){
 
             defaultAllowedFluids.add("mob_grinding_utils:fluid_xp");
             defaultAllowedFluids.add("cofh_core:experience");
@@ -77,7 +76,7 @@ public class Config {
                     .defineInRange("Range", 48.0, 4, 100.0);
             builder.pop();
 
-            builder.push("Metamorpher Name Formatting Recipes");
+            builder.push("Enable Name Formatting Recipes");
             this.formatting = builder.comment("Whether custom recipes that allow for the changing of item name color & formatting are enabled. Default = true")
                     .define("Formatting", true);
             builder.pop();
@@ -137,8 +136,7 @@ public class Config {
                     .defineInRange("AgarEdgeBonus", 1.15, 0.0, 4);
             this.agarVertexBonus = builder.comment("The bonus that Insightful & Extravagant Agar apply to bookshelves sharing a vertex. Default = 1.10")
                     .defineInRange("AgarVertexBonus", 1.10, 0.0, 4);
-            this.agarEmitsLight = builder.comment("Whether or not Agar blocks emit light. Default = true.")
-                    .comment("Set this to false if you are using intensive shader settings and are experiencing fps drops.")
+            this.agarEmitsLight = builder.comment("Whether or not Agar blocks emit light. Default = true. Set this to false if you are using intensive shader settings and are experiencing fps drops.")
                     .define("AgarEmitsLight", true);
             this.agarPermeableToDust = builder.comment("Whether Agar blocks are permeable to Forgotten Dust item entities. Default = false")
                     .define("ShelvesPermeableToDust", false);
@@ -148,11 +146,11 @@ public class Config {
     }
 
     public static final Common COMMON;
-    public static final ForgeConfigSpec COMMON_SPEC;
+    public static final ModConfigSpec COMMON_SPEC;
 
     static
     {
-        Pair<Common, ForgeConfigSpec> commonSpecPair = new ForgeConfigSpec.Builder().configure(Common::new);
+        Pair<Common, ModConfigSpec> commonSpecPair = new ModConfigSpec.Builder().configure(Common::new);
         COMMON = commonSpecPair.getLeft();
         COMMON_SPEC = commonSpecPair.getRight();
     }

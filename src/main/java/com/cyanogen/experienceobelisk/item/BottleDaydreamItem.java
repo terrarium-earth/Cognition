@@ -42,12 +42,17 @@ public class BottleDaydreamItem extends BottleItem {
         return super.finishUsingItem(stack, level, entity);
     }
 
-    public int getUseDuration(ItemStack stack) {
+    @Override
+    public int getUseDuration(ItemStack stack, LivingEntity entity) {
         return 30;
     }
 
     public UseAnim getUseAnimation(ItemStack stack) {
         return UseAnim.DRINK;
+    }
+
+    public SoundEvent getDrinkingSound() {
+        return SoundEvents.GENERIC_DRINK;
     }
 
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {

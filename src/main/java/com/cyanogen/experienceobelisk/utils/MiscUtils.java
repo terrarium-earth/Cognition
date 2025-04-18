@@ -11,6 +11,8 @@ import java.util.List;
 
 public class MiscUtils {
 
+    //----- MATH -----//
+
     public static double straightLineDistance(BlockPos a, BlockPos b){
 
         double deltaX = Math.abs(a.getX() - b.getX());
@@ -18,18 +20,6 @@ public class MiscUtils {
         double deltaZ = Math.abs(a.getZ() - b.getZ());
 
         return Math.sqrt(Math.pow(deltaX,2) + Math.pow(deltaY,2) + Math.pow(deltaZ,2));
-    }
-
-    public static List<String> getLinesFromString(String input, int lineWidth, Font font){
-
-        List<FormattedText> lines = font.getSplitter().splitLines(input, lineWidth, Style.EMPTY);
-        List<String> outputLines = new ArrayList<>();
-
-        for(FormattedText line : lines){
-            outputLines.add(line.getString());
-        }
-
-        return outputLines;
     }
 
     public static float randomInRange(float min, float max){
@@ -64,6 +54,20 @@ public class MiscUtils {
         }
 
         return new Vec3(x,y,z);
+    }
+
+    //----- FORMATTING -----//
+
+    public static List<String> getLinesFromString(String input, int lineWidth, Font font){
+
+        List<FormattedText> lines = font.getSplitter().splitLines(input, lineWidth, Style.EMPTY);
+        List<String> outputLines = new ArrayList<>();
+
+        for(FormattedText line : lines){
+            outputLines.add(line.getString());
+        }
+
+        return outputLines;
     }
 
 }

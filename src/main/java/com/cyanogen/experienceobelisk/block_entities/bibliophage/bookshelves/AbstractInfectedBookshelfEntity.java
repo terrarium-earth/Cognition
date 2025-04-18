@@ -1,10 +1,12 @@
 package com.cyanogen.experienceobelisk.block_entities.bibliophage.bookshelves;
 
+import com.cyanogen.experienceobelisk.block.bibliophage.agar.InsightfulAgarBlock;
 import com.cyanogen.experienceobelisk.block_entities.bibliophage.AbstractInfectiveEntity;
 import com.cyanogen.experienceobelisk.config.Config;
 import com.cyanogen.experienceobelisk.registries.RegisterBlocks;
 import com.cyanogen.experienceobelisk.registries.RegisterItems;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
@@ -40,7 +42,7 @@ public abstract class AbstractInfectedBookshelfEntity extends AbstractInfectiveE
     final int orbValue; //the value of orbs to spawn
     final int spawns; //the number of times a bookshelf can spawn an orb before decaying
     int decayValue = 0; //the number of times a bookshelf has spawned an orb
-    final double infectivity = 0.02; //the chance for a bookshelf to infect another adjacent bookshelf every second
+    double infectivity = 0.02; //the chance for a bookshelf to infect another adjacent bookshelf every second
     boolean redstoneEnabled = false; //whether the bookshelf is sensitive to redstone. Disabled bookshelves will not infect adjacents, produce XP, or decay
 
     //-----------BEHAVIOR-----------//
@@ -159,13 +161,13 @@ public abstract class AbstractInfectedBookshelfEntity extends AbstractInfectiveE
     public int countNeighborsOfType(int type, List<BlockPos> neighbors){
 
         Level level = getLevel();
-        Block insightful = RegisterBlocks.INSIGHTFUL_AGAR.get();
+        InsightfulAgarBlock insightful = RegisterBlocks.INSIGHTFUL_AGAR.get();
         Block extravagant = RegisterBlocks.EXTRAVAGANT_AGAR.get();
         int count = 0;
 
         if(type == 1){ //insightful agar
             for(BlockPos pos : neighbors){
-                if(level != null && level.getBlockState(pos).is(insightful)){
+                if(level != null && level.getBlockState(pos).is(RegisterBlocks.INSIGHTFUL_AGAR.get())){
                     count++;
                 }
             }
@@ -196,10 +198,11 @@ public abstract class AbstractInfectedBookshelfEntity extends AbstractInfectiveE
 
     //-----------NBT-----------//
 
+
     @Override
-    public void load(CompoundTag tag)
-    {
-        super.load(tag);
+    protected void loadAdditional(CompoundTag tag, HolderLookup.Provider provider) {
+
+        super.loadAdditional(tag, provider);
 
         this.decayValue = tag.getInt("DecayValue");
         this.timeTillSpawn = tag.getInt("SpawnDelay");
@@ -207,9 +210,9 @@ public abstract class AbstractInfectedBookshelfEntity extends AbstractInfectiveE
     }
 
     @Override
-    protected void saveAdditional(CompoundTag tag)
-    {
-        super.saveAdditional(tag);
+    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider provider) {
+
+        super.saveAdditional(tag, provider);
 
         tag.putInt("DecayValue", decayValue);
         tag.putInt("SpawnDelay", timeTillSpawn);
@@ -217,9 +220,19 @@ public abstract class AbstractInfectedBookshelfEntity extends AbstractInfectiveE
     }
 
     @Override
-    public CompoundTag getUpdateTag()
-    {
-        CompoundTag tag = super.getUpdateTag();
+    public void handleUpdateTag(CompoundTag tag, HolderLookup.Provider provider) {
+
+        super.handleUpdateTag(tag, provider);
+
+        this.decayValue = tag.getInt("DecayValue");
+        this.timeTillSpawn = tag.getInt("SpawnDelay");
+        this.redstoneEnabled = tag.getBoolean("isRedstoneControllable");
+    }
+
+    @Override
+    public CompoundTag getUpdateTag(HolderLookup.Provider provider) {
+
+        CompoundTag tag = super.getUpdateTag(provider);
 
         tag.putInt("DecayValue", decayValue);
         tag.putInt("SpawnDelay", timeTillSpawn);
@@ -232,7 +245,5 @@ public abstract class AbstractInfectedBookshelfEntity extends AbstractInfectiveE
     {
         return ClientboundBlockEntityDataPacket.create(this);
     }
-
-
 
 }

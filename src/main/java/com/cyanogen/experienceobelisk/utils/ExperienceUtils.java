@@ -25,7 +25,7 @@ public class ExperienceUtils {
         }
     }
 
-    public static long getTotalXp(Player player){
+    public static long getTotalXP(Player player){
         return ExperienceObeliskEntity.getTotalXP(player);
     }
 
@@ -35,4 +35,6 @@ public class ExperienceUtils {
 
         return (double) n/m;
     }
+
+
 }

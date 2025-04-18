@@ -20,8 +20,8 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.fluids.capability.IFluidHandler;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 
 public class FlaskChaosItem extends Item{
 
@@ -41,7 +41,7 @@ public class FlaskChaosItem extends Item{
         Player player = context.getPlayer();
         InteractionHand hand = context.getHand();
 
-        if(player != null && (player.isCreative() || ExperienceUtils.getTotalXp(player) >= cost) && !player.getCooldowns().isOnCooldown(this)){
+        if(player != null && (player.isCreative() || ExperienceUtils.getTotalXP(player) >= cost) && !player.getCooldowns().isOnCooldown(this)){
 
             BlockHitResult result = getPlayerPOVHitResult(level, player, ClipContext.Fluid.SOURCE_ONLY);
             BlockPos pos = result.getBlockPos();
@@ -52,7 +52,7 @@ public class FlaskChaosItem extends Item{
             if(level.mayInteract(player, pos) && player.mayUseItemAt(pos.relative(direction), direction, item)){
 
                 if(state.getBlock() instanceof BucketPickup bucketpickup) { //fluid sources & waterlogged blocks
-                    ItemStack test = bucketpickup.pickupBlock(level, pos, state);
+                    ItemStack test = bucketpickup.pickupBlock(player, level, pos, state);
 
                     if(!test.isEmpty()){
                         level.gameEvent(player, GameEvent.FLUID_PICKUP, pos);
@@ -69,9 +69,10 @@ public class FlaskChaosItem extends Item{
 
                     BlockEntity entity = level.getBlockEntity(pos);
                     assert entity != null;
-                    if(entity.getCapability(ForgeCapabilities.FLUID_HANDLER).resolve().isPresent()){
-                        IFluidHandler handler = entity.getCapability(ForgeCapabilities.FLUID_HANDLER).resolve().get();
 
+                    IFluidHandler handler = level.getCapability(Capabilities.FluidHandler.BLOCK, pos, direction);
+
+                    if(handler != null){
                         int drainAmount = handler.drain(1000, IFluidHandler.FluidAction.SIMULATE).getAmount();
 
                         if(drainAmount != 0){

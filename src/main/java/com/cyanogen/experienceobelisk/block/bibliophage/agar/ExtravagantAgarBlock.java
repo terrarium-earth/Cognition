@@ -22,12 +22,12 @@ public class ExtravagantAgarBlock extends AbstractAgarBlock implements EntityBlo
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> blockEntityType) {
-        return blockEntityType == RegisterBlockEntities.EXTRAVAGANT_AGAR_BE.get() ? ExtravagantAgarEntity::tick : null;
+        return blockEntityType == RegisterBlockEntities.EXTRAVAGANT_AGAR.get() ? ExtravagantAgarEntity::tick : null;
     }
 
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return RegisterBlockEntities.EXTRAVAGANT_AGAR_BE.get().create(pos, state);
+        return RegisterBlockEntities.EXTRAVAGANT_AGAR.get().create(pos, state);
     }
 }

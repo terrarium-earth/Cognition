@@ -1,0 +1,20 @@
+{
+  "type": "experienceobelisk:molecular_metamorphosis",
+  "ingredient1": {
+    "item": "experienceobelisk:cognitive_flux"
+  },
+  "count1": 2,
+  "ingredient2": {
+    "item": "minecraft:emerald"
+  },
+  "count2": 1,
+  "ingredient3": [],
+  "count3": 0,
+  "result": {
+    "id": "experienceobelisk:cognitive_crystal",
+    "count": 1
+  },
+  "cost": 16,
+  "processTime": 20,
+  "id": "experienceobelisk:cognitive_crystal_metamorphosis"
+}

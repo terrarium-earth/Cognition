@@ -1,6 +1,7 @@
 package com.cyanogen.experienceobelisk.block_entities;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
@@ -25,28 +26,35 @@ public abstract class AbstractAcceleratorEntity extends BlockEntity {
     }
 
     @Override
-    public void load(CompoundTag tag)
-    {
-        super.load(tag);
+    protected void loadAdditional(CompoundTag tag, HolderLookup.Provider provider) {
+
+        super.loadAdditional(tag, provider);
 
         this.redstoneEnabled = tag.getBoolean("isRedstoneControllable");
     }
 
     @Override
-    protected void saveAdditional(CompoundTag tag)
-    {
-        super.saveAdditional(tag);
+    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider provider) {
+
+        super.saveAdditional(tag, provider);
 
         tag.putBoolean("isRedstoneControllable", redstoneEnabled);
     }
 
     @Override
-    public CompoundTag getUpdateTag()
-    {
-        CompoundTag tag = super.getUpdateTag();
+    public void handleUpdateTag(CompoundTag tag, HolderLookup.Provider provider) {
+
+        super.handleUpdateTag(tag, provider);
+
+        this.redstoneEnabled = tag.getBoolean("isRedstoneControllable");
+    }
+
+    @Override
+    public CompoundTag getUpdateTag(HolderLookup.Provider provider) {
+
+        CompoundTag tag = super.getUpdateTag(provider);
 
         tag.putBoolean("isRedstoneControllable", redstoneEnabled);
-
         return tag;
     }
 

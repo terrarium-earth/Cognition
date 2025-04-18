@@ -1,7 +1,6 @@
 package com.cyanogen.experienceobelisk.gui;
 
 import com.cyanogen.experienceobelisk.block_entities.MolecularMetamorpherEntity;
-import com.cyanogen.experienceobelisk.network.PacketHandler;
 import com.cyanogen.experienceobelisk.network.shared.UpdateRedstone;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
@@ -12,24 +11,23 @@ import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.Level;
+import net.neoforged.neoforge.network.PacketDistributor;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MolecularMetamorpherOptionsScreen extends Screen{
 
-    private final ResourceLocation texture = new ResourceLocation("experienceobelisk:textures/gui/screens/experience_obelisk.png");
+    private final ResourceLocation texture = ResourceLocation.parse("experienceobelisk:textures/gui/screens/experience_obelisk.png");
     private final MolecularMetamorpherMenu menu;
-    private final MolecularMetamorpherEntity metamorpher;
-    private final BlockPos pos;
+    private final Level clientLevel;
 
-    public MolecularMetamorpherOptionsScreen(MolecularMetamorpherMenu menu) {
+    public MolecularMetamorpherOptionsScreen(MolecularMetamorpherMenu menu, Level level) {
         super(menu.component);
         this.menu = menu;
-        this.metamorpher = menu.metamorpherClient;
-        this.pos = menu.pos;
+        clientLevel = level;
     }
 
     @Override
@@ -51,7 +49,7 @@ public class MolecularMetamorpherOptionsScreen extends Screen{
     @Override
     public void render(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {
 
-        renderBackground(gui);
+        renderTransparentBackground(gui);
 
         RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
         RenderSystem.setShaderTexture(0, texture);
@@ -72,20 +70,26 @@ public class MolecularMetamorpherOptionsScreen extends Screen{
 
         //render widgets
         clearWidgets();
-        if(metamorpher.isRedstoneEnabled()){
-            buttons.get(1).setMessage(Component.translatable("button.experienceobelisk.experience_obelisk.enabled"));
+
+        BlockPos pos = menu.getBlockPos();
+        if(pos != null && clientLevel.getBlockEntity(pos) instanceof MolecularMetamorpherEntity metamorpher){
+            if(metamorpher.isRedstoneEnabled()){
+                buttons.get(1).setMessage(Component.translatable("button.experienceobelisk.experience_obelisk.enabled"));
+            }
+            else{
+                buttons.get(1).setMessage(Component.translatable("button.experienceobelisk.experience_obelisk.ignored"));
+            }
         }
         else{
             buttons.get(1).setMessage(Component.translatable("button.experienceobelisk.experience_obelisk.ignored"));
         }
+
         loadWidgetElements();
 
 
         for(Renderable widget : this.renderables) {
             widget.render(gui, mouseX, mouseY, partialTick);
         }
-
-        super.render(gui, mouseX, mouseY, partialTick);
     }
 
     private void loadWidgetElements(){
@@ -106,14 +110,6 @@ public class MolecularMetamorpherOptionsScreen extends Screen{
         int h = 20;
         int y1 = 43;
 
-        MutableComponent status;
-        if(metamorpher.isRedstoneEnabled()){
-            status = Component.translatable("button.experienceobelisk.experience_obelisk.enabled");
-        }
-        else{
-            status = Component.translatable("button.experienceobelisk.experience_obelisk.ignored");
-        }
-
         Button back = Button.builder(Component.translatable("button.experienceobelisk.experience_obelisk.back"),
                         (onPress) -> Minecraft.getInstance().setScreen(new MolecularMetamorpherScreen(menu, menu.inventory, menu.component)))
                 .size(20,20)
@@ -121,14 +117,8 @@ public class MolecularMetamorpherOptionsScreen extends Screen{
                 .tooltip(Tooltip.create(Component.translatable("tooltip.experienceobelisk.experience_obelisk.back")))
                 .build();
 
-        Button toggleRedstone = Button.builder(status,
-                        (onPress) -> {
-                            if (!metamorpher.isRedstoneEnabled()) {
-                                PacketHandler.INSTANCE.sendToServer(new UpdateRedstone(pos, true));
-                            } else {
-                                PacketHandler.INSTANCE.sendToServer(new UpdateRedstone(pos, false));
-                            }
-                        })
+        Button toggleRedstone = Button.builder(Component.empty(),
+                        (onPress) -> toggleRedstone())
                 .size(w, h)
                 .pos(this.width / 2 - 25, this.height / 2 - y1)
                 .build();
@@ -136,4 +126,12 @@ public class MolecularMetamorpherOptionsScreen extends Screen{
         buttons.add(back);
         buttons.add(toggleRedstone);
     }
+
+    private void toggleRedstone(){
+        BlockPos pos = menu.getBlockPos();
+        if(pos != null && clientLevel.getBlockEntity(pos) instanceof MolecularMetamorpherEntity metamorpher){
+            PacketDistributor.sendToServer(new UpdateRedstone(menu.getBlockPos(), !metamorpher.isRedstoneEnabled()));
+        }
+    }
+
 }

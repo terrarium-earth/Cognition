@@ -6,8 +6,9 @@ import com.cyanogen.experienceobelisk.registries.RegisterItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -22,18 +23,17 @@ public class FluorescentAgarBlock extends AbstractAgarBlock implements EntityBlo
     }
 
     @Override
-    public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult result) {
+    protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
 
-        if(player.getItemInHand(hand).is(RegisterItems.ATTUNEMENT_STAFF.get()) && level.getBlockEntity(pos) instanceof FluorescentAgarEntity agar){
-
+        if(stack.is(RegisterItems.ATTUNEMENT_STAFF.get()) && level.getBlockEntity(pos) instanceof FluorescentAgarEntity agar){
             Component message = Component.translatable("message.experienceobelisk.binding_wand.query_fluorescent_agar", agar.getInfectionProgress());
             if(!level.isClientSide){
                 player.displayClientMessage(message, true);
             }
-            return InteractionResult.sidedSuccess(level.isClientSide);
+            return ItemInteractionResult.sidedSuccess(level.isClientSide);
         }
 
-        return super.use(state, level, pos, player, hand, result);
+        return super.useItemOn(stack, state, level, pos, player, hand, hitResult);
     }
 
     //-----BLOCK ENTITY-----//
@@ -41,6 +41,6 @@ public class FluorescentAgarBlock extends AbstractAgarBlock implements EntityBlo
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return RegisterBlockEntities.FLUORESCENT_AGAR_BE.get().create(pos, state);
+        return RegisterBlockEntities.FLUORESCENT_AGAR.get().create(pos, state);
     }
 }

@@ -6,6 +6,7 @@ import com.cyanogen.experienceobelisk.registries.RegisterItems;
 import com.cyanogen.experienceobelisk.utils.ExperienceUtils;
 import com.cyanogen.experienceobelisk.utils.RecipeUtils;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
+import mezz.jei.api.gui.builder.ITooltipBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.gui.drawable.IDrawableAnimated;
 import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
@@ -19,6 +20,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.DyeItem;
@@ -37,7 +39,7 @@ public class MolecularMetamorpherCategory implements IRecipeCategory<MolecularMe
 
     IRecipeCategoryRegistration registration;
     IGuiHelper guiHelper;
-    private final ResourceLocation texture = new ResourceLocation("experienceobelisk:textures/gui/recipes/molecular_metamorpher_jei.png");
+    private final ResourceLocation texture = ResourceLocation.parse("experienceobelisk:textures/gui/recipes/molecular_metamorpher_jei.png");
     private final IDrawableAnimated arrow;
 
     public static final RecipeType<MolecularMetamorpherRecipe> metamorpherType =
@@ -57,13 +59,18 @@ public class MolecularMetamorpherCategory implements IRecipeCategory<MolecularMe
     }
 
     @Override
-    public Component getTitle() {
-        return Component.translatable("title.experienceobelisk.molecular_metamorpher");
+    public int getWidth() { //must be overriden or category will not register
+        return 176;
     }
 
     @Override
-    public IDrawable getBackground() {
-        return guiHelper.createDrawable(texture, 0, 0, 176, 87);
+    public int getHeight() { //must be overriden or category will not register
+        return 87;
+    }
+
+    @Override
+    public Component getTitle() {
+        return Component.translatable("title.experienceobelisk.molecular_metamorpher");
     }
 
     @Override
@@ -81,6 +88,7 @@ public class MolecularMetamorpherCategory implements IRecipeCategory<MolecularMe
     @Override
     public void draw(MolecularMetamorpherRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY) {
 
+        guiHelper.createDrawable(texture, 0, 0, 176, 87).draw(guiGraphics);
         arrow.draw(guiGraphics, 108, 47);
 
         Font font = Minecraft.getInstance().font;
@@ -100,7 +108,7 @@ public class MolecularMetamorpherCategory implements IRecipeCategory<MolecularMe
     }
 
     @Override
-    public List<Component> getTooltipStrings(MolecularMetamorpherRecipe recipe, IRecipeSlotsView recipeSlotsView, double mouseX, double mouseY) {
+    public void getTooltip(ITooltipBuilder tooltip, MolecularMetamorpherRecipe recipe, IRecipeSlotsView recipeSlotsView, double mouseX, double mouseY) {
 
         int cost = recipe.getCost();
         int time = recipe.getProcessTime() / 20;
@@ -111,8 +119,6 @@ public class MolecularMetamorpherCategory implements IRecipeCategory<MolecularMe
         Component costXP = Component.translatable("jei.experienceobelisk.metamorpher.cost_xp", c2);
         Component processTime = Component.translatable("jei.experienceobelisk.metamorpher.process_time", c3);
 
-        List<Component> tooltip = new ArrayList<>();
-
         int x1 = getWidth() - 67;
         int x2 = getWidth();
         int y1 = getHeight() - 14;
@@ -121,17 +127,16 @@ public class MolecularMetamorpherCategory implements IRecipeCategory<MolecularMe
         if(mouseX >= x1 && mouseX <= x2 && mouseY >= y1 && mouseY <= y2){
             tooltip.add(costXP);
             tooltip.add(processTime);
-
-            return tooltip;
         }
 
-        return IRecipeCategory.super.getTooltipStrings(recipe, recipeSlotsView, mouseX, mouseY);
+        IRecipeCategory.super.getTooltip(tooltip, recipe, recipeSlotsView, mouseX, mouseY);
     }
+
 
     @Override
     public void setRecipe(IRecipeLayoutBuilder builder, MolecularMetamorpherRecipe recipe, IFocusGroup focuses) {
 
-        if(!recipe.getId().equals(new ResourceLocation(ExperienceObelisk.MOD_ID, "item_name_formatting"))){
+        if(!recipe.getId().equals(ResourceLocation.fromNamespaceAndPath(ExperienceObelisk.MOD_ID, "item_name_formatting"))){
             builder.setShapeless();
             setJsonRecipe(builder, recipe);
         }
@@ -162,7 +167,8 @@ public class MolecularMetamorpherCategory implements IRecipeCategory<MolecularMe
         List<ItemStack> formatItemList = convertItemListToItemStackList(getValidDyes());
         formatItemList.addAll(convertItemListToItemStackList(getValidFormattingItems()));
 
-        ItemStack inputItem = new ItemStack(RegisterItems.DUMMY_SWORD.get(), 1).copy().setHoverName(Component.translatable("jei.experienceobelisk.name.any_item")); //slot 1
+        ItemStack inputItem = new ItemStack(RegisterItems.DUMMY_SWORD.get(), 1).copy();
+        inputItem.set(DataComponents.ITEM_NAME, Component.translatable("jei.experienceobelisk.name.any_item"));
         Ingredient formatItems = Ingredient.of(formatItemList.stream());
         List<ItemStack> outputItems = new ArrayList<>();
 
@@ -171,9 +177,11 @@ public class MolecularMetamorpherCategory implements IRecipeCategory<MolecularMe
             if(dye instanceof DyeItem dyeItem){
                 int dyeColor = dyeItem.getDyeColor().getId();
                 ChatFormatting format = ChatFormatting.getById(RecipeUtils.dyeColorToTextColor(dyeColor));
-                assert format != null;
 
-                outputItems.add(inputItem.copy().setHoverName(Component.translatable("jei.experienceobelisk.name.any_item").withStyle(format)));
+                assert format != null;
+                ItemStack outputItem = inputItem.copy();
+                outputItem.set(DataComponents.ITEM_NAME, Component.translatable("jei.experienceobelisk.name.any_item").withStyle(format));
+                outputItems.add(outputItem);
             }
         }
         for(Item formattingItem : getValidFormattingItems()){
@@ -183,7 +191,9 @@ public class MolecularMetamorpherCategory implements IRecipeCategory<MolecularMe
             ChatFormatting format = ChatFormatting.getByCode(code);
 
             assert format != null;
-            outputItems.add(inputItem.copy().setHoverName(Component.translatable("jei.experienceobelisk.name.any_item").withStyle(format)));
+            ItemStack outputItem = inputItem.copy();
+            outputItem.set(DataComponents.ITEM_NAME, Component.translatable("jei.experienceobelisk.name.any_item").withStyle(format));
+            outputItems.add(outputItem);
         }
 
         builder.addSlot(RecipeIngredientRole.INPUT, 19, 35).setSlotName("input1").addItemStack(inputItem);

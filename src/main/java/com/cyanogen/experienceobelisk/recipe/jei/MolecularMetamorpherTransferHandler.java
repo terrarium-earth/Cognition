@@ -11,12 +11,16 @@ import mezz.jei.api.recipe.transfer.IRecipeTransferError;
 import mezz.jei.api.recipe.transfer.IRecipeTransferHandler;
 import mezz.jei.api.recipe.transfer.IRecipeTransferHandlerHelper;
 import mezz.jei.api.registration.IRecipeTransferRegistration;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.MenuType;
+import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.neoforged.neoforge.network.PacketDistributor;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -103,7 +107,7 @@ public class MolecularMetamorpherTransferHandler implements IRecipeTransferHandl
                     ItemStack playerStack = player.getInventory().getItem(k);
 
                     if(!(k == spaces[0] || k == spaces[1] || k == spaces[2])){
-                        if(ItemStack.isSameItemSameTags(menuStack, playerStack) && menuStack.getCount() + playerStack.getCount() <= menuStack.getMaxStackSize()){
+                        if(ItemStack.isSameItemSameComponents(menuStack, playerStack) && menuStack.getCount() + playerStack.getCount() <= menuStack.getMaxStackSize()){
                             spaces[i] = k;
                         }
                         else if(playerStack.isEmpty()){
@@ -173,7 +177,7 @@ public class MolecularMetamorpherTransferHandler implements IRecipeTransferHandl
 
                     ItemStack playerStack = player.getInventory().getItem(k);
 
-                    if(ItemStack.isSameItemSameTags(playerStack, ingredientStack)){
+                    if(ItemStack.isSameItemSameComponents(playerStack, ingredientStack)){
 
                         countToTransfer[i] -= menu.put(playerStack, countToTransfer[i]);
                     }
@@ -186,7 +190,7 @@ public class MolecularMetamorpherTransferHandler implements IRecipeTransferHandl
         }
 
         //update player inventory and container
-        UpdateInventory.updateInventoryFromClient(player);
+        updateInventoryFromClient(player);
         return null;
     }
 
@@ -213,7 +217,7 @@ public class MolecularMetamorpherTransferHandler implements IRecipeTransferHandl
                 for(int j = 0; j < player.getInventory().items.size(); j++){
                     ItemStack playerStack = player.getInventory().getItem(j);
 
-                    if(ItemStack.isSameItemSameTags(playerStack, ingredientStack)){
+                    if(ItemStack.isSameItemSameComponents(playerStack, ingredientStack)){
 
                         playerItems[position] = ingredientStack.copy();
                         playerItemCount[position] += playerStack.getCount();
@@ -223,7 +227,7 @@ public class MolecularMetamorpherTransferHandler implements IRecipeTransferHandl
                 for(int k = 0; k < 3; k++){
                     ItemStack menuStack = menu.getSlot(k).getItem();
 
-                    if(ItemStack.isSameItemSameTags(menuStack, ingredientStack)){
+                    if(ItemStack.isSameItemSameComponents(menuStack, ingredientStack)){
 
                         playerItems[position] = ingredientStack.copy();
                         playerItemCount[position] += menuStack.getCount();
@@ -236,6 +240,25 @@ public class MolecularMetamorpherTransferHandler implements IRecipeTransferHandl
             }
         }
 
+    }
+
+    public void updateInventoryFromClient(Player player){
+        ListTag inventoryList = new ListTag();
+        player.getInventory().save(inventoryList);
+
+        ListTag containerList = new ListTag();
+        for (Slot slot : player.containerMenu.slots) {
+            CompoundTag tag = (CompoundTag) slot.getItem().saveOptional(player.level().registryAccess());
+            containerList.add(slot.index, tag);
+        }
+
+        CompoundTag inventoryTag = new CompoundTag();
+        inventoryTag.put("Inventory", inventoryList);
+
+        CompoundTag containerTag = new CompoundTag();
+        containerTag.put("Container", containerList);
+
+        PacketDistributor.sendToServer(new UpdateInventory(containerTag, inventoryTag));
     }
 
 }

@@ -7,6 +7,8 @@ import com.cyanogen.experienceobelisk.registries.RegisterFluids;
 import com.cyanogen.experienceobelisk.registries.RegisterTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
@@ -19,34 +21,27 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.phys.AABB;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.capability.IFluidHandler;
-import net.minecraftforge.fluids.capability.templates.FluidTank;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler;
+import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.animatable.GeoBlockEntity;
-import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.core.animation.AnimatableManager;
-import software.bernie.geckolib.core.animation.AnimationController;
-import software.bernie.geckolib.core.animation.AnimationState;
-import software.bernie.geckolib.core.animation.RawAnimation;
-import software.bernie.geckolib.core.object.PlayState;
+import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
+import software.bernie.geckolib.animation.*;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.List;
+import java.util.Objects;
 
 import static com.cyanogen.experienceobelisk.utils.ExperienceUtils.levelsToXP;
 import static com.cyanogen.experienceobelisk.utils.ExperienceUtils.xpToLevels;
 
-public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEntity{
+public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEntity {
 
     public ExperienceObeliskEntity(BlockPos pos, BlockState state) {
-        super(RegisterBlockEntities.EXPERIENCE_OBELISK_BE.get(), pos, state);
+        super(RegisterBlockEntities.EXPERIENCE_OBELISK.get(), pos, state);
     }
 
     //-----------ANIMATIONS-----------//
@@ -166,12 +161,8 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
 
     //-----------FLUID HANDLER-----------//
 
-    protected final FluidTank tank = experienceObeliskTank();
-
-    private final LazyOptional<IFluidHandler> handler = LazyOptional.of(() -> tank);
-
-    private static final Fluid cognitium = RegisterFluids.COGNITIUM.get().getSource();
-
+    protected FluidTank tank = experienceObeliskTank();
+    private static final Fluid cognitium = RegisterFluids.COGNITIUM_SOURCE.get();
     public static final int capacity = (int) Math.min((Math.round((double) Config.COMMON.capacity.get() / 20) * 20), 2147483640);
 
     private FluidTank experienceObeliskTank() {
@@ -190,7 +181,7 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
 
             @Override
             public boolean isFluidValid(FluidStack stack) {
-                String fluidName = String.valueOf(ForgeRegistries.FLUIDS.getKey(stack.getFluid()));
+                String fluidName = BuiltInRegistries.FLUID.getKey(stack.getFluid()).toString();
 
                 if(stack.getFluid() == cognitium){
                     return true;
@@ -233,6 +224,10 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
                 setChanged();
             }
 
+            @Override
+            public int getTanks() {
+                return 1;
+            }
         };
     }
 
@@ -264,48 +259,66 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
         return xpToLevels(getExperiencePoints());
     }
 
-    @Override
-    @Nonnull
-    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> capability, @Nullable Direction facing) {
-        if (capability == ForgeCapabilities.FLUID_HANDLER)
-            return handler.cast();
-        return super.getCapability(capability, facing);
+    public static @Nullable IFluidHandler getCapability(Level level, BlockPos blockPos, BlockState blockState, @Nullable BlockEntity blockEntity, Direction direction) {
+        //for modded compatibility
+
+        if(blockEntity instanceof ExperienceObeliskEntity obelisk && direction != Direction.UP){
+            return obelisk.tank;
+        }
+        else{
+            return null;
+        }
     }
 
-    @Override
-    public void invalidateCaps() {
-        handler.invalidate();
-        super.invalidateCaps();
+    public @Nullable IFluidHandler getCapability(Direction direction) {
+        //for internal usage, if I already know i'm querying an Experience Obelisk
+
+        if(direction != Direction.UP){
+            return experienceObeliskTank();
+        }
+        else{
+            return null;
+        }
     }
 
     //-----------NBT-----------//
 
     @Override
-    public void load(CompoundTag tag)
-    {
-        super.load(tag);
-        tank.readFromNBT(tag);
+    protected void loadAdditional(CompoundTag tag, HolderLookup.Provider provider) {
 
+        super.loadAdditional(tag, provider);
+
+        tank.readFromNBT(provider, tag);
         this.radius = tag.getDouble("Radius");
         this.redstoneEnabled = tag.getBoolean("isRedstoneControllable");
     }
 
     @Override
-    protected void saveAdditional(CompoundTag tag)
-    {
-        super.saveAdditional(tag);
-        tank.writeToNBT(tag);
+    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider provider) {
 
+        super.saveAdditional(tag, provider);
+
+        tank.writeToNBT(provider, tag);
         tag.putDouble("Radius", radius);
         tag.putBoolean("isRedstoneControllable", redstoneEnabled);
     }
 
     @Override
-    public CompoundTag getUpdateTag()
-    {
-        CompoundTag tag = super.getUpdateTag();
-        tank.writeToNBT(tag);
+    public void handleUpdateTag(CompoundTag tag, HolderLookup.Provider provider) {
 
+        super.handleUpdateTag(tag, provider);
+
+        tank.readFromNBT(provider, tag);
+        this.radius = tag.getDouble("Radius");
+        this.redstoneEnabled = tag.getBoolean("isRedstoneControllable");
+    }
+
+    @Override
+    public CompoundTag getUpdateTag(HolderLookup.Provider provider) {
+
+        CompoundTag tag = super.getUpdateTag(provider);
+
+        tank.writeToNBT(provider, tag);
         tag.putDouble("Radius", radius);
         tag.putBoolean("isRedstoneControllable", redstoneEnabled);
 
@@ -325,31 +338,30 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
         return levelsToXP(player.experienceLevel) + Math.round(player.experienceProgress * player.getXpNeededForNextLevel());
     }
 
-    public void handleRequest(UpdateContents.Request request, int XP, ServerPlayer sender){
+    public void handleRequest(String request, int levels, ServerPlayer sender){
 
         long playerXP = getTotalXP(sender);
         long finalXP;
 
-        if(request == UpdateContents.Request.FILL && this.getSpace() != 0){
+        if(Objects.equals(request, UpdateContents.FILL) && this.getSpace() != 0){
 
             //-----FILLING-----//
 
             //final amount of experience points the player will have after storing n levels
-            finalXP = levelsToXP(sender.experienceLevel - XP) + Math.round(sender.experienceProgress *
-                    (levelsToXP(sender.experienceLevel - XP + 1) - levelsToXP(sender.experienceLevel - XP)));
+            finalXP = levelsToXP(sender.experienceLevel - levels) + Math.round(sender.experienceProgress *
+                    (levelsToXP(sender.experienceLevel - levels + 1) - levelsToXP(sender.experienceLevel - levels)));
 
             long addAmount = (playerXP - finalXP) * 20;
 
             //if amount to add exceeds remaining capacity
-            if(addAmount >= this.getSpace()){
+            if(sender.experienceLevel >= levels && addAmount >= this.getSpace()){
                 sender.giveExperiencePoints(-this.fill(this.getSpace()) / 20); //fill up however much is left and deduct that amount frm player
             }
-
             //normal operation
-            else if(sender.experienceLevel >= XP){
+            else if(sender.experienceLevel >= levels){
 
                 this.fill((int) (addAmount));
-                sender.giveExperienceLevels(-XP);
+                sender.giveExperienceLevels(-levels);
 
             }
             //if player has less than the required XP
@@ -364,12 +376,12 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
 
         //-----DRAINING-----//
 
-        else if(request == UpdateContents.Request.DRAIN){
+        else if(Objects.equals(request, UpdateContents.DRAIN)){
 
             int amount = this.getFluidAmount();
 
-            finalXP = levelsToXP(sender.experienceLevel + XP) + Math.round(sender.experienceProgress *
-                    (levelsToXP(sender.experienceLevel + XP + 1) - levelsToXP(sender.experienceLevel + XP)));
+            finalXP = levelsToXP(sender.experienceLevel + levels) + Math.round(sender.experienceProgress *
+                    (levelsToXP(sender.experienceLevel + levels + 1) - levelsToXP(sender.experienceLevel + levels)));
 
             long drainAmount = (finalXP - playerXP) * 20;
 
@@ -377,7 +389,7 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
             if(amount >= drainAmount){
 
                 this.drain((int) drainAmount);
-                sender.giveExperienceLevels(XP);
+                sender.giveExperienceLevels(levels);
 
             }
             else if(amount >= 1){
@@ -389,7 +401,7 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
 
         //-----FILL OR DRAIN ALL-----//
 
-        else if(request == UpdateContents.Request.FILL_ALL){
+        else if(Objects.equals(request, UpdateContents.FILL_ALL)){
 
             if(playerXP * 20 <= this.getSpace()){
                 this.fill((int) (playerXP * 20));
@@ -402,13 +414,12 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
             }
 
         }
-        else if(request == UpdateContents.Request.DRAIN_ALL){
+        else if(Objects.equals(request, UpdateContents.DRAIN_ALL)){
 
             sender.giveExperiencePoints(this.getFluidAmount() / 20);
             this.setFluid(0);
         }
     }
-
 
 }
 

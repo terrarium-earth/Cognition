@@ -1,12 +1,12 @@
 package com.cyanogen.experienceobelisk.event;
 
 import com.cyanogen.experienceobelisk.item.NeurogelMendingItem;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.event.RegisterItemDecorationsEvent;
-import net.minecraftforge.event.ItemStackedOnOtherEvent;
-import net.minecraftforge.event.entity.player.ItemTooltipEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.neoforge.event.ItemStackedOnOtherEvent;
+import net.neoforged.neoforge.event.entity.player.ItemTooltipEvent;
+
 
 public class EventHandler {
 
@@ -14,12 +14,6 @@ public class EventHandler {
     @OnlyIn(Dist.CLIENT)
     public void onTooltip(ItemTooltipEvent event){
         DescriptionTooltips.handleTooltip(event);
-    }
-
-    @SubscribeEvent
-    @OnlyIn(Dist.CLIENT)
-    public void onRegisterItemDecorator(RegisterItemDecorationsEvent event){
-        //this is for adding custom item bars (if needed in the future)
     }
 
     @SubscribeEvent
