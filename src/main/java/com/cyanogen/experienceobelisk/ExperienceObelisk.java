@@ -3,7 +3,6 @@ package com.cyanogen.experienceobelisk;
 import com.cyanogen.experienceobelisk.config.Config;
 import com.cyanogen.experienceobelisk.event.EventHandler;
 import com.cyanogen.experienceobelisk.event.IModBusEventHandler;
-import com.cyanogen.experienceobelisk.item.curios.EnlightenedAmuletCurio;
 import com.cyanogen.experienceobelisk.registries.*;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
@@ -14,7 +13,6 @@ import net.neoforged.fml.config.ModConfig;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.common.NeoForge;
-import top.theillusivec4.curios.api.CuriosApi;
 
 @Mod(ExperienceObelisk.MOD_ID)
 public class ExperienceObelisk
@@ -42,9 +40,6 @@ public class ExperienceObelisk
 
     private void commonSetup(final FMLCommonSetupEvent event) {
         NeoForge.EVENT_BUS.register(new EventHandler()); //for other events
-
-        CuriosApi.registerCurio(RegisterItems.ENLIGHTENED_AMULET.get(), new EnlightenedAmuletCurio());
-        System.out.println("Registered curio item ======================================================");
     }
 
     private void clientSetup(final FMLClientSetupEvent event){

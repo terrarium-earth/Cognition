@@ -1,0 +1,5 @@
+{
+  "replace": true,
+  "entities": ["player"],
+  "slots": ["necklace"]
+}

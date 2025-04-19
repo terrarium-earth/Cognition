@@ -1,6 +1,0 @@
-{
-  "replace": true,
-  "entities": ["player"],
-  "slots": ["necklace"],
-  "validators": ["curios:all"]
-}

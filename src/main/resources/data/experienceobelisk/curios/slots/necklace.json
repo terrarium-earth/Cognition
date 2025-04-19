@@ -1,4 +1,5 @@
 {
-  "size": 1,
-  "add_cosmetic": true
+  "size": 0,
+  "add_cosmetic": false,
+  "validators": ["curios:tag"]
 }
