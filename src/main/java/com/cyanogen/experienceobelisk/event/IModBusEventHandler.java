@@ -32,12 +32,6 @@ public class IModBusEventHandler {
 
     @SubscribeEvent
     @OnlyIn(Dist.CLIENT)
-    public void onRegisterPayloadHandlers(RegisterPayloadHandlersEvent event){
-        RegisterPackets.register(event);
-    }
-
-    @SubscribeEvent
-    @OnlyIn(Dist.CLIENT)
     public void onRegisterClientExtensions(RegisterClientExtensionsEvent event){
         event.registerFluidType(RegisterFluids.COGNITIUM_FLUID_TYPE.get(), RegisterFluids.COGNITIUM_FLUID_TYPE);
     }
@@ -46,6 +40,11 @@ public class IModBusEventHandler {
     @OnlyIn(Dist.CLIENT)
     public void onRegisterRenderers(EntityRenderersEvent.RegisterRenderers event){
         RegisterRenderers.register(event);
+    }
+
+    @SubscribeEvent
+    public void onRegisterPayloadHandlers(RegisterPayloadHandlersEvent event){
+        RegisterPackets.register(event);
     }
 
     @SubscribeEvent

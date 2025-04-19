@@ -15,7 +15,7 @@ public class RegisterPackets {
     public static void register(final RegisterPayloadHandlersEvent event) {
         final PayloadRegistrar registrar = event.registrar("1.0").executesOn(HandlerThread.MAIN);
 
-        registrar.commonToServer(UpdateContents.TYPE, UpdateContents.STREAM_CODEC,
+        registrar.playToServer(UpdateContents.TYPE, UpdateContents.STREAM_CODEC,
                 new MainThreadPayloadHandler<>(UpdateContents::handle));
 
         registrar.playToServer(UpdateRadius.TYPE, UpdateRadius.STREAM_CODEC,
