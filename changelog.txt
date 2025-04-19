@@ -1,3 +1,26 @@
+v2.3.6.1
+
+[Bugfixes]
+- Fixed Serializer inconsistency causing crash upon joining a server
+- Internal changes and optimizations
+
+v2.3.6
+
+[Changes]
+- Enlightened Amulets now ignore orbs spawned by Fountains. This may be disabled in the config file
+- Mending Neurogel may now be applied onto Anvils with either right-click or shift-right-click
+- Optimized Metamorpher recipe loading and matching
+- Merged name change recipes into a single recipe in JEI
+
+[Bugfixes]
+- Fixed Mending Neurogel opening anvil GUIs on use in-world
+
+v2.3.5
+
+[Changes]
+- Added config option to make Infected Bookshelves & Agar permeable to Forgotten Dust items.
+This will allow Forgotten Dust to pass through bibliophage setups as if they aren't there. Option is false by default.
+
 v2.3.4
 
 [Changes]
