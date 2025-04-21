@@ -7,9 +7,9 @@
   "ingredient2": {
     "item": "minecraft:honeycomb"
   },
-  "count2": 4,
+  "count2": 3,
   "ingredient3": {
-    "item": "minecraft:glowstone_dust"
+    "item": "minecraft:gold_ingot"
   },
   "count3": 4,
   "result": {

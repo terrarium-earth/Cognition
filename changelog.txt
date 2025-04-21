@@ -1,3 +1,8 @@
+v2.3.7
+
+[Changes]
+- Minor recipe changes
+
 v2.3.6.1
 
 [Bugfixes]

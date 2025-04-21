@@ -1,19 +1,19 @@
 {
   "type": "experienceobelisk:molecular_metamorphosis",
   "ingredient1": {
-    "item": "minecraft:ink_sac"
+    "item": "minecraft:writable_book"
   },
   "count1": 1,
-  "ingredient2": {
+  "ingredient2": [],
+  "count2": 0,
+  "ingredient3": {
     "item": "experienceobelisk:transforming_focus"
   },
-  "count2": 1,
-  "ingredient3": [],
-  "count3": 0,
+  "count3": 1,
   "result": {
-    "item": "minecraft:glow_ink_sac",
+    "item": "minecraft:name_tag",
     "count": 1
   },
-  "cost": 16,
-  "processTime": 20
+  "cost": 55,
+  "processTime": 40
 }
