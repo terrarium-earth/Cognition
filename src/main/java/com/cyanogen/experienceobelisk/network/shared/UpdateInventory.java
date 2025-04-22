@@ -9,6 +9,8 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 /**
@@ -18,7 +20,7 @@ import net.neoforged.neoforge.network.handling.IPayloadContext;
 public record UpdateInventory(CompoundTag container) implements CustomPacketPayload {
 
     public static final StreamCodec<ByteBuf, UpdateInventory> STREAM_CODEC = StreamCodec.composite(
-            ByteBufCodecs.fromCodec(CompoundTag.CODEC),
+            ByteBufCodecs.COMPOUND_TAG,
             UpdateInventory::container,
             UpdateInventory::new
     );
@@ -37,19 +39,13 @@ public record UpdateInventory(CompoundTag container) implements CustomPacketPayl
 
             if (!context.player().level().isClientSide) {
                 ServerPlayer player = (ServerPlayer) context.player();
+                ListTag list = packet.container.getList("Container", 10);
 
-                ListTag containerList = packet.container.getList("Container", 9);
-                player.getInventory().load(containerList);
-
-                System.out.println("Packet Received on server: \n" + containerList);
-
-//                for(Slot slot : player.containerMenu.slots){
-//                    CompoundTag tag = containerList.getCompound(slot.index);
-//                    ItemStack stack = ItemStack.parseOptional(player.level().registryAccess(), tag);
-//
-//                    slot.set(stack);
-//                }
-
+                for(Slot slot : player.containerMenu.slots){
+                    CompoundTag tag = list.getCompound(slot.index);
+                    ItemStack item = ItemStack.parseOptional(player.level().registryAccess(), tag);
+                    slot.set(item);
+                }
             }
 
         });

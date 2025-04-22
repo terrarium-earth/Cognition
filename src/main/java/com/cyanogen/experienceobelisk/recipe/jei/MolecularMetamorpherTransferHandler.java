@@ -253,8 +253,6 @@ public class MolecularMetamorpherTransferHandler implements IRecipeTransferHandl
         CompoundTag containerTag = new CompoundTag();
         containerTag.put("Container", containerList);
 
-        System.out.println("Sent Packet containing the following data: \n" + containerTag);
-
         PacketDistributor.sendToServer(new UpdateInventory(containerTag));
     }
 
