@@ -1,3 +1,9 @@
+v2.3.6.2
+
+[Bugfixes]
+- Fixed Molecular Metamorpher transfer handler
+- Fixed Metamorpher not saving remote slot changes
+
 v2.3.6.1
 
 [Bugfixes]
