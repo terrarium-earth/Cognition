@@ -23,9 +23,13 @@ public class EventHandler {
         NeurogelMendingItem.handleItem(event);
     }
 
-    @SubscribeEvent
-    public void onCurioCanEquip(CurioCanEquipEvent event){
-        EnlightenedAmuletItem.canEquip(event);
+    public static class CuriosEventHandler{
+
+        @SubscribeEvent
+        public void onCurioCanEquip(CurioCanEquipEvent event){
+            EnlightenedAmuletItem.canEquip(event);
+        }
+
     }
 
 }

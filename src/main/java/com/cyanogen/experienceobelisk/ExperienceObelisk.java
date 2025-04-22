@@ -8,6 +8,7 @@ import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
+import net.neoforged.fml.ModList;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.config.ModConfig;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
@@ -40,6 +41,10 @@ public class ExperienceObelisk
 
     private void commonSetup(final FMLCommonSetupEvent event) {
         NeoForge.EVENT_BUS.register(new EventHandler()); //for other events
+
+        if(ModList.get().isLoaded("curios")){
+            NeoForge.EVENT_BUS.register(new EventHandler.CuriosEventHandler());
+        }
     }
 
     private void clientSetup(final FMLClientSetupEvent event){

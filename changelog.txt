@@ -1,6 +1,11 @@
 v2.3.6.2
 
 [Bugfixes]
+- Fixed enlightened amulet not being able to be placed in curios slot
+
+v2.3.6.2
+
+[Bugfixes]
 - Fixed Molecular Metamorpher transfer handler
 - Fixed Metamorpher not saving remote slot changes
 
