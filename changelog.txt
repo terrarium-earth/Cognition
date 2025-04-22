@@ -1,7 +1,8 @@
-v2.3.6.2
+v2.3.6.3
 
 [Bugfixes]
-- Fixed enlightened amulet not being able to be placed in curios slot
+- Fixed enlightened amulet not being placeable in curios slot
+- Fixed cognitive armor not having a max stack value of 1
 
 v2.3.6.2
 
