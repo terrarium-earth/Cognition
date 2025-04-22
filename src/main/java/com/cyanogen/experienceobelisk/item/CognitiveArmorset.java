@@ -9,6 +9,7 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
 
 import java.util.ArrayList;
@@ -56,6 +57,16 @@ public class CognitiveArmorset {
         public ExtraAttributeArmorItem(Holder<ArmorMaterial> material, Type type, List<ItemAttributeModifiers.Entry> extraModifiers) {
             super(material, type, new Item.Properties());
             this.extraModifiers = extraModifiers;
+        }
+
+        @Override
+        public int getDefaultMaxStackSize() {
+            return 1;
+        }
+
+        @Override
+        public int getMaxStackSize(ItemStack stack) {
+            return 1;
         }
 
         @Override
