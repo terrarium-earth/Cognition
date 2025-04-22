@@ -17,7 +17,10 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.fml.ModList;
+import net.neoforged.neoforge.common.util.TriState;
 import org.jetbrains.annotations.NotNull;
+import top.theillusivec4.curios.api.event.CurioCanEquipEvent;
 
 import java.util.List;
 import java.util.Objects;
@@ -45,6 +48,12 @@ public class EnlightenedAmuletItem extends Item{
     @Override
     public int getMaxStackSize(ItemStack stack) {
         return 1;
+    }
+
+    public static void canEquip(CurioCanEquipEvent event){
+        if(Objects.equals(event.getSlotContext().identifier(), "necklace") && event.getStack().getItem() instanceof EnlightenedAmuletItem){
+            event.setEquipResult(TriState.TRUE);
+        }
     }
 
     @Override
@@ -140,6 +149,10 @@ public class EnlightenedAmuletItem extends Item{
     public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltipComponents, TooltipFlag tooltipFlag) {
 
         boolean isActive = ItemUtils.getCustomDataTag(stack).getBoolean("isActive");
+
+        if(ModList.get().isLoaded("curios")){
+            tooltipComponents.add(Component.translatable("tooltip.experienceobelisk.enlightened_amulet.curio"));
+        }
 
         if(isActive){
             tooltipComponents.add(Component.translatable("tooltip.experienceobelisk.enlightened_amulet.active"));
