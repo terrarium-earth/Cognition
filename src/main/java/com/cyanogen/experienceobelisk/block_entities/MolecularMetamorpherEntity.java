@@ -179,7 +179,13 @@ public class MolecularMetamorpherEntity extends ExperienceReceivingEntity implem
     protected ItemStackHandler outputHandler = outputHandler();
 
     public ItemStackHandler inputHandler() {
-        return new ItemStackHandler(3);
+        return new ItemStackHandler(3){
+            @Override
+            protected void onContentsChanged(int slot) {
+                setChanged();
+                super.onContentsChanged(slot);
+            }
+        };
     }
 
     public ItemStackHandler outputHandler(){
@@ -187,6 +193,12 @@ public class MolecularMetamorpherEntity extends ExperienceReceivingEntity implem
             @Override
             public boolean isItemValid(int slot, @NotNull ItemStack stack) {
                 return false;
+            }
+
+            @Override
+            protected void onContentsChanged(int slot) {
+                setChanged();
+                super.onContentsChanged(slot);
             }
         };
     }

@@ -190,7 +190,7 @@ public class MolecularMetamorpherTransferHandler implements IRecipeTransferHandl
         }
 
         //update player inventory and container
-        updateInventoryFromClient(player);
+        updateContainerFromClient(player);
         return null;
     }
 
@@ -242,9 +242,7 @@ public class MolecularMetamorpherTransferHandler implements IRecipeTransferHandl
 
     }
 
-    public void updateInventoryFromClient(Player player){
-        ListTag inventoryList = new ListTag();
-        player.getInventory().save(inventoryList);
+    public void updateContainerFromClient(Player player){
 
         ListTag containerList = new ListTag();
         for (Slot slot : player.containerMenu.slots) {
@@ -252,13 +250,12 @@ public class MolecularMetamorpherTransferHandler implements IRecipeTransferHandl
             containerList.add(slot.index, tag);
         }
 
-        CompoundTag inventoryTag = new CompoundTag();
-        inventoryTag.put("Inventory", inventoryList);
-
         CompoundTag containerTag = new CompoundTag();
         containerTag.put("Container", containerList);
 
-        PacketDistributor.sendToServer(new UpdateInventory(containerTag, inventoryTag));
+        System.out.println("Sent Packet containing the following data: \n" + containerTag);
+
+        PacketDistributor.sendToServer(new UpdateInventory(containerTag));
     }
 
 }

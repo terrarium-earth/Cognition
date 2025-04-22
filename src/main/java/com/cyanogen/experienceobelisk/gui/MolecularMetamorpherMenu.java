@@ -105,12 +105,14 @@ public class MolecularMetamorpherMenu extends AbstractContainerMenu {
             if(!slot.hasItem()){
                 getSlot(i).set(copy);
                 stack.shrink(amount);
+                broadcastChanges();
                 return amount;
             }
             else if(ItemStack.isSameItemSameComponents(slot.getItem(), copy)){
                 int grow = Math.min(amount, slot.getItem().getMaxStackSize() - slot.getItem().getCount());
                 slot.getItem().grow(grow);
                 stack.shrink(grow);
+                broadcastChanges();
                 return grow;
             }
         }

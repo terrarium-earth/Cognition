@@ -9,21 +9,17 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.inventory.Slot;
-import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 /**
  * This is sent from the client to the server upon any inventory change that needs to be synced.
  * As of now this is only used by the JEI transfer handler for the Molecular Metamorpher
  */
-public record UpdateInventory(CompoundTag container, CompoundTag inventory) implements CustomPacketPayload {
+public record UpdateInventory(CompoundTag container) implements CustomPacketPayload {
 
     public static final StreamCodec<ByteBuf, UpdateInventory> STREAM_CODEC = StreamCodec.composite(
             ByteBufCodecs.fromCodec(CompoundTag.CODEC),
             UpdateInventory::container,
-            ByteBufCodecs.fromCodec(CompoundTag.CODEC),
-            UpdateInventory::inventory,
             UpdateInventory::new
     );
 
@@ -42,19 +38,17 @@ public record UpdateInventory(CompoundTag container, CompoundTag inventory) impl
             if (!context.player().level().isClientSide) {
                 ServerPlayer player = (ServerPlayer) context.player();
 
-                ListTag inventoryList = (ListTag) packet.inventory.get("Inventory");
                 ListTag containerList = packet.container.getList("Container", 9);
+                player.getInventory().load(containerList);
 
-                if(inventoryList != null){
-                    player.getInventory().load(inventoryList);
+                System.out.println("Packet Received on server: \n" + containerList);
 
-                    for(Slot slot : player.containerMenu.slots){
-                        CompoundTag tag = containerList.getCompound(slot.index);
-                        ItemStack stack = ItemStack.parseOptional(player.level().registryAccess(), tag);
-
-                        slot.set(stack);
-                    }
-                }
+//                for(Slot slot : player.containerMenu.slots){
+//                    CompoundTag tag = containerList.getCompound(slot.index);
+//                    ItemStack stack = ItemStack.parseOptional(player.level().registryAccess(), tag);
+//
+//                    slot.set(stack);
+//                }
 
             }
 
