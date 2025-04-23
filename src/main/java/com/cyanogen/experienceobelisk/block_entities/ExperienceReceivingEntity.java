@@ -32,6 +32,9 @@ public abstract class ExperienceReceivingEntity extends BlockEntity {
 
     public void setUnbound(){
         this.isBound = false;
+        this.boundX = 0;
+        this.boundY = 0;
+        this.boundZ = 0;
         setChanged();
     }
 
@@ -47,7 +50,7 @@ public abstract class ExperienceReceivingEntity extends BlockEntity {
     }
 
     public ExperienceObeliskEntity getBoundObelisk(){
-        if(this.level != null && this.level.getBlockEntity(getBoundPos()) instanceof ExperienceObeliskEntity obelisk){
+        if(this.isBound && this.level != null && this.level.getBlockEntity(getBoundPos()) instanceof ExperienceObeliskEntity obelisk){
             return obelisk;
         }
         else{
