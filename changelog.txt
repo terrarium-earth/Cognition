@@ -3,6 +3,9 @@ v2.3.6.3
 [Bugfixes]
 - Fixed enlightened amulet not being placeable in curios slot
 - Fixed cognitive armor not having a max stack value of 1
+- Fixed obelisk options screen not displaying the correct background shader
+- Fixed obelisk buttons having the text "+x" instead of "-x" for drain functions
+- Fixed obelisk tooltips not showing up
 
 v2.3.6.2
 
