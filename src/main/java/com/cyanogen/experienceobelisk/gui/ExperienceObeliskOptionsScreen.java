@@ -53,7 +53,7 @@ public class ExperienceObeliskOptionsScreen extends Screen {
     @Override
     public void render(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {
 
-        renderBackground(gui, mouseX, mouseY, partialTick);
+        this.renderTransparentBackground(gui);
 
         RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
         RenderSystem.setShaderTexture(0, texture);
