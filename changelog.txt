@@ -6,6 +6,7 @@ v2.3.7
 
 [Bugfixes]
 - Stopped unbound Precision Dispellers from querying the Obelisks they were previously bound to
+- Stopped Metamorphers from continuing to display Obelisk experience level in the GUI even after obelisks are removed
 
 v2.3.6.1
 

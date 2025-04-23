@@ -58,27 +58,6 @@ public abstract class ExperienceReceivingEntity extends BlockEntity {
         }
     }
 
-    //-----------SCREEN-----------//
-
-    public boolean obeliskStillExists = false;
-    public int obeliskLevels = 0;
-    public int obeliskPoints = 0;
-    public double obeliskProgress = 0;
-
-    public void sendObeliskInfoToScreen(){
-
-        ExperienceObeliskEntity obelisk = getBoundObelisk();
-
-        if(obelisk != null){
-            this.obeliskStillExists = true;
-            this.obeliskLevels = obelisk.getLevels();
-            this.obeliskPoints = obelisk.getExperiencePoints();
-            this.obeliskProgress = ExperienceUtils.getProgressToNextLevel(obeliskPoints, obeliskLevels);
-        }
-        //used to send data from the bound obelisk to the GUI
-        //remember to fill in the tick behavior and pass it into getTicker
-    }
-
     //-----------REDSTONE-----------//
 
     public boolean redstoneEnabled = false;

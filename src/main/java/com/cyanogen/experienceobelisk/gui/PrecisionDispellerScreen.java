@@ -235,10 +235,8 @@ public class PrecisionDispellerScreen extends AbstractContainerScreen<PrecisionD
 
                     tooltipList.add(Component.translatable("tooltip.experienceobelisk.precision_dispeller.curse"));
 
-                    if(!dispeller.obeliskStillExists && playerXP < 1395){
-                        tooltipList.add(Component.translatable("tooltip.experienceobelisk.precision_dispeller.insufficient_xp"));
-                    }
-                    else if(dispeller.obeliskStillExists && dispeller.obeliskPoints + playerXP < 1395){
+                    if((!dispeller.isBound && playerXP < 1395) ||
+                            (dispeller.getBoundObelisk() != null && dispeller.getBoundObelisk().getExperiencePoints() + playerXP < 1395)){
                         tooltipList.add(Component.translatable("tooltip.experienceobelisk.precision_dispeller.insufficient_xp"));
                     }
                 }

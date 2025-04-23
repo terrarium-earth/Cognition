@@ -1,6 +1,7 @@
 package com.cyanogen.experienceobelisk.gui;
 
 import com.cyanogen.experienceobelisk.block_entities.MolecularMetamorpherEntity;
+import com.cyanogen.experienceobelisk.utils.ExperienceUtils;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
@@ -77,10 +78,10 @@ public class MolecularMetamorpherScreen extends AbstractContainerScreen<Molecula
         int points;
         double progress;
 
-        if(metamorpher.obeliskStillExists){
-            levels = metamorpher.obeliskLevels;
-            points = metamorpher.obeliskPoints;
-            progress = metamorpher.obeliskProgress;
+        if(metamorpher.getBoundObelisk() != null){
+            levels = metamorpher.getBoundObelisk().getLevels();
+            points = metamorpher.getBoundObelisk().getExperiencePoints();
+            progress = ExperienceUtils.getProgressToNextLevel(points, levels);
 
             gui.blit(texture, this.width / 2 + 105 - 88, this.height / 2 + 70 - 83, 0, 179, 64, 11);
             gui.blit(texture, this.width / 2 + 107 - 88, this.height / 2 + 71 - 83, 0, 166, (int) (xpBarLength * progress), 9);
