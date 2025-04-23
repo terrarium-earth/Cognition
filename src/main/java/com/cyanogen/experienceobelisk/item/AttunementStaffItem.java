@@ -110,6 +110,7 @@ public class AttunementStaffItem extends Item {
 
             if(receiver.isBound && savedPos.equals(receiver.getBoundPos())){
                 receiver.setUnbound();
+                receiver.clearBoundPos();
                 player.displayClientMessage(Component.translatable("message.experienceobelisk.binding_wand.unbind_target"), true);
             }
             else if(MiscUtils.straightLineDistance(thisPos, savedPos) <= range){
@@ -133,6 +134,7 @@ public class AttunementStaffItem extends Item {
         }
         else if(receiver.isBound){
             receiver.setUnbound();
+            receiver.clearBoundPos();
             player.displayClientMessage(Component.translatable("message.experienceobelisk.binding_wand.unbind_target"), true);
         }
     }

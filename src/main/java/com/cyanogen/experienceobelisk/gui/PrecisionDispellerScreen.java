@@ -233,12 +233,9 @@ public class PrecisionDispellerScreen extends AbstractContainerScreen<PrecisionD
 
                     if(pos != null && clientLevel.getBlockEntity(pos) instanceof PrecisionDispellerEntity dispeller){
 
-                        //System.out.println(dispeller.getBoundPos());
+                        if((dispeller.getBoundObelisk() == null && playerXP < 1395) ||
+                                (dispeller.getBoundObelisk() != null && dispeller.getBoundObelisk().getExperiencePoints() + playerXP < 1395)){
 
-                        if(!dispeller.obeliskStillExists && playerXP < 1395){
-                            tooltipList.add(Component.translatable("tooltip.experienceobelisk.precision_dispeller.insufficient_xp"));
-                        }
-                        else if(dispeller.obeliskStillExists && dispeller.obeliskPoints + playerXP < 1395){
                             tooltipList.add(Component.translatable("tooltip.experienceobelisk.precision_dispeller.insufficient_xp"));
                         }
                     }
@@ -364,10 +361,6 @@ public class PrecisionDispellerScreen extends AbstractContainerScreen<PrecisionD
             boolean invalid = true;
 
             if(pos != null && clientLevel.getBlockEntity(pos) instanceof PrecisionDispellerEntity dispeller){
-
-                System.out.println(dispeller.getBoundPos());
-                System.out.println(dispeller.getBoundObelisk());
-                System.out.println(dispeller.getBoundObelisk().getExperiencePoints());
 
                 if(menu.player.isCreative() || !panel.enchantment.is(EnchantmentTags.CURSE)){
                     invalid = false;

@@ -43,11 +43,21 @@ public abstract class ExperienceReceivingEntity extends BlockEntity {
         setChanged();
     }
 
+    public void clearBoundPos(){
+        this.boundX = 0;
+        this.boundY = 0;
+        this.boundZ = 0;
+        setChanged();
+    }
+
     public BlockPos getBoundPos(){
         return new BlockPos(boundX, boundY, boundZ);
     }
 
     public ExperienceObeliskEntity getBoundObelisk(){
+        if(!isBound){
+            return null;
+        }
         if(this.level != null && this.level.getBlockEntity(getBoundPos()) instanceof ExperienceObeliskEntity obelisk){
             return obelisk;
         }
