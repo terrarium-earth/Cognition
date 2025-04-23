@@ -1,7 +1,8 @@
 v2.3.7
 
 [Changes]
-- Minor recipe changes for internal consistency
+- Buffed mending neurogel to compensate for its material cost
+- Other recipe changes for internal consistency
 
 [Bugfixes]
 - Stopped unbound Precision Dispellers from querying the Obelisks they were previously bound to
