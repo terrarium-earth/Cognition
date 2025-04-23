@@ -149,26 +149,25 @@ public class ExperienceObeliskScreen extends AbstractContainerScreen<ExperienceO
         int y1 = 43;
         int y2 = -3;
 
-        Button settings = new MenuSwitchingButton(this.width / 2 + 91, this.height / 2 - 78, 20, 20,
-                Component.translatable("button.experienceobelisk.experience_obelisk.settings"), menu, this);
+        Button settings = menuSwitchingButton(this.width / 2 + 91, this.height / 2 - 78, 20, 20);
 
-        Button deposit1 = new XPHandlingButton((int) (this.width / 2f - 1.5*buttonWidth - spacing), this.height / 2 - y1, buttonWidth, buttonHeight,
-                menu, FILL, 1);
+        Button deposit1 = xpHandlingButton((int) (this.width / 2f - 1.5*buttonWidth - spacing), this.height / 2 - y1,
+                buttonWidth, buttonHeight, FILL, 1);
 
-        Button deposit10 = new XPHandlingButton(this.width / 2 - buttonWidth/2, this.height / 2 - y1, buttonWidth, buttonHeight,
-                menu, FILL, 10);
+        Button deposit10 = xpHandlingButton(this.width / 2 - buttonWidth/2, this.height / 2 - y1,
+                buttonWidth, buttonHeight, FILL, 10);
 
-        Button depositAll = new XPHandlingButton((int) (this.width / 2f + 0.5*buttonWidth + spacing), this.height / 2 - y1, buttonWidth, buttonHeight,
-                menu, FILL_ALL, 0);
+        Button depositAll = xpHandlingButton((int) (this.width / 2f + 0.5*buttonWidth + spacing), this.height / 2 - y1,
+                buttonWidth, buttonHeight, FILL_ALL, 0);
 
-        Button withdraw1 = new XPHandlingButton((int) (this.width / 2f - 1.5*buttonWidth - spacing), this.height / 2 - y2, buttonWidth, buttonHeight,
-                menu, DRAIN, 1);
+        Button withdraw1 = xpHandlingButton((int) (this.width / 2f - 1.5*buttonWidth - spacing), this.height / 2 - y2,
+                buttonWidth, buttonHeight, DRAIN, 1);
 
-        Button withdraw10 = new XPHandlingButton(this.width / 2 - buttonWidth/2, this.height / 2 - y2, buttonWidth, buttonHeight,
-                menu, DRAIN, 10);
+        Button withdraw10 = xpHandlingButton(this.width / 2 - buttonWidth/2, this.height / 2 - y2,
+                buttonWidth, buttonHeight, DRAIN, 10);
 
-        Button withdrawAll = new XPHandlingButton((int) (this.width / 2f + 0.5*buttonWidth + spacing), this.height / 2 - y2, buttonWidth, buttonHeight,
-                menu, DRAIN_ALL, 0);
+        Button withdrawAll = xpHandlingButton((int) (this.width / 2f + 0.5*buttonWidth + spacing), this.height / 2 - y2,
+                buttonWidth, buttonHeight, DRAIN_ALL, 0);
 
         buttons.add(settings);
         buttons.add(deposit1);
@@ -180,67 +179,39 @@ public class ExperienceObeliskScreen extends AbstractContainerScreen<ExperienceO
     }
 
     //-----BUTTONS-----//
-
-    //for handling XP transfer requests in or out
-    public static class XPHandlingButton extends Button{
-
-        private final ExperienceObeliskMenu menu;
-        private final String request;
-        private final int levels;
-
-        protected XPHandlingButton(int x, int y, int width, int height, ExperienceObeliskMenu menu, String request, int levels) {
-            super(x, y, width, height, Component.empty(), (onPress) -> {}, Button.DEFAULT_NARRATION);
-            this.menu = menu;
-            this.request = request;
-            this.levels = levels;
-        }
-
-        @Override
-        public void onPress() {
-            ExperienceObeliskScreen.updateContents(menu, levels, request);
-            super.onPress();
-        }
-
-        @Override
-        public Component getMessage() {
-            return switch (request) {
-                case FILL -> Component.literal("+" + levels).withStyle(ChatFormatting.GREEN);
-                case FILL_ALL -> Component.literal("+All").withStyle(ChatFormatting.GREEN);
-                case DRAIN -> Component.literal("-" + levels).withStyle(ChatFormatting.RED);
-                case DRAIN_ALL -> Component.literal("-All").withStyle(ChatFormatting.RED);
-                default -> Component.empty();
-            };
-        }
-
-        @Override
-        public @Nullable Tooltip getTooltip() {
-            return switch (request) {
-                case FILL -> Tooltip.create(Component.translatable("tooltip.experienceobelisk.experience_obelisk.add" + levels));
-                case FILL_ALL -> Tooltip.create(Component.translatable("tooltip.experienceobelisk.experience_obelisk.addAll"));
-                case DRAIN -> Tooltip.create(Component.translatable("tooltip.experienceobelisk.experience_obelisk.drain" + levels));
-                case DRAIN_ALL -> Tooltip.create(Component.translatable("tooltip.experienceobelisk.experience_obelisk.drainAll"));
-                default -> null;
-            };
-        }
+    public Button xpHandlingButton(int x, int y, int width, int height, String request, int levels){
+        Component message = getMessage(request, levels);
+        Tooltip tooltip = getTooltip(request, levels);
+        return Button.builder(message, (onPress) -> updateContents(menu, levels, request)).bounds(x, y, width, height).tooltip(tooltip).build();
     }
 
-    //for switching menus
-    public static class MenuSwitchingButton extends Button{
+    public Component getMessage(String request, int levels) {
+        return switch (request) {
+            case FILL -> Component.literal("+" + levels).withStyle(ChatFormatting.GREEN);
+            case FILL_ALL -> Component.literal("+All").withStyle(ChatFormatting.GREEN);
+            case DRAIN -> Component.literal("-" + levels).withStyle(ChatFormatting.RED);
+            case DRAIN_ALL -> Component.literal("-All").withStyle(ChatFormatting.RED);
+            default -> Component.empty();
+        };
+    }
 
-        private final ExperienceObeliskMenu menu;
-        private final ExperienceObeliskScreen screen;
+    public @Nullable Tooltip getTooltip(String request, int levels) {
+        return switch (request) {
+            case FILL -> Tooltip.create(Component.translatable("tooltip.experienceobelisk.experience_obelisk.add" + levels));
+            case FILL_ALL -> Tooltip.create(Component.translatable("tooltip.experienceobelisk.experience_obelisk.addAll"));
+            case DRAIN -> Tooltip.create(Component.translatable("tooltip.experienceobelisk.experience_obelisk.drain" + levels));
+            case DRAIN_ALL -> Tooltip.create(Component.translatable("tooltip.experienceobelisk.experience_obelisk.drainAll"));
+            default -> null;
+        };
+    }
 
-        protected MenuSwitchingButton(int x, int y, int width, int height, Component message, ExperienceObeliskMenu menu, ExperienceObeliskScreen screen) {
-            super(x, y, width, height, message, (onPress) -> {}, Button.DEFAULT_NARRATION);
-            this.menu = menu;
-            this.screen = screen;
-        }
+    public Button menuSwitchingButton(int x, int y, int width, int height){
+        Component message = Component.translatable("button.experienceobelisk.experience_obelisk.settings");
+        Tooltip tooltip = Tooltip.create(Component.translatable("tooltip.experienceobelisk.experience_obelisk.settings"));
 
-        @Override
-        public void onPress() {
-            Minecraft.getInstance().setScreen(new ExperienceObeliskOptionsScreen(menu, screen.inventory, screen.component));
-            super.onPress();
-        }
+        return Button.builder(message,
+                (onPress) -> Minecraft.getInstance().setScreen(new ExperienceObeliskOptionsScreen(menu, inventory, component)))
+                .bounds(x, y, width, height).tooltip(tooltip).build();
     }
 
 }
