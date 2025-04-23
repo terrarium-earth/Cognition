@@ -1,7 +1,10 @@
 v2.3.7
 
 [Changes]
-- Minor recipe changes
+- Minor recipe changes for internal consistency
+
+[Bugfixes]
+- Stopped unbound Precision Dispellers from querying the Obelisks they were previously bound to
 
 v2.3.6.1
 
