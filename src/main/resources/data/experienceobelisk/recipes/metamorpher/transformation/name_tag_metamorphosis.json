@@ -4,12 +4,12 @@
     "item": "minecraft:writable_book"
   },
   "count1": 1,
-  "ingredient2": [],
-  "count2": 0,
-  "ingredient3": {
+  "ingredient2": {
     "item": "experienceobelisk:transforming_focus"
   },
-  "count3": 1,
+  "count2": 1,
+  "ingredient3": [],
+  "count3": 0,
   "result": {
     "item": "minecraft:name_tag",
     "count": 1
