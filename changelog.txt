@@ -6,6 +6,7 @@ v2.3.6.3
 - Fixed obelisk options screen not displaying the correct background shader
 - Fixed obelisk buttons having the text "+x" instead of "-x" for drain functions
 - Fixed obelisk tooltips not showing up
+- Fixed dispeller showing "Insufficient XP" even when enough XP is present in the bound obelisk
 
 v2.3.6.2
 
