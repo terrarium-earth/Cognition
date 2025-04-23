@@ -2,6 +2,7 @@ package com.cyanogen.experienceobelisk.network.precision_dispeller;
 
 import com.cyanogen.experienceobelisk.ExperienceObelisk;
 import io.netty.buffer.ByteBuf;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
@@ -10,8 +11,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
-
-import java.util.Optional;
 
 /**
  * This is sent from the client to the server whenever a SelectablePanel in the Precision Dispeller screen is selected or deselected.
@@ -41,9 +40,7 @@ public record UpdateSlot(int slot, Tag itemTag) implements CustomPacketPayload {
 
             if (!context.player().level().isClientSide) {
                 ServerPlayer player = (ServerPlayer) context.player();
-                Optional<ItemStack> optional = ItemStack.parse(player.level().registryAccess(), packet.itemTag);
-                ItemStack resultStack = optional.orElse(ItemStack.EMPTY);
-
+                ItemStack resultStack = ItemStack.parseOptional(player.level().registryAccess(), (CompoundTag) packet.itemTag);
                 player.containerMenu.getSlot(packet.slot).set(resultStack);
             }
 
