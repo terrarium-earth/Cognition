@@ -41,10 +41,6 @@ public class PrecisionDispellerEntity extends ExperienceReceivingEntity implemen
     //-----------BEHAVIOR-----------//
 
     public static <T> void tick(Level level, BlockPos pos, BlockState state, T blockEntity) {
-
-        if(blockEntity instanceof PrecisionDispellerEntity dispeller){
-            dispeller.sendObeliskInfoToScreen();
-        }
     }
 
 }
