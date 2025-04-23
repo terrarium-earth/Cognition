@@ -339,16 +339,16 @@ public class PrecisionDispellerScreen extends AbstractContainerScreen<PrecisionD
 
         for(SelectablePanel panel : selectablePanels){
 
-            boolean invalid;
+            boolean invalid = true;
 
             if(menu.player.isCreative() || !panel.enchantment.isCurse()){
                 invalid = false;
             }
-            else if(!dispeller.obeliskStillExists){
-                invalid = playerXP < 1395;
+            else if(playerXP >= 1395){
+                invalid = false;
             }
-            else{
-                invalid = playerXP + dispeller.obeliskPoints < 1395;
+            else if(dispeller.getBoundObelisk() != null){
+                invalid = playerXP + dispeller.getBoundObelisk().getExperiencePoints() < 1395;
             }
 
             if(panel.isHovered(mouseX, mouseY) && panel.isVisible && !invalid){
