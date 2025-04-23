@@ -206,8 +206,8 @@ public class ExperienceObeliskScreen extends AbstractContainerScreen<ExperienceO
             return switch (request) {
                 case FILL -> Component.literal("+" + levels).withStyle(ChatFormatting.GREEN);
                 case FILL_ALL -> Component.literal("+All").withStyle(ChatFormatting.GREEN);
-                case DRAIN -> Component.literal("+" + levels).withStyle(ChatFormatting.RED);
-                case DRAIN_ALL -> Component.literal("+All").withStyle(ChatFormatting.RED);
+                case DRAIN -> Component.literal("-" + levels).withStyle(ChatFormatting.RED);
+                case DRAIN_ALL -> Component.literal("-All").withStyle(ChatFormatting.RED);
                 default -> Component.empty();
             };
         }
