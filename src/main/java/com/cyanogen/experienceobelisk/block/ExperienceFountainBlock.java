@@ -44,6 +44,7 @@ public class ExperienceFountainBlock extends ExperienceReceivingBlock implements
                 .explosionResistance(9f)
                 .noOcclusion()
                 .sound(SoundType.METAL)
+                .requiresCorrectToolForDrops()
         );
     }
 

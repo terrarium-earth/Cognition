@@ -13,6 +13,14 @@
     {
       "id": "industrial_foregoing:essence",
       "required": false
+    },
+    {
+      "id": "enderio:fluid_xp_juice_still",
+      "required": false
+    },
+    {
+      "id": "reliquary:xp_still",
+      "required": false
     }
   ]
 }
