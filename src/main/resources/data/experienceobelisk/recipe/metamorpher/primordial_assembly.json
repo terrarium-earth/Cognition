@@ -5,11 +5,11 @@
   },
   "count1": 1,
   "ingredient2": {
-    "item": "minecraft:gold_ingot"
+    "tag": "minecraft:saplings"
   },
   "count2": 1,
   "ingredient3": {
-    "tag": "minecraft:saplings"
+    "item": "minecraft:gold_ingot"
   },
   "count3": 1,
   "result": {

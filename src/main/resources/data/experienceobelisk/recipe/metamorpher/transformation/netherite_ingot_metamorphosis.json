@@ -1,17 +1,17 @@
 {
   "type": "experienceobelisk:molecular_metamorphosis",
   "ingredient1": {
-      "item": "minecraft:netherite_scrap"
+    "item": "minecraft:gold_ingot"
   },
   "count1": 3,
   "ingredient2": {
+      "item": "minecraft:netherite_scrap"
+  },
+  "count2": 3,
+  "ingredient3": {
     "item": "experienceobelisk:transforming_focus"
   },
-  "count2": 1,
-  "ingredient3": {
-    "item": "minecraft:gold_ingot"
-  },
-  "count3": 3,
+  "count3": 1,
   "result": {
     "id": "minecraft:netherite_ingot",
     "count": 1

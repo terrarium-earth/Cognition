@@ -22,6 +22,9 @@ public class NeurogelMendingItem extends Item {
         super(p);
     }
 
+    public static final int maxRepairPoints = 320;
+    public static final double maxRepairPercentage = 0.25;
+
     public static void handleItem(ItemStackedOnOtherEvent event){
         ItemStack itemToRepair = event.getStackedOnItem();
         ItemStack neurogel = event.getCarriedItem();
@@ -35,7 +38,7 @@ public class NeurogelMendingItem extends Item {
             if(itemToRepair.isDamaged()){
                 int maxDurability = itemToRepair.getMaxDamage();
                 int damage = itemToRepair.getDamageValue();
-                int repairAmount = Math.max(maxDurability / 5, 200); //restores 20% of item max durability or 200 pts, whichever is higher
+                int repairAmount = (int) Math.max(maxDurability * maxRepairPercentage, maxRepairPoints);
 
                 neurogel.shrink(1);
                 itemToRepair.setDamageValue(Math.max(damage - repairAmount, 0));
