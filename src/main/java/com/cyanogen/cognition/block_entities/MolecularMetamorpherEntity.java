@@ -254,7 +254,7 @@ public class MolecularMetamorpherEntity extends ExperienceReceivingEntity implem
         this.setProcessProgress(0);
         this.setProcessTime(recipe.getProcessTime());
         this.setRecipeCost(recipe.getCost());
-        this.getBoundObelisk().drain(recipe.getCost() * 20);
+        assert getBoundObelisk() != null; this.getBoundObelisk().drain(recipe.getCost() * 20);
     }
 
     /**Returns true if the recipe has not been changed

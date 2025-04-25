@@ -10,6 +10,8 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 
+import javax.annotation.Nullable;
+
 public abstract class ExperienceReceivingEntity extends BlockEntity {
 
     //Generic block entity for appliances that use XP
@@ -45,7 +47,7 @@ public abstract class ExperienceReceivingEntity extends BlockEntity {
         return new BlockPos(boundX, boundY, boundZ);
     }
 
-    public ExperienceObeliskEntity getBoundObelisk(){
+    public @Nullable ExperienceObeliskEntity getBoundObelisk(){
         if(isBound && this.level != null && this.level.getBlockEntity(getBoundPos()) instanceof ExperienceObeliskEntity obelisk){
             return obelisk;
         }

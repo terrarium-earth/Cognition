@@ -23,6 +23,7 @@ import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.animation.*;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
+import javax.annotation.Nullable;
 import java.util.List;
 
 public class ExperienceFountainEntity extends ExperienceReceivingEntity implements GeoBlockEntity{
@@ -115,7 +116,7 @@ public class ExperienceFountainEntity extends ExperienceReceivingEntity implemen
 
         if(blockEntity instanceof ExperienceFountainEntity fountain && fountain.isBound){
 
-            BlockEntity boundEntity = level.getBlockEntity(fountain.getBoundPos());
+            @Nullable ExperienceObeliskEntity obelisk = fountain.getBoundObelisk();
 
             int x = pos.getX();
             int y = pos.getY();
@@ -135,9 +136,7 @@ public class ExperienceFountainEntity extends ExperienceReceivingEntity implemen
                 level.sendBlockUpdated(pos, state, state, 2);
             }
 
-            if(boundEntity instanceof ExperienceObeliskEntity obelisk
-                    && !level.isClientSide
-                    && obelisk.getFluidAmount() > 0
+            if(obelisk != null && !level.isClientSide && obelisk.getFluidAmount() > 0
                     && (level.hasNeighborSignal(pos) || fountain.hasPlayerAbove)){
 
                 int value = 4;
