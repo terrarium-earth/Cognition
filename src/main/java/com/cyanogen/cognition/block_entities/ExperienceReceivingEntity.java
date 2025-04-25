@@ -25,17 +25,8 @@ public abstract class ExperienceReceivingEntity extends BlockEntity {
     public int boundZ;
     public boolean isBound = false;
 
-    public void setBound(){
-        this.isBound = true;
-        setChanged();
-    }
-
-    public void setUnbound(){
-        this.isBound = false;
-        setChanged();
-    }
-
     public void setBoundPos(BlockPos pos){
+        this.isBound = true;
         this.boundX = pos.getX();
         this.boundY = pos.getY();
         this.boundZ = pos.getZ();
@@ -43,6 +34,7 @@ public abstract class ExperienceReceivingEntity extends BlockEntity {
     }
 
     public void clearBoundPos(){
+        this.isBound = false;
         this.boundX = 0;
         this.boundY = 0;
         this.boundZ = 0;

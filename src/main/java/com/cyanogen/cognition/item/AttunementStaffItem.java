@@ -109,7 +109,6 @@ public class AttunementStaffItem extends Item {
             BlockEntity savedEntity = level.getBlockEntity(savedPos);
 
             if(receiver.isBound && savedPos.equals(receiver.getBoundPos())){
-                receiver.setUnbound();
                 receiver.clearBoundPos();
                 player.displayClientMessage(Component.translatable("message.cognition.binding_wand.unbind_target"), true);
             }
@@ -117,7 +116,6 @@ public class AttunementStaffItem extends Item {
 
                 if(savedEntity instanceof ExperienceObeliskEntity){
                     receiver.setBoundPos(savedPos);
-                    receiver.setBound();
 
                     player.displayClientMessage(Component.translatable("message.cognition.binding_wand.bind_target",
                             Component.literal(savedPos.toShortString()).withStyle(ChatFormatting.GREEN)), true);
@@ -133,7 +131,6 @@ public class AttunementStaffItem extends Item {
             }
         }
         else if(receiver.isBound){
-            receiver.setUnbound();
             receiver.clearBoundPos();
             player.displayClientMessage(Component.translatable("message.cognition.binding_wand.unbind_target"), true);
         }

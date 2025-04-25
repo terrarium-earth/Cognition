@@ -106,13 +106,13 @@ public class RegisterItems {
             () -> new FluorescentJellyItem(new Item.Properties()));
 
     public static final DeferredHolder<Item, NeurogelMendingItem> MENDING_NEUROGEL = ITEMS.register("mending_neurogel",
-            () -> new NeurogelMendingItem(new Item.Properties()));
+            () -> new NeurogelMendingItem(new Item.Properties().stacksTo(1)));
 
     public static final DeferredHolder<Item, FlaskPoseidonItem> POSEIDON_FLASK = ITEMS.register("flask_of_poseidon",
-            () -> new FlaskPoseidonItem(new Item.Properties()));
+            () -> new FlaskPoseidonItem(new Item.Properties().stacksTo(1)));
 
     public static final DeferredHolder<Item, FlaskHadesItem> HADES_FLASK = ITEMS.register("flask_of_hades",
-            () -> new FlaskHadesItem(new Item.Properties()));
+            () -> new FlaskHadesItem(new Item.Properties().stacksTo(1)));
 
     public static final DeferredHolder<Item, FlaskChaosItem> CHAOS_FLASK = ITEMS.register("flask_of_chaos",
             () -> new FlaskChaosItem(new Item.Properties()));
