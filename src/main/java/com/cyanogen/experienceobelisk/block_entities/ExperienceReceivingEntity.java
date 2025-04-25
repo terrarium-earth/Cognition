@@ -10,6 +10,8 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 
+import javax.annotation.Nullable;
+
 public abstract class ExperienceReceivingEntity extends BlockEntity {
 
     //Generic block entity for appliances that use XP
@@ -25,12 +27,10 @@ public abstract class ExperienceReceivingEntity extends BlockEntity {
     public int boundZ;
     public boolean isBound = false;
 
-    public void setBound(){
-        this.isBound = true;
-        setChanged();
-    }
-
     public void setUnbound(){
+        this.boundX = 0;
+        this.boundY = 0;
+        this.boundZ = 0;
         this.isBound = false;
         setChanged();
     }
@@ -39,6 +39,7 @@ public abstract class ExperienceReceivingEntity extends BlockEntity {
         this.boundX = pos.getX();
         this.boundY = pos.getY();
         this.boundZ = pos.getZ();
+        this.isBound = true;
         setChanged();
     }
 
@@ -47,7 +48,7 @@ public abstract class ExperienceReceivingEntity extends BlockEntity {
     }
 
     public ExperienceObeliskEntity getBoundObelisk(){
-        if(this.level != null && this.level.getBlockEntity(getBoundPos()) instanceof ExperienceObeliskEntity obelisk){
+        if(this.isBound && this.level != null && this.level.getBlockEntity(getBoundPos()) instanceof ExperienceObeliskEntity obelisk){
             return obelisk;
         }
         else{
@@ -64,14 +65,14 @@ public abstract class ExperienceReceivingEntity extends BlockEntity {
 
     public void sendObeliskInfoToScreen(){
 
-        ExperienceObeliskEntity obelisk = getBoundObelisk();
+        @Nullable ExperienceObeliskEntity obelisk = getBoundObelisk();
+        boolean exists = obelisk != null;
 
-        if(obelisk != null){
-            this.obeliskStillExists = true;
-            this.obeliskLevels = obelisk.getLevels();
-            this.obeliskPoints = obelisk.getExperiencePoints();
-            this.obeliskProgress = ExperienceUtils.getProgressToNextLevel(obeliskPoints, obeliskLevels);
-        }
+        this.obeliskStillExists = exists;
+        this.obeliskLevels = exists ? obelisk.getLevels() : 0;
+        this.obeliskPoints = exists ? obelisk.getExperiencePoints() : 0;
+        this.obeliskProgress = ExperienceUtils.getProgressToNextLevel(obeliskPoints, obeliskLevels);
+
         //used to send data from the bound obelisk to the GUI
         //remember to fill in the tick behavior and pass it into getTicker
     }

@@ -114,7 +114,6 @@ public class AttunementStaffItem extends Item {
 
                 if(savedEntity instanceof ExperienceObeliskEntity){
                     receiver.setBoundPos(savedPos);
-                    receiver.setBound();
 
                     player.displayClientMessage(Component.translatable("message.experienceobelisk.binding_wand.bind_target",
                             Component.literal(savedPos.toShortString()).withStyle(ChatFormatting.GREEN)), true);
