@@ -20,7 +20,7 @@ import java.util.List;
 
 public class MolecularMetamorpherOptionsScreen extends Screen{
 
-    private final ResourceLocation texture = ResourceLocation.parse("experienceobelisk:textures/gui/screens/experience_obelisk.png");
+    private final ResourceLocation texture = ResourceLocation.parse("cognition:textures/gui/screens/experience_obelisk.png");
     private final MolecularMetamorpherMenu menu;
     private final Level clientLevel;
 
@@ -63,9 +63,9 @@ public class MolecularMetamorpherOptionsScreen extends Screen{
         gui.blit(texture, x, y, 0, 0, 176, 166, textureWidth, textureHeight);
 
         //descriptors & info
-        gui.drawCenteredString(this.font, Component.translatable("title.experienceobelisk.experience_obelisk.settings"),
+        gui.drawCenteredString(this.font, Component.translatable("title.cognition.experience_obelisk.settings"),
                 this.width / 2,this.height / 2 - 76, 0xFFFFFF);
-        gui.drawString(this.font, Component.translatable("title.experienceobelisk.experience_obelisk.redstone"),
+        gui.drawString(this.font, Component.translatable("title.cognition.experience_obelisk.redstone"),
                 this.width / 2 - 77,this.height / 2 - 56, 0xFFFFFF);
 
         //render widgets
@@ -74,14 +74,14 @@ public class MolecularMetamorpherOptionsScreen extends Screen{
         BlockPos pos = menu.getBlockPos();
         if(pos != null && clientLevel.getBlockEntity(pos) instanceof MolecularMetamorpherEntity metamorpher){
             if(metamorpher.isRedstoneEnabled()){
-                buttons.get(1).setMessage(Component.translatable("button.experienceobelisk.experience_obelisk.enabled"));
+                buttons.get(1).setMessage(Component.translatable("button.cognition.experience_obelisk.enabled"));
             }
             else{
-                buttons.get(1).setMessage(Component.translatable("button.experienceobelisk.experience_obelisk.ignored"));
+                buttons.get(1).setMessage(Component.translatable("button.cognition.experience_obelisk.ignored"));
             }
         }
         else{
-            buttons.get(1).setMessage(Component.translatable("button.experienceobelisk.experience_obelisk.ignored"));
+            buttons.get(1).setMessage(Component.translatable("button.cognition.experience_obelisk.ignored"));
         }
 
         loadWidgetElements();
@@ -110,11 +110,11 @@ public class MolecularMetamorpherOptionsScreen extends Screen{
         int h = 20;
         int y1 = 43;
 
-        Button back = Button.builder(Component.translatable("button.experienceobelisk.experience_obelisk.back"),
+        Button back = Button.builder(Component.translatable("button.cognition.experience_obelisk.back"),
                         (onPress) -> Minecraft.getInstance().setScreen(new MolecularMetamorpherScreen(menu, menu.inventory, menu.component)))
                 .size(20,20)
                 .pos(this.width / 2 + 91, this.height / 2 - 78)
-                .tooltip(Tooltip.create(Component.translatable("tooltip.experienceobelisk.experience_obelisk.back")))
+                .tooltip(Tooltip.create(Component.translatable("tooltip.cognition.experience_obelisk.back")))
                 .build();
 
         Button toggleRedstone = Button.builder(Component.empty(),

@@ -27,7 +27,7 @@ import static com.cyanogen.cognition.network.experience_obelisk.UpdateContents.*
 
 public class ExperienceObeliskScreen extends AbstractContainerScreen<ExperienceObeliskMenu> {
 
-    private final ResourceLocation texture = ResourceLocation.parse("experienceobelisk:textures/gui/screens/experience_obelisk.png");
+    private final ResourceLocation texture = ResourceLocation.parse("cognition:textures/gui/screens/experience_obelisk.png");
     private final Level clientLevel;
     public final Inventory inventory;
     public final Component component;
@@ -79,11 +79,11 @@ public class ExperienceObeliskScreen extends AbstractContainerScreen<ExperienceO
         gui.blit(texture, this.width / 2 - 138 / 2, this.height / 2 + 50, 0, 173, progress, 5);
 
         //descriptors & info
-        gui.drawCenteredString(this.font, Component.translatable("title.experienceobelisk.experience_obelisk"),
+        gui.drawCenteredString(this.font, Component.translatable("title.cognition.experience_obelisk"),
                 this.width / 2,this.height / 2 - 76, 0xFFFFFF);
-        gui.drawString(this.font, Component.translatable("title.experienceobelisk.experience_obelisk.store"),
+        gui.drawString(this.font, Component.translatable("title.cognition.experience_obelisk.store"),
                 this.width / 2 - 77,this.height / 2 - 56, 0xFFFFFF);
-        gui.drawString(this.font, Component.translatable("title.experienceobelisk.experience_obelisk.retrieve"),
+        gui.drawString(this.font, Component.translatable("title.cognition.experience_obelisk.retrieve"),
                 this.width / 2 - 77,this.height / 2 - 10, 0xFFFFFF);
         gui.drawCenteredString(this.font, fluidAmount + " mB",
                 this.width / 2,this.height / 2 + 35, 0xFFFFFF);
@@ -106,7 +106,7 @@ public class ExperienceObeliskScreen extends AbstractContainerScreen<ExperienceO
         int hoverAreaY = 14;
 
         List<Component> tooltipList = new ArrayList<>();
-        Component content = Component.translatable("tooltip.experienceobelisk.experience_obelisk.xp",
+        Component content = Component.translatable("tooltip.cognition.experience_obelisk.xp",
                 Component.literal(String.valueOf(experiencePoints)).withStyle(ChatFormatting.GREEN));
         tooltipList.add(content);
 
@@ -197,17 +197,17 @@ public class ExperienceObeliskScreen extends AbstractContainerScreen<ExperienceO
 
     public @Nullable Tooltip getTooltip(String request, int levels) {
         return switch (request) {
-            case FILL -> Tooltip.create(Component.translatable("tooltip.experienceobelisk.experience_obelisk.add" + levels));
-            case FILL_ALL -> Tooltip.create(Component.translatable("tooltip.experienceobelisk.experience_obelisk.addAll"));
-            case DRAIN -> Tooltip.create(Component.translatable("tooltip.experienceobelisk.experience_obelisk.drain" + levels));
-            case DRAIN_ALL -> Tooltip.create(Component.translatable("tooltip.experienceobelisk.experience_obelisk.drainAll"));
+            case FILL -> Tooltip.create(Component.translatable("tooltip.cognition.experience_obelisk.add" + levels));
+            case FILL_ALL -> Tooltip.create(Component.translatable("tooltip.cognition.experience_obelisk.addAll"));
+            case DRAIN -> Tooltip.create(Component.translatable("tooltip.cognition.experience_obelisk.drain" + levels));
+            case DRAIN_ALL -> Tooltip.create(Component.translatable("tooltip.cognition.experience_obelisk.drainAll"));
             default -> null;
         };
     }
 
     public Button menuSwitchingButton(int x, int y, int width, int height){
-        Component message = Component.translatable("button.experienceobelisk.experience_obelisk.settings");
-        Tooltip tooltip = Tooltip.create(Component.translatable("tooltip.experienceobelisk.experience_obelisk.settings"));
+        Component message = Component.translatable("button.cognition.experience_obelisk.settings");
+        Tooltip tooltip = Tooltip.create(Component.translatable("tooltip.cognition.experience_obelisk.settings"));
 
         return Button.builder(message,
                 (onPress) -> Minecraft.getInstance().setScreen(new ExperienceObeliskOptionsScreen(menu, inventory, component)))

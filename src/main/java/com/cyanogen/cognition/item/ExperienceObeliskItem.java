@@ -78,10 +78,10 @@ public class ExperienceObeliskItem extends BlockItem implements GeoItem{
             int amount = tag.getCompound("Fluid").getInt("amount");
             int levels = xpToLevels(amount / 20);
 
-            tooltipComponents.add(Component.translatable("tooltip.experienceobelisk.experience_obelisk.item_levels",
+            tooltipComponents.add(Component.translatable("tooltip.cognition.experience_obelisk.item_levels",
                     Component.literal(String.valueOf(levels)).withStyle(ChatFormatting.GREEN)));
 
-            tooltipComponents.add(Component.translatable("tooltip.experienceobelisk.experience_obelisk.item_points",
+            tooltipComponents.add(Component.translatable("tooltip.cognition.experience_obelisk.item_points",
                     Component.literal(String.valueOf(amount / 20)).withStyle(ChatFormatting.GREEN)));
         }
 

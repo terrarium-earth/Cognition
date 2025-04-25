@@ -40,7 +40,7 @@ public class AttunementStaffItem extends Item {
 
         if(player.isShiftKeyDown() && stack.is(RegisterItems.ATTUNEMENT_STAFF.get()) && ItemUtils.getCustomDataTag(stack).contains("Type")){
             reset(stack);
-            player.displayClientMessage(Component.translatable("message.experienceobelisk.binding_wand.unbind_obelisk"), true);
+            player.displayClientMessage(Component.translatable("message.cognition.binding_wand.unbind_obelisk"), true);
 
             return InteractionResultHolder.sidedSuccess(stack, level.isClientSide);
         }
@@ -90,7 +90,7 @@ public class AttunementStaffItem extends Item {
         tag.putString("Type", "Obelisk");
 
         ItemUtils.saveCustomDataTag(stack, tag);
-        player.displayClientMessage(Component.translatable("message.experienceobelisk.binding_wand.bind_obelisk"), true);
+        player.displayClientMessage(Component.translatable("message.cognition.binding_wand.bind_obelisk"), true);
     }
 
     public void handleExperienceReceivingBlock(ExperienceReceivingEntity receiver, ItemStack stack, Player player, Level level){
@@ -111,7 +111,7 @@ public class AttunementStaffItem extends Item {
             if(receiver.isBound && savedPos.equals(receiver.getBoundPos())){
                 receiver.setUnbound();
                 receiver.clearBoundPos();
-                player.displayClientMessage(Component.translatable("message.experienceobelisk.binding_wand.unbind_target"), true);
+                player.displayClientMessage(Component.translatable("message.cognition.binding_wand.unbind_target"), true);
             }
             else if(MiscUtils.straightLineDistance(thisPos, savedPos) <= range){
 
@@ -119,23 +119,23 @@ public class AttunementStaffItem extends Item {
                     receiver.setBoundPos(savedPos);
                     receiver.setBound();
 
-                    player.displayClientMessage(Component.translatable("message.experienceobelisk.binding_wand.bind_target",
+                    player.displayClientMessage(Component.translatable("message.cognition.binding_wand.bind_target",
                             Component.literal(savedPos.toShortString()).withStyle(ChatFormatting.GREEN)), true);
                 }
                 else{
-                    player.displayClientMessage(Component.translatable("message.experienceobelisk.binding_wand.obelisk_doesnt_exist",
+                    player.displayClientMessage(Component.translatable("message.cognition.binding_wand.obelisk_doesnt_exist",
                             Component.literal(savedPos.toShortString())).withStyle(ChatFormatting.RED), true);
                 }
 
             }
             else{
-                player.displayClientMessage(Component.translatable("message.experienceobelisk.binding_wand.obelisk_too_far"), true);
+                player.displayClientMessage(Component.translatable("message.cognition.binding_wand.obelisk_too_far"), true);
             }
         }
         else if(receiver.isBound){
             receiver.setUnbound();
             receiver.clearBoundPos();
-            player.displayClientMessage(Component.translatable("message.experienceobelisk.binding_wand.unbind_target"), true);
+            player.displayClientMessage(Component.translatable("message.cognition.binding_wand.unbind_target"), true);
         }
     }
 
@@ -144,20 +144,20 @@ public class AttunementStaffItem extends Item {
         accelerator.toggleRedstoneEnabled();
 
         if(accelerator.redstoneEnabled){
-            player.displayClientMessage(Component.translatable("message.experienceobelisk.binding_wand.enable_redstone"), true);
+            player.displayClientMessage(Component.translatable("message.cognition.binding_wand.enable_redstone"), true);
         }
         else{
-            player.displayClientMessage(Component.translatable("message.experienceobelisk.binding_wand.disable_redstone"), true);
+            player.displayClientMessage(Component.translatable("message.cognition.binding_wand.disable_redstone"), true);
         }
     }
 
     public void handleBookshelf(AbstractInfectedBookshelfEntity bookshelf, Player player){
         boolean status = bookshelf.toggleActivity();
         if(status){
-            player.displayClientMessage(Component.translatable("message.experienceobelisk.binding_wand.enable_redstone"), true);
+            player.displayClientMessage(Component.translatable("message.cognition.binding_wand.enable_redstone"), true);
         }
         else{
-            player.displayClientMessage(Component.translatable("message.experienceobelisk.binding_wand.disable_redstone"), true);
+            player.displayClientMessage(Component.translatable("message.cognition.binding_wand.disable_redstone"), true);
         }
 
     }

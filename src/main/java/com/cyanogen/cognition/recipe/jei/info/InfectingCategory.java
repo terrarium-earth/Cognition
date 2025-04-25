@@ -24,7 +24,7 @@ public class InfectingCategory implements IRecipeCategory<InfectingRecipe>{
 
     IRecipeCategoryRegistration registration;
     IGuiHelper guiHelper;
-    private final ResourceLocation texture = ResourceLocation.parse("experienceobelisk:textures/gui/recipes/information_jei.png");
+    private final ResourceLocation texture = ResourceLocation.parse("cognition:textures/gui/recipes/information_jei.png");
     private final IDrawableAnimated arrow;
     private final IDrawable counterArrow;
 
@@ -57,7 +57,7 @@ public class InfectingCategory implements IRecipeCategory<InfectingRecipe>{
 
     @Override
     public Component getTitle() {
-        return Component.translatable("jei.experienceobelisk.info.infecting.title");
+        return Component.translatable("jei.cognition.info.infecting.title");
     }
 
     @Override
@@ -83,8 +83,8 @@ public class InfectingCategory implements IRecipeCategory<InfectingRecipe>{
     @Override
     public void getTooltip(ITooltipBuilder tooltip, InfectingRecipe recipe, IRecipeSlotsView recipeSlotsView, double mouseX, double mouseY) {
 
-        Component desc = Component.translatable("jei.experienceobelisk.info.infecting.tooltip");
-        Component requiredCount = Component.translatable("jei.experienceobelisk.info.infecting.tooltip_count",
+        Component desc = Component.translatable("jei.cognition.info.infecting.tooltip");
+        Component requiredCount = Component.translatable("jei.cognition.info.infecting.tooltip_count",
                 Component.literal(String.valueOf(recipe.count)).withStyle(ChatFormatting.GREEN));
 
         int arrow_x1 = 46;

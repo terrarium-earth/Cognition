@@ -22,9 +22,9 @@ import java.util.Optional;
 
 public class MolecularMetamorpherScreen extends AbstractContainerScreen<MolecularMetamorpherMenu>{
 
-    private final ResourceLocation texture = ResourceLocation.parse("experienceobelisk:textures/gui/screens/molecular_metamorpher.png");
-    private final Component title = Component.translatable("title.experienceobelisk.molecular_metamorpher");
-    private final Component inventoryTitle = Component.translatable("title.experienceobelisk.precision_dispeller.inventory");
+    private final ResourceLocation texture = ResourceLocation.parse("cognition:textures/gui/screens/molecular_metamorpher.png");
+    private final Component title = Component.translatable("title.cognition.molecular_metamorpher");
+    private final Component inventoryTitle = Component.translatable("title.cognition.precision_dispeller.inventory");
     private final Level clientLevel;
     public final Inventory inventory;
     public final Component component;
@@ -119,9 +119,9 @@ public class MolecularMetamorpherScreen extends AbstractContainerScreen<Molecula
 
             List<Component> tooltipList = new ArrayList<>();
 
-            tooltipList.add(Component.translatable("tooltip.experienceobelisk.molecular_metamorpher.bound"));
+            tooltipList.add(Component.translatable("tooltip.cognition.molecular_metamorpher.bound"));
 
-            tooltipList.add(Component.translatable("tooltip.experienceobelisk.molecular_metamorpher.xp",
+            tooltipList.add(Component.translatable("tooltip.cognition.molecular_metamorpher.xp",
                     Component.literal(String.valueOf(points)).withStyle(ChatFormatting.GREEN)));
 
             if(mouseX >= x1 && mouseX <= x2 && mouseY >= y1 && mouseY <= y2){
@@ -155,11 +155,11 @@ public class MolecularMetamorpherScreen extends AbstractContainerScreen<Molecula
 
         buttons.clear();
 
-        Button settings = Button.builder(Component.translatable("button.experienceobelisk.experience_obelisk.settings"),
+        Button settings = Button.builder(Component.translatable("button.cognition.experience_obelisk.settings"),
                         (onPress) -> Minecraft.getInstance().setScreen(new MolecularMetamorpherOptionsScreen(menu, clientLevel)))
                 .size(20,20)
                 .pos(this.width / 2 + 91, this.height / 2 - 78)
-                .tooltip(Tooltip.create(Component.translatable("tooltip.experienceobelisk.experience_obelisk.settings")))
+                .tooltip(Tooltip.create(Component.translatable("tooltip.cognition.experience_obelisk.settings")))
                 .build();
 
         buttons.add(settings);

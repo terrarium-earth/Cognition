@@ -22,7 +22,7 @@ import static com.cyanogen.cognition.item.CognitiveToolset.COGNITIVE_TIER;
 public class CognitiveArmorset {
 
     public static final AttributeModifier ARMOR_RANGE =
-            new AttributeModifier(ResourceLocation.fromNamespaceAndPath("experienceobelisk", "armor_range"),
+            new AttributeModifier(ResourceLocation.fromNamespaceAndPath("cognition", "armor_range"),
                     0.5, AttributeModifier.Operation.ADD_VALUE);
 
     public static List<ItemAttributeModifiers.Entry> increasedReach(EquipmentSlotGroup slotGroup){

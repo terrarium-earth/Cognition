@@ -77,7 +77,7 @@ public class InfectedBookshelfBlock extends BookshelfBlock implements EntityBloc
                 durabilityStatus.withStyle(ChatFormatting.RED);
             }
 
-            message = Component.translatable("message.experienceobelisk.binding_wand.query_bookshelf", durabilityStatus);
+            message = Component.translatable("message.cognition.binding_wand.query_bookshelf", durabilityStatus);
 
             if(!level.isClientSide){
                 player.displayClientMessage(message, true);

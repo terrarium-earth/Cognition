@@ -21,7 +21,7 @@ public class DescriptionTooltips {
         boolean isShiftDown = InputConstants.isKeyDown(Minecraft.getInstance().getWindow().getWindow(), 340)
                 || InputConstants.isKeyDown(Minecraft.getInstance().getWindow().getWindow(), 344); //check if LSHIFT or RSHIFT are held
 
-        if(modId != null && modId.equals("experienceobelisk") && hasDescription){
+        if(modId != null && modId.equals("cognition") && hasDescription){
 
             int index = 1;
 
@@ -38,7 +38,7 @@ public class DescriptionTooltips {
                 }
             }
             else{
-                event.getToolTip().add(index, Component.translatable("tooltip.experienceobelisk.shift_for_info"));
+                event.getToolTip().add(index, Component.translatable("tooltip.cognition.shift_for_info"));
             }
         }
     }

@@ -119,7 +119,7 @@ public class MolecularMetamorpherTransferHandler implements IRecipeTransferHandl
         }
 
         if(spaces[0] == -1 || spaces[1] == -1 || spaces[2] == -1){
-            return helper.createUserErrorWithTooltip(Component.translatable("jei.experienceobelisk.error.inventory_full"));
+            return helper.createUserErrorWithTooltip(Component.translatable("jei.cognition.error.inventory_full"));
         }
 
         //now check if player has enough items
@@ -140,7 +140,7 @@ public class MolecularMetamorpherTransferHandler implements IRecipeTransferHandl
                 }
             }
 
-            Component component = Component.translatable("jei.experienceobelisk.error.missing_items");
+            Component component = Component.translatable("jei.cognition.error.missing_items");
             return helper.createUserErrorForMissingSlots(component, slotsList);
         }
 

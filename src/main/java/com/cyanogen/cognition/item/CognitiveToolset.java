@@ -20,7 +20,7 @@ import java.util.List;
 public class CognitiveToolset {
 
     public static final AttributeModifier HANDHELD_RANGE =
-            new AttributeModifier(ResourceLocation.fromNamespaceAndPath("experienceobelisk", "handheld_range"),
+            new AttributeModifier(ResourceLocation.fromNamespaceAndPath("cognition", "handheld_range"),
                     1.0, AttributeModifier.Operation.ADD_VALUE);
 
     public static List<ItemAttributeModifiers.Entry> increasedReach(){

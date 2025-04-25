@@ -29,7 +29,7 @@ public class ExperienceObeliskOptionsScreen extends Screen {
     public final Inventory inventory;
     public final Component component;
 
-    private final ResourceLocation texture = ResourceLocation.fromNamespaceAndPath("experienceobelisk","textures/gui/screens/experience_obelisk.png");
+    private final ResourceLocation texture = ResourceLocation.fromNamespaceAndPath("cognition","textures/gui/screens/experience_obelisk.png");
 
     protected ExperienceObeliskOptionsScreen(ExperienceObeliskMenu menu, Inventory inventory, Component component) {
         super(Component.literal("Experience Obelisk"));
@@ -67,11 +67,11 @@ public class ExperienceObeliskOptionsScreen extends Screen {
         gui.blit(texture, x, y, 0, 0, 176, 166, textureWidth, textureHeight);
 
         //descriptors & info
-        gui.drawCenteredString(this.font, Component.translatable("title.experienceobelisk.experience_obelisk.settings"),
+        gui.drawCenteredString(this.font, Component.translatable("title.cognition.experience_obelisk.settings"),
                 this.width / 2,this.height / 2 - 76, 0xFFFFFF);
-        gui.drawString(this.font, Component.translatable("title.experienceobelisk.experience_obelisk.radius"),
+        gui.drawString(this.font, Component.translatable("title.cognition.experience_obelisk.radius"),
                 this.width / 2 - 77,this.height / 2 - 56, 0xFFFFFF);
-        gui.drawString(this.font, Component.translatable("title.experienceobelisk.experience_obelisk.redstone"),
+        gui.drawString(this.font, Component.translatable("title.cognition.experience_obelisk.redstone"),
                 this.width / 2 - 77,this.height / 2 - 10, 0xFFFFFF);
 
         double radius = 2.5;
@@ -87,10 +87,10 @@ public class ExperienceObeliskOptionsScreen extends Screen {
         clearWidgets();
         buttons.get(2).setMessage(Component.literal(String.valueOf(radius)));
         if(isRedstoneEnabled){
-            buttons.get(4).setMessage(Component.translatable("button.experienceobelisk.experience_obelisk.enabled"));
+            buttons.get(4).setMessage(Component.translatable("button.cognition.experience_obelisk.enabled"));
         }
         else{
-            buttons.get(4).setMessage(Component.translatable("button.experienceobelisk.experience_obelisk.ignored"));
+            buttons.get(4).setMessage(Component.translatable("button.cognition.experience_obelisk.ignored"));
         }
         loadWidgetElements();
 
@@ -151,17 +151,17 @@ public class ExperienceObeliskOptionsScreen extends Screen {
 
         MutableComponent status;
         if(isRedstoneEnabled){
-            status = Component.translatable("button.experienceobelisk.experience_obelisk.enabled");
+            status = Component.translatable("button.cognition.experience_obelisk.enabled");
         }
         else{
-            status = Component.translatable("button.experienceobelisk.experience_obelisk.ignored");
+            status = Component.translatable("button.cognition.experience_obelisk.ignored");
         }
 
-        Button back = Button.builder(Component.translatable("button.experienceobelisk.experience_obelisk.back"),
+        Button back = Button.builder(Component.translatable("button.cognition.experience_obelisk.back"),
                         (onPress) -> Minecraft.getInstance().setScreen(new ExperienceObeliskScreen(menu, inventory, component)))
                 .size(20,20)
                 .pos(this.width / 2 + 91, this.height / 2 - 78)
-                .tooltip(Tooltip.create(Component.translatable("tooltip.experienceobelisk.experience_obelisk.back")))
+                .tooltip(Tooltip.create(Component.translatable("tooltip.cognition.experience_obelisk.back")))
                 .build();
 
         Button decreaseRadius = Button.builder(Component.literal("-").setStyle(red),
@@ -174,7 +174,7 @@ public class ExperienceObeliskOptionsScreen extends Screen {
                         (onPress) -> updateRadius(0))
                 .size(50, h)
                 .pos(this.width / 2 - 25, this.height / 2 - y1)
-                .tooltip(Tooltip.create(Component.translatable("tooltip.experienceobelisk.experience_obelisk.radius")))
+                .tooltip(Tooltip.create(Component.translatable("tooltip.cognition.experience_obelisk.radius")))
                 .build();
 
         Button increaseRadius = Button.builder(Component.literal("+").setStyle(green),

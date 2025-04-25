@@ -93,10 +93,10 @@ public class ExperienceFountainBlock extends ExperienceReceivingBlock implements
         MutableComponent message = Component.empty();
 
         switch (fountain.getActivityState()) {
-            case 0 -> message = Component.translatable("message.experienceobelisk.experience_fountain.slow");
-            case 1 -> message = Component.translatable("message.experienceobelisk.experience_fountain.moderate");
-            case 2 -> message = Component.translatable("message.experienceobelisk.experience_fountain.fast");
-            case 3 -> message = Component.translatable("message.experienceobelisk.experience_fountain.hyper");
+            case 0 -> message = Component.translatable("message.cognition.experience_fountain.slow");
+            case 1 -> message = Component.translatable("message.cognition.experience_fountain.moderate");
+            case 2 -> message = Component.translatable("message.cognition.experience_fountain.fast");
+            case 3 -> message = Component.translatable("message.cognition.experience_fountain.hyper");
         }
         return message;
     }

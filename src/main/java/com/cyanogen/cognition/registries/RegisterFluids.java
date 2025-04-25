@@ -16,9 +16,9 @@ import net.neoforged.neoforge.registries.NeoForgeRegistries;
 
 public class RegisterFluids {
 
-    public static final ResourceLocation flowingTexture = ResourceLocation.fromNamespaceAndPath("experienceobelisk","block/cognitium_flow");
-    public static final ResourceLocation stillTexture = ResourceLocation.fromNamespaceAndPath("experienceobelisk","block/cognitium_still");
-    public static final ResourceLocation overlayTexture = ResourceLocation.fromNamespaceAndPath("experienceobelisk","block/cognitium_overlay");
+    public static final ResourceLocation flowingTexture = ResourceLocation.fromNamespaceAndPath("cognition","block/cognitium_flow");
+    public static final ResourceLocation stillTexture = ResourceLocation.fromNamespaceAndPath("cognition","block/cognitium_still");
+    public static final ResourceLocation overlayTexture = ResourceLocation.fromNamespaceAndPath("cognition","block/cognitium_overlay");
 
     public static final DeferredRegister<Fluid> FLUIDS = DeferredRegister.create(BuiltInRegistries.FLUID, Cognition.MOD_ID);
     public static final DeferredRegister<FluidType> FLUID_TYPES = DeferredRegister.create(NeoForgeRegistries.FLUID_TYPES, Cognition.MOD_ID);

@@ -26,7 +26,7 @@ public class FluorescentAgarBlock extends AbstractAgarBlock implements EntityBlo
     protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
 
         if(stack.is(RegisterItems.ATTUNEMENT_STAFF.get()) && level.getBlockEntity(pos) instanceof FluorescentAgarEntity agar){
-            Component message = Component.translatable("message.experienceobelisk.binding_wand.query_fluorescent_agar", agar.getInfectionProgress());
+            Component message = Component.translatable("message.cognition.binding_wand.query_fluorescent_agar", agar.getInfectionProgress());
             if(!level.isClientSide){
                 player.displayClientMessage(message, true);
             }

@@ -142,10 +142,10 @@ public class EnlightenedAmuletItem extends Item{
         boolean isActive = ItemUtils.getCustomDataTag(stack).getBoolean("isActive");
 
         if(isActive){
-            tooltipComponents.add(Component.translatable("tooltip.experienceobelisk.enlightened_amulet.active"));
+            tooltipComponents.add(Component.translatable("tooltip.cognition.enlightened_amulet.active"));
         }
         else{
-            tooltipComponents.add(Component.translatable("tooltip.experienceobelisk.enlightened_amulet.inactive"));
+            tooltipComponents.add(Component.translatable("tooltip.cognition.enlightened_amulet.inactive"));
         }
 
         super.appendHoverText(stack, context, tooltipComponents, tooltipFlag);

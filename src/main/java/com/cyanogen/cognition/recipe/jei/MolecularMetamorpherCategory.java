@@ -39,7 +39,7 @@ public class MolecularMetamorpherCategory implements IRecipeCategory<MolecularMe
 
     IRecipeCategoryRegistration registration;
     IGuiHelper guiHelper;
-    private final ResourceLocation texture = ResourceLocation.parse("experienceobelisk:textures/gui/recipes/molecular_metamorpher_jei.png");
+    private final ResourceLocation texture = ResourceLocation.parse("cognition:textures/gui/recipes/molecular_metamorpher_jei.png");
     private final IDrawableAnimated arrow;
 
     public static final RecipeType<MolecularMetamorpherRecipe> metamorpherType =
@@ -70,7 +70,7 @@ public class MolecularMetamorpherCategory implements IRecipeCategory<MolecularMe
 
     @Override
     public Component getTitle() {
-        return Component.translatable("title.experienceobelisk.molecular_metamorpher");
+        return Component.translatable("title.cognition.molecular_metamorpher");
     }
 
     @Override
@@ -116,8 +116,8 @@ public class MolecularMetamorpherCategory implements IRecipeCategory<MolecularMe
         Component c2 = Component.literal(String.valueOf(cost)).withStyle(ChatFormatting.GREEN);
         Component c3 = Component.literal(time +"s").withStyle(ChatFormatting.GOLD);
 
-        Component costXP = Component.translatable("jei.experienceobelisk.metamorpher.cost_xp", c2);
-        Component processTime = Component.translatable("jei.experienceobelisk.metamorpher.process_time", c3);
+        Component costXP = Component.translatable("jei.cognition.metamorpher.cost_xp", c2);
+        Component processTime = Component.translatable("jei.cognition.metamorpher.process_time", c3);
 
         int x1 = getWidth() - 67;
         int x2 = getWidth();
@@ -168,7 +168,7 @@ public class MolecularMetamorpherCategory implements IRecipeCategory<MolecularMe
         formatItemList.addAll(convertItemListToItemStackList(getValidFormattingItems()));
 
         ItemStack inputItem = new ItemStack(RegisterItems.DUMMY_SWORD.get(), 1).copy();
-        inputItem.set(DataComponents.ITEM_NAME, Component.translatable("jei.experienceobelisk.name.any_item"));
+        inputItem.set(DataComponents.ITEM_NAME, Component.translatable("jei.cognition.name.any_item"));
         Ingredient formatItems = Ingredient.of(formatItemList.stream());
         List<ItemStack> outputItems = new ArrayList<>();
 
@@ -180,7 +180,7 @@ public class MolecularMetamorpherCategory implements IRecipeCategory<MolecularMe
 
                 assert format != null;
                 ItemStack outputItem = inputItem.copy();
-                outputItem.set(DataComponents.ITEM_NAME, Component.translatable("jei.experienceobelisk.name.any_item").withStyle(format));
+                outputItem.set(DataComponents.ITEM_NAME, Component.translatable("jei.cognition.name.any_item").withStyle(format));
                 outputItems.add(outputItem);
             }
         }
@@ -192,7 +192,7 @@ public class MolecularMetamorpherCategory implements IRecipeCategory<MolecularMe
 
             assert format != null;
             ItemStack outputItem = inputItem.copy();
-            outputItem.set(DataComponents.ITEM_NAME, Component.translatable("jei.experienceobelisk.name.any_item").withStyle(format));
+            outputItem.set(DataComponents.ITEM_NAME, Component.translatable("jei.cognition.name.any_item").withStyle(format));
             outputItems.add(outputItem);
         }
 

@@ -21,7 +21,7 @@ import net.minecraft.world.item.ItemStack;
 public class FillingCategory implements IRecipeCategory<FillingRecipe>{
 
     private final IGuiHelper guiHelper;
-    private final ResourceLocation texture = ResourceLocation.parse("experienceobelisk:textures/gui/recipes/information_jei.png");
+    private final ResourceLocation texture = ResourceLocation.parse("cognition:textures/gui/recipes/information_jei.png");
     private final IDrawableAnimated arrow;
 
     public static final RecipeType<FillingRecipe> fillingType =
@@ -51,7 +51,7 @@ public class FillingCategory implements IRecipeCategory<FillingRecipe>{
 
     @Override
     public Component getTitle() {
-        return Component.translatable("jei.experienceobelisk.info.filling.title");
+        return Component.translatable("jei.cognition.info.filling.title");
     }
 
     @Override
@@ -71,7 +71,7 @@ public class FillingCategory implements IRecipeCategory<FillingRecipe>{
     @Override
     public void getTooltip(ITooltipBuilder tooltipBuilder, FillingRecipe recipe, IRecipeSlotsView recipeSlotsView, double mouseX, double mouseY) {
 
-        Component tooltip = Component.translatable("jei.experienceobelisk.info.filling.tooltip");
+        Component tooltip = Component.translatable("jei.cognition.info.filling.tooltip");
 
         int x1 = 46;
         int x2 = x1 + 43;

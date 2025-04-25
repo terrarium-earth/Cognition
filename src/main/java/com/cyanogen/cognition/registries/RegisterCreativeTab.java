@@ -13,9 +13,9 @@ public class RegisterCreativeTab {
 
     public static final DeferredRegister<CreativeModeTab> TABS = DeferredRegister.create(BuiltInRegistries.CREATIVE_MODE_TAB, Cognition.MOD_ID);
 
-    public static final DeferredHolder<CreativeModeTab, CreativeModeTab> EXPERIENCE_OBELISK_TAB = TABS.register("experienceobelisk_tab",
+    public static final DeferredHolder<CreativeModeTab, CreativeModeTab> EXPERIENCE_OBELISK_TAB = TABS.register("cognition_tab",
             () -> CreativeModeTab.builder()
-                    .title(Component.translatable("itemGroup.experienceobelisk"))
+                    .title(Component.translatable("itemGroup.cognition"))
                     .icon(RegisterItems.EXPERIENCE_OBELISK_ITEM.get()::getDefaultInstance)
                     .withTabsBefore(CreativeModeTabs.SPAWN_EGGS)
                     .displayItems((p_270258_, output) -> {

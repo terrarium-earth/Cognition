@@ -46,17 +46,17 @@ public abstract class ExperienceReceivingBlock extends Block {
             BlockPos boundPos = entity.getBoundPos();
 
             if(level.getBlockEntity(boundPos) instanceof ExperienceObeliskEntity){
-                player.displayClientMessage(Component.translatable("message.experienceobelisk.binding_wand.reveal_bound_pos",
+                player.displayClientMessage(Component.translatable("message.cognition.binding_wand.reveal_bound_pos",
                         Component.literal(boundPos.toShortString()).withStyle(ChatFormatting.GREEN)), true);
             }
             else{
-                player.displayClientMessage(Component.translatable("message.experienceobelisk.binding_wand.obelisk_doesnt_exist",
+                player.displayClientMessage(Component.translatable("message.cognition.binding_wand.obelisk_doesnt_exist",
                         Component.literal(boundPos.toShortString())).withStyle(ChatFormatting.RED), true);
             }
 
         }
         else{
-            player.displayClientMessage(Component.translatable("message.experienceobelisk.binding_wand.not_yet_bound"), true);
+            player.displayClientMessage(Component.translatable("message.cognition.binding_wand.not_yet_bound"), true);
         }
     }
 

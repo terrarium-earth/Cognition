@@ -34,9 +34,9 @@ import static com.cyanogen.cognition.utils.ExperienceUtils.xpToLevels;
 
 public class PrecisionDispellerScreen extends AbstractContainerScreen<PrecisionDispellerMenu> {
 
-    private final ResourceLocation texture = ResourceLocation.parse("experienceobelisk:textures/gui/screens/precision_dispeller.png");
-    private final Component title = Component.translatable("title.experienceobelisk.precision_dispeller");
-    private final Component inventoryTitle = Component.translatable("title.experienceobelisk.precision_dispeller.inventory");
+    private final ResourceLocation texture = ResourceLocation.parse("cognition:textures/gui/screens/precision_dispeller.png");
+    private final Component title = Component.translatable("title.cognition.precision_dispeller");
+    private final Component inventoryTitle = Component.translatable("title.cognition.precision_dispeller.inventory");
     private final Level clientLevel;
 
     public PrecisionDispellerScreen(PrecisionDispellerMenu menu, Inventory inventory, Component component) {
@@ -229,14 +229,14 @@ public class PrecisionDispellerScreen extends AbstractContainerScreen<PrecisionD
 
                 if(panel.enchantment.is(EnchantmentTags.CURSE)){
 
-                    tooltipList.add(Component.translatable("tooltip.experienceobelisk.precision_dispeller.curse"));
+                    tooltipList.add(Component.translatable("tooltip.cognition.precision_dispeller.curse"));
 
                     if(pos != null && clientLevel.getBlockEntity(pos) instanceof PrecisionDispellerEntity dispeller){
 
                         if((dispeller.getBoundObelisk() == null && playerXP < 1395) ||
                                 (dispeller.getBoundObelisk() != null && dispeller.getBoundObelisk().getExperiencePoints() + playerXP < 1395)){
 
-                            tooltipList.add(Component.translatable("tooltip.experienceobelisk.precision_dispeller.insufficient_xp"));
+                            tooltipList.add(Component.translatable("tooltip.cognition.precision_dispeller.insufficient_xp"));
                         }
                     }
 
@@ -247,7 +247,7 @@ public class PrecisionDispellerScreen extends AbstractContainerScreen<PrecisionD
 
                     MutableComponent pts = Component.translatable(String.valueOf(points)).withStyle(ChatFormatting.GREEN);
                     MutableComponent lvls = Component.translatable(String.valueOf(levels)).withStyle(ChatFormatting.GREEN);
-                    tooltipList.add(Component.translatable("tooltip.experienceobelisk.precision_dispeller.enchantment", lvls, pts));
+                    tooltipList.add(Component.translatable("tooltip.cognition.precision_dispeller.enchantment", lvls, pts));
                 }
 
                 gui.renderTooltip(this.font, tooltipList, Optional.empty(), x, y);
