@@ -21,10 +21,11 @@ public class ExperienceObeliskMenu extends AbstractContainerMenu {
     //constructor used by client
     public ExperienceObeliskMenu(int id, Inventory inventory) {
         this(id, inventory, null);
+        this.level = inventory.player.level();
 
+        //data slots (client)
         this.blockPositionData = new SimpleContainerData(3);
         this.addDataSlots(blockPositionData);
-        this.level = inventory.player.level();
     }
 
     //constructor used by server
