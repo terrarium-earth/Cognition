@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "cognition:accelerator"
+    }
+  ],
+  "result": {
+    "id": "cognition:linear_accelerator",
+    "count": 1
+  }
+}

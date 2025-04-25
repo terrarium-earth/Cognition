@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:smelting",
+  "cookingtime": 200,
+  "ingredient": {
+    "item": "cognition:fluorescent_jelly"
+  },
+  "result": {
+    "id": "minecraft:slime_ball"
+  }
+}

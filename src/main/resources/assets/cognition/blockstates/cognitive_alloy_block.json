@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "cognition:block/cognitive_alloy_block"
+    }
+  }
+}

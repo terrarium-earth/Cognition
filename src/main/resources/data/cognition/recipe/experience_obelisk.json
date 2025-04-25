@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " C ",
+    " X ",
+    "ROR"
+  ],
+  "key": {
+    "R": {
+      "item": "cognition:cognitive_alloy"
+    },
+    "X": {
+      "item": "cognition:cognitive_amalgam"
+    },
+    "C": {
+      "item": "cognition:cognitive_crystal"
+    },
+    "O": {
+      "item": "cognition:astute_assembly"
+    }
+  },
+  "result": {
+    "id": "cognition:experience_obelisk",
+    "count": 1
+  }
+}

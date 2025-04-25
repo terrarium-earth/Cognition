@@ -1,8 +1,8 @@
 v2.3.7
 
 [Changes]
-- (From 2.3.7-1.20.1) Buffed mending neurogel to compensate for its material cost
-- (From 2.3.7-1.20.1) Other minor recipe changes
+- Buffed mending neurogel to compensate for its material cost
+- Other minor recipe changes
 
 [Bugfixes]
 - Fixed enlightened amulet not being placeable in curios slot
@@ -11,8 +11,8 @@ v2.3.7
 - Fixed obelisk buttons having the text "+x" instead of "-x" for drain functions
 - Fixed obelisk tooltips not showing up
 - Fixed dispeller showing "Insufficient XP" even when enough XP is present in the bound obelisk
-- (From 2.3.7-1.20.1) Stopped unbound Precision Dispellers from querying the Obelisks they were previously bound to
-- (From 2.3.7-1.20.1) Stopped Metamorphers from continuing to display Obelisk experience level in the GUI even after obelisks are removed
+- Stopped unbound Precision Dispellers from querying the Obelisks they were previously bound to
+- Stopped Metamorphers from continuing to display Obelisk experience level in the GUI even after obelisks are removed
 
 v2.3.6.2
 

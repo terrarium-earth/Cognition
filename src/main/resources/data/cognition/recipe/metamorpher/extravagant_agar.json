@@ -1,0 +1,22 @@
+{
+  "type": "cognition:molecular_metamorphosis",
+  "ingredient1": {
+    "item": "cognition:nutrient_agar"
+  },
+  "count1": 1,
+  "ingredient2": {
+    "item": "minecraft:phantom_membrane"
+  },
+  "count2": 3,
+  "ingredient3": {
+    "item": "cognition:calcarine_matrix"
+  },
+  "count3": 4,
+  "result": {
+    "id": "cognition:extravagant_agar",
+    "count": 1
+  },
+  "cost": 1395,
+  "processTime": 200,
+  "id": "cognition:extravagant_agar"
+}

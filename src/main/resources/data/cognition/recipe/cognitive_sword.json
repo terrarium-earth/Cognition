@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:smithing_transform",
+  "template": {
+    "item": "cognition:astute_assembly"
+  },
+  "base": {
+    "item": "minecraft:iron_sword"
+  },
+  "addition": {
+    "item": "cognition:cognitive_alloy"
+  },
+  "result": {
+    "id": "cognition:cognitive_sword"
+  }
+}

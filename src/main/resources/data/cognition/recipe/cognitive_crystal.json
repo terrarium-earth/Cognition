@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " X ",
+    "XEX",
+    " X "
+  ],
+  "key": {
+    "X": {
+      "item": "cognition:cognitive_amalgam"
+    },
+    "E": {
+      "item": "minecraft:emerald"
+    }
+  },
+  "result": {
+    "id": "cognition:cognitive_crystal",
+    "count": 1
+  }
+}

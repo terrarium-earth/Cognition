@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:smelting",
+  "ingredient": {
+    "item": "cognition:cognitive_flux"
+  },
+  "result": {
+    "id": "cognition:cognitive_amalgam"
+  },
+  "experience": 0.175,
+  "cookingtime": 50
+}

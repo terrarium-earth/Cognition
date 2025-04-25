@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "AAA",
+    "ABA",
+    "CCC"
+  ],
+  "key": {
+    "A": {
+      "item": "cognition:cognitive_amalgam"
+    },
+    "B": {
+      "item": "cognition:cognitive_crystal"
+    },
+    "C": {
+      "item": "minecraft:iron_ingot"
+    }
+  },
+  "result": {
+    "id": "cognition:accelerator",
+    "count": 4
+  }
+}

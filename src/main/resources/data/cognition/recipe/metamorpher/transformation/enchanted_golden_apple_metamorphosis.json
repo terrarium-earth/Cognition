@@ -1,0 +1,20 @@
+{
+  "type": "cognition:molecular_metamorphosis",
+  "ingredient1": {
+    "item": "minecraft:golden_apple"
+  },
+  "count1": 1,
+  "ingredient2": {
+    "item": "cognition:transforming_focus"
+  },
+  "count2": 1,
+  "ingredient3": [],
+  "count3": 0,
+  "result": {
+    "id": "minecraft:enchanted_golden_apple",
+    "count": 1
+  },
+  "cost": 5345,
+  "processTime": 400,
+  "id": "cognition:enchanted_golden_apple_metamorphosis"
+}

@@ -1,0 +1,427 @@
+package com.cyanogen.cognition.gui;
+
+import com.cyanogen.cognition.block_entities.PrecisionDispellerEntity;
+import com.cyanogen.cognition.network.precision_dispeller.UpdateSlot;
+import com.cyanogen.cognition.utils.EnchantmentUtils;
+import com.mojang.blaze3d.systems.RenderSystem;
+import net.minecraft.ChatFormatting;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.resources.sounds.SimpleSoundInstance;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.nbt.Tag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.tags.EnchantmentTags;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.level.Level;
+import net.neoforged.neoforge.network.PacketDistributor;
+
+import java.util.*;
+
+import static com.cyanogen.cognition.utils.ExperienceUtils.levelsToXP;
+import static com.cyanogen.cognition.utils.ExperienceUtils.xpToLevels;
+
+public class PrecisionDispellerScreen extends AbstractContainerScreen<PrecisionDispellerMenu> {
+
+    private final ResourceLocation texture = ResourceLocation.parse("experienceobelisk:textures/gui/screens/precision_dispeller.png");
+    private final Component title = Component.translatable("title.experienceobelisk.precision_dispeller");
+    private final Component inventoryTitle = Component.translatable("title.experienceobelisk.precision_dispeller.inventory");
+    private final Level clientLevel;
+
+    public PrecisionDispellerScreen(PrecisionDispellerMenu menu, Inventory inventory, Component component) {
+        super(menu, inventory, component);
+        this.clientLevel = inventory.player.level();
+    }
+
+    //-----SELECTABLE PANEL-----//
+
+    enum Status{
+        UNHOVERED,
+        HOVERED,
+        SELECTED
+    }
+
+    private static class SelectablePanel{
+        public Holder<Enchantment> enchantment;
+        public int level;
+        public int x1;
+        public int x2;
+        public int y1;
+        public int y2;
+        public Status status;
+        boolean isVisible;
+        GuiGraphics gui;
+        ResourceLocation texture;
+
+        private SelectablePanel(int x1, int y1, Holder<Enchantment> e, int level, Status s, boolean isVisible, GuiGraphics gui, ResourceLocation texture){
+            this.enchantment = e;
+            this.x1 = x1;
+            this.y1 = y1;
+            this.x2 = x1 + 102;
+            this.y2 = y1 + 17;
+            this.level = level;
+            this.status = s;
+            this.isVisible = isVisible;
+            this.gui = gui;
+            this.texture = texture;
+        }
+
+        public boolean isHovered(double mouseX, double mouseY){
+            return mouseX > x1 && mouseX < x2 && mouseY > y1 && mouseY < y2;
+        }
+
+        public void renderPanel(GuiGraphics gui){
+            switch(status){
+                case UNHOVERED -> gui.blit(texture, x1, y1, 0, 177, 102, 17, 256, 256);
+                case HOVERED -> gui.blit(texture, x1, y1, 0, 211, 102, 17, 256, 256);
+                case SELECTED -> gui.blit(texture, x1, y1, 0, 194, 102, 17, 256, 256);
+            }
+        }
+
+        public String getFullName(){
+            return Enchantment.getFullname(enchantment, level).getString();
+        }
+
+        public void renderText(Font font){
+            String text = getFullName();
+
+            if(font.width(text) > 90){
+                while(font.width(text) > 90){
+                    text = text.substring(0, text.length() - 1);
+                }
+                text = text + "...";
+            }
+
+            int color;
+            if(enchantment.is(EnchantmentTags.CURSE)){
+                color = 0xFC5454;
+            }
+            else{
+                color = 0xFFFFFF;
+            }
+
+            font.drawInBatch(text, x1 + 4, y1 + 4, color, false,
+                    gui.pose().last().pose(), gui.bufferSource(), Font.DisplayMode.NORMAL, 0, 15728880);
+
+        }
+    }
+
+    private final ArrayList<SelectablePanel> selectablePanels = new ArrayList<>();
+    public int selectedIndex = -1;
+
+    //-----RENDERING-----//
+
+    @Override
+    public void render(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {
+
+        selectablePanels.clear();
+
+        //render background shading
+        renderTransparentBackground(gui);
+
+        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+        RenderSystem.setShaderTexture(0, texture);
+
+        int x = (this.width - this.imageWidth) / 2;
+        int y = (this.height - this.imageHeight) / 2;
+
+        //render background texture
+        gui.blit(texture, x, y, 0, 0, 176, 166);
+
+        //render selection highlights
+        super.render(gui, mouseX, mouseY, partialTick);
+
+        ItemStack inputStack = menu.container.getItem(0);
+        HashMap<Holder<Enchantment>,Integer> enchantmentMap = EnchantmentUtils.getEnchantmentMap(inputStack);
+
+        scrollEnabled = enchantmentMap.size() > 3;
+
+        //render scroll button
+        if((inputStack.isEnchanted() || inputStack.is(Items.ENCHANTED_BOOK)) && scrollEnabled){
+            gui.blit(texture, x + 153, y + scrollButtonPos, 177, 0, 9, 13, 256, 256);
+        }
+        else{
+            scrollButtonPos = 18;
+            gui.blit(texture, x + 153, y + 18, 187, 0, 9, 13, 256, 256);
+        }
+
+        if(inputStack.isEnchanted() || inputStack.is(Items.ENCHANTED_BOOK)){
+            int index = 0;
+
+            //populating selectablePanels
+            for(HashMap.Entry<Holder<Enchantment>, Integer> entry : enchantmentMap.entrySet()){
+
+                int n = enchantmentMap.size() - 3;
+                int b = scrollButtonPos - 18;
+
+                if(n > 0){
+                    offset = -b * 17 * n / 38;
+                }
+
+                int xpos = x + 49;
+                int ypos = y + 18 + 17 * index + offset;
+                boolean visibility = ypos > y + 1 && ypos < y + 69;
+
+                selectablePanels.add(new SelectablePanel(xpos, ypos, entry.getKey(), entry.getValue(), Status.UNHOVERED, visibility, gui, texture));
+                index++;
+            }
+
+            //rendering selectablePanels
+            for(SelectablePanel panel : selectablePanels){
+
+                if(selectablePanels.indexOf(panel) == selectedIndex){
+                    panel.status = Status.SELECTED;
+                }
+                else if(panel.isHovered(mouseX, mouseY)){
+                    panel.status = Status.HOVERED;
+                }
+
+                if(panel.isVisible){
+                    panel.renderPanel(gui);
+                }
+            }
+
+            //rendering labels
+            for(SelectablePanel panel : selectablePanels){
+                if(panel.isVisible){
+                    panel.renderText(font);
+                }
+            }
+
+            //covering up
+            RenderSystem.setShaderTexture(0, texture);
+            gui.pose().translate(0,0,1); //translate pose by 1 so it renders over everything else before it
+
+            gui.blit(texture, x + 49, y + 1, 49, 1, 102, 17, 256, 256);
+            gui.blit(texture, x + 49, y + 69, 49, 69, 102, 17, 256, 256);
+        }
+        else{
+            selectedIndex = -1;
+            offset = 0;
+        }
+
+        this.renderTitles(gui, x + 8, y + 6, x + 8, y + 72);
+        this.renderPanelTooltip(gui, mouseX, mouseY);
+        this.renderTooltip(gui, mouseX, mouseY);
+    }
+
+    protected void renderPanelTooltip(GuiGraphics gui, int x, int y) {
+
+        BlockPos pos = menu.getBlockPos();
+        long playerXP = levelsToXP(menu.player.experienceLevel) + Math.round(menu.player.experienceProgress * menu.player.getXpNeededForNextLevel());
+
+        for(SelectablePanel panel : selectablePanels){
+            if(panel.isHovered(x, y) && panel.isVisible && !panel.status.equals(Status.SELECTED)){
+
+                List<Component> tooltipList = new ArrayList<>();
+                tooltipList.add(Component.literal(panel.getFullName()));
+
+                if(panel.enchantment.is(EnchantmentTags.CURSE)){
+
+                    tooltipList.add(Component.translatable("tooltip.experienceobelisk.precision_dispeller.curse"));
+
+                    if(pos != null && clientLevel.getBlockEntity(pos) instanceof PrecisionDispellerEntity dispeller){
+
+                        if((dispeller.getBoundObelisk() == null && playerXP < 1395) ||
+                                (dispeller.getBoundObelisk() != null && dispeller.getBoundObelisk().getExperiencePoints() + playerXP < 1395)){
+
+                            tooltipList.add(Component.translatable("tooltip.experienceobelisk.precision_dispeller.insufficient_xp"));
+                        }
+                    }
+
+                }
+                else{
+                    int points = panel.enchantment.value().getMinCost(panel.level);
+                    int levels = xpToLevels(points);
+
+                    MutableComponent pts = Component.translatable(String.valueOf(points)).withStyle(ChatFormatting.GREEN);
+                    MutableComponent lvls = Component.translatable(String.valueOf(levels)).withStyle(ChatFormatting.GREEN);
+                    tooltipList.add(Component.translatable("tooltip.experienceobelisk.precision_dispeller.enchantment", lvls, pts));
+                }
+
+                gui.renderTooltip(this.font, tooltipList, Optional.empty(), x, y);
+            }
+        }
+    }
+
+    protected void renderTitles(GuiGraphics gui, int titleX, int titleY, int inventoryX, int inventoryY){
+        gui.drawString(this.font, this.title, titleX, titleY, 0xFFFFFF);
+        gui.drawString(this.font, this.inventoryTitle, inventoryX, inventoryY, 0xFFFFFF);
+    }
+
+    @Override
+    protected void renderLabels(GuiGraphics gui, int mouseX, int mouseY) {
+
+    }
+
+    @Override
+    protected void renderBg(GuiGraphics gui, float f, int a, int b) {
+    }
+
+    @Override
+    public void renderBackground(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
+    }
+
+    //----HANDLE SCROLLING & SELECTION-----//
+
+    int scrollButtonPos = 18;
+    int offset = 0;
+    boolean scrollClicked = false;
+    boolean scrollEnabled = false;
+    int clickedDelta = -1;
+
+    @Override
+    public boolean mouseScrolled(double mouseX, double mouseY, double scrollX, double scrollY) {
+
+        int x = (this.width - this.imageWidth) / 2;
+        int y = (this.height - this.imageHeight) / 2;
+
+        if(mouseX >= x + 48 && mouseX <= x + 162 && mouseY >= y + 17 && mouseY <= y + 69 && scrollEnabled){
+            scrollButtonPos = scrollButtonPos - 4 * (int) scrollY;
+        }
+
+        if(scrollButtonPos > 56){
+            scrollButtonPos = 56;
+        }
+        else if(scrollButtonPos < 18){
+            scrollButtonPos = 18;
+        }
+
+        return super.mouseScrolled(mouseX, mouseY, scrollX, scrollY);
+    }
+
+    @Override
+    public boolean mouseReleased(double mouseX, double mouseY, int button) {
+
+        //mouse released anywhere on screen
+        scrollClicked = false;
+        clickedDelta = -1;
+
+        return super.mouseReleased(mouseX, mouseY, button);
+    }
+
+    @Override
+    public boolean mouseDragged(double mouseX, double mouseY, int button, double dragX, double dragY) {
+
+        int y = (this.height - this.imageHeight) / 2;
+
+        if(scrollClicked && clickedDelta != -1 && scrollEnabled){
+            scrollButtonPos = (int) mouseY - y - clickedDelta;
+        }
+
+        if(scrollButtonPos > 56){
+            scrollButtonPos = 56;
+        }
+        else if(scrollButtonPos < 18){
+            scrollButtonPos = 18;
+        }
+
+        return super.mouseDragged(mouseX, mouseY, button, dragX, dragY);
+    }
+
+    @Override
+    public boolean mouseClicked(double mouseX, double mouseY, int button) {
+
+        super.mouseClicked(mouseX, mouseY, button);
+
+        int x = (this.width - this.imageWidth) / 2;
+        int y = (this.height - this.imageHeight) / 2;
+
+        if(mouseX >= x + 152 && mouseX <= x + 162 && mouseY >= y + scrollButtonPos && mouseY <= y + scrollButtonPos + 13 && scrollEnabled){
+
+            scrollClicked = true;
+            clickedDelta = (int) mouseY - (y + scrollButtonPos);
+        }
+        else{
+           mouseClickedOnPanel(mouseX, mouseY);
+        }
+        return true;
+    }
+
+    //----HANDLE SELECTION-----//
+
+    public void mouseClickedOnPanel(double mouseX, double mouseY){
+
+        BlockPos pos = menu.getBlockPos();
+        long playerXP = levelsToXP(menu.player.experienceLevel) + Math.round(menu.player.experienceProgress * menu.player.getXpNeededForNextLevel());
+
+        for(SelectablePanel panel : selectablePanels){
+
+            boolean invalid = true;
+
+            if(pos != null && clientLevel.getBlockEntity(pos) instanceof PrecisionDispellerEntity dispeller){
+
+                if(menu.player.isCreative() || !panel.enchantment.is(EnchantmentTags.CURSE)){
+                    invalid = false;
+                }
+                else if(playerXP >= 1395){
+                    invalid = false;
+                }
+                else if(dispeller.getBoundObelisk() != null){
+                    invalid = playerXP + dispeller.getBoundObelisk().getExperiencePoints() < 1395;
+                }
+            }
+
+            if(panel.isHovered(mouseX, mouseY) && panel.isVisible && !invalid){
+
+                if(selectedIndex == selectablePanels.indexOf(panel)){
+                    selectedIndex = -1;
+
+                    Tag tag = ItemStack.EMPTY.saveOptional(Minecraft.getInstance().level.registryAccess());
+                    PacketDistributor.sendToServer(new UpdateSlot(1, tag));
+                }
+                else{
+                    selectedIndex = selectablePanels.indexOf(panel);
+
+                    ItemStack inputItem = menu.container.getItem(0);
+                    HashMap<Holder<Enchantment>, Integer> map = EnchantmentUtils.getEnchantmentMap(inputItem);
+                    map.remove(panel.enchantment);
+                    ItemStack outputItem;
+
+                    if(inputItem.is(Items.ENCHANTED_BOOK)){
+
+                        if(map.isEmpty()){
+                            outputItem = new ItemStack(Items.BOOK, 1);
+                        }
+                        else{
+                            outputItem = new ItemStack(Items.ENCHANTED_BOOK, 1);
+                            for(Map.Entry<Holder<Enchantment>,Integer> entry : map.entrySet()){
+                                outputItem.enchant(entry.getKey(), entry.getValue());
+                            }
+                        }
+                    }
+                    else{
+                        outputItem = inputItem.copy();
+                        EnchantmentHelper.setEnchantments(outputItem, EnchantmentUtils.getItemEnchantmentsFromMap(map));
+
+                        int repairCost = outputItem.getOrDefault(DataComponents.REPAIR_COST, 0);
+                        repairCost = (repairCost - 1) / 2;
+
+                        if(repairCost < 1 || !outputItem.isEnchanted()){
+                            repairCost = 0;
+                        }
+
+                        outputItem.set(DataComponents.REPAIR_COST, repairCost);
+                    }
+
+                    Tag tag = outputItem.saveOptional(Minecraft.getInstance().level.registryAccess());
+                    PacketDistributor.sendToServer(new UpdateSlot(1, tag));
+                }
+
+                Minecraft.getInstance().getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK, 1.0F));
+            }
+        }
+    }
+
+}

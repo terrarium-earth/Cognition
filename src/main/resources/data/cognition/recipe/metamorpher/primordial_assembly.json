@@ -1,0 +1,22 @@
+{
+  "type": "cognition:molecular_metamorphosis",
+  "ingredient1": {
+    "item": "cognition:astute_assembly"
+  },
+  "count1": 1,
+  "ingredient2": {
+    "tag": "minecraft:saplings"
+  },
+  "count2": 1,
+  "ingredient3": {
+    "item": "minecraft:gold_ingot"
+  },
+  "count3": 1,
+  "result": {
+    "id": "cognition:primordial_assembly",
+    "count": 1
+  },
+  "cost": 315,
+  "processTime": 100,
+  "id": "cognition:primordial_assembly"
+}

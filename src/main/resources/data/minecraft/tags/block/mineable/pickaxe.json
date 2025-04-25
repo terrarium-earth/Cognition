@@ -1,14 +1,14 @@
 {
   "replace": false,
   "values": [
-    "experienceobelisk:experience_obelisk",
-    "experienceobelisk:experience_fountain",
-    "experienceobelisk:precision_dispeller",
-    "experienceobelisk:accelerator",
-    "experienceobelisk:linear_accelerator",
-    "experienceobelisk:molecular_metamorpher",
-    "experienceobelisk:whisperglass",
-    "experienceobelisk:cognitive_alloy_block",
-    "experienceobelisk:cognitive_crystal_block"
+    "cognition:experience_obelisk",
+    "cognition:experience_fountain",
+    "cognition:precision_dispeller",
+    "cognition:accelerator",
+    "cognition:linear_accelerator",
+    "cognition:molecular_metamorpher",
+    "cognition:whisperglass",
+    "cognition:cognitive_alloy_block",
+    "cognition:cognitive_crystal_block"
   ]
 }

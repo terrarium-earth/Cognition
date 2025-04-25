@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "down": "cognition:block/linear_accelerator_bottom",
+    "east": "cognition:block/linear_accelerator_side",
+    "north": "cognition:block/linear_accelerator_side",
+    "particle": "cognition:block/accelerator_top",
+    "south": "cognition:block/linear_accelerator_side",
+    "up": "cognition:block/accelerator_top",
+    "west": "cognition:block/linear_accelerator_side"
+  }
+}

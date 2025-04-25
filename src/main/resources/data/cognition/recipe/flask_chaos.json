@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ABA",
+    "CDC",
+    " C "
+  ],
+  "key": {
+    "A": {
+      "item": "minecraft:obsidian"
+    },
+    "B": {
+      "item": "cognition:primordial_assembly"
+    },
+    "C": {
+      "item": "cognition:whisperglass"
+    },
+    "D": {
+      "item": "minecraft:bucket"
+    }
+  },
+  "result": {
+    "id": "cognition:flask_of_chaos",
+    "count": 1
+  }
+}

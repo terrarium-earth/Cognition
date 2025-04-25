@@ -1,0 +1,29 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ABA",
+    "CAC",
+    "DED"
+  ],
+  "key": {
+    "A": {
+      "item": "cognition:cognitive_crystal"
+    },
+    "B": {
+      "item": "cognition:accelerator"
+    },
+    "C": {
+      "item": "cognition:cognitive_amalgam"
+    },
+    "D": {
+      "item": "cognition:astute_assembly"
+    },
+    "E": {
+      "item": "minecraft:smithing_table"
+    }
+  },
+  "result": {
+    "id": "cognition:molecular_metamorpher",
+    "count": 1
+  }
+}

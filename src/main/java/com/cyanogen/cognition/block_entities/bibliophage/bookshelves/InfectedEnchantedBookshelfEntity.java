@@ -1,0 +1,18 @@
+package com.cyanogen.cognition.block_entities.bibliophage.bookshelves;
+
+import com.cyanogen.cognition.config.Config;
+import com.cyanogen.cognition.registries.RegisterBlockEntities;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.block.state.BlockState;
+
+public class InfectedEnchantedBookshelfEntity extends AbstractInfectedBookshelfEntity {
+
+    public InfectedEnchantedBookshelfEntity(BlockPos pos, BlockState state) {
+        super(RegisterBlockEntities.INFECTED_ENCHANTED_BOOKSHELF.get(), pos, state,
+                Config.COMMON.enchantedSpawnDelayMin.get(),
+                Config.COMMON.enchantedSpawnDelayMax.get(),
+                Config.COMMON.enchantedOrbValue.get(),
+                Config.COMMON.enchantedSpawns.get());
+    }
+
+}

@@ -1,0 +1,7 @@
+{
+    "parent": "minecraft:block/cube_column",
+    "textures": {
+        "end": "cognition:block/infected_bookshelf_top",
+        "side": "cognition:block/infected_bookshelf"
+    }
+}

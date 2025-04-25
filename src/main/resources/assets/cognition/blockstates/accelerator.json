@@ -1,0 +1,54 @@
+{
+  "variants": {
+    "facing=north,active=true": {
+      "model": "cognition:block/accelerator",
+      "x": 90
+    },
+    "facing=south,active=true": {
+      "model": "cognition:block/accelerator",
+      "x": 270
+    },
+    "facing=east,active=true": {
+      "model": "cognition:block/accelerator",
+      "x": 90,
+      "y": 90
+    },
+    "facing=west,active=true": {
+      "model": "cognition:block/accelerator",
+      "x": 90,
+      "y": 270
+    },
+    "facing=up,active=true": {
+      "model": "cognition:block/accelerator"
+    },
+    "facing=down,active=true": {
+      "model": "cognition:block/accelerator",
+      "x": 180
+    },
+    "facing=north,active=false": {
+      "model": "cognition:block/accelerator_inactive",
+      "x": 90
+    },
+    "facing=south,active=false": {
+      "model": "cognition:block/accelerator_inactive",
+      "x": 270
+    },
+    "facing=east,active=false": {
+      "model": "cognition:block/accelerator_inactive",
+      "x": 90,
+      "y": 90
+    },
+    "facing=west,active=false": {
+      "model": "cognition:block/accelerator_inactive",
+      "x": 90,
+      "y": 270
+    },
+    "facing=up,active=false": {
+      "model": "cognition:block/accelerator_inactive"
+    },
+    "facing=down,active=false": {
+      "model": "cognition:block/accelerator_inactive",
+      "x": 180
+    }
+  }
+}

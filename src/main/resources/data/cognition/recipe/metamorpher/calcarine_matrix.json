@@ -1,0 +1,22 @@
+{
+  "type": "cognition:molecular_metamorphosis",
+  "ingredient1": {
+    "item": "cognition:cognitive_amalgam"
+  },
+  "count1": 2,
+  "ingredient2": {
+    "item": "cognition:forgotten_dust"
+  },
+  "count2": 4,
+  "ingredient3": {
+    "item": "minecraft:amethyst_shard"
+  },
+  "count3": 5,
+  "result": {
+    "id": "cognition:calcarine_matrix",
+    "count": 1
+  },
+  "cost": 55,
+  "processTime": 40,
+  "id": "cognition:calcarine_matrix"
+}

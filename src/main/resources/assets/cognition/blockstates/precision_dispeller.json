@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "cognition:block/precision_dispeller",
+      "y": 270
+    },
+    "facing=north": {
+      "model": "cognition:block/precision_dispeller",
+      "y": 180
+    },
+    "facing=south": {
+      "model": "cognition:block/precision_dispeller"
+    },
+    "facing=west": {
+      "model": "cognition:block/precision_dispeller",
+      "y": 90
+    }
+  }
+}

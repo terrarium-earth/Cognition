@@ -20,7 +20,7 @@ license="MIT"
 [[mods]] #mandatory
 
 # The modid of the mod
-modId="experienceobelisk" #mandatory
+modId="cognition" #mandatory
 
 # The version number of the mod
 version="2.3.6" #mandatory
@@ -58,7 +58,7 @@ description='''Overhaul your minecraft experience with strange and arcane techno
 # The coremods config file path is not configurable and is always loaded from META-INF/coremods.json
 
 # A dependency - use the . to indicate dependency for a specific modid. Dependencies are optional.
-[[dependencies.experienceobelisk]] #optional
+[[dependencies.cognition]] #optional
 # the modid of the dependency
 modId="neoforge" #mandatory
 # The type of the dependency. Can be one of "required", "optional", "incompatible" or "discouraged" (case insensitive).
@@ -77,7 +77,7 @@ ordering="NONE"
 side="BOTH"
 
 # Here's another dependency
-[[dependencies.experienceobelisk]]
+[[dependencies.cognition]]
 modId="minecraft"
 type="required"
 # This version range declares a minimum of the current minecraft version up to but not including the next major version
@@ -86,7 +86,7 @@ ordering="NONE"
 side="BOTH"
 
 # Here's another dependency
-[[dependencies.experienceobelisk]]
+[[dependencies.cognition]]
 modId="geckolib"
 type="required"
 # This version range declares a minimum of the current minecraft version up to but not including the next major version
@@ -94,7 +94,7 @@ versionRange="[4.7.5.1,)"
 ordering="NONE"
 side="BOTH"
 
-[[dependencies.experienceobelisk]]
+[[dependencies.cognition]]
 modId="curios"
 type="optional"
 # This version range declares a minimum of the current minecraft version up to but not including the next major version
@@ -102,7 +102,7 @@ versionRange="[9.4.0+1.21.1,)"
 ordering="NONE"
 side="BOTH"
 
-[[dependencies.experienceobelisk]]
+[[dependencies.cognition]]
 modId="jei"
 type="optional"
 # This version range declares a minimum of the current minecraft version up to but not including the next major version

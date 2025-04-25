@@ -1,10 +1,10 @@
 {
   "replace": false,
   "values": [
-    "experienceobelisk:enchanted_bookshelf",
-    "experienceobelisk:archivers_bookshelf",
-    "experienceobelisk:infected_bookshelf",
-    "experienceobelisk:infected_enchanted_bookshelf",
-    "experienceobelisk:infected_archivers_bookshelf"
+    "cognition:enchanted_bookshelf",
+    "cognition:archivers_bookshelf",
+    "cognition:infected_bookshelf",
+    "cognition:infected_enchanted_bookshelf",
+    "cognition:infected_archivers_bookshelf"
   ]
 }

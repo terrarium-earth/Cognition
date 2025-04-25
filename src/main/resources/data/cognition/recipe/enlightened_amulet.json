@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " S ",
+    "S S",
+    " C "
+  ],
+  "key": {
+    "S": {
+      "item": "minecraft:string"
+    },
+    "C": {
+      "item": "cognition:cognitive_crystal"
+    }
+  },
+  "result": {
+    "id": "cognition:enlightened_amulet",
+    "count": 1
+  }
+}

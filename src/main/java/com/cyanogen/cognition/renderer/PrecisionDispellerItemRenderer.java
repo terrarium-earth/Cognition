@@ -1,0 +1,36 @@
+package com.cyanogen.cognition.renderer;
+
+import com.cyanogen.cognition.Cognition;
+import com.cyanogen.cognition.item.PrecisionDispellerItem;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.resources.ResourceLocation;
+import software.bernie.geckolib.model.GeoModel;
+import software.bernie.geckolib.renderer.GeoItemRenderer;
+
+public class PrecisionDispellerItemRenderer extends GeoItemRenderer<PrecisionDispellerItem> {
+
+    public PrecisionDispellerItemRenderer() {
+        super(new GeoModel<>() {
+            @Override
+            public ResourceLocation getModelResource(PrecisionDispellerItem object) {
+                return ResourceLocation.fromNamespaceAndPath(Cognition.MOD_ID, "geo/precision_dispeller.geo.json");
+            }
+
+            @Override
+            public ResourceLocation getTextureResource(PrecisionDispellerItem object) {
+                return ResourceLocation.fromNamespaceAndPath(Cognition.MOD_ID, "textures/custom_models/precision_dispeller.png");
+            }
+
+            @Override
+            public ResourceLocation getAnimationResource(PrecisionDispellerItem animatable) {
+                return ResourceLocation.fromNamespaceAndPath(Cognition.MOD_ID, "animations/precision_dispeller.json");
+            }
+
+            @Override
+            public RenderType getRenderType(PrecisionDispellerItem animatable, ResourceLocation texture) {
+                return RenderType.entityTranslucent(getTextureResource(animatable));
+            }
+        });
+
+    }
+}

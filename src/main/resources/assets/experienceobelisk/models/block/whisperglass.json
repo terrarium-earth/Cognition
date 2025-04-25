@@ -1,8 +1,0 @@
-{
-    "parent": "minecraft:block/cube_all",
-    "textures": {
-        "all": "experienceobelisk:block/whisperglass"
-    },
-    "render_type": "translucent"
-}
-

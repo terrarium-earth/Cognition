@@ -1,0 +1,56 @@
+{
+  "enlightened_amulet_activate": {
+    "subtitle": "sounds.cognition.enlightened_amulet_activate",
+    "sounds": [
+      "cognition:enlightened_amulet"
+    ]
+  },
+  "enlightened_amulet_deactivate": {
+    "subtitle": "sounds.cognition.enlightened_amulet_deactivate",
+    "sounds": [
+      "cognition:enlightened_amulet"
+    ]
+  },
+  "metamorpher_busy1": {
+    "subtitle": "sounds.cognition.metamorpher_busy",
+    "sounds": [
+      "cognition:metamorpher_busy1"
+    ]
+  },
+  "metamorpher_busy2": {
+    "subtitle": "sounds.cognition.metamorpher_busy",
+    "sounds": [
+      "cognition:metamorpher_busy2"
+    ]
+  },
+  "neurogel_apply": {
+    "subtitle": "sounds.cognition.neurogel_apply",
+    "sounds": [
+      "cognition:neurogel_apply"
+    ]
+  },
+  "flask_empty_lava": {
+    "subtitle": "sounds.cognition.flask_empty_lava",
+    "sounds": [
+      "cognition:flask_empty_lava"
+    ]
+  },
+  "flask_empty_water": {
+    "subtitle": "sounds.cognition.flask_empty_water",
+    "sounds": [
+      "cognition:flask_empty_water"
+    ]
+  },
+  "flask_fill_void": {
+    "subtitle": "sounds.cognition.flask_fill_void",
+    "sounds": [
+      "cognition:flask_fill_void"
+    ]
+  },
+  "fluorescent_agar_infect": {
+    "subtitle": "sounds.cognition.fluorescent_agar_infect",
+    "sounds": [
+      "cognition:fluorescent_agar_infect"
+    ]
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "minecraft:quartz"
+    },
+    {
+      "item": "minecraft:lapis_lazuli"
+    },
+    [
+      {
+        "item": "minecraft:soul_sand"
+      },
+      {
+        "item": "minecraft:soul_soil"
+      }
+    ]
+  ],
+  "result": {
+    "id": "cognition:cognitive_flux",
+    "count": 4
+  }
+}

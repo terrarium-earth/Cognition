@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " A ",
+    "BCB",
+    "BDB"
+  ],
+  "key": {
+    "A": {
+      "item": "cognition:cognitive_crystal"
+    },
+    "B": {
+      "item": "cognition:cognitive_amalgam"
+    },
+    "C": {
+      "item": "cognition:primordial_assembly"
+    },
+    "D": {
+      "item": "minecraft:quartz"
+    }
+  },
+  "result": {
+    "id": "cognition:bibliophage",
+    "count": 1
+  }
+}

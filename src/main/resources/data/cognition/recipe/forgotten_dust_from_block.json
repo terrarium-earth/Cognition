@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "cognition:forgotten_dust_block"
+    }
+  ],
+  "result": {
+    "id": "cognition:forgotten_dust",
+    "count": 9
+  }
+}

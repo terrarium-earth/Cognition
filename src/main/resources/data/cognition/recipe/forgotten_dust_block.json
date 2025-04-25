@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "AAA",
+    "AAA",
+    "AAA"
+  ],
+  "key": {
+    "A": {
+      "item": "cognition:forgotten_dust"
+    }
+  },
+  "result": {
+    "id": "cognition:forgotten_dust_block",
+    "count": 1
+  }
+}

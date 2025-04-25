@@ -1,0 +1,26 @@
+  {
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " D ",
+    "ABA",
+    "ACA"
+  ],
+  "key": {
+    "A": {
+      "item": "cognition:cognitive_alloy"
+    },
+    "B": {
+      "item": "minecraft:dropper"
+    },
+    "C": {
+      "item": "cognition:astute_assembly"
+    },
+    "D": {
+      "item": "minecraft:repeater"
+    }
+  },
+  "result": {
+    "id": "cognition:experience_fountain",
+    "count": 1
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "AAA",
+    "ABA",
+    "AAA"
+  ],
+  "key": {
+    "A": {
+      "item": "minecraft:glass"
+    },
+    "B": {
+      "item": "cognition:cognitive_amalgam"
+    }
+  },
+  "result": {
+    "id": "cognition:whisperglass",
+    "count": 8
+  }
+}

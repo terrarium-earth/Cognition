@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ABA",
+    "CDC",
+    " C "
+  ],
+  "key": {
+    "A": {
+      "item": "minecraft:nether_brick"
+    },
+    "B": {
+      "item": "cognition:primordial_assembly"
+    },
+    "C": {
+      "item": "cognition:whisperglass"
+    },
+    "D": {
+      "item": "minecraft:lava_bucket"
+    }
+  },
+  "result": {
+    "id": "cognition:flask_of_hades",
+    "count": 1
+  }
+}
