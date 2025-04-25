@@ -6,7 +6,8 @@ v2.3.7
 
 [Changes]
 - Buffed mending neurogel to compensate for its material cost
-- Other minor recipe changes
+- Minor recipe changes
+- Lowered cooldown and increased xp cost for Flask of Hades
 
 [Bugfixes]
 - Fixed enlightened amulet not being placeable in curios slot
@@ -15,6 +16,7 @@ v2.3.7
 - Fixed obelisk buttons having the text "+x" instead of "-x" for drain functions
 - Fixed obelisk tooltips not showing up
 - Fixed dispeller showing "Insufficient XP" even when enough XP is present in the bound obelisk
+- Fixed flasks of power being stackable
 - Stopped unbound Precision Dispellers from querying the Obelisks they were previously bound to
 - Stopped Metamorphers from continuing to display Obelisk experience level in the GUI even after obelisks are removed
 
