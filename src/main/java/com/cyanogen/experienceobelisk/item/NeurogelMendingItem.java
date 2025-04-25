@@ -22,32 +22,35 @@ public class NeurogelMendingItem extends Item {
         super(p);
     }
 
+    public static final int maxRepairPoints = 320;
+    public static final double maxRepairPercentage = 0.25;
+
     public static void handleItem(ItemStackedOnOtherEvent event){
+        ItemStack neurogel = event.getStackedOnItem();
         ItemStack itemToRepair = event.getCarriedItem();
-        ItemStack stackedOn = event.getStackedOnItem();
         Player player = event.getPlayer();
 
         ItemStack chippedAnvil = new ItemStack(Items.CHIPPED_ANVIL, 1);
         ItemStack anvil = new ItemStack(Items.ANVIL, 1);
 
-        if(stackedOn.is(RegisterItems.MENDING_NEUROGEL.get())){
+        if(neurogel.is(RegisterItems.MENDING_NEUROGEL.get())){
 
             if(itemToRepair.isDamaged()){
                 int maxDurability = itemToRepair.getMaxDamage();
                 int damage = itemToRepair.getDamageValue();
-                int repairAmount = Math.max(maxDurability / 5, 200); //restores 20% of item max durability or 200 pts, whichever is higher
+                int repairAmount = (int) Math.max(maxDurability * maxRepairPercentage, maxRepairPoints);
 
-                stackedOn.shrink(1);
+                neurogel.shrink(1);
                 itemToRepair.setDamageValue(Math.max(damage - repairAmount, 0));
                 player.playSound(RegisterSounds.NEUROGEL_APPLY.get(), 0.75f, MiscUtils.randomInRange(0.8f, 1.2f));
                 event.setCanceled(true);
             }
             else if(itemToRepair.is(Items.CHIPPED_ANVIL)){
-                setItem(anvil, event.getSlot(), player, stackedOn, itemToRepair);
+                setItem(anvil, event.getSlot(), player, neurogel, itemToRepair);
                 event.setCanceled(true);
             }
             else if(itemToRepair.is(Items.DAMAGED_ANVIL)){
-                setItem(chippedAnvil, event.getSlot(), player, stackedOn, itemToRepair);
+                setItem(chippedAnvil, event.getSlot(), player, neurogel, itemToRepair);
                 event.setCanceled(true);
             }
         }
