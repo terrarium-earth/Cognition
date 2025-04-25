@@ -127,7 +127,7 @@ public class PrecisionDispellerMenu extends AbstractContainerMenu {
 
     //-----BEHAVIOR-----//
 
-    public void handleExperience(ItemStack inputItem, ItemStack outputItem, Level level, Player player, PrecisionDispellerEntity dispellerServer){
+    public void handleExperience(ItemStack inputItem, ItemStack outputItem, Level level, Player player, PrecisionDispellerEntity dispeller){
 
         player.playSound(SoundEvents.GRINDSTONE_USE, 0.7f, 1);
 
@@ -149,7 +149,7 @@ public class PrecisionDispellerMenu extends AbstractContainerMenu {
             }
 
             if(removed != null){
-                if(dispellerServer.isBound() && server.getBlockEntity(dispellerServer.getBoundPos()) instanceof ExperienceObeliskEntity obelisk){
+                if(dispeller.isBound() && server.getBlockEntity(dispeller.getBoundPos()) instanceof ExperienceObeliskEntity obelisk){
                     handleExperienceBound(removed, enchLevel, server, obelisk, player);
                 }
                 else{
