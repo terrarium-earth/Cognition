@@ -59,28 +59,25 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
 
     protected <E extends ExperienceObeliskEntity> PlayState controller(final AnimationState<E> state){
 
-        BlockEntity entity = state.getAnimatable();
+        ExperienceObeliskEntity obelisk = state.getAnimatable();
         AnimationController<E> controller = state.getController();
         RawAnimation animation = controller.getCurrentRawAnimation();
-        RawAnimation animationToPlay;
 
-        if(level != null
-                && entity instanceof ExperienceObeliskEntity obelisk
-                && obelisk.redstoneEnabled
-                && !level.hasNeighborSignal(obelisk.getBlockPos())){
-            animationToPlay = IDLE_INACTIVE;
+        if(animation == null || level == null){
+            controller.setAnimation(IDLE);
         }
         else{
-            animationToPlay = IDLE;
-        }
+            boolean isInactive = obelisk.redstoneEnabled && !level.hasNeighborSignal(obelisk.getBlockPos());
 
-        if(animation == null || !animation.equals(animationToPlay) || controller.hasAnimationFinished() || level.getGameTime() % 6000 == 0){
-            controller.stop();
-            controller.setAnimation(animationToPlay);
+            if(isInactive && animation.equals(IDLE)){
+                controller.setAnimation(IDLE_INACTIVE);
+            }
+            else if(!isInactive && animation.equals(IDLE_INACTIVE)){
+                controller.setAnimation(IDLE);
+            }
         }
 
         return PlayState.CONTINUE;
-
     }
 
     @Override
