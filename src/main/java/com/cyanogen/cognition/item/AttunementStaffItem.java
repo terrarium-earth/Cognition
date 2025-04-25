@@ -108,7 +108,7 @@ public class AttunementStaffItem extends Item {
 
             BlockEntity savedEntity = level.getBlockEntity(savedPos);
 
-            if(receiver.isBound && savedPos.equals(receiver.getBoundPos())){
+            if(receiver.isBound() && savedPos.equals(receiver.getBoundPos())){
                 receiver.clearBoundPos();
                 player.displayClientMessage(Component.translatable("message.cognition.binding_wand.unbind_target"), true);
             }
@@ -130,7 +130,7 @@ public class AttunementStaffItem extends Item {
                 player.displayClientMessage(Component.translatable("message.cognition.binding_wand.obelisk_too_far"), true);
             }
         }
-        else if(receiver.isBound){
+        else if(receiver.isBound()){
             receiver.clearBoundPos();
             player.displayClientMessage(Component.translatable("message.cognition.binding_wand.unbind_target"), true);
         }

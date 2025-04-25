@@ -41,7 +41,7 @@ public abstract class ExperienceReceivingBlock extends Block {
 
     public void handleInfoRequest(ExperienceReceivingEntity entity, Player player, Level level){
 
-        if(entity.isBound){
+        if(entity.isBound()){
 
             BlockPos boundPos = entity.getBoundPos();
 

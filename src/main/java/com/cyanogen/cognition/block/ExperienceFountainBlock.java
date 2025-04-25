@@ -62,7 +62,7 @@ public class ExperienceFountainBlock extends ExperienceReceivingBlock implements
 
         if(entity instanceof ExperienceFountainEntity fountain){
 
-            if(fountain.isBound && level.getBlockEntity(fountain.getBoundPos()) instanceof ExperienceObeliskEntity obelisk){
+            if(fountain.isBound() && level.getBlockEntity(fountain.getBoundPos()) instanceof ExperienceObeliskEntity obelisk){
 
                 if(heldItem.getItem() == Items.EXPERIENCE_BOTTLE || heldItem.getItem() == Items.GLASS_BOTTLE){
                     handleExperienceBottle(heldItem, player, hand, obelisk);
@@ -190,7 +190,7 @@ public class ExperienceFountainBlock extends ExperienceReceivingBlock implements
 
         BlockEntity entity = getter.getBlockEntity(pos);
 
-        if(entity instanceof ExperienceFountainEntity fountain && fountain.isBound){
+        if(entity instanceof ExperienceFountainEntity fountain && fountain.isBound()){
             Level level = fountain.getLevel();
 
             if(level != null && level.hasNeighborSignal(pos) || fountain.hasPlayerAbove){

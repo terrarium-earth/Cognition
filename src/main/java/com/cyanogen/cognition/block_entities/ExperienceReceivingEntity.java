@@ -22,10 +22,14 @@ public abstract class ExperienceReceivingEntity extends BlockEntity {
 
     //-----------BINDING-----------//
 
-    public int boundX;
-    public int boundY;
-    public int boundZ;
-    public boolean isBound = false;
+    private int boundX;
+    private int boundY;
+    private int boundZ;
+    private boolean isBound = false;
+
+    public boolean isBound(){
+        return isBound;
+    }
 
     public void setBoundPos(BlockPos pos){
         this.isBound = true;

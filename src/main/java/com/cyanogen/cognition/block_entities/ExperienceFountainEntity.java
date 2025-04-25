@@ -61,7 +61,7 @@ public class ExperienceFountainEntity extends ExperienceReceivingEntity implemen
         if(level != null && entity instanceof ExperienceFountainEntity fountain){
 
             boolean hasNeighborSignal = level.hasNeighborSignal(fountain.getBlockPos());
-            boolean isActive = fountain.isBound && (hasNeighborSignal || fountain.hasPlayerAbove);
+            boolean isActive = fountain.isBound() && (hasNeighborSignal || fountain.hasPlayerAbove);
 
             switch(fountain.activityState){
                 case 0 -> {
@@ -114,7 +114,7 @@ public class ExperienceFountainEntity extends ExperienceReceivingEntity implemen
 
     public static <T> void tick(Level level, BlockPos pos, BlockState state, T blockEntity) {
 
-        if(blockEntity instanceof ExperienceFountainEntity fountain && fountain.isBound){
+        if(blockEntity instanceof ExperienceFountainEntity fountain && fountain.isBound()){
 
             @Nullable ExperienceObeliskEntity obelisk = fountain.getBoundObelisk();
 
