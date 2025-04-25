@@ -365,7 +365,7 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
 
         //-----DRAINING-----//
 
-        else if(Objects.equals(request, UpdateContents.DRAIN)){
+        else if(Objects.equals(request, UpdateContents.DRAIN) && this.getFluidAmount() != 0){
 
             int amount = this.getFluidAmount();
 
@@ -390,7 +390,7 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
 
         //-----FILL OR DRAIN ALL-----//
 
-        else if(Objects.equals(request, UpdateContents.FILL_ALL)){
+        else if(Objects.equals(request, UpdateContents.FILL_ALL) && this.getSpace() != 0){
 
             if(playerXP * 20 <= this.getSpace()){
                 this.fill((int) (playerXP * 20));
@@ -403,7 +403,7 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
             }
 
         }
-        else if(Objects.equals(request, UpdateContents.DRAIN_ALL)){
+        else if(Objects.equals(request, UpdateContents.DRAIN_ALL) && this.getFluidAmount() != 0){
 
             sender.giveExperiencePoints(this.getFluidAmount() / 20);
             this.setFluid(0);
