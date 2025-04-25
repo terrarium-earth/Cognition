@@ -1,3 +1,14 @@
+v2.3.7
+
+[Changes]
+- Buffed mending neurogel to compensate for its material cost
+- lowered cooldown and increased xp cost for Flask of Hades
+
+[Bugfixes]
+- Stopped unbound Precision Dispellers from querying the Obelisks they were previously bound to
+- Stopped Metamorphers from continuing to display Obelisk experience level in the GUI even after obelisks are removed
+- fixed flasks of power being stackable
+
 v2.3.6.1
 
 [Bugfixes]
