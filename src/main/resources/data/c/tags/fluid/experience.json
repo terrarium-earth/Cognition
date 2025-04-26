@@ -11,7 +11,11 @@
       "required": false
     },
     {
-      "id": "industrial_foregoing:essence",
+      "id": "industrialforegoing:essence",
+      "required": false
+    },
+    {
+      "id": "sophisticatedcore:xp_still",
       "required": false
     },
     {

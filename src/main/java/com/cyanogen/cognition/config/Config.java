@@ -50,7 +50,8 @@ public class Config {
             defaultAllowedFluids.add("cofh_core:experience");
             defaultAllowedFluids.add("industrialforegoing:essence");
             defaultAllowedFluids.add("sophisticatedcore:xp_still");
-            defaultAllowedFluids.add("enderio:xp_juice");
+            defaultAllowedFluids.add("enderio:fluid_xp_juice_still");
+            defaultAllowedFluids.add("reliquary:xp_still");
 
             builder.push("Allowed Experience Fluids");
             this.allowedFluids = builder.comment("Add IDs of fluids you want the obelisk to support here in the form mod_id:fluid_name. Fluids have to be tagged forge:experience.")
