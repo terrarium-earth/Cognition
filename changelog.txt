@@ -20,7 +20,7 @@ v2.3.7
 - Stopped unbound Precision Dispellers from querying the Obelisks they were previously bound to
 - Stopped Metamorphers from continuing to display Obelisk experience level in the GUI even after obelisks are removed
 
-v2.3.6.2
+v2.3.6.2-1.21.1
 
 [Bugfixes]
 - Fixed Molecular Metamorpher transfer handler
