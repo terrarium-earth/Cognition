@@ -2,7 +2,7 @@ v2.3.7
 
 [IMPORTANT]
 - Experience Obelisk is now Cognition! The mod id has been changed from experienceobelisk --> cognition
-- This is a breaking change. If you're updating from previous versions, all modded items and blocks will be erased.
+- This is a breaking change. If you're updating from the alpha versions, **all modded items and blocks will be erased**.
 
 [Changes]
 - Buffed mending neurogel to compensate for its material cost
@@ -11,7 +11,7 @@ v2.3.7
 
 [Bugfixes]
 - Fixed enlightened amulet not being placeable in curios slot
-- Fixed cognitive armor not having a max stack value of 1
+- Fixed cognitive armor being stackable
 - Fixed obelisk options screen not displaying the correct background shader
 - Fixed obelisk buttons having the text "+x" instead of "-x" for drain functions
 - Fixed obelisk tooltips not showing up
