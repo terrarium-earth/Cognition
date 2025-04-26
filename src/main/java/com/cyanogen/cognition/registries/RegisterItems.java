@@ -106,7 +106,7 @@ public class RegisterItems {
             () -> new FluorescentJellyItem(new Item.Properties()));
 
     public static final DeferredHolder<Item, NeurogelMendingItem> MENDING_NEUROGEL = ITEMS.register("mending_neurogel",
-            () -> new NeurogelMendingItem(new Item.Properties().stacksTo(1)));
+            () -> new NeurogelMendingItem(new Item.Properties()));
 
     public static final DeferredHolder<Item, FlaskPoseidonItem> POSEIDON_FLASK = ITEMS.register("flask_of_poseidon",
             () -> new FlaskPoseidonItem(new Item.Properties().stacksTo(1)));
@@ -115,7 +115,7 @@ public class RegisterItems {
             () -> new FlaskHadesItem(new Item.Properties().stacksTo(1)));
 
     public static final DeferredHolder<Item, FlaskChaosItem> CHAOS_FLASK = ITEMS.register("flask_of_chaos",
-            () -> new FlaskChaosItem(new Item.Properties()));
+            () -> new FlaskChaosItem(new Item.Properties().stacksTo(1)));
 
     public static final DeferredHolder<Item, TransformingFocusItem> TRANSFORMING_FOCUS = ITEMS.register("transforming_focus",
             () -> new TransformingFocusItem(new Item.Properties().durability(TransformingFocusItem.durability)));
