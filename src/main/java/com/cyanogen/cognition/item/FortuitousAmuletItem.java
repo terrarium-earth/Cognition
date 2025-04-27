@@ -28,7 +28,7 @@ public class FortuitousAmuletItem extends EnlightenedAmuletItem{
     public static void handleExperience(LivingExperienceDropEvent event) {
         int xp = event.getOriginalExperience();
         Player player = event.getAttackingPlayer();
-        float boost = MiscUtils.randomInRange(1.05f, 1.40f);
+        float boost = MiscUtils.randomInRange(1.1f, 1.40f);
 
         if(player != null && xp <= 20 &&
                 player.getInventory().contains((stack) -> stack.getItem() instanceof FortuitousAmuletItem amulet && amulet.isActive(stack))){
