@@ -1,4 +1,6 @@
 {
+  "============ ITEM NAMES ===================": "=====================",
+
   "item.cognition.attunement_staff": "Staff of Attunement",
   "item.cognition.cognitium_bucket": "Cognitium Bucket",
   "item.cognition.cognitive_alloy": "Cognitive Alloy",
@@ -32,6 +34,8 @@
   "item.cognition.transforming_focus": "Transforming Focus",
   "item.cognition.fortuitous_amulet": "Fortuitous Amulet",
 
+  "============ BLOCK NAMES ===================": "=====================",
+
   "block.cognition.experience_obelisk": "Experience Obelisk",
   "block.cognition.experience_fountain": "Experience Fountain",
   "block.cognition.precision_dispeller": "Precision Dispeller",
@@ -53,10 +57,16 @@
   "block.cognition.insightful_agar": "Insightful Agar",
   "block.cognition.extravagant_agar": "Extravagant Agar",
 
+  "============ FLUID NAMES ===================": "=====================",
+
   "fluid.cognition.cognitium": "Cognitium",
   "fluid_type.cognition.cognitium": "Cognitium",
 
+  "============ ITEM GROUP ===================": "=====================",
+
   "itemGroup.cognition": "Cognition",
+
+  "============ DESCRIPTIONS ===================": "=====================",
 
   "tooltip.cognition.shift_for_info": "§8§oHold SHIFT for more info",
   "item.cognition.attunement_staff.description": "Binds, queries, and configures blocks from this mod.",
@@ -70,6 +80,7 @@
   "item.cognition.flask_of_hades.description": "Places a block of lava, consuming XP in the process.",
   "item.cognition.flask_of_chaos.description": "Erases a block of liquid, consuming XP in the process.",
   "item.cognition.transforming_focus.description": "Required as a catalyst in some Metamorpher recipes.",
+  "item.cognition.fortuitous_amulet.description": "Makes you lucky when active! Inherits the properties of the Enlightened Amulet.",
   "block.cognition.experience_obelisk.description": "Experience storage and retrieval. Passively absorbs nearby experience orbs.",
   "block.cognition.experience_fountain.description": "Dispenses experience orbs at an adjustable rate. Requires binding to an Obelisk.",
   "block.cognition.precision_dispeller.description": "Selectively removes enchantments and curses.",
@@ -84,6 +95,8 @@
   "block.cognition.insightful_agar.description": "An infectious block that reduces the spawn delay of surrounding bookshelves.",
   "block.cognition.extravagant_agar.description": "An infectious block that boosts the orb value of surrounding bookshelves.",
 
+  "============ GUI ===================": "=====================",
+
   "title.cognition.experience_obelisk": "Experience Obelisk",
   "title.cognition.experience_obelisk.store": "Store",
   "title.cognition.experience_obelisk.retrieve": "Retrieve",
@@ -93,6 +106,8 @@
   "title.cognition.precision_dispeller": "Precision Dispeller",
   "title.cognition.precision_dispeller.inventory": "Inventory",
   "title.cognition.molecular_metamorpher": "Molecular Metamorpher",
+
+  "============ TOOLTIPS ===================": "=====================",
 
   "tooltip.cognition.experience_obelisk.add1": "Store §a1§f XP level",
   "tooltip.cognition.experience_obelisk.add10": "Store §a10§f XP levels",
@@ -123,6 +138,8 @@
   "button.cognition.experience_obelisk.ignored": "§cIgnored§r",
   "button.cognition.experience_obelisk.enabled": "§aEnabled§r",
 
+  "============ MESSAGES ===================": "=====================",
+
   "message.cognition.binding_wand.bind_obelisk": "§a[✔]§r Obelisk position saved",
   "message.cognition.binding_wand.unbind_obelisk": "§a[✔]§r Obelisk position forgotten",
   "message.cognition.binding_wand.bind_target": "§a[✔]§r Block bound to obelisk at %s",
@@ -141,6 +158,8 @@
   "message.cognition.experience_fountain.fast": "Experience Fountain set to: §aFast§r",
   "message.cognition.experience_fountain.hyper": "Experience Fountain set to: §bHyper§r",
 
+  "============ SOUND SUBTITLES ===================": "=====================",
+
   "sounds.cognition.enlightened_amulet_activate": "Amulet activates",
   "sounds.cognition.enlightened_amulet_deactivate": "Amulet deactivates",
   "sounds.cognition.metamorpher_busy": "Metamorpher hums",
@@ -149,6 +168,8 @@
   "sounds.cognition.flask_empty_water": "Flask empties",
   "sounds.cognition.flask_fill_void": "Flask consumes",
   "sounds.cognition.fluorescent_agar_infect": "Agar converts",
+
+  "============ JEI ===================": "=====================",
 
   "jei.cognition.metamorpher.cost_xp": "§7Consumes %s §7XP",
   "jei.cognition.metamorpher.process_time": "§7Process time: %s",

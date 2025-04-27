@@ -30,8 +30,8 @@ public class FortuitousAmuletItem extends EnlightenedAmuletItem{
         Player player = event.getAttackingPlayer();
         float boost = MiscUtils.randomInRange(1.05f, 1.40f);
 
-        if(player != null && player.getInventory().contains(
-                (stack) -> stack.getItem() instanceof FortuitousAmuletItem amulet && amulet.isActive(stack))){
+        if(player != null && xp <= 20 &&
+                player.getInventory().contains((stack) -> stack.getItem() instanceof FortuitousAmuletItem amulet && amulet.isActive(stack))){
 
             event.setDroppedExperience((int) (xp * boost));
         }
