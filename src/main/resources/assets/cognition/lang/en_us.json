@@ -30,6 +30,7 @@
   "item.cognition.flask_of_chaos": "Flask of Chaos",
   "item.cognition.calcarine_matrix": "Calcarine Matrix",
   "item.cognition.transforming_focus": "Transforming Focus",
+  "item.cognition.fortuitous_amulet": "Fortuitous Amulet",
 
   "block.cognition.experience_obelisk": "Experience Obelisk",
   "block.cognition.experience_fountain": "Experience Fountain",
@@ -106,9 +107,8 @@
   "tooltip.cognition.experience_obelisk.item_points": "%s §7points",
   "tooltip.cognition.experience_obelisk.xp": "%s §7XP",
 
-  "tooltip.cognition.enlightened_amulet.active": "§7Currently §aactive",
-  "tooltip.cognition.enlightened_amulet.inactive": "§7Currently §cinactive",
-  "tooltip.cognition.enlightened_amulet.curio": "§6Slot: §eNecklace",
+  "tooltip.cognition.activatable_item.active": "§7Currently §aactive",
+  "tooltip.cognition.activatable_item.inactive": "§7Currently §cinactive",
 
   "tooltip.cognition.precision_dispeller.curse": "§7Costs §c30 §7XP levels / §c1395 §7XP",
   "tooltip.cognition.precision_dispeller.enchantment": "§7Gives %s §7XP levels / %s §7XP",

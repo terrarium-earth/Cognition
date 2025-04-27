@@ -46,6 +46,7 @@ public class RegisterCreativeTab {
                         //FUNCTIONAL ITEMS
                         output.accept(RegisterItems.ATTUNEMENT_STAFF.get());
                         output.accept(RegisterItems.ENLIGHTENED_AMULET.get());
+                        output.accept(RegisterItems.FORTUITOUS_AMULET.get());
                         output.accept(RegisterItems.BIBLIOPHAGE.get());
                         output.accept(RegisterItems.FLUORESCENT_JELLY.get());
                         output.accept(RegisterItems.MENDING_NEUROGEL.get());

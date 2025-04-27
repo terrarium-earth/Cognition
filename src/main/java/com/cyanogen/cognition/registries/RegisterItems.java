@@ -120,6 +120,9 @@ public class RegisterItems {
     public static final DeferredHolder<Item, TransformingFocusItem> TRANSFORMING_FOCUS = ITEMS.register("transforming_focus",
             () -> new TransformingFocusItem(new Item.Properties().durability(TransformingFocusItem.durability)));
 
+    public static final DeferredHolder<Item, FortuitousAmuletItem> FORTUITOUS_AMULET = ITEMS.register("fortuitous_amulet",
+            () -> new FortuitousAmuletItem(new Item.Properties()));
+
     //-----FUNCTIONAL BLOCK ITEMS-----//
 
     public static final DeferredHolder<Item, ExperienceObeliskItem> EXPERIENCE_OBELISK_ITEM = ITEMS.register("experience_obelisk",

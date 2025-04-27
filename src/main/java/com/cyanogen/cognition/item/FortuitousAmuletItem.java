@@ -1,0 +1,41 @@
+package com.cyanogen.cognition.item;
+
+import com.cyanogen.cognition.utils.MiscUtils;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.neoforged.neoforge.event.entity.living.LivingExperienceDropEvent;
+
+public class FortuitousAmuletItem extends EnlightenedAmuletItem{
+
+    public FortuitousAmuletItem(Properties properties) {
+        super(properties);
+    }
+
+    @Override
+    public void inventoryTick(ItemStack stack, Level level, Entity entity, int slotId, boolean isSelected) {
+
+        if(entity instanceof Player player && isActive(stack) && !level.isClientSide && level.getGameTime() % 40 == 0){
+            player.forceAddEffect(new MobEffectInstance(MobEffects.LUCK, 40, 1, false, false), null);
+        }
+
+        super.inventoryTick(stack, level, entity, slotId, isSelected);
+    }
+
+    public static void handleExperience(LivingExperienceDropEvent event) {
+        int xp = event.getOriginalExperience();
+        Player player = event.getAttackingPlayer();
+        float boost = MiscUtils.randomInRange(1.05f, 1.40f);
+
+        if(player != null && player.getInventory().contains(
+                (stack) -> stack.getItem() instanceof FortuitousAmuletItem amulet && amulet.isActive(stack))){
+
+            event.setDroppedExperience((int) (xp * boost));
+        }
+    }
+
+
+}
