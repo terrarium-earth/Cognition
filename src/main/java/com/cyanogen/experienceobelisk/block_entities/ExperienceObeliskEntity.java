@@ -201,7 +201,7 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
             public int fill(FluidStack resource, FluidAction action) {
 
                 if(isFluidValid(resource)){
-                    setChanged();
+                    //setChanged();
                     return super.fill(new FluidStack(cognitium, resource.getAmount()), action);
                 }
                 else{
@@ -212,14 +212,14 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
             @NotNull
             @Override
             public FluidStack drain(int maxDrain, FluidAction action) {
-                setChanged();
+                //setChanged();
                 return super.drain(maxDrain, action);
             }
 
             @NotNull
             @Override
             public FluidStack drain(FluidStack resource, FluidAction action) {
-                setChanged();
+                //setChanged();
                 return super.drain(resource, action);
             }
 
@@ -227,7 +227,7 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
             public void setFluid(FluidStack stack)
             {
                 this.fluid = stack;
-                setChanged();
+                onContentsChanged();
             }
 
         };
@@ -237,7 +237,7 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
         return tank.fill(new FluidStack(cognitium, amount), IFluidHandler.FluidAction.EXECUTE);
     }
 
-    public void drain(int amount)
+    public void drainObelisk(int amount)
     {
         tank.drain(new FluidStack(cognitium, amount), IFluidHandler.FluidAction.EXECUTE);
     }
@@ -373,7 +373,7 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
             //normal operation
             if(amount >= drainAmount){
 
-                this.drain((int) drainAmount);
+                this.drainObelisk((int) drainAmount);
                 sender.giveExperienceLevels(XP);
 
             }
