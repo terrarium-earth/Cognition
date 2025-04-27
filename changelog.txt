@@ -1,4 +1,4 @@
-v2.3.7
+v2.3.7-beta
 
 [IMPORTANT]
 - Experience Obelisk is now Cognition! The mod id has been changed from experienceobelisk --> cognition
@@ -10,23 +10,23 @@ v2.3.7
 - Lowered cooldown and increased xp cost for Flask of Hades
 
 [Bugfixes]
-- Fixed enlightened amulet not being placeable in curios slot
-- Fixed cognitive armor being stackable
-- Fixed obelisk options screen not displaying the correct background shader
-- Fixed obelisk buttons having the text "+x" instead of "-x" for drain functions
-- Fixed obelisk tooltips not showing up
-- Fixed dispeller showing "Insufficient XP" even when enough XP is present in the bound obelisk
+- (1.21.1) Fixed enlightened amulet not being placeable in curios slot
+- (1.21.1) Fixed cognitive armor being stackable
+- (1.21.1) Fixed obelisk options screen not displaying the correct background shader
+- (1.21.1) Fixed obelisk buttons having the text "+x" instead of "-x" for drain functions
+- (1.21.1) Fixed obelisk tooltips not showing up
+- (1.21.1) Fixed dispeller showing "Insufficient XP" even when enough XP is present in the bound obelisk
 - Fixed flasks of power being stackable
 - Stopped unbound Precision Dispellers from querying the Obelisks they were previously bound to
 - Stopped Metamorphers from continuing to display Obelisk experience level in the GUI even after obelisks are removed
 
-v2.3.6.2-1.21.1
+v2.3.6.2-alpha
 
 [Bugfixes]
 - Fixed Molecular Metamorpher transfer handler
 - Fixed Metamorpher not saving remote slot changes
 
-v2.3.6.1
+v2.3.6.1-alpha
 
 [Bugfixes]
 - Fixed Serializer inconsistency causing crash upon joining a server
