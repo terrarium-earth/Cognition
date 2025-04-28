@@ -15,6 +15,9 @@ public class FortuitousAmuletItem extends EnlightenedAmuletItem{
         super(properties);
     }
 
+    public static final float xpBoostMin = 1.0f;
+    public static final float xpBoostMax = 1.5f;
+
     @Override
     public void inventoryTick(ItemStack stack, Level level, Entity entity, int slotId, boolean isSelected) {
 
@@ -28,7 +31,7 @@ public class FortuitousAmuletItem extends EnlightenedAmuletItem{
     public static void handleExperience(LivingExperienceDropEvent event) {
         int xp = event.getOriginalExperience();
         Player player = event.getAttackingPlayer();
-        float boost = MiscUtils.randomInRange(1.1f, 1.40f);
+        float boost = MiscUtils.randomInRange(xpBoostMin, xpBoostMax);
 
         if(player != null && xp <= 20 &&
                 player.getInventory().contains((stack) -> stack.getItem() instanceof FortuitousAmuletItem amulet && amulet.isActive(stack))){
