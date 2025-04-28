@@ -177,7 +177,6 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
 
             List<Player> list = level.getEntitiesOfClass(Player.class, area);
             for(Player player : list){
-
                 if(isRecollector(player)){
                     handleRecollectionIndicator(player);
 
@@ -185,8 +184,8 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
                             MiscUtils.straightLineDistance(player.blockPosition(), getBlockPos()) <= recoveryRange){
 
                         handleExperienceRecovery(player);
-                        break;
                     }
+                    break;
                 }
             }
         }
@@ -216,7 +215,7 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
         this.fill(fillAmount);
         player.removeData(RegisterAttachments.PLAYER_EXPERIENCE_LEVELS_ON_DEATH);
         player.removeData(RegisterAttachments.PLAYER_EXPERIENCE_PROGRESS_ON_DEATH);
-        System.out.println("Recovered " + fillAmount + " xp");
+        System.out.println("Recovered " + fillAmount + " mB");
         //play sound and spawn more particles (global)
     }
 

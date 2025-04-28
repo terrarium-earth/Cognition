@@ -1,0 +1,22 @@
+{
+  "type": "cognition:molecular_metamorphosis",
+  "ingredient1": {
+    "item": "cognition:transforming_focus"
+  },
+  "count1": 1,
+  "ingredient2": {
+    "item": "minecraft:blaze_powder"
+  },
+  "count2": 2,
+  "ingredient3": {
+    "item": "cognition:calcarine_matrix"
+  },
+  "count3": 4,
+  "result": {
+    "id": "cognition:recollection_focus",
+    "count": 1
+  },
+  "cost": 1395,
+  "processTime": 200,
+  "id": "cognition:recollection_focus"
+}

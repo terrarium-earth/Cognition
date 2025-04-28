@@ -6,7 +6,9 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
+import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.attachment.AttachmentType;
 import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
@@ -23,23 +25,35 @@ public class RecollectionFocusItem extends Item {
     }
 
     @Override
+    public int getMaxStackSize(ItemStack stack) {
+        return 1;
+    }
+
+    @Override
     public InteractionResult useOn(UseOnContext context) {
 
         Level level = context.getLevel();
         BlockPos pos = context.getClickedPos();
         Player player = context.getPlayer();
 
-        if(level.getBlockEntity(pos) instanceof ExperienceObeliskEntity && player != null){
+        if(level.getBlockEntity(pos) instanceof ExperienceObeliskEntity && player != null && player.isShiftKeyDown()){
+
+            System.out.println("Used recollection focus");
+
             player.setData(obeliskLocation, pos);
-            player.getItemInHand(context.getHand()).shrink(1);
+            player.setItemInHand(context.getHand(), ItemStack.EMPTY);
             //play sound and particle
+            return InteractionResult.sidedSuccess(level.isClientSide);
         }
 
         return super.useOn(context);
     }
 
     public static void handleDeath(LivingDeathEvent event){
-        if(event.getEntity() instanceof Player player && player.hasData(obeliskLocation)){
+
+        boolean keepInventory = event.getEntity().level().getGameRules().getRule(GameRules.RULE_KEEPINVENTORY).get();
+
+        if(event.getEntity() instanceof Player player && player.hasData(obeliskLocation) && !keepInventory){
             int levels = player.experienceLevel;
             float progress = player.experienceProgress;
             //this roundabout method is because serialize() does not accept Codec.LONG
@@ -51,9 +65,10 @@ public class RecollectionFocusItem extends Item {
 
     public static void handleExperience(LivingExperienceDropEvent event) {
         if(event.getEntity() instanceof Player player && player.hasData(obeliskLocation)){
+            event.setDroppedExperience(0);
             event.setCanceled(true);
         }
-
+        //wondering if there might be conflicts with gravestone mods?
     }
 
 }
