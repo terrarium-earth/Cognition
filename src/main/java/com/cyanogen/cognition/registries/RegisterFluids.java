@@ -23,8 +23,6 @@ public class RegisterFluids {
     public static final DeferredRegister<Fluid> FLUIDS = DeferredRegister.create(BuiltInRegistries.FLUID, Cognition.MOD_ID);
     public static final DeferredRegister<FluidType> FLUID_TYPES = DeferredRegister.create(NeoForgeRegistries.FLUID_TYPES, Cognition.MOD_ID);
 
-
-
     public static final DeferredHolder<FluidType, CognitiumFluidType> COGNITIUM_FLUID_TYPE = FLUID_TYPES.register("cognitium", CognitiumFluidType::new);
     public static final DeferredHolder<Fluid, BaseFlowingFluid.Source> COGNITIUM_SOURCE = FLUIDS.register("cognitium_source",
             () -> new BaseFlowingFluid.Source(RegisterFluids.COGNITIUM_PROPERTIES));

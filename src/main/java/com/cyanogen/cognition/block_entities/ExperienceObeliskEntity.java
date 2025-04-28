@@ -2,8 +2,10 @@ package com.cyanogen.cognition.block_entities;
 
 import com.cyanogen.cognition.config.Config;
 import com.cyanogen.cognition.network.experience_obelisk.UpdateContents;
+import com.cyanogen.cognition.registries.RegisterAttachments;
 import com.cyanogen.cognition.registries.RegisterBlockEntities;
 import com.cyanogen.cognition.registries.RegisterFluids;
+import com.cyanogen.cognition.utils.ExperienceUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
@@ -36,8 +38,7 @@ import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.Objects;
 
-import static com.cyanogen.cognition.utils.ExperienceUtils.levelsToXP;
-import static com.cyanogen.cognition.utils.ExperienceUtils.xpToLevels;
+import static com.cyanogen.cognition.utils.ExperienceUtils.*;
 
 public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEntity {
 
@@ -128,6 +129,8 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
                     }
                 }
             }
+
+            obelisk.recollectionFocusCheck();
         }
     }
 
@@ -155,6 +158,61 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
             level.sendBlockUpdated(getBlockPos(), getBlockState(), getBlockState(), 2);
         }
         super.setChanged();
+    }
+
+    public void recollectionFocusCheck(){
+        if(level != null && level.getGameTime() % 20 == 0){
+            BlockPos pos = getBlockPos();
+            int width = 5;
+            double height = 3;
+
+            AABB area = new AABB(
+                    pos.getX() - width,
+                    pos.getY() - height,
+                    pos.getZ() - width,
+                    pos.getX() + width,
+                    pos.getY() + height,
+                    pos.getZ() + width);
+
+            List<Player> list = level.getEntitiesOfClass(Player.class, area);
+            for(Player player : list){
+
+                if(isRecollector(player)){
+                    handleRecollectionIndicator(player);
+
+                    if(player.hasData(RegisterAttachments.PLAYER_EXPERIENCE_LEVELS_ON_DEATH)){
+                        handleExperienceRecovery(player);
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+    public boolean isRecollector(Player player){
+        if(!player.hasData(RegisterAttachments.RECOLLECTION_FOCUS_OBELISK_LOCATION)){
+            return false;
+        }
+        BlockPos pos = player.getData(RegisterAttachments.RECOLLECTION_FOCUS_OBELISK_LOCATION);
+        return pos.equals(getBlockPos());
+    }
+
+    public void handleRecollectionIndicator(Player player){
+        if(isRecollector(player)){
+            //spawn particles
+        }
+    }
+
+    public void handleExperienceRecovery(Player player){
+        int levels = player.getData(RegisterAttachments.PLAYER_EXPERIENCE_LEVELS_ON_DEATH);
+        float progress = player.getData(RegisterAttachments.PLAYER_EXPERIENCE_PROGRESS_ON_DEATH);
+        long xp = ExperienceUtils.getTotalXP(levels, progress);
+        int fillAmount = (int) Math.min(getSpace(), xp * 20);
+
+        this.fill(fillAmount);
+        player.removeData(RegisterAttachments.PLAYER_EXPERIENCE_LEVELS_ON_DEATH);
+        player.removeData(RegisterAttachments.PLAYER_EXPERIENCE_PROGRESS_ON_DEATH);
+        //play sound and spawn more particles
     }
 
     //-----------FLUID HANDLER-----------//
@@ -319,10 +377,6 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
 
 
     //-----------LOGIC-----------//
-
-    public static long getTotalXP(Player player){
-        return levelsToXP(player.experienceLevel) + Math.round(player.experienceProgress * player.getXpNeededForNextLevel());
-    }
 
     public void handleRequest(String request, int levels, ServerPlayer sender){
 

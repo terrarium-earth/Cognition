@@ -1,6 +1,5 @@
 package com.cyanogen.cognition.utils;
 
-import com.cyanogen.cognition.block_entities.ExperienceObeliskEntity;
 import net.minecraft.world.entity.player.Player;
 
 public class ExperienceUtils {
@@ -26,7 +25,11 @@ public class ExperienceUtils {
     }
 
     public static long getTotalXP(Player player){
-        return ExperienceObeliskEntity.getTotalXP(player);
+        return levelsToXP(player.experienceLevel) + Math.round(player.experienceProgress * player.getXpNeededForNextLevel());
+    }
+
+    public static long getTotalXP(int levels, float progress) {
+        return levelsToXP(levels) + Math.round(progress * getXpNeededForNextLevel(levels));
     }
 
     public static double getProgressToNextLevel(int experiencePoints, int experienceLevels){
@@ -36,5 +39,12 @@ public class ExperienceUtils {
         return (double) n/m;
     }
 
+    public static int getXpNeededForNextLevel(int experienceLevel) {
+        if (experienceLevel >= 30) {
+            return 112 + (experienceLevel - 30) * 9;
+        } else {
+            return experienceLevel >= 15 ? 37 + (experienceLevel - 15) * 5 : 7 + experienceLevel * 2;
+        }
+    }
 
 }
