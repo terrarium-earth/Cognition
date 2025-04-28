@@ -6,6 +6,7 @@ import com.cyanogen.cognition.registries.RegisterAttachments;
 import com.cyanogen.cognition.registries.RegisterBlockEntities;
 import com.cyanogen.cognition.registries.RegisterFluids;
 import com.cyanogen.cognition.utils.ExperienceUtils;
+import com.cyanogen.cognition.utils.MiscUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
@@ -49,7 +50,6 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
     //-----------ANIMATIONS-----------//
 
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
-
     protected static final RawAnimation IDLE = RawAnimation.begin().thenPlay("idle");
     protected static final RawAnimation IDLE_INACTIVE = RawAnimation.begin().thenPlay("idle.inactive");
 
@@ -164,7 +164,8 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
         if(level != null && level.getGameTime() % 20 == 0){
             BlockPos pos = getBlockPos();
             int width = 5;
-            double height = 3;
+            int height = 3;
+            int recoveryRange = 2;
 
             AABB area = new AABB(
                     pos.getX() - width,
@@ -180,7 +181,9 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
                 if(isRecollector(player)){
                     handleRecollectionIndicator(player);
 
-                    if(player.hasData(RegisterAttachments.PLAYER_EXPERIENCE_LEVELS_ON_DEATH)){
+                    if(player.hasData(RegisterAttachments.PLAYER_EXPERIENCE_LEVELS_ON_DEATH) &&
+                            MiscUtils.straightLineDistance(player.blockPosition(), getBlockPos()) <= recoveryRange){
+
                         handleExperienceRecovery(player);
                         break;
                     }
@@ -199,7 +202,8 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
 
     public void handleRecollectionIndicator(Player player){
         if(isRecollector(player)){
-            //spawn particles
+            //spawn particles (only to player)
+            System.out.println("Player detected!!");
         }
     }
 
@@ -212,7 +216,8 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
         this.fill(fillAmount);
         player.removeData(RegisterAttachments.PLAYER_EXPERIENCE_LEVELS_ON_DEATH);
         player.removeData(RegisterAttachments.PLAYER_EXPERIENCE_PROGRESS_ON_DEATH);
-        //play sound and spawn more particles
+        System.out.println("Recovered " + fillAmount + " xp");
+        //play sound and spawn more particles (global)
     }
 
     //-----------FLUID HANDLER-----------//

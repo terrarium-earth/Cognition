@@ -18,11 +18,11 @@ public class RegisterAttachments {
             () -> AttachmentType.builder(()->new BlockPos(0,0,0)).serialize(BlockPos.CODEC).copyOnDeath().build());
 
     public static final DeferredHolder<AttachmentType<?>, AttachmentType<Integer>> PLAYER_EXPERIENCE_LEVELS_ON_DEATH =
-            ATTACHMENTS.register("player_experience_on_death",
+            ATTACHMENTS.register("player_experience_levels_on_death",
                     () -> AttachmentType.builder(()-> 0).serialize(Codec.INT).copyOnDeath().build());
 
     public static final DeferredHolder<AttachmentType<?>, AttachmentType<Float>> PLAYER_EXPERIENCE_PROGRESS_ON_DEATH =
-            ATTACHMENTS.register("player_experience_on_death",
+            ATTACHMENTS.register("player_experience_progress_on_death",
                     () -> AttachmentType.builder(()-> 0.0f).serialize(Codec.FLOAT).copyOnDeath().build());
 
     public static void register(IEventBus eventBus){

@@ -27,6 +27,7 @@ public class EventHandler {
 
     @SubscribeEvent
     public void onLivingDropExperience(LivingExperienceDropEvent event){
+        RecollectionFocusItem.handleExperience(event);
         FortuitousAmuletItem.handleExperience(event);
     }
 
