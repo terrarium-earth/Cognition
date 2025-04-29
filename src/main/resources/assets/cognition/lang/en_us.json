@@ -33,6 +33,7 @@
   "item.cognition.calcarine_matrix": "Calcarine Matrix",
   "item.cognition.transforming_focus": "Transforming Focus",
   "item.cognition.fortuitous_amulet": "Fortuitous Amulet",
+  "item.cognition.recollection_focus": "Recollection Focus",
 
   "============ BLOCK NAMES ===================": "=====================",
 
@@ -56,6 +57,7 @@
   "block.cognition.nutrient_agar": "Nutrient Agar",
   "block.cognition.insightful_agar": "Insightful Agar",
   "block.cognition.extravagant_agar": "Extravagant Agar",
+  "block.cognition.bibliomancer": "Bibliomancer",
 
   "============ FLUID NAMES ===================": "=====================",
 
@@ -95,6 +97,7 @@
   "block.cognition.nutrient_agar.description": "An infectious block that does not decay. Has a slow infection rate.",
   "block.cognition.insightful_agar.description": "An infectious block that reduces the spawn delay of surrounding bookshelves.",
   "block.cognition.extravagant_agar.description": "An infectious block that boosts the orb value of surrounding bookshelves.",
+  "block.cognition.bibliomancer.description": "Automatic bookshelf placement and Forgotten Dust collection.",
 
   "============ GUI ===================": "=====================",
 

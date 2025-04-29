@@ -1,0 +1,29 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ABA",
+    "CDC",
+    "AEA"
+  ],
+  "key": {
+    "A": {
+      "item": "cognition:cognitive_alloy"
+    },
+    "B": {
+      "item": "cognition:cognitive_crystal"
+    },
+    "C": {
+      "item": "cognition:calcarine_matrix"
+    },
+    "D": {
+      "item": "minecraft:written_book"
+    },
+    "F": {
+      "item": "cognition:primordial_assembly"
+    }
+  },
+  "result": {
+    "id": "cognition:bibliomancer",
+    "count": 1
+  }
+}
