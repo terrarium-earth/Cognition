@@ -54,6 +54,7 @@ public class MolecularMetamorpherEntity extends ExperienceReceivingEntity implem
     int processProgress = 0;
     int recipeCost = 0;
     ResourceLocation recipeId;
+    private boolean lockInputs = false;
 
     //-----------ANIMATIONS-----------//
 
@@ -164,6 +165,9 @@ public class MolecularMetamorpherEntity extends ExperienceReceivingEntity implem
     //-----------ITEM HANDLER-----------//
 
     public static final BlockCapability<IItemHandler, Direction> ITEM_HANDLER = Capabilities.ItemHandler.BLOCK;
+    protected ItemStackHandler inputHandler = inputHandler();
+    protected ItemStackHandler outputHandler = outputHandler();
+    protected ItemStackHandler savedInputs = savedInputs();
 
     public static @Nullable IItemHandler getCapability(MolecularMetamorpherEntity metamorpher, Direction direction){
         if(direction == null || direction.equals(Direction.UP)){
@@ -174,11 +178,19 @@ public class MolecularMetamorpherEntity extends ExperienceReceivingEntity implem
         }
     }
 
-    protected ItemStackHandler inputHandler = inputHandler();
-    protected ItemStackHandler outputHandler = outputHandler();
-
     public ItemStackHandler inputHandler() {
         return new ItemStackHandler(3){
+
+            @Override
+            public boolean isItemValid(int slot, ItemStack stack) {
+                if(lockInputs){
+                    return ItemStack.isSameItemSameComponents(stack, savedInputs.getStackInSlot(slot));
+                }
+                else{
+                    return super.isItemValid(slot, stack);
+                }
+            }
+
             @Override
             protected void onContentsChanged(int slot) {
                 setChanged();
@@ -202,6 +214,21 @@ public class MolecularMetamorpherEntity extends ExperienceReceivingEntity implem
         };
     }
 
+    public ItemStackHandler savedInputs(){
+        return new ItemStackHandler(3){
+            @Override
+            public boolean isItemValid(int slot, ItemStack stack) {
+                return false;
+            }
+
+            @Override
+            protected void onContentsChanged(int slot) {
+                setChanged();
+                super.onContentsChanged(slot);
+            }
+        };
+    }
+
     public ItemStackHandler getInputHandler(){
         return inputHandler;
     }
@@ -210,12 +237,37 @@ public class MolecularMetamorpherEntity extends ExperienceReceivingEntity implem
         return outputHandler;
     }
 
+    public ItemStackHandler getSavedInputs(){
+        return savedInputs;
+    }
+
     public boolean isEmpty(){
 
         return inputHandler.getStackInSlot(0).isEmpty() &&
                 inputHandler.getStackInSlot(1).isEmpty() &&
                 inputHandler.getStackInSlot(2).isEmpty() &&
                 outputHandler.getStackInSlot(0).isEmpty();
+    }
+
+    public boolean inputsAreLocked(){
+        return this.lockInputs;
+    }
+
+    public void lockInputs(boolean lock){
+        this.lockInputs = lock;
+
+        for(int i = 0; i < 3; i++){
+            if(lock){
+                savedInputs.setStackInSlot(i, inputHandler.getStackInSlot(i).copy());
+            }
+            else{
+                savedInputs.setStackInSlot(i, ItemStack.EMPTY);
+            }
+        }
+        if(level != null){
+            level.sendBlockUpdated(getBlockPos(), getBlockState(), getBlockState(), 2);
+        }
+        setChanged();
     }
 
     //-----------RECIPE HANDLER-----------//
@@ -296,7 +348,7 @@ public class MolecularMetamorpherEntity extends ExperienceReceivingEntity implem
 
                 if(ingredient.test(stack)){
 
-                    if(stack.is(RegisterItems.TRANSFORMING_FOCUS.get())){
+                    if(stack.is(RegisterItems.TRANSFORMING_FOCUS.get())){ //todo: replace this with a tag check
                         if(stack.getDamageValue() >= TransformingFocusItem.durability - 1){
                             stack.shrink(1);
                         }
@@ -528,12 +580,14 @@ public class MolecularMetamorpherEntity extends ExperienceReceivingEntity implem
 
         inputHandler.deserializeNBT(provider, tag.getCompound("Inputs"));
         outputHandler.deserializeNBT(provider, tag.getCompound("Outputs"));
+        savedInputs.deserializeNBT(provider, tag.getCompound("Saved"));
 
         this.isProcessing = tag.getBoolean("IsProcessing");
         this.processTime = tag.getInt("ProcessTime");
         this.processProgress = tag.getInt("ProcessProgress");
         this.recipeId = ResourceLocation.bySeparator(tag.getString("RecipeID"),':');
         this.recipeCost = tag.getInt("RecipeCost");
+        this.lockInputs = tag.getBoolean("LockInputs");
     }
 
     @Override
@@ -543,11 +597,13 @@ public class MolecularMetamorpherEntity extends ExperienceReceivingEntity implem
 
         tag.put("Inputs", inputHandler.serializeNBT(provider));
         tag.put("Outputs", outputHandler.serializeNBT(provider));
+        tag.put("Saved", savedInputs.serializeNBT(provider));
 
         tag.putBoolean("IsProcessing", isProcessing);
         tag.putInt("ProcessTime", processTime);
         tag.putInt("ProcessProgress", processProgress);
         tag.putInt("RecipeCost", recipeCost);
+        tag.putBoolean("LockInputs", lockInputs);
 
         if(recipeId != null){
             tag.putString("RecipeID", recipeId.toString());
@@ -561,12 +617,14 @@ public class MolecularMetamorpherEntity extends ExperienceReceivingEntity implem
 
         inputHandler.deserializeNBT(provider, tag.getCompound("Inputs"));
         outputHandler.deserializeNBT(provider, tag.getCompound("Outputs"));
+        savedInputs.deserializeNBT(provider, tag.getCompound("Saved"));
 
         this.isProcessing = tag.getBoolean("IsProcessing");
         this.processTime = tag.getInt("ProcessTime");
         this.processProgress = tag.getInt("ProcessProgress");
         this.recipeId = ResourceLocation.bySeparator(tag.getString("RecipeID"),':');
         this.recipeCost = tag.getInt("RecipeCost");
+        this.lockInputs = tag.getBoolean("LockInputs");
     }
 
     @Override
@@ -576,11 +634,13 @@ public class MolecularMetamorpherEntity extends ExperienceReceivingEntity implem
 
         tag.put("Inputs", inputHandler.serializeNBT(provider));
         tag.put("Outputs", outputHandler.serializeNBT(provider));
+        tag.put("Saved", savedInputs.serializeNBT(provider));
 
         tag.putBoolean("IsProcessing", isProcessing);
         tag.putInt("ProcessTime", processTime);
         tag.putInt("ProcessProgress", processProgress);
         tag.putInt("RecipeCost", recipeCost);
+        tag.putBoolean("LockInputs", lockInputs);
 
         if(recipeId != null){
             tag.putString("RecipeID", recipeId.toString());

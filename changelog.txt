@@ -1,3 +1,16 @@
+v2.4.0
+
+[Content]
+- Added Fortuitous Amulet
+- Added Recollection Focus
+- Added Bibliomancer
+
+[Changes]
+- Metamorphers now have an additional setting to lock input slots [NYI]
+
+[Bugfixes]
+
+
 v2.3.7
 
 [IMPORTANT]

@@ -14,6 +14,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
 import java.util.ArrayList;
@@ -28,6 +29,8 @@ public class MolecularMetamorpherScreen extends AbstractContainerScreen<Molecula
     private final Level clientLevel;
     public final Inventory inventory;
     public final Component component;
+    private final int[] inputSlotsX = {19, 50, 70};
+    private final int[] inputSlotsY = {35, 52, 18};
 
     public MolecularMetamorpherScreen(MolecularMetamorpherMenu menu, Inventory inventory, Component component) {
         super(menu, inventory, component);
@@ -100,32 +103,45 @@ public class MolecularMetamorpherScreen extends AbstractContainerScreen<Molecula
         double progress;
 
         if(pos != null && clientLevel.getBlockEntity(pos) instanceof MolecularMetamorpherEntity metamorpher && metamorpher.getBoundObelisk() != null){
-            levels = metamorpher.getBoundObelisk().getLevels();
-            points = metamorpher.getBoundObelisk().getExperiencePoints();
-            progress = ExperienceUtils.getProgressToNextLevel(points, levels);
 
-            gui.blit(texture, this.width / 2 + 105 - 88, this.height / 2 + 70 - 83, 0, 179, 64, 11);
-            gui.blit(texture, this.width / 2 + 107 - 88, this.height / 2 + 71 - 83, 0, 166, (int) (xpBarLength * progress), 9);
+            //obelisk info
+            if(metamorpher.getBoundObelisk() != null){
+                levels = metamorpher.getBoundObelisk().getLevels();
+                points = metamorpher.getBoundObelisk().getExperiencePoints();
+                progress = ExperienceUtils.getProgressToNextLevel(points, levels);
 
-            //render level counter
-            gui.drawCenteredString(this.font, Component.literal(String.valueOf(levels)).withStyle(ChatFormatting.GREEN),
-                    this.width / 2 + 52,this.height / 2 - 11, 0xFFFFFF);
+                //render xp bar
+                gui.blit(texture, this.width / 2 + 105 - 88, this.height / 2 + 70 - 83, 0, 179, 64, 11);
+                gui.blit(texture, this.width / 2 + 107 - 88, this.height / 2 + 71 - 83, 0, 166, (int) (xpBarLength * progress), 9);
 
-            //render XP tooltip
-            int x1 = this.width / 2 + 19;
-            int y1 = this.height / 2 - 12;
-            int x2 = x1 + xpBarLength;
-            int y2 = y1 + 9;
+                //render level counter
+                gui.drawCenteredString(this.font, Component.literal(String.valueOf(levels)).withStyle(ChatFormatting.GREEN),
+                        this.width / 2 + 52,this.height / 2 - 11, 0xFFFFFF);
 
-            List<Component> tooltipList = new ArrayList<>();
+                //render XP tooltip
+                int x1 = this.width / 2 + 19;
+                int y1 = this.height / 2 - 12;
+                int x2 = x1 + xpBarLength;
+                int y2 = y1 + 9;
 
-            tooltipList.add(Component.translatable("tooltip.cognition.molecular_metamorpher.bound"));
+                List<Component> tooltipList = new ArrayList<>();
+                tooltipList.add(Component.translatable("tooltip.cognition.molecular_metamorpher.bound"));
+                tooltipList.add(Component.translatable("tooltip.cognition.molecular_metamorpher.xp",
+                        Component.literal(String.valueOf(points)).withStyle(ChatFormatting.GREEN)));
 
-            tooltipList.add(Component.translatable("tooltip.cognition.molecular_metamorpher.xp",
-                    Component.literal(String.valueOf(points)).withStyle(ChatFormatting.GREEN)));
+                if(mouseX >= x1 && mouseX <= x2 && mouseY >= y1 && mouseY <= y2){
+                    gui.renderTooltip(this.font, tooltipList, Optional.empty(), mouseX, mouseY);
+                }
+            }
 
-            if(mouseX >= x1 && mouseX <= x2 && mouseY >= y1 && mouseY <= y2){
-                gui.renderTooltip(this.font, tooltipList, Optional.empty(), mouseX, mouseY);
+            //render fake items
+            if(metamorpher.inputsAreLocked()){
+                for(int i = 0; i < 3; i++){
+                    ItemStack stack = metamorpher.getSavedInputs().getStackInSlot(i);
+                    gui.renderFakeItem(stack, inputSlotsX[i], inputSlotsY[i]);
+                    System.out.println("rendering fake item: " + stack);
+                    //todo: i can try to include some translucent layer over the items to make them appear faded out
+                }
             }
         }
 
