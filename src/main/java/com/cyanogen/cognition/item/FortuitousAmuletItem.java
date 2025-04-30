@@ -22,8 +22,8 @@ public class FortuitousAmuletItem extends EnlightenedAmuletItem{
     @Override
     public void inventoryTick(ItemStack stack, Level level, Entity entity, int slotId, boolean isSelected) {
 
-        if(entity instanceof Player player && isActive(stack) && !level.isClientSide && level.getGameTime() % 40 == 0){
-            player.forceAddEffect(new MobEffectInstance(MobEffects.LUCK, 40, 1, false, false), null);
+        if(entity instanceof Player player && isActive(stack) && !level.isClientSide && level.getGameTime() % 20 == 0){
+            player.forceAddEffect(new MobEffectInstance(MobEffects.LUCK, 21, 1, false, false), null);
         }
 
         super.inventoryTick(stack, level, entity, slotId, isSelected);
