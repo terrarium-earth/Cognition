@@ -243,11 +243,13 @@ public class MolecularMetamorpherEntity extends ExperienceReceivingEntity implem
     }
 
     public boolean isEmpty(){
+        return inputsAreEmpty() && outputHandler.getStackInSlot(0).isEmpty();
+    }
 
+    public boolean inputsAreEmpty(){
         return inputHandler.getStackInSlot(0).isEmpty() &&
                 inputHandler.getStackInSlot(1).isEmpty() &&
-                inputHandler.getStackInSlot(2).isEmpty() &&
-                outputHandler.getStackInSlot(0).isEmpty();
+                inputHandler.getStackInSlot(2).isEmpty();
     }
 
     public boolean inputsAreLocked(){

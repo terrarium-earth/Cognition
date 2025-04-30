@@ -137,8 +137,9 @@
   "tooltip.cognition.molecular_metamorpher.bound": "Bound Obelisk",
   "tooltip.cognition.molecular_metamorpher.xp": "%s §7XP",
   "tooltip.cognition.molecular_metamorpher.has_contents": "§7Contents stored within!",
-  "tooltip.cognition.molecular_metamorpher.options.lock": "§6Lock §7input slots...",
-  "tooltip.cognition.molecular_metamorpher.options.unlock": "§6Unlock §7input slots...",
+  "tooltip.cognition.molecular_metamorpher.options.lock": "§cLock §rinput slots...",
+  "tooltip.cognition.molecular_metamorpher.options.unlock": "§aUnlock §rinput slots...",
+  "tooltip.cognition.molecular_metamorpher.options.lock.inputsempty": "§cLock §rinput slots...\n§6Inputs are empty!",
 
   "============ BUTTONS ===================": "=====================",
 
@@ -146,8 +147,8 @@
   "button.cognition.experience_obelisk.back": "§l◀§r",
   "button.cognition.experience_obelisk.ignored": "§cIgnored§r",
   "button.cognition.experience_obelisk.enabled": "§aEnabled§r",
-  "button.cognition.molecular_metamorpher.lock": "Lock",
-  "button.cognition.molecular_metamorpher.unlock": "Unlock",
+  "button.cognition.molecular_metamorpher.lock": "§cLock",
+  "button.cognition.molecular_metamorpher.unlock": "§aUnlock",
 
   "============ MESSAGES ===================": "=====================",
 

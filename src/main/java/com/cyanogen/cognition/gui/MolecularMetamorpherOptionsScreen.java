@@ -97,7 +97,13 @@ public class MolecularMetamorpherOptionsScreen extends Screen{
             }
             else{
                 buttons.get(2).setMessage(Component.translatable("button.cognition.molecular_metamorpher.lock"));
-                buttons.get(2).setTooltip(Tooltip.create(Component.translatable("tooltip.cognition.molecular_metamorpher.options.lock")));
+                if(metamorpher.inputsAreEmpty()){
+                    buttons.get(2).setTooltip(Tooltip.create(Component.translatable("tooltip.cognition.molecular_metamorpher.options.lock.inputsempty")));
+                }
+                else{
+                    buttons.get(2).setTooltip(Tooltip.create(Component.translatable("tooltip.cognition.molecular_metamorpher.options.lock")));
+                }
+
             }
         }
         else{
@@ -160,8 +166,11 @@ public class MolecularMetamorpherOptionsScreen extends Screen{
 
     private void toggleLockedStatus(){
         BlockPos pos = menu.getBlockPos();
-        if(pos != null && clientLevel.getBlockEntity(pos) instanceof MolecularMetamorpherEntity){
-            PacketDistributor.sendToServer(new UpdateLockedStatus(menu.getBlockPos().getX(), menu.getBlockPos().getY(), menu.getBlockPos().getZ()));
+        if(pos != null && clientLevel.getBlockEntity(pos) instanceof MolecularMetamorpherEntity metamorpher){
+
+            if(!metamorpher.inputsAreEmpty() || metamorpher.inputsAreLocked()){
+                PacketDistributor.sendToServer(new UpdateLockedStatus(menu.getBlockPos().getX(), menu.getBlockPos().getY(), menu.getBlockPos().getZ()));
+            }
         }
     }
 
