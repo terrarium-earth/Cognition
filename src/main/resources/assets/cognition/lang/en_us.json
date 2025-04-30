@@ -72,7 +72,7 @@
 
   "tooltip.cognition.shift_for_info": "§8§oHold SHIFT for more info",
   "item.cognition.attunement_staff.description": "Binds, queries, and configures blocks from this mod.",
-  "item.cognition.enlightened_amulet.description": "Teleports nearby experience orbs to you, and merges them together for faster absorption. §oSHIFT§r + §oRight Click§r to activate / deactivate",
+  "item.cognition.enlightened_amulet.description": "Teleports nearby experience orbs to you, and merges them together for faster absorption. §nSHIFT + Right Click§r to activate / deactivate",
   "item.cognition.nightmare_bottle.description": "Increases your insomnia drastically, making phantoms almost guaranteed to spawn.",
   "item.cognition.daydream_bottle.description": "Resets your insomnia, preventing phantoms from spawning",
   "item.cognition.bibliophage.description": "Infects bookshelves, generating XP in the process. Use on a valid bookshelf to infect it.",
@@ -82,7 +82,7 @@
   "item.cognition.flask_of_hades.description": "Places a block of lava, consuming XP in the process.",
   "item.cognition.flask_of_chaos.description": "Erases a block of liquid, consuming XP in the process.",
   "item.cognition.transforming_focus.description": "Permits the Metamorpher to perform transforming recipes.",
-  "item.cognition.recollection_focus.description": "Permits the Experience Obelisk to fully recover your experience on death. Right click to apply.",
+  "item.cognition.recollection_focus.description": "Permits the Experience Obelisk to fully recover your experience on death. §nSHIFT§r + §nRight click§r to apply.",
   "item.cognition.fortuitous_amulet.description": "Makes you lucky! Inherits the properties of the Enlightened Amulet.",
   "block.cognition.experience_obelisk.description": "Experience storage and retrieval. Passively absorbs nearby experience orbs.",
   "block.cognition.experience_fountain.description": "Dispenses experience orbs at an adjustable rate. Requires binding to an Obelisk.",
@@ -183,6 +183,8 @@
   "sounds.cognition.flask_empty_water": "Flask empties",
   "sounds.cognition.flask_fill_void": "Flask consumes",
   "sounds.cognition.fluorescent_agar_infect": "Agar converts",
+
+  "============ ADVANCEMENTS ===================": "=====================",
 
   "============ JEI ===================": "=====================",
 
