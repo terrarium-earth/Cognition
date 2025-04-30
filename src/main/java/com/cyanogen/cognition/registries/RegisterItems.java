@@ -3,7 +3,14 @@ package com.cyanogen.cognition.registries;
 import com.cyanogen.cognition.Cognition;
 import com.cyanogen.cognition.item.*;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.EquipmentSlotGroup;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.monster.Creeper;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.neoforged.bus.api.IEventBus;
@@ -83,7 +90,17 @@ public class RegisterItems {
             () -> new ShearsItem(createCustomAttributes(new Item.Properties(), null, increasedReach()).durability(2200)));
 
     public static final DeferredHolder<Item, FlintAndSteelItem> FLINT_AND_COGNITIVE_ALLOY = ITEMS.register("flint_and_cognitive_alloy",
-            () -> new FlintAndSteelItem(createCustomAttributes(new Item.Properties(), null, increasedReach()).durability(2200)));
+            () -> new FlintAndSteelItem(createCustomAttributes(new Item.Properties(), null, increasedReach()).durability(2200)){
+                @Override
+                public InteractionResult interactLivingEntity(ItemStack stack, Player player, LivingEntity interactionTarget, InteractionHand usedHand) {
+                    if(interactionTarget instanceof Creeper creeper){
+                        creeper.ignite();
+                        player.level().playSound(player, player.blockPosition(), SoundEvents.FLINTANDSTEEL_USE, SoundSource.BLOCKS, 1.0F, player.level().getRandom().nextFloat() * 0.4F + 0.8F);
+                        return InteractionResult.sidedSuccess(player.level().isClientSide);
+                    }
+                    return super.interactLivingEntity(stack, player, interactionTarget, usedHand);
+                }
+            });
 
     //-----FUNCTIONAL ITEMS-----//
 
