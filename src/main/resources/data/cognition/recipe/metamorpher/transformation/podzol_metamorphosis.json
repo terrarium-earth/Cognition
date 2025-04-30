@@ -1,7 +1,7 @@
 {
   "type": "cognition:molecular_metamorphosis",
   "ingredient1": {
-    "item": "minecraft:string"
+    "item": "minecraft:farmland"
   },
   "count1": 1,
   "ingredient2": {
@@ -11,10 +11,10 @@
   "ingredient3": [],
   "count3": 0,
   "result": {
-    "id": "minecraft:feather",
+    "id": "minecraft:podzol",
     "count": 1
   },
-  "cost": 16,
-  "processTime": 20,
-  "id": "cognition:feather_metamorphosis"
+  "cost": 315,
+  "processTime": 100,
+  "id": "cognition:podzol_metamorphosis"
 }
