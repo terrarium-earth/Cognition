@@ -182,12 +182,13 @@ public class MolecularMetamorpherEntity extends ExperienceReceivingEntity implem
         return new ItemStackHandler(3){
 
             @Override
-            public boolean isItemValid(int slot, ItemStack stack) {
-                if(lockInputs){
-                    return ItemStack.isSameItemSameComponents(stack, savedInputs.getStackInSlot(slot));
+            public boolean isItemValid(int slot, ItemStack input) {
+                ItemStack saved = savedInputs.getStackInSlot(slot);
+                if(lockInputs && !saved.isEmpty()){
+                    return ItemStack.isSameItemSameComponents(input, saved);
                 }
                 else{
-                    return super.isItemValid(slot, stack);
+                    return super.isItemValid(slot, input);
                 }
             }
 

@@ -93,9 +93,11 @@ public class MolecularMetamorpherOptionsScreen extends Screen{
             }
             if(metamorpher.inputsAreLocked()){
                 buttons.get(2).setMessage(Component.translatable("button.cognition.molecular_metamorpher.unlock"));
+                buttons.get(2).setTooltip(Tooltip.create(Component.translatable("tooltip.cognition.molecular_metamorpher.options.unlock")));
             }
             else{
                 buttons.get(2).setMessage(Component.translatable("button.cognition.molecular_metamorpher.lock"));
+                buttons.get(2).setTooltip(Tooltip.create(Component.translatable("tooltip.cognition.molecular_metamorpher.options.lock")));
             }
         }
         else{

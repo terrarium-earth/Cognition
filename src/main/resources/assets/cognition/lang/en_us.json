@@ -110,7 +110,7 @@
   "title.cognition.precision_dispeller": "Precision Dispeller",
   "title.cognition.precision_dispeller.inventory": "Inventory",
   "title.cognition.molecular_metamorpher": "Molecular Metamorpher",
-  "title.cognition.molecular_metamorpher.lock_inputs": "Inputs",
+  "title.cognition.molecular_metamorpher.lock_inputs": "Slots",
 
   "============ TOOLTIPS ===================": "=====================",
 
@@ -137,6 +137,8 @@
   "tooltip.cognition.molecular_metamorpher.bound": "Bound Obelisk",
   "tooltip.cognition.molecular_metamorpher.xp": "%s §7XP",
   "tooltip.cognition.molecular_metamorpher.has_contents": "§7Contents stored within!",
+  "tooltip.cognition.molecular_metamorpher.options.lock": "§6Lock §7input slots...",
+  "tooltip.cognition.molecular_metamorpher.options.unlock": "§6Unlock §7input slots...",
 
   "============ BUTTONS ===================": "=====================",
 

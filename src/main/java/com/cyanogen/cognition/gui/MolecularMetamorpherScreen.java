@@ -70,6 +70,8 @@ public class MolecularMetamorpherScreen extends AbstractContainerScreen<Molecula
     @Override
     public void render(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {
 
+        BlockPos pos = menu.getBlockPos();
+
         //render background shading
         renderTransparentBackground(gui);
 
@@ -79,36 +81,17 @@ public class MolecularMetamorpherScreen extends AbstractContainerScreen<Molecula
         int x = (this.width - this.imageWidth) / 2;
         int y = (this.height - this.imageHeight) / 2;
 
-        int arrowWidth = 26;
-        double completion = 0;
-
-        BlockPos pos = menu.getBlockPos();
-        if(pos != null && clientLevel.getBlockEntity(pos) instanceof MolecularMetamorpherEntity metamorpher && metamorpher.getProcessTime() != 0){
-            completion = metamorpher.getProcessProgress() / (float) metamorpher.getProcessTime();
-        }
-
         //render background texture
         gui.blit(texture, x, y, 0, 0, 176, 166);
 
-        //render selection highlights
-        super.render(gui, mouseX, mouseY, partialTick);
-
-        //render recipe progress
-        gui.blit(texture, this.width / 2 + 109 - 88, this.height / 2 + 48 - 83, 0, 175, (int) (arrowWidth * completion), 4);
-
-        //render xp bar
-        int xpBarLength = 61;
-        int levels;
-        int points;
-        double progress;
-
-        if(pos != null && clientLevel.getBlockEntity(pos) instanceof MolecularMetamorpherEntity metamorpher && metamorpher.getBoundObelisk() != null){
+        if(pos != null && clientLevel.getBlockEntity(pos) instanceof MolecularMetamorpherEntity metamorpher){
 
             //obelisk info
             if(metamorpher.getBoundObelisk() != null){
-                levels = metamorpher.getBoundObelisk().getLevels();
-                points = metamorpher.getBoundObelisk().getExperiencePoints();
-                progress = ExperienceUtils.getProgressToNextLevel(points, levels);
+                int xpBarLength = 61;
+                int levels = metamorpher.getBoundObelisk().getLevels();
+                int points = metamorpher.getBoundObelisk().getExperiencePoints();
+                double progress = ExperienceUtils.getProgressToNextLevel(points, levels);
 
                 //render xp bar
                 gui.blit(texture, this.width / 2 + 105 - 88, this.height / 2 + 70 - 83, 0, 179, 64, 11);
@@ -138,17 +121,28 @@ public class MolecularMetamorpherScreen extends AbstractContainerScreen<Molecula
             if(metamorpher.inputsAreLocked()){
                 for(int i = 0; i < 3; i++){
                     ItemStack stack = metamorpher.getSavedInputs().getStackInSlot(i);
-                    gui.renderFakeItem(stack, inputSlotsX[i], inputSlotsY[i]);
-                    System.out.println("rendering fake item: " + stack);
-                    //todo: i can try to include some translucent layer over the items to make them appear faded out
+                    gui.renderFakeItem(stack, x + inputSlotsX[i], y + inputSlotsY[i]);
+                    gui.fill(x + inputSlotsX[i], y + inputSlotsY[i], x + inputSlotsX[i] + 16, y + inputSlotsY[i] + 16,
+                            220, 9145227 + (140<<24));  //color is in decimal. leftshifted bits determine opacity (0-255)
                 }
             }
+
+            //render recipe progress
+            int arrowWidth = 26;
+            double completion = 0;
+            if(metamorpher.getProcessTime() != 0){
+                completion = metamorpher.getProcessProgress() / (float) metamorpher.getProcessTime();
+            }
+            gui.blit(texture, this.width / 2 + 21, this.height / 2 - 35, 0, 175, (int) (arrowWidth * completion), 4);
         }
 
+        //render selection highlights
+        super.render(gui, mouseX, mouseY, partialTick);
+
+        //render settings button
         clearWidgets();
         loadWidgetElements();
 
-        //render settings button
         for(Renderable widget : this.renderables){
             widget.render(gui, mouseX, mouseY, partialTick);
         }
