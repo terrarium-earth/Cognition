@@ -59,7 +59,8 @@ public class CognitionJeiPlugin implements IModPlugin {
 
         //HIDE FROM VIEWER
         List<ItemStack> hidden = new ArrayList<>();
-        hidden.add(new ItemStack(RegisterItems.DUMMY_SWORD.get(), 1));
+        hidden.add(RegisterItems.DUMMY_SWORD.get().getDefaultInstance());
+        hidden.add(RegisterItems.BIBLIOMANCER_ITEM.get().getDefaultInstance()); //todo: remember to remove this when you eventually add the bibliomancer
         registration.getIngredientManager().removeIngredientsAtRuntime(VanillaTypes.ITEM_STACK, hidden);
 
         IModPlugin.super.registerRecipes(registration);

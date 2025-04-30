@@ -82,6 +82,9 @@ public class RegisterItems {
     public static final DeferredHolder<Item, ShearsItem> COGNITIVE_SHEARS = ITEMS.register("cognitive_shears",
             () -> new ShearsItem(createCustomAttributes(new Item.Properties(), null, increasedReach()).durability(2200)));
 
+    public static final DeferredHolder<Item, FlintAndSteelItem> FLINT_AND_COGNITIVE_ALLOY = ITEMS.register("flint_and_cognitive_alloy",
+            () -> new FlintAndSteelItem(createCustomAttributes(new Item.Properties(), null, increasedReach()).durability(2200)));
+
     //-----FUNCTIONAL ITEMS-----//
 
     public static final DeferredHolder<Item, AttunementStaffItem> ATTUNEMENT_STAFF = ITEMS.register("attunement_staff",

@@ -38,6 +38,7 @@ public class RegisterCreativeTab {
                         output.accept(RegisterItems.COGNITIVE_HOE.get());
                         output.accept(RegisterItems.COGNITIVE_ROD.get());
                         output.accept(RegisterItems.COGNITIVE_SHEARS.get());
+                        output.accept(RegisterItems.FLINT_AND_COGNITIVE_ALLOY.get());
                         output.accept(RegisterItems.COGNITIVE_HELMET.get());
                         output.accept(RegisterItems.COGNITIVE_CHESTPLATE.get());
                         output.accept(RegisterItems.COGNITIVE_LEGGINGS.get());
@@ -63,7 +64,6 @@ public class RegisterCreativeTab {
                         output.accept(RegisterItems.EXPERIENCE_FOUNTAIN_ITEM.get());
                         output.accept(RegisterItems.PRECISION_DISPELLER_ITEM.get());
                         output.accept(RegisterItems.MOLECULAR_METAMORPHER_ITEM.get());
-                        output.accept(RegisterItems.BIBLIOMANCER_ITEM.get());
                         output.accept(RegisterItems.ACCELERATOR_ITEM.get());
                         output.accept(RegisterItems.LINEAR_ACCELERATOR_ITEM.get());
                         output.accept(RegisterItems.ARCHIVERS_BOOKSHELF_ITEM.get());
