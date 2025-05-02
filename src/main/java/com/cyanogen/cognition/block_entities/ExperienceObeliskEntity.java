@@ -5,7 +5,6 @@ import com.cyanogen.cognition.network.experience_obelisk.UpdateContents;
 import com.cyanogen.cognition.registries.RegisterAttachments;
 import com.cyanogen.cognition.registries.RegisterBlockEntities;
 import com.cyanogen.cognition.registries.RegisterFluids;
-import com.cyanogen.cognition.utils.ExperienceUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -204,7 +203,7 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
     public void handleExperienceRecovery(Player player){
         int levels = player.getData(RegisterAttachments.PLAYER_EXPERIENCE_LEVELS_ON_DEATH);
         float progress = player.getData(RegisterAttachments.PLAYER_EXPERIENCE_PROGRESS_ON_DEATH);
-        long xp = ExperienceUtils.getTotalXP(levels, progress);
+        long xp = getTotalXP(levels, progress);
 
         player.giveExperiencePoints((int) Math.min(xp, 5000000));
         player.removeData(RegisterAttachments.PLAYER_EXPERIENCE_LEVELS_ON_DEATH);

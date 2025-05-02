@@ -4,13 +4,13 @@ import net.minecraft.world.entity.player.Player;
 
 public class ExperienceUtils {
 
-    public static int levelsToXP(int levels){
+    public static long levelsToXP(int levels){
         if (levels <= 16) {
-            return (int) (Math.pow(levels, 2) + 6 * levels);
+            return (long) (Math.pow(levels, 2) + 6L * levels);
         } else if (levels <= 31) {
-            return (int) (2.5 * Math.pow(levels, 2) - 40.5 * levels + 360);
+            return (long) (2.5 * Math.pow(levels, 2) - 40.5 * levels + 360);
         } else {
-            return (int) (4.5 * Math.pow(levels, 2) - 162.5 * levels + 2220);
+            return (long) (4.5 * Math.pow(levels, 2) - 162.5 * levels + 2220);
         }
     }
 
@@ -33,17 +33,17 @@ public class ExperienceUtils {
     }
 
     public static double getProgressToNextLevel(int experiencePoints, int experienceLevels){
-        int n = experiencePoints - levelsToXP(experienceLevels); //remaining xp after levels are removed
-        int m = levelsToXP(experienceLevels + 1) - levelsToXP(experienceLevels); //total xp to get to next level
+        long n = experiencePoints - levelsToXP(experienceLevels); //remaining xp after levels are removed
+        long m = levelsToXP(experienceLevels + 1) - levelsToXP(experienceLevels); //total xp to get to next level
 
         return (double) n/m;
     }
 
-    public static int getXpNeededForNextLevel(int experienceLevel) {
+    public static long getXpNeededForNextLevel(int experienceLevel) {
         if (experienceLevel >= 30) {
-            return 112 + (experienceLevel - 30) * 9;
+            return 112 + (experienceLevel - 30) * 9L;
         } else {
-            return experienceLevel >= 15 ? 37 + (experienceLevel - 15) * 5 : 7 + experienceLevel * 2;
+            return experienceLevel >= 15 ? 37 + (experienceLevel - 15) * 5 : 7 + experienceLevel * 2L;
         }
     }
 
