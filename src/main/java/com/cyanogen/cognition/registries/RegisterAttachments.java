@@ -13,7 +13,7 @@ public class RegisterAttachments {
 
     public static final DeferredRegister<AttachmentType<?>> ATTACHMENTS = DeferredRegister.create(NeoForgeRegistries.ATTACHMENT_TYPES, Cognition.MOD_ID);
 
-    public static final DeferredHolder<AttachmentType<?>, AttachmentType<BlockPos>> RECOLLECTION_FOCUS_OBELISK_LOCATION =
+    public static final DeferredHolder<AttachmentType<?>, AttachmentType<BlockPos>> MEMORY_TABLET_OBELISK_LOCATION =
             ATTACHMENTS.register("recollection_focus_obelisk_location",
             () -> AttachmentType.builder(()->new BlockPos(0,0,0)).serialize(BlockPos.CODEC).copyOnDeath().build());
 

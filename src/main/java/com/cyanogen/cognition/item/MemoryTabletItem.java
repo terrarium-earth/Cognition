@@ -15,12 +15,12 @@ import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
 import net.neoforged.neoforge.event.entity.living.LivingExperienceDropEvent;
 import net.neoforged.neoforge.registries.DeferredHolder;
 
-public class RecollectionFocusItem extends Item {
+public class MemoryTabletItem extends Item {
 
     public static final DeferredHolder<AttachmentType<?>, AttachmentType<BlockPos>> obeliskLocation =
-            RegisterAttachments.RECOLLECTION_FOCUS_OBELISK_LOCATION;
+            RegisterAttachments.MEMORY_TABLET_OBELISK_LOCATION;
 
-    public RecollectionFocusItem(Properties properties) {
+    public MemoryTabletItem(Properties properties) {
         super(properties);
     }
 
@@ -38,11 +38,9 @@ public class RecollectionFocusItem extends Item {
 
         if(level.getBlockEntity(pos) instanceof ExperienceObeliskEntity && player != null && player.isShiftKeyDown()){
 
-            System.out.println("Used recollection focus");
-
             player.setData(obeliskLocation, pos);
             player.setItemInHand(context.getHand(), ItemStack.EMPTY);
-            //play sound and particle
+            //todo: play sound and particle
             return InteractionResult.sidedSuccess(level.isClientSide);
         }
 
@@ -68,7 +66,7 @@ public class RecollectionFocusItem extends Item {
             event.setDroppedExperience(0);
             event.setCanceled(true);
         }
-        //wondering if there might be conflicts with gravestone mods?
+        //todo: check interactions with gravestone mods
     }
 
 }

@@ -2,7 +2,7 @@ package com.cyanogen.cognition.event;
 
 import com.cyanogen.cognition.item.FortuitousAmuletItem;
 import com.cyanogen.cognition.item.NeurogelMendingItem;
-import com.cyanogen.cognition.item.RecollectionFocusItem;
+import com.cyanogen.cognition.item.MemoryTabletItem;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -27,13 +27,13 @@ public class EventHandler {
 
     @SubscribeEvent
     public void onLivingDropExperience(LivingExperienceDropEvent event){
-        RecollectionFocusItem.handleExperience(event);
+        MemoryTabletItem.handleExperience(event);
         FortuitousAmuletItem.handleExperience(event);
     }
 
     @SubscribeEvent
     public void onLivingDeath(LivingDeathEvent event){
-        RecollectionFocusItem.handleDeath(event);
+        MemoryTabletItem.handleDeath(event);
     }
 
 }

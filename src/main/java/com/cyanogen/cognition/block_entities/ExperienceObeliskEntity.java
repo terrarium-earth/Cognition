@@ -192,10 +192,10 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
     }
 
     public boolean isRecollector(Player player){
-        if(!player.hasData(RegisterAttachments.RECOLLECTION_FOCUS_OBELISK_LOCATION)){
+        if(!player.hasData(RegisterAttachments.MEMORY_TABLET_OBELISK_LOCATION)){
             return false;
         }
-        BlockPos pos = player.getData(RegisterAttachments.RECOLLECTION_FOCUS_OBELISK_LOCATION);
+        BlockPos pos = player.getData(RegisterAttachments.MEMORY_TABLET_OBELISK_LOCATION);
         return pos.equals(getBlockPos());
     }
 

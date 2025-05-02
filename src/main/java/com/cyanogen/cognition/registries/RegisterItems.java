@@ -143,8 +143,8 @@ public class RegisterItems {
     public static final DeferredHolder<Item, FortuitousAmuletItem> FORTUITOUS_AMULET = ITEMS.register("fortuitous_amulet",
             () -> new FortuitousAmuletItem(new Item.Properties()));
 
-    public static final DeferredHolder<Item, RecollectionFocusItem> RECOLLECTION_FOCUS = ITEMS.register("recollection_focus",
-            () -> new RecollectionFocusItem(new Item.Properties()));
+    public static final DeferredHolder<Item, MemoryTabletItem> MEMORY_TABLET = ITEMS.register("memory_tablet",
+            () -> new MemoryTabletItem(new Item.Properties()));
 
     //-----FUNCTIONAL BLOCK ITEMS-----//
 
