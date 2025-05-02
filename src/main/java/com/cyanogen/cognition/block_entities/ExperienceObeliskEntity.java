@@ -6,12 +6,13 @@ import com.cyanogen.cognition.registries.RegisterAttachments;
 import com.cyanogen.cognition.registries.RegisterBlockEntities;
 import com.cyanogen.cognition.registries.RegisterFluids;
 import com.cyanogen.cognition.utils.ExperienceUtils;
-import com.cyanogen.cognition.utils.MiscUtils;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
@@ -130,7 +131,7 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
                 }
             }
 
-            obelisk.recollectionFocusCheck();
+            obelisk.checkForMemorized();
         }
     }
 
@@ -160,12 +161,11 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
         super.setChanged();
     }
 
-    public void recollectionFocusCheck(){
+    public void checkForMemorized(){
         if(level != null && level.getGameTime() % 20 == 0){
             BlockPos pos = getBlockPos();
             int width = 5;
             int height = 3;
-            int recoveryRange = 2;
 
             AABB area = new AABB(
                     pos.getX() - width,
@@ -177,14 +177,9 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
 
             List<Player> list = level.getEntitiesOfClass(Player.class, area);
             for(Player player : list){
-                if(hasMemorized(player)){
+                if(hasMemorized(player) && player.hasData(RegisterAttachments.PLAYER_EXPERIENCE_LEVELS_ON_DEATH)){
                     handleMemorizationIndicator(player);
-
-                    if(player.hasData(RegisterAttachments.PLAYER_EXPERIENCE_LEVELS_ON_DEATH) &&
-                            MiscUtils.straightLineDistance(player.blockPosition(), getBlockPos()) <= recoveryRange){
-
-                        handleExperienceRecovery(player);
-                    }
+                    handleExperienceRecovery(player);
                     break;
                 }
             }
@@ -201,7 +196,7 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
 
     public void handleMemorizationIndicator(Player player){
         if(hasMemorized(player)){
-            //spawn particles (only to player)
+            //play sound and spawn particles (global)
             System.out.println("Player detected!!");
         }
     }
@@ -210,13 +205,13 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
         int levels = player.getData(RegisterAttachments.PLAYER_EXPERIENCE_LEVELS_ON_DEATH);
         float progress = player.getData(RegisterAttachments.PLAYER_EXPERIENCE_PROGRESS_ON_DEATH);
         long xp = ExperienceUtils.getTotalXP(levels, progress);
-        int fillAmount = (int) Math.min(getSpace(), xp * 20);
 
-        this.fill(fillAmount);
+        player.giveExperiencePoints((int) Math.min(xp, 5000000));
         player.removeData(RegisterAttachments.PLAYER_EXPERIENCE_LEVELS_ON_DEATH);
         player.removeData(RegisterAttachments.PLAYER_EXPERIENCE_PROGRESS_ON_DEATH);
-        System.out.println("Recovered " + fillAmount + " mB");
-        //play sound and spawn more particles (global)
+        player.displayClientMessage(Component.translatable("message.cognition.experience_obelisk.experience_recovered",
+                Component.literal(String.valueOf(levels)).withStyle(ChatFormatting.GREEN)), true);
+
     }
 
     //-----------FLUID HANDLER-----------//

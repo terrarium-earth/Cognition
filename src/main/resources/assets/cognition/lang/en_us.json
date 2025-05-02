@@ -83,7 +83,7 @@
   "item.cognition.flask_of_hades.description": "Places a block of lava, consuming XP in the process.",
   "item.cognition.flask_of_chaos.description": "Erases a block of liquid, consuming XP in the process.",
   "item.cognition.transforming_focus.description": "Permits the Metamorpher to perform transforming recipes.",
-  "item.cognition.memory_tablet.description": "Permits an Experience Obelisk to fully recover your experience on death. §nSHIFT + §nRight click§r to bind.",
+  "item.cognition.memory_tablet.description": "Allows an Experience Obelisk to recover your experience on death. §nSHIFT + §nRight click§r to link yourself to an Obelisk.",
   "item.cognition.fortuitous_amulet.description": "Makes you lucky! Inherits the properties of the Enlightened Amulet.",
   "block.cognition.experience_obelisk.description": "Experience storage and retrieval. Passively absorbs nearby experience orbs.",
   "block.cognition.experience_fountain.description": "Dispenses experience orbs at an adjustable rate. Requires binding to an Obelisk.",
@@ -173,6 +173,12 @@
   "message.cognition.experience_fountain.moderate": "Experience Fountain set to: §6Moderate§r",
   "message.cognition.experience_fountain.fast": "Experience Fountain set to: §aFast§r",
   "message.cognition.experience_fountain.hyper": "Experience Fountain set to: §bHyper§r",
+
+  "message.cognition.memory_tablet.link": "§a[✔]§r Successfully linked to %s",
+  "message.cognition.memory_tablet.unlink": "§a[✔]§r Successfully unlinked from %s",
+  "message.cognition.memory_tablet.query": "§b[ⓘ]§r You are linked to the obelisk at %s",
+  "message.cognition.memory_tablet.query_fail": "§b[ⓘ]§r You are not yet linked to an obelisk",
+  "message.cognition.experience_obelisk.experience_recovered": "§a[✔]§r Successfully recovered %s levels",
 
   "============ SOUND SUBTITLES ===================": "=====================",
 

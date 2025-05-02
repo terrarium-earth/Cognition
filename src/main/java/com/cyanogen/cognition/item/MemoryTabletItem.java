@@ -2,8 +2,12 @@ package com.cyanogen.cognition.item;
 
 import com.cyanogen.cognition.block_entities.ExperienceObeliskEntity;
 import com.cyanogen.cognition.registries.RegisterAttachments;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -30,6 +34,25 @@ public class MemoryTabletItem extends Item {
     }
 
     @Override
+    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand usedHand) {
+
+        if(!level.isClientSide){
+            if(player.hasData(obeliskLocation)){
+
+                BlockPos pos = player.getData(obeliskLocation);
+                player.displayClientMessage(Component.translatable("message.cognition.memory_tablet.query",
+                        Component.literal(pos.toShortString()).withStyle(ChatFormatting.GREEN)), true);
+
+            }
+            else{
+                player.displayClientMessage(Component.translatable("message.cognition.memory_tablet.query_fail"), true);
+            }
+        }
+
+        return InteractionResultHolder.sidedSuccess(player.getItemInHand(usedHand), level.isClientSide);
+    }
+
+    @Override
     public InteractionResult useOn(UseOnContext context) {
 
         Level level = context.getLevel();
@@ -41,13 +64,14 @@ public class MemoryTabletItem extends Item {
             if(!level.isClientSide){
                 if(obelisk.hasMemorized(player)){
                     player.removeData(obeliskLocation);
-                    System.out.println("player data removed");
+                    player.displayClientMessage(Component.translatable("message.cognition.memory_tablet.unlink",
+                            Component.literal(pos.toShortString()).withStyle(ChatFormatting.GREEN)), true);
                 }
                 else{
                     player.setData(obeliskLocation, pos);
-                    player.getItemInHand(context.getHand()).shrink(1);
-                    System.out.println("player data added");
-                    //todo: play sound and particle
+                    player.displayClientMessage(Component.translatable("message.cognition.memory_tablet.link",
+                            Component.literal(pos.toShortString()).withStyle(ChatFormatting.GREEN)), true);
+                    //todo: play sound
                 }
             }
             return InteractionResult.sidedSuccess(level.isClientSide);
