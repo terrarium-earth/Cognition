@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "cognition:item/recollection_focus"
+    "layer0": "cognition:item/memory_tablet"
   }
 }

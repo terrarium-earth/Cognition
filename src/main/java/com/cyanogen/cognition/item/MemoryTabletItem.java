@@ -39,7 +39,6 @@ public class MemoryTabletItem extends Item {
         if(level.getBlockEntity(pos) instanceof ExperienceObeliskEntity && player != null && player.isShiftKeyDown()){
 
             player.setData(obeliskLocation, pos);
-            player.setItemInHand(context.getHand(), ItemStack.EMPTY);
             //todo: play sound and particle
             return InteractionResult.sidedSuccess(level.isClientSide);
         }
