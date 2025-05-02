@@ -36,10 +36,20 @@ public class MemoryTabletItem extends Item {
         BlockPos pos = context.getClickedPos();
         Player player = context.getPlayer();
 
-        if(level.getBlockEntity(pos) instanceof ExperienceObeliskEntity && player != null && player.isShiftKeyDown()){
+        if(level.getBlockEntity(pos) instanceof ExperienceObeliskEntity obelisk && player != null && player.isShiftKeyDown()){
 
-            player.setData(obeliskLocation, pos);
-            //todo: play sound and particle
+            if(!level.isClientSide){
+                if(obelisk.hasMemorized(player)){
+                    player.removeData(obeliskLocation);
+                    System.out.println("player data removed");
+                }
+                else{
+                    player.setData(obeliskLocation, pos);
+                    player.getItemInHand(context.getHand()).shrink(1);
+                    System.out.println("player data added");
+                    //todo: play sound and particle
+                }
+            }
             return InteractionResult.sidedSuccess(level.isClientSide);
         }
 

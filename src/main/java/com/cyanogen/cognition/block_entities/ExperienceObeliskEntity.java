@@ -177,8 +177,8 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
 
             List<Player> list = level.getEntitiesOfClass(Player.class, area);
             for(Player player : list){
-                if(isRecollector(player)){
-                    handleRecollectionIndicator(player);
+                if(hasMemorized(player)){
+                    handleMemorizationIndicator(player);
 
                     if(player.hasData(RegisterAttachments.PLAYER_EXPERIENCE_LEVELS_ON_DEATH) &&
                             MiscUtils.straightLineDistance(player.blockPosition(), getBlockPos()) <= recoveryRange){
@@ -191,7 +191,7 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
         }
     }
 
-    public boolean isRecollector(Player player){
+    public boolean hasMemorized(Player player){
         if(!player.hasData(RegisterAttachments.MEMORY_TABLET_OBELISK_LOCATION)){
             return false;
         }
@@ -199,8 +199,8 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
         return pos.equals(getBlockPos());
     }
 
-    public void handleRecollectionIndicator(Player player){
-        if(isRecollector(player)){
+    public void handleMemorizationIndicator(Player player){
+        if(hasMemorized(player)){
             //spawn particles (only to player)
             System.out.println("Player detected!!");
         }

@@ -83,7 +83,7 @@
   "item.cognition.flask_of_hades.description": "Places a block of lava, consuming XP in the process.",
   "item.cognition.flask_of_chaos.description": "Erases a block of liquid, consuming XP in the process.",
   "item.cognition.transforming_focus.description": "Permits the Metamorpher to perform transforming recipes.",
-  "item.cognition.memory_tablet.description": "Permits the Experience Obelisk to fully recover your experience on death. §nSHIFT + §nRight click§r to use.",
+  "item.cognition.memory_tablet.description": "Permits an Experience Obelisk to fully recover your experience on death. §nSHIFT + §nRight click§r to bind.",
   "item.cognition.fortuitous_amulet.description": "Makes you lucky! Inherits the properties of the Enlightened Amulet.",
   "block.cognition.experience_obelisk.description": "Experience storage and retrieval. Passively absorbs nearby experience orbs.",
   "block.cognition.experience_fountain.description": "Dispenses experience orbs at an adjustable rate. Requires binding to an Obelisk.",
