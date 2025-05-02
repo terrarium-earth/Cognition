@@ -52,5 +52,17 @@
     "sounds": [
       "cognition:fluorescent_agar_infect"
     ]
+  },
+  "memory_tablet_link": {
+    "subtitle": "sounds.cognition.memory_tablet_link",
+    "sounds": [
+      "cognition:enlightened_amulet"
+    ]
+  },
+  "memory_tablet_unlink": {
+    "subtitle": "sounds.cognition.memory_tablet_unlink",
+    "sounds": [
+      "cognition:enlightened_amulet"
+    ]
   }
 }

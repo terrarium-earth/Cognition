@@ -2,10 +2,10 @@ package com.cyanogen.cognition.item;
 
 import com.cyanogen.cognition.block_entities.ExperienceObeliskEntity;
 import com.cyanogen.cognition.registries.RegisterAttachments;
+import com.cyanogen.cognition.registries.RegisterSounds;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -70,14 +70,14 @@ public class MemoryTabletItem extends Item {
                     player.displayClientMessage(Component.translatable("message.cognition.memory_tablet.unlink",
                             Component.literal(pos.toShortString()).withStyle(ChatFormatting.GREEN)), true);
 
-                    level.playSound(null, player.blockPosition(), SoundEvents.EXPERIENCE_ORB_PICKUP, SoundSource.PLAYERS, 0.2f, 0.8f);
+                    level.playSound(null, player.blockPosition(), RegisterSounds.MEMORY_TABLET_UNLINK.get(), SoundSource.PLAYERS, 0.2f, 0.8f);
                 }
                 else{
                     player.setData(obeliskLocation, pos);
                     player.displayClientMessage(Component.translatable("message.cognition.memory_tablet.link",
                             Component.literal(pos.toShortString()).withStyle(ChatFormatting.GREEN)), true);
 
-                    level.playSound(null, player.blockPosition(), SoundEvents.EXPERIENCE_ORB_PICKUP, SoundSource.PLAYERS, 0.2f, 1f);
+                    level.playSound(null, player.blockPosition(), RegisterSounds.MEMORY_TABLET_LINK.get(), SoundSource.PLAYERS, 0.2f, 1f);
                 }
             }
             return InteractionResult.sidedSuccess(level.isClientSide);

@@ -190,6 +190,8 @@
   "sounds.cognition.flask_empty_water": "Flask empties",
   "sounds.cognition.flask_fill_void": "Flask consumes",
   "sounds.cognition.fluorescent_agar_infect": "Agar converts",
+  "sounds.cognition.memory_tablet_link": "Memory Tablet linked",
+  "sounds.cognition.memory_tablet_unlink": "Memory Tablet unlinked",
 
   "============ ADVANCEMENTS ===================": "=====================",
 
