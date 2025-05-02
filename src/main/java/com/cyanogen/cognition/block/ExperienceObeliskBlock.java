@@ -71,7 +71,7 @@ public class ExperienceObeliskBlock extends Block implements EntityBlock {
         if (!level.isClientSide) {
             BlockEntity entity = level.getBlockEntity(pos);
 
-            if(entity instanceof ExperienceObeliskEntity obelisk && obelisk.hasMemorized(player)){
+            if(entity instanceof ExperienceObeliskEntity obelisk && obelisk.hasBeenMemorized(player)){
                 player.removeData(RegisterAttachments.MEMORY_TABLET_OBELISK_LOCATION);
                 player.removeData(RegisterAttachments.PLAYER_EXPERIENCE_PROGRESS_ON_DEATH);
                 player.removeData(RegisterAttachments.PLAYER_EXPERIENCE_LEVELS_ON_DEATH);

@@ -5,6 +5,8 @@ import com.cyanogen.cognition.registries.RegisterAttachments;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
@@ -62,16 +64,20 @@ public class MemoryTabletItem extends Item {
         if(level.getBlockEntity(pos) instanceof ExperienceObeliskEntity obelisk && player != null && player.isShiftKeyDown()){
 
             if(!level.isClientSide){
-                if(obelisk.hasMemorized(player)){
+
+                if(obelisk.hasBeenMemorized(player)){
                     player.removeData(obeliskLocation);
                     player.displayClientMessage(Component.translatable("message.cognition.memory_tablet.unlink",
                             Component.literal(pos.toShortString()).withStyle(ChatFormatting.GREEN)), true);
+
+                    level.playSound(null, player.blockPosition(), SoundEvents.EXPERIENCE_ORB_PICKUP, SoundSource.PLAYERS, 0.2f, 0.8f);
                 }
                 else{
                     player.setData(obeliskLocation, pos);
                     player.displayClientMessage(Component.translatable("message.cognition.memory_tablet.link",
                             Component.literal(pos.toShortString()).withStyle(ChatFormatting.GREEN)), true);
-                    //todo: play sound
+
+                    level.playSound(null, player.blockPosition(), SoundEvents.EXPERIENCE_ORB_PICKUP, SoundSource.PLAYERS, 0.2f, 1f);
                 }
             }
             return InteractionResult.sidedSuccess(level.isClientSide);

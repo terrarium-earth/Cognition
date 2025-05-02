@@ -9,13 +9,17 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.ExperienceOrb;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
@@ -23,11 +27,13 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.phys.AABB;
+import net.neoforged.neoforge.attachment.AttachmentType;
 import net.neoforged.neoforge.capabilities.BlockCapability;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
+import net.neoforged.neoforge.registries.DeferredHolder;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.animatable.GeoBlockEntity;
@@ -71,9 +77,11 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
             boolean isInactive = obelisk.redstoneEnabled && !level.hasNeighborSignal(obelisk.getBlockPos());
 
             if(isInactive && animation.equals(IDLE)){
+                controller.forceAnimationReset();
                 controller.setAnimation(IDLE_INACTIVE);
             }
             else if(!isInactive && animation.equals(IDLE_INACTIVE)){
+                controller.forceAnimationReset();
                 controller.setAnimation(IDLE);
             }
         }
@@ -130,7 +138,9 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
                 }
             }
 
-            obelisk.checkForMemorized();
+            if(!level.isClientSide){
+                obelisk.checkForMemorized();
+            }
         }
     }
 
@@ -160,11 +170,20 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
         super.setChanged();
     }
 
+    //-----------MEMORY TABLET-----------//
+
+    public static final DeferredHolder<AttachmentType<?>, AttachmentType<BlockPos>> obeliskLocation =
+            RegisterAttachments.MEMORY_TABLET_OBELISK_LOCATION;
+    public static final DeferredHolder<AttachmentType<?>, AttachmentType<Integer>> xpLevels =
+            RegisterAttachments.PLAYER_EXPERIENCE_LEVELS_ON_DEATH;
+    public static final DeferredHolder<AttachmentType<?>, AttachmentType<Float>> xpProgress =
+            RegisterAttachments.PLAYER_EXPERIENCE_PROGRESS_ON_DEATH;
+
     public void checkForMemorized(){
         if(level != null && level.getGameTime() % 20 == 0){
             BlockPos pos = getBlockPos();
-            int width = 5;
-            int height = 3;
+            float width = 4;
+            float height = 2.5f;
 
             AABB area = new AABB(
                     pos.getX() - width,
@@ -176,8 +195,7 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
 
             List<Player> list = level.getEntitiesOfClass(Player.class, area);
             for(Player player : list){
-                if(hasMemorized(player) && player.hasData(RegisterAttachments.PLAYER_EXPERIENCE_LEVELS_ON_DEATH)){
-                    handleMemorizationIndicator(player);
+                if(!player.isDeadOrDying() && hasBeenMemorized(player) && hasXpToRecover(player)){
                     handleExperienceRecovery(player);
                     break;
                 }
@@ -185,32 +203,34 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
         }
     }
 
-    public boolean hasMemorized(Player player){
-        if(!player.hasData(RegisterAttachments.MEMORY_TABLET_OBELISK_LOCATION)){
-            return false;
-        }
-        BlockPos pos = player.getData(RegisterAttachments.MEMORY_TABLET_OBELISK_LOCATION);
-        return pos.equals(getBlockPos());
+    public boolean hasBeenMemorized(Player player){
+        return player.hasData(obeliskLocation) && player.getData(obeliskLocation).equals(getBlockPos());
     }
 
-    public void handleMemorizationIndicator(Player player){
-        if(hasMemorized(player)){
-            //play sound and spawn particles (global)
-            System.out.println("Player detected!!");
-        }
+    public boolean hasXpToRecover(Player player){
+        return (player.hasData(xpLevels) || player.hasData(xpProgress)) &&
+                player.getData(xpLevels) + player.getData(xpProgress) > 0f;
     }
 
-    public void handleExperienceRecovery(Player player){
-        int levels = player.getData(RegisterAttachments.PLAYER_EXPERIENCE_LEVELS_ON_DEATH);
-        float progress = player.getData(RegisterAttachments.PLAYER_EXPERIENCE_PROGRESS_ON_DEATH);
+    public void handleExperienceRecovery(Player player){ //ensure this is only called serverside
+        int levels = player.getData(xpLevels);
+        float progress = player.getData(xpProgress);
         long xp = getTotalXP(levels, progress);
+        int pointsRecovered = (int) Math.min(getSpace() / 20, xp);
 
-        player.giveExperiencePoints((int) Math.min(xp, 5000000));
-        player.removeData(RegisterAttachments.PLAYER_EXPERIENCE_LEVELS_ON_DEATH);
-        player.removeData(RegisterAttachments.PLAYER_EXPERIENCE_PROGRESS_ON_DEATH);
+        player.giveExperiencePoints(pointsRecovered); assert level != null;
+        level.playSound(null, getBlockPos(), SoundEvents.PLAYER_LEVELUP, SoundSource.BLOCKS, 1.0f, 0.25f);
+
+        ServerLevel server = (ServerLevel) level;
+        BlockPos pos = getBlockPos();
+        server.sendParticles((ServerPlayer) player,
+                ParticleTypes.TOTEM_OF_UNDYING, false,
+                pos.getX() + 0.5, pos.getY() + 0.6, pos.getZ() + 0.5, 52, 1, 1, 1, 0.1);
+
+        player.removeData(xpLevels);
+        player.removeData(xpProgress);
         player.displayClientMessage(Component.translatable("message.cognition.experience_obelisk.experience_recovered",
-                Component.literal(String.valueOf(levels)).withStyle(ChatFormatting.GREEN)), true);
-
+                Component.literal(String.valueOf(xpToLevels(pointsRecovered))).withStyle(ChatFormatting.GREEN)), true);
     }
 
     //-----------FLUID HANDLER-----------//
