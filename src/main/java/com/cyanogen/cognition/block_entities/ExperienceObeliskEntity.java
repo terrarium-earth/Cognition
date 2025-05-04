@@ -34,7 +34,6 @@ import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
 import net.neoforged.neoforge.registries.DeferredHolder;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.animatable.GeoBlockEntity;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
@@ -271,7 +270,6 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
             }
             else{
                 return Config.COMMON.allowedFluids.get().contains(fluidName);
-//                return stack.getFluid().is(RegisterTags.Fluids.EXPERIENCE) && Config.COMMON.allowedFluids.get().contains(fluidName);
             }
         }
 
@@ -279,26 +277,11 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
         public int fill(FluidStack resource, FluidAction action) {
 
             if(isFluidValid(resource)){
-                setChanged();
                 return super.fill(new FluidStack(cognitium, resource.getAmount()), action);
             }
             else{
                 return 0;
             }
-        }
-
-        @NotNull
-        @Override
-        public FluidStack drain(int maxDrain, FluidAction action) {
-            setChanged();
-            return super.drain(maxDrain, action);
-        }
-
-        @NotNull
-        @Override
-        public FluidStack drain(FluidStack resource, FluidAction action) {
-            setChanged();
-            return super.drain(resource, action);
         }
 
         @Override
