@@ -144,7 +144,7 @@ public class RegisterItems {
             () -> new FortuitousAmuletItem(new Item.Properties()));
 
     public static final DeferredHolder<Item, MemoryTabletItem> MEMORY_TABLET = ITEMS.register("memory_tablet",
-            () -> new MemoryTabletItem(new Item.Properties().rarity(Rarity.RARE)));
+            () -> new MemoryTabletItem(new Item.Properties().rarity(Rarity.UNCOMMON)));
 
     //-----FUNCTIONAL BLOCK ITEMS-----//
 

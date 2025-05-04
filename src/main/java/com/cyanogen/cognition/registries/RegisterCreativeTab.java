@@ -29,6 +29,7 @@ public class RegisterCreativeTab {
                         output.accept(RegisterItems.PRIMORDIAL_ASSEMBLY.get());
                         output.accept(RegisterItems.FORGOTTEN_DUST.get());
                         output.accept(RegisterItems.CALCARINE_MATRIX.get());
+                        output.accept(RegisterItems.TRANSFORMING_FOCUS.get());
 
                         //TOOLSETS & ARMOR
                         output.accept(RegisterItems.COGNITIVE_SWORD.get());
@@ -50,14 +51,13 @@ public class RegisterCreativeTab {
                         output.accept(RegisterItems.FORTUITOUS_AMULET.get());
                         output.accept(RegisterItems.BIBLIOPHAGE.get());
                         output.accept(RegisterItems.FLUORESCENT_JELLY.get());
+                        output.accept(RegisterItems.MEMORY_TABLET.get());
                         output.accept(RegisterItems.MENDING_NEUROGEL.get());
                         output.accept(RegisterItems.POSEIDON_FLASK.get());
                         output.accept(RegisterItems.HADES_FLASK.get());
                         output.accept(RegisterItems.CHAOS_FLASK.get());
                         output.accept(RegisterItems.NIGHTMARE_BOTTLE.get());
                         output.accept(RegisterItems.DAYDREAM_BOTTLE.get());
-                        output.accept(RegisterItems.TRANSFORMING_FOCUS.get());
-                        output.accept(RegisterItems.MEMORY_TABLET.get());
 
                         //FUNCTIONAL BLOCKS
                         output.accept(RegisterItems.EXPERIENCE_OBELISK_ITEM.get());
