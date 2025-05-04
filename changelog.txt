@@ -7,6 +7,9 @@ v2.4.0
 [Changes]
 - Metamorphers now have an additional setting to lock input slots
 
+[Bugfixes]
+- Fixed game crash upon placing a Supplementaries faucet on the Obelisk
+
 v2.3.7
 
 [IMPORTANT]

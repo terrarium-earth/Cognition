@@ -141,10 +141,10 @@ public class RegisterItems {
             () -> new TransformingFocusItem(new Item.Properties().durability(TransformingFocusItem.durability)));
 
     public static final DeferredHolder<Item, FortuitousAmuletItem> FORTUITOUS_AMULET = ITEMS.register("fortuitous_amulet",
-            () -> new FortuitousAmuletItem(new Item.Properties()));
+            () -> new FortuitousAmuletItem(new Item.Properties().rarity(Rarity.COMMON)));
 
     public static final DeferredHolder<Item, MemoryTabletItem> MEMORY_TABLET = ITEMS.register("memory_tablet",
-            () -> new MemoryTabletItem(new Item.Properties().rarity(Rarity.UNCOMMON)));
+            () -> new MemoryTabletItem(new Item.Properties()));
 
     //-----FUNCTIONAL BLOCK ITEMS-----//
 
