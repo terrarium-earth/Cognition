@@ -54,8 +54,8 @@ public class CognitionJeiPlugin implements IModPlugin {
         registration.addRecipes(InfectingCategory.infectingType, InformationalRecipes.populateInfectingRecipes());
 
         //INFO
-        ItemStack FORGOTTEN_DUST = new ItemStack(RegisterItems.FORGOTTEN_DUST.get());
-        registration.addIngredientInfo(FORGOTTEN_DUST, VanillaTypes.ITEM_STACK, Component.translatable("jei.cognition.description.forgotten_dust"));
+        ItemStack forgottenDust = new ItemStack(RegisterItems.FORGOTTEN_DUST.get());
+        registration.addIngredientInfo(forgottenDust, VanillaTypes.ITEM_STACK, Component.translatable("jei.cognition.description.forgotten_dust"));
 
         //HIDE FROM VIEWER
         List<ItemStack> hidden = new ArrayList<>();

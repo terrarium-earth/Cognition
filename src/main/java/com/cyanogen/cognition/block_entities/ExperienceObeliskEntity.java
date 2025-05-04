@@ -211,20 +211,20 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
                 player.getData(xpLevels) + player.getData(xpProgress) > 0f;
     }
 
-    public void handleExperienceRecovery(Player player){ //ensure this is only called serverside
+    public void handleExperienceRecovery(Player player){
         int levels = player.getData(xpLevels);
         float progress = player.getData(xpProgress);
         long xp = getTotalXP(levels, progress);
         int pointsRecovered = (int) Math.min(5000000 - getExperiencePoints(), xp);
 
         player.giveExperiencePoints(pointsRecovered); assert level != null;
-        level.playSound(null, getBlockPos(), SoundEvents.PLAYER_LEVELUP, SoundSource.BLOCKS, 1.0f, 0.25f);
+        level.playSound(player, getBlockPos(), SoundEvents.PLAYER_LEVELUP, SoundSource.BLOCKS, 1.0f, 0.25f);
 
         ServerLevel server = (ServerLevel) level;
         BlockPos pos = getBlockPos();
         server.sendParticles((ServerPlayer) player,
                 ParticleTypes.TOTEM_OF_UNDYING, false,
-                pos.getX() + 0.5, pos.getY() + 0.6, pos.getZ() + 0.5, 52, 1, 1, 1, 0.1);
+                pos.getX() + 0.5, pos.getY() + 0.6, pos.getZ() + 0.5, 64, 1, 1, 1, 0.1);
 
         player.removeData(xpLevels);
         player.removeData(xpProgress);
