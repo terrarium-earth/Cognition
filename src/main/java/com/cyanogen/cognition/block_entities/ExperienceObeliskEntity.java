@@ -218,7 +218,7 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
         int pointsRecovered = (int) Math.min(5000000 - getExperiencePoints(), xp);
 
         player.giveExperiencePoints(pointsRecovered); assert level != null;
-        level.playSound(player, getBlockPos(), SoundEvents.PLAYER_LEVELUP, SoundSource.BLOCKS, 1.0f, 0.25f);
+        level.playSound(null, getBlockPos(), SoundEvents.PLAYER_LEVELUP, SoundSource.BLOCKS, 1.0f, 0.25f);
 
         ServerLevel server = (ServerLevel) level;
         BlockPos pos = getBlockPos();
