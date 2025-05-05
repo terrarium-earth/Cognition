@@ -2,17 +2,24 @@ package com.cyanogen.cognition.block_entities;
 
 import com.cyanogen.cognition.config.Config;
 import com.cyanogen.cognition.network.experience_obelisk.UpdateContents;
+import com.cyanogen.cognition.registries.RegisterAttachments;
 import com.cyanogen.cognition.registries.RegisterBlockEntities;
 import com.cyanogen.cognition.registries.RegisterFluids;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.ExperienceOrb;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
@@ -20,12 +27,13 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.phys.AABB;
+import net.neoforged.neoforge.attachment.AttachmentType;
 import net.neoforged.neoforge.capabilities.BlockCapability;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
-import org.jetbrains.annotations.NotNull;
+import net.neoforged.neoforge.registries.DeferredHolder;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.animatable.GeoBlockEntity;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
@@ -36,8 +44,7 @@ import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.Objects;
 
-import static com.cyanogen.cognition.utils.ExperienceUtils.levelsToXP;
-import static com.cyanogen.cognition.utils.ExperienceUtils.xpToLevels;
+import static com.cyanogen.cognition.utils.ExperienceUtils.*;
 
 public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEntity {
 
@@ -48,7 +55,6 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
     //-----------ANIMATIONS-----------//
 
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
-
     protected static final RawAnimation IDLE = RawAnimation.begin().thenPlay("idle");
     protected static final RawAnimation IDLE_INACTIVE = RawAnimation.begin().thenPlay("idle.inactive");
 
@@ -70,9 +76,11 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
             boolean isInactive = obelisk.redstoneEnabled && !level.hasNeighborSignal(obelisk.getBlockPos());
 
             if(isInactive && animation.equals(IDLE)){
+                controller.forceAnimationReset();
                 controller.setAnimation(IDLE_INACTIVE);
             }
             else if(!isInactive && animation.equals(IDLE_INACTIVE)){
+                controller.forceAnimationReset();
                 controller.setAnimation(IDLE);
             }
         }
@@ -128,6 +136,10 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
                     }
                 }
             }
+
+            if(!level.isClientSide){
+                obelisk.checkForMemorized();
+            }
         }
     }
 
@@ -155,6 +167,69 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
             level.sendBlockUpdated(getBlockPos(), getBlockState(), getBlockState(), 2);
         }
         super.setChanged();
+    }
+
+    //-----------MEMORY TABLET-----------//
+
+    public static final DeferredHolder<AttachmentType<?>, AttachmentType<BlockPos>> obeliskLocation =
+            RegisterAttachments.MEMORY_TABLET_OBELISK_LOCATION;
+    public static final DeferredHolder<AttachmentType<?>, AttachmentType<Integer>> xpLevels =
+            RegisterAttachments.PLAYER_EXPERIENCE_LEVELS_ON_DEATH;
+    public static final DeferredHolder<AttachmentType<?>, AttachmentType<Float>> xpProgress =
+            RegisterAttachments.PLAYER_EXPERIENCE_PROGRESS_ON_DEATH;
+
+    public void checkForMemorized(){
+        if(level != null && level.getGameTime() % 20 == 0){
+            BlockPos pos = getBlockPos();
+            float width = 4;
+            float height = 2.5f;
+
+            AABB area = new AABB(
+                    pos.getX() - width,
+                    pos.getY() - height,
+                    pos.getZ() - width,
+                    pos.getX() + width,
+                    pos.getY() + height,
+                    pos.getZ() + width);
+
+            List<Player> list = level.getEntitiesOfClass(Player.class, area);
+            for(Player player : list){
+                if(!player.isDeadOrDying() && hasBeenMemorized(player) && hasXpToRecover(player)){
+                    handleExperienceRecovery(player);
+                    break;
+                }
+            }
+        }
+    }
+
+    public boolean hasBeenMemorized(Player player){
+        return player.hasData(obeliskLocation) && player.getData(obeliskLocation).equals(getBlockPos());
+    }
+
+    public boolean hasXpToRecover(Player player){
+        return (player.hasData(xpLevels) || player.hasData(xpProgress)) &&
+                player.getData(xpLevels) + player.getData(xpProgress) > 0f;
+    }
+
+    public void handleExperienceRecovery(Player player){
+        int levels = player.getData(xpLevels);
+        float progress = player.getData(xpProgress);
+        long xp = getTotalXP(levels, progress);
+        int pointsRecovered = (int) Math.min(5000000 - getExperiencePoints(), xp);
+
+        player.giveExperiencePoints(pointsRecovered); assert level != null;
+        level.playSound(null, getBlockPos(), SoundEvents.PLAYER_LEVELUP, SoundSource.BLOCKS, 1.0f, 0.25f);
+
+        ServerLevel server = (ServerLevel) level;
+        BlockPos pos = getBlockPos();
+        server.sendParticles((ServerPlayer) player,
+                ParticleTypes.TOTEM_OF_UNDYING, false,
+                pos.getX() + 0.5, pos.getY() + 0.6, pos.getZ() + 0.5, 64, 1, 1, 1, 0.1);
+
+        player.removeData(xpLevels);
+        player.removeData(xpProgress);
+        player.displayClientMessage(Component.translatable("message.cognition.experience_obelisk.experience_recovered",
+                Component.literal(String.valueOf(xpToLevels(pointsRecovered))).withStyle(ChatFormatting.GREEN)), true);
     }
 
     //-----------FLUID HANDLER-----------//
@@ -195,7 +270,6 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
             }
             else{
                 return Config.COMMON.allowedFluids.get().contains(fluidName);
-//                return stack.getFluid().is(RegisterTags.Fluids.EXPERIENCE) && Config.COMMON.allowedFluids.get().contains(fluidName);
             }
         }
 
@@ -203,26 +277,11 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
         public int fill(FluidStack resource, FluidAction action) {
 
             if(isFluidValid(resource)){
-                setChanged();
                 return super.fill(new FluidStack(cognitium, resource.getAmount()), action);
             }
             else{
                 return 0;
             }
-        }
-
-        @NotNull
-        @Override
-        public FluidStack drain(int maxDrain, FluidAction action) {
-            setChanged();
-            return super.drain(maxDrain, action);
-        }
-
-        @NotNull
-        @Override
-        public FluidStack drain(FluidStack resource, FluidAction action) {
-            setChanged();
-            return super.drain(resource, action);
         }
 
         @Override
@@ -319,10 +378,6 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
 
 
     //-----------LOGIC-----------//
-
-    public static long getTotalXP(Player player){
-        return levelsToXP(player.experienceLevel) + Math.round(player.experienceProgress * player.getXpNeededForNextLevel());
-    }
 
     public void handleRequest(String request, int levels, ServerPlayer sender){
 

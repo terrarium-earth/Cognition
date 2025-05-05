@@ -33,7 +33,6 @@ public class ExperienceObeliskItem extends BlockItem implements GeoItem{
     //-----ANIMATIONS-----//
 
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
-
     protected static final RawAnimation IDLE = RawAnimation.begin().thenPlay("idle");
 
     @Override

@@ -5,13 +5,13 @@
   },
   "count1": 3,
   "ingredient2": {
-      "item": "minecraft:netherite_scrap"
+      "item": "cognition:transforming_focus"
   },
-  "count2": 3,
+  "count2": 1,
   "ingredient3": {
-    "item": "cognition:transforming_focus"
+    "item": "minecraft:netherite_scrap"
   },
-  "count3": 1,
+  "count3": 3,
   "result": {
     "id": "minecraft:netherite_ingot",
     "count": 1

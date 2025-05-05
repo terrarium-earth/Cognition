@@ -2,6 +2,7 @@ package com.cyanogen.cognition.registries;
 
 import com.cyanogen.cognition.network.experience_obelisk.UpdateContents;
 import com.cyanogen.cognition.network.experience_obelisk.UpdateRadius;
+import com.cyanogen.cognition.network.molecular_metamorpher.UpdateLockedStatus;
 import com.cyanogen.cognition.network.precision_dispeller.UpdateSlot;
 import com.cyanogen.cognition.network.shared.UpdateInventory;
 import com.cyanogen.cognition.network.shared.UpdateRedstone;
@@ -30,7 +31,9 @@ public class RegisterPackets {
         registrar.playToServer(UpdateRedstone.TYPE, UpdateRedstone.STREAM_CODEC,
                 new MainThreadPayloadHandler<>(UpdateRedstone::handleServer));
 
-    }
+        registrar.playToServer(UpdateLockedStatus.TYPE, UpdateLockedStatus.STREAM_CODEC,
+                new MainThreadPayloadHandler<>(UpdateLockedStatus::handleServer));
 
+    }
 
 }

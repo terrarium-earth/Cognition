@@ -2,6 +2,7 @@ package com.cyanogen.cognition.block;
 
 import com.cyanogen.cognition.block_entities.ExperienceObeliskEntity;
 import com.cyanogen.cognition.gui.ExperienceObeliskMenu;
+import com.cyanogen.cognition.registries.RegisterAttachments;
 import com.cyanogen.cognition.registries.RegisterBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -69,6 +70,13 @@ public class ExperienceObeliskBlock extends Block implements EntityBlock {
     public BlockState playerWillDestroy(Level level, BlockPos pos, BlockState state, Player player) {
         if (!level.isClientSide) {
             BlockEntity entity = level.getBlockEntity(pos);
+
+            if(entity instanceof ExperienceObeliskEntity obelisk && obelisk.hasBeenMemorized(player)){
+                player.removeData(RegisterAttachments.MEMORY_TABLET_OBELISK_LOCATION);
+                player.removeData(RegisterAttachments.PLAYER_EXPERIENCE_PROGRESS_ON_DEATH);
+                player.removeData(RegisterAttachments.PLAYER_EXPERIENCE_LEVELS_ON_DEATH);
+            }
+
             if (player.hasCorrectToolForDrops(state, level, pos) && entity != null) {
 
                 stack = new ItemStack(state.getBlock(), 1);

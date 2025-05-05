@@ -18,12 +18,12 @@ import net.neoforged.neoforge.event.ItemStackedOnOtherEvent;
 
 public class NeurogelMendingItem extends Item {
 
+    public static final int maxRepairPoints = 320;
+    public static final double maxRepairPercentage = 0.25;
+
     public NeurogelMendingItem(Properties p) {
         super(p);
     }
-
-    public static final int maxRepairPoints = 320;
-    public static final double maxRepairPercentage = 0.25;
 
     public static void handleItem(ItemStackedOnOtherEvent event){
         ItemStack itemToRepair = event.getStackedOnItem();

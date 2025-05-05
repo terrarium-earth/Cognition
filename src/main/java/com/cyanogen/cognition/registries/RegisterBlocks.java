@@ -2,6 +2,7 @@ package com.cyanogen.cognition.registries;
 
 import com.cyanogen.cognition.Cognition;
 import com.cyanogen.cognition.block.*;
+import com.cyanogen.cognition.block.bibliophage.BibliomancerBlock;
 import com.cyanogen.cognition.block.bibliophage.agar.ExtravagantAgarBlock;
 import com.cyanogen.cognition.block.bibliophage.agar.FluorescentAgarBlock;
 import com.cyanogen.cognition.block.bibliophage.agar.InsightfulAgarBlock;
@@ -36,6 +37,7 @@ public class RegisterBlocks {
     public static final DeferredHolder<Block, NutrientAgarBlock> NUTRIENT_AGAR = BLOCKS.register("nutrient_agar", NutrientAgarBlock::new);
     public static final DeferredHolder<Block, InsightfulAgarBlock> INSIGHTFUL_AGAR = BLOCKS.register("insightful_agar", InsightfulAgarBlock::new);
     public static final DeferredHolder<Block, ExtravagantAgarBlock> EXTRAVAGANT_AGAR = BLOCKS.register("extravagant_agar", ExtravagantAgarBlock::new);
+    public static final DeferredHolder<Block, BibliomancerBlock> BIBLIOMANCER = BLOCKS.register("bibliomancer", BibliomancerBlock::new);
 
     //-----DECORATIVE / CRAFTING-----//
 

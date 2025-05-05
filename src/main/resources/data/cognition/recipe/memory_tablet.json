@@ -1,0 +1,29 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ABA",
+    "CDC",
+    " E "
+  ],
+  "key": {
+    "A": {
+      "item": "cognition:cognitive_alloy"
+    },
+    "B": {
+      "item": "cognition:cognitive_crystal"
+    },
+    "C": {
+      "item": "minecraft:gold_ingot"
+    },
+    "D": {
+      "item": "cognition:calcarine_matrix"
+    },
+    "E": {
+      "item": "minecraft:netherite_scrap"
+    }
+  },
+  "result": {
+    "id": "cognition:memory_tablet",
+    "count": 1
+  }
+}

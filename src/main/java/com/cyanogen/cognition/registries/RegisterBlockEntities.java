@@ -2,6 +2,7 @@ package com.cyanogen.cognition.registries;
 
 import com.cyanogen.cognition.Cognition;
 import com.cyanogen.cognition.block_entities.*;
+import com.cyanogen.cognition.block_entities.bibliophage.BibliomancerEntity;
 import com.cyanogen.cognition.block_entities.bibliophage.agar.ExtravagantAgarEntity;
 import com.cyanogen.cognition.block_entities.bibliophage.agar.FluorescentAgarEntity;
 import com.cyanogen.cognition.block_entities.bibliophage.agar.InsightfulAgarEntity;
@@ -71,6 +72,10 @@ public class RegisterBlockEntities {
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<ExtravagantAgarEntity>> EXTRAVAGANT_AGAR =
             BLOCK_ENTITIES.register("extravagant_agar",
             ()-> BlockEntityType.Builder.of(ExtravagantAgarEntity::new, RegisterBlocks.EXTRAVAGANT_AGAR.get()).build(Type));
+
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<BibliomancerEntity>> BIBLIOMANCER =
+            BLOCK_ENTITIES.register("bibliomancer",
+                    ()-> BlockEntityType.Builder.of(BibliomancerEntity::new, RegisterBlocks.EXTRAVAGANT_AGAR.get()).build(Type));
 
     public static void register(IEventBus eventBus){
         BLOCK_ENTITIES.register(eventBus);

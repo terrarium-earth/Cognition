@@ -1,3 +1,16 @@
+v2.4.0
+
+[Content]
+- Added Fortuitous Amulet
+- Added Memory Tablet
+
+[Changes]
+- Metamorphers now have an additional setting to lock input slots
+- Added many more transforming recipes
+
+[Bugfixes]
+- Fixed game crashing upon placing a Supplementaries faucet on the Obelisk
+
 v2.3.7-beta
 
 [IMPORTANT]
