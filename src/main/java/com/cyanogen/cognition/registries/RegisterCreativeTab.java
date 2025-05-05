@@ -29,7 +29,6 @@ public class RegisterCreativeTab {
                         output.accept(RegisterItems.PRIMORDIAL_ASSEMBLY.get());
                         output.accept(RegisterItems.FORGOTTEN_DUST.get());
                         output.accept(RegisterItems.CALCARINE_MATRIX.get());
-                        output.accept(RegisterItems.TRANSFORMING_FOCUS.get());
 
                         //TOOLSETS & ARMOR
                         output.accept(RegisterItems.COGNITIVE_SWORD.get());
@@ -48,18 +47,20 @@ public class RegisterCreativeTab {
                         //FUNCTIONAL ITEMS
                         output.accept(RegisterItems.ATTUNEMENT_STAFF.get());
                         output.accept(RegisterItems.ENLIGHTENED_AMULET.get());
-                        output.accept(RegisterItems.FORTUITOUS_AMULET.get());
                         output.accept(RegisterItems.BIBLIOPHAGE.get());
                         output.accept(RegisterItems.FLUORESCENT_JELLY.get());
-                        output.accept(RegisterItems.MEMORY_TABLET.get());
+                        output.accept(RegisterItems.TRANSFORMING_FOCUS.get());
                         output.accept(RegisterItems.MENDING_NEUROGEL.get());
+                        output.accept(RegisterItems.MEMORY_TABLET.get());
+                        output.accept(RegisterItems.FORTUITOUS_AMULET.get());
                         output.accept(RegisterItems.POSEIDON_FLASK.get());
                         output.accept(RegisterItems.HADES_FLASK.get());
                         output.accept(RegisterItems.CHAOS_FLASK.get());
                         output.accept(RegisterItems.NIGHTMARE_BOTTLE.get());
                         output.accept(RegisterItems.DAYDREAM_BOTTLE.get());
+                        output.accept(RegisterItems.COGNITIUM_BUCKET.get());
 
-                        //FUNCTIONAL BLOCKS
+                        //BLOCKS
                         output.accept(RegisterItems.EXPERIENCE_OBELISK_ITEM.get());
                         output.accept(RegisterItems.EXPERIENCE_FOUNTAIN_ITEM.get());
                         output.accept(RegisterItems.PRECISION_DISPELLER_ITEM.get());
@@ -71,19 +72,14 @@ public class RegisterCreativeTab {
                         output.accept(RegisterItems.INFECTED_BOOKSHELF_ITEM.get());
                         output.accept(RegisterItems.INFECTED_ARCHIVERS_BOOKSHELF_ITEM.get());
                         output.accept(RegisterItems.INFECTED_ENCHANTED_BOOKSHELF_ITEM.get());
-                        output.accept(RegisterItems.FLUORESCENT_AGAR_ITEM.get());
-                        output.accept(RegisterItems.NUTRIENT_AGAR_ITEM.get());
-                        output.accept(RegisterItems.INSIGHTFUL_AGAR_ITEM.get());
-                        output.accept(RegisterItems.EXTRAVAGANT_AGAR_ITEM.get());
-
-                        //DECORATIVE / OTHER BLOCKS
                         output.accept(RegisterItems.COGNITIVE_ALLOY_BLOCK_ITEM.get());
                         output.accept(RegisterItems.COGNITIVE_CRYSTAL_BLOCK_ITEM.get());
                         output.accept(RegisterItems.WHISPERGLASS_ITEM.get());
                         output.accept(RegisterItems.FORGOTTEN_DUST_BLOCK_ITEM.get());
-
-                        //MISC
-                        output.accept(RegisterItems.COGNITIUM_BUCKET.get());
+                        output.accept(RegisterItems.FLUORESCENT_AGAR_ITEM.get());
+                        output.accept(RegisterItems.NUTRIENT_AGAR_ITEM.get());
+                        output.accept(RegisterItems.INSIGHTFUL_AGAR_ITEM.get());
+                        output.accept(RegisterItems.EXTRAVAGANT_AGAR_ITEM.get());
                     })
                     .build());
 
