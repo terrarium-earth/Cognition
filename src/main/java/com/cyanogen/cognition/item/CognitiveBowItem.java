@@ -13,24 +13,31 @@ import java.util.List;
 
 public class CognitiveBowItem extends BowItem {
 
+    private final float velocityMultiplier = 1.25f;
+    private final float accuracyMultiplier = 1.20f;
+
     public CognitiveBowItem(Properties properties) {
         super(properties.durability(835));
     }
 
     @Override
     protected void shootProjectile(LivingEntity shooter, Projectile projectile, int index, float velocity, float inaccuracy, float angle, @Nullable LivingEntity target) {
-        super.shootProjectile(shooter, projectile, index, velocity * 1.25f, 0.91f * inaccuracy, angle, target);
+        super.shootProjectile(shooter, projectile, index, velocity * velocityMultiplier, inaccuracy / accuracyMultiplier, angle, target);
+    }
+
+    public int convertToPercentage(float multiplier){
+        return (int) Math.floor((multiplier - 1) * 100);
     }
 
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltipComponents, TooltipFlag tooltipFlag) {
         if(tooltipComponents.size() == 1){
             tooltipComponents.add(Component.literal(""));
-            tooltipComponents.add(Component.literal("When in Main Hand:"));
+            tooltipComponents.add(Component.translatable("item.modifiers.mainhand").withStyle(ChatFormatting.GRAY));
         }
 
-        tooltipComponents.add(Component.literal("+25% Projectile Speed").withStyle(ChatFormatting.BLUE));
-        tooltipComponents.add(Component.literal("+10% Projectile Accuracy").withStyle(ChatFormatting.BLUE));
+        tooltipComponents.add(Component.literal("+" + convertToPercentage(velocityMultiplier) + "% Projectile Velocitye").withStyle(ChatFormatting.BLUE));
+        tooltipComponents.add(Component.literal("+" + convertToPercentage(accuracyMultiplier) + "% Projectile Accuracy").withStyle(ChatFormatting.BLUE));
         super.appendHoverText(stack, context, tooltipComponents, tooltipFlag);
     }
 }

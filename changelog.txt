@@ -1,3 +1,8 @@
+v2.4.1
+
+[Content]
+- Added Cognitive Bow. This was supposed to be in the previous update but I forgot!!
+
 v2.4.0
 
 [Content]

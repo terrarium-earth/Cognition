@@ -23,7 +23,7 @@ license="MIT"
 modId="cognition" #mandatory
 
 # The version number of the mod
-version="2.4.0" #mandatory
+version="2.4.1" #mandatory
 
 # A display name for the mod
 displayName="Cognition" #mandatory
