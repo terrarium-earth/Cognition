@@ -16,10 +16,10 @@
       "item": "minecraft:gold_ingot"
     },
     "D": {
-      "item": "cognition:calcarine_matrix"
+      "item": "minecraft:book"
     },
     "E": {
-      "item": "minecraft:netherite_scrap"
+      "item": "cognition:calcarine_matrix"
     }
   },
   "result": {

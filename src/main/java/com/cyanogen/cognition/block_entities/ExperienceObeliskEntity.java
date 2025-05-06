@@ -109,15 +109,7 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
             int space = obelisk.getSpace();
 
             if(absorb && level.getGameTime() % 10 == 0){
-                AABB area = new AABB(
-                        pos.getX() - radius,
-                        pos.getY() - radius,
-                        pos.getZ() - radius,
-                        pos.getX() + radius,
-                        pos.getY() + radius,
-                        pos.getZ() + radius);
-
-                List<ExperienceOrb> list = level.getEntitiesOfClass(ExperienceOrb.class, area);
+                List<ExperienceOrb> list = level.getEntitiesOfClass(ExperienceOrb.class, getAreaOfEffect(pos, radius));
 
                 if(!list.isEmpty()) for(int i = 0; i < Math.min(30,list.size()); i++){
 
@@ -141,6 +133,16 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
                 obelisk.checkForMemorized();
             }
         }
+    }
+
+    public static AABB getAreaOfEffect(BlockPos pos, double radius){
+        return new AABB(
+                pos.getX() - radius,
+                pos.getY() - radius,
+                pos.getZ() - radius,
+                pos.getX() + radius,
+                pos.getY() + radius,
+                pos.getZ() + radius);
     }
 
     public boolean isRedstoneEnabled(){
@@ -181,18 +183,8 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
     public void checkForMemorized(){
         if(level != null && level.getGameTime() % 20 == 0){
             BlockPos pos = getBlockPos();
-            float width = 4;
-            float height = 2.5f;
 
-            AABB area = new AABB(
-                    pos.getX() - width,
-                    pos.getY() - height,
-                    pos.getZ() - width,
-                    pos.getX() + width,
-                    pos.getY() + height,
-                    pos.getZ() + width);
-
-            List<Player> list = level.getEntitiesOfClass(Player.class, area);
+            List<Player> list = level.getEntitiesOfClass(Player.class, getAreaOfEffect(pos, getRadius()));
             for(Player player : list){
                 if(!player.isDeadOrDying() && hasBeenMemorized(player) && hasXpToRecover(player)){
                     handleExperienceRecovery(player);

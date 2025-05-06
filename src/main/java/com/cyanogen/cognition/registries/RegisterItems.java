@@ -62,19 +62,19 @@ public class RegisterItems {
 
     public static final DeferredHolder<Item, ArmorItem> COGNITIVE_HELMET = ITEMS.register("cognitive_helmet",
             () -> new CognitiveArmorset.ExtraAttributeArmorItem(RegisterTiers.COGNITIVE_ARMOR_MATERIAL, ArmorItem.Type.HELMET,
-                    CognitiveArmorset.increasedReach(EquipmentSlotGroup.HEAD)));
+                    CognitiveArmorset.increasedReach(EquipmentSlotGroup.HEAD), 280));
 
     public static final DeferredHolder<Item, ArmorItem> COGNITIVE_CHESTPLATE = ITEMS.register("cognitive_chestplate",
             () -> new CognitiveArmorset.ExtraAttributeArmorItem(RegisterTiers.COGNITIVE_ARMOR_MATERIAL, ArmorItem.Type.CHESTPLATE,
-                    CognitiveArmorset.increasedReach(EquipmentSlotGroup.CHEST)));
+                    CognitiveArmorset.increasedReach(EquipmentSlotGroup.CHEST), 420));
 
     public static final DeferredHolder<Item, ArmorItem> COGNITIVE_LEGGINGS = ITEMS.register("cognitive_leggings",
             () -> new CognitiveArmorset.ExtraAttributeArmorItem(RegisterTiers.COGNITIVE_ARMOR_MATERIAL, ArmorItem.Type.LEGGINGS,
-                    CognitiveArmorset.increasedReach(EquipmentSlotGroup.LEGS)));
+                    CognitiveArmorset.increasedReach(EquipmentSlotGroup.LEGS), 370));
 
     public static final DeferredHolder<Item, ArmorItem> COGNITIVE_BOOTS = ITEMS.register("cognitive_boots",
             () -> new CognitiveArmorset.ExtraAttributeArmorItem(RegisterTiers.COGNITIVE_ARMOR_MATERIAL, ArmorItem.Type.BOOTS,
-                    CognitiveArmorset.increasedReach(EquipmentSlotGroup.FEET)));
+                    CognitiveArmorset.increasedReach(EquipmentSlotGroup.FEET), 250));
 
     public static final DeferredHolder<Item, CognitiveToolset.CognitiveBowItem> COGNITIVE_BOW = ITEMS.register("cognitive_bow",
             () -> new CognitiveToolset.CognitiveBowItem(835, 1.25f, 1.20f));

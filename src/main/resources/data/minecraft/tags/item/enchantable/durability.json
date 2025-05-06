@@ -2,6 +2,7 @@
   "replace": false,
   "values": [
     "cognition:cognitive_shears",
-    "cognition:flint_and_cognitive_alloy"
+    "cognition:flint_and_cognitive_alloy",
+    "cognition:cognitive_rod"
   ]
 }

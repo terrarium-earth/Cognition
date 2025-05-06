@@ -1,9 +1,16 @@
-v2.4.1
+v2.4.1-beta
 
 [Content]
-- Added Cognitive Bow. This was supposed to be in the previous update but I forgot!!
+- Added Cognitive Bow
 
-v2.4.0
+[Changes]
+- Memory Tablet area of effect is now determined by the absorption radius of the linked Obelisk
+- Changed Memory Tablet recipe
+
+[Bugfixes]
+- Fixed Cognitive tools and armor not accepting enchantments
+
+v2.4.0-beta
 
 [Content]
 - Added Fortuitous Amulet
@@ -21,7 +28,7 @@ v2.3.7-beta
 
 [IMPORTANT]
 - Experience Obelisk is now Cognition! The mod id has been changed from experienceobelisk --> cognition
-- This is a breaking change. If you're updating from the alpha versions, **all modded items and blocks will be erased**.
+- This is a breaking change. If you're updating from the 1.21 alpha versions, **all modded items and blocks will be erased**.
 
 [Changes]
 - Buffed mending neurogel to compensate for its material cost

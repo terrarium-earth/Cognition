@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "cognition:cognitive_helmet",
+    "cognition:cognitive_chestplate",
+    "cognition:cognitive_leggings",
+    "cognition:cognitive_boots"
+  ]
+}
