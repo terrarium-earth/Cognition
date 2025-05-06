@@ -3,6 +3,7 @@ v2.4.0
 [Content]
 - Added Fortuitous Amulet
 - Added Memory Tablet
+- Added Flint and Cognitive Alloy
 
 [Changes]
 - Metamorphers now have an additional setting to lock input slots
