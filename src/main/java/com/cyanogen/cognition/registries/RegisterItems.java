@@ -3,14 +3,7 @@ package com.cyanogen.cognition.registries;
 import com.cyanogen.cognition.Cognition;
 import com.cyanogen.cognition.item.*;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.EquipmentSlotGroup;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.monster.Creeper;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.neoforged.bus.api.IEventBus;
@@ -83,8 +76,8 @@ public class RegisterItems {
             () -> new CognitiveArmorset.ExtraAttributeArmorItem(RegisterTiers.COGNITIVE_ARMOR_MATERIAL, ArmorItem.Type.BOOTS,
                     CognitiveArmorset.increasedReach(EquipmentSlotGroup.FEET)));
 
-    public static final DeferredHolder<Item, CognitiveBowItem> COGNITIVE_BOW = ITEMS.register("cognitive_bow",
-            () -> new CognitiveBowItem(new Item.Properties()));
+    public static final DeferredHolder<Item, CognitiveToolset.CognitiveBowItem> COGNITIVE_BOW = ITEMS.register("cognitive_bow",
+            () -> new CognitiveToolset.CognitiveBowItem(835, 1.25f, 1.20f));
 
     public static final DeferredHolder<Item, FishingRodItem> COGNITIVE_ROD = ITEMS.register("cognitive_rod",
             () -> new FishingRodItem(createCustomAttributes(new Item.Properties(), null, increasedReach()).durability(2200)));
@@ -92,18 +85,8 @@ public class RegisterItems {
     public static final DeferredHolder<Item, ShearsItem> COGNITIVE_SHEARS = ITEMS.register("cognitive_shears",
             () -> new ShearsItem(createCustomAttributes(new Item.Properties(), null, increasedReach()).durability(2200)));
 
-    public static final DeferredHolder<Item, FlintAndSteelItem> FLINT_AND_COGNITIVE_ALLOY = ITEMS.register("flint_and_cognitive_alloy",
-            () -> new FlintAndSteelItem(createCustomAttributes(new Item.Properties(), null, increasedReach()).durability(2200)){
-                @Override
-                public InteractionResult interactLivingEntity(ItemStack stack, Player player, LivingEntity interactionTarget, InteractionHand usedHand) {
-                    if(interactionTarget instanceof Creeper creeper){
-                        creeper.ignite();
-                        player.level().playSound(player, player.blockPosition(), SoundEvents.FLINTANDSTEEL_USE, SoundSource.BLOCKS, 1.0F, player.level().getRandom().nextFloat() * 0.4F + 0.8F);
-                        return InteractionResult.sidedSuccess(player.level().isClientSide);
-                    }
-                    return super.interactLivingEntity(stack, player, interactionTarget, usedHand);
-                }
-            });
+    public static final DeferredHolder<Item, CognitiveToolset.FlintAndCognitiveAlloyItem> FLINT_AND_COGNITIVE_ALLOY = ITEMS.register("flint_and_cognitive_alloy",
+            () -> new CognitiveToolset.FlintAndCognitiveAlloyItem(2200));
 
     //-----FUNCTIONAL ITEMS-----//
 
