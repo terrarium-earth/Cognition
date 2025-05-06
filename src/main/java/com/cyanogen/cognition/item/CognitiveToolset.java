@@ -105,8 +105,8 @@ public class CognitiveToolset {
             super.shootProjectile(shooter, projectile, index, velocity * velocityMultiplier, inaccuracy / accuracyMultiplier, angle, target);
         }
 
-        public int convertToPercentage(float multiplier){
-            return (int) Math.floor((multiplier - 1) * 100);
+        public String getPercentageString(float multiplier){
+            return (int) Math.floor((multiplier - 1) * 100) + "%";
         }
 
         @Override
@@ -116,8 +116,12 @@ public class CognitiveToolset {
                 tooltipComponents.add(Component.translatable("item.modifiers.mainhand").withStyle(ChatFormatting.GRAY));
             }
 
-            tooltipComponents.add(Component.literal("+" + convertToPercentage(velocityMultiplier) + "% Projectile Velocitye").withStyle(ChatFormatting.BLUE));
-            tooltipComponents.add(Component.literal("+" + convertToPercentage(accuracyMultiplier) + "% Projectile Accuracy").withStyle(ChatFormatting.BLUE));
+            tooltipComponents.add(Component.translatable("tooltip.cognition.cognitive_bow.velocity_multiplier",
+                    Component.literal(getPercentageString(velocityMultiplier)).withStyle(ChatFormatting.BLUE)));
+
+            tooltipComponents.add(Component.translatable("tooltip.cognition.cognitive_bow.accuracy_multiplier",
+                    Component.literal(getPercentageString(accuracyMultiplier)).withStyle(ChatFormatting.BLUE)));
+
             super.appendHoverText(stack, context, tooltipComponents, tooltipFlag);
         }
     }
