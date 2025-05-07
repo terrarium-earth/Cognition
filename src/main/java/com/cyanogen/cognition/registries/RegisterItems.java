@@ -77,7 +77,7 @@ public class RegisterItems {
                     CognitiveArmorset.increasedReach(EquipmentSlotGroup.FEET), 250));
 
     public static final DeferredHolder<Item, CognitiveToolset.CognitiveBowItem> COGNITIVE_BOW = ITEMS.register("cognitive_bow",
-            () -> new CognitiveToolset.CognitiveBowItem(835, 1.25f, 1.20f));
+            () -> new CognitiveToolset.CognitiveBowItem(835, 1.25f, 1.40f));
 
     public static final DeferredHolder<Item, FishingRodItem> COGNITIVE_ROD = ITEMS.register("cognitive_rod",
             () -> new FishingRodItem(createCustomAttributes(new Item.Properties(), null, increasedReach()).durability(2200)));

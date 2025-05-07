@@ -54,8 +54,8 @@ public class CognitiveArmorset {
 
         private final List<ItemAttributeModifiers.Entry> extraModifiers;
 
-        public ExtraAttributeArmorItem(Holder<ArmorMaterial> material, Type type, List<ItemAttributeModifiers.Entry> extraModifiers, int durability) {
-            super(material, type, new Item.Properties().durability(durability));
+        public ExtraAttributeArmorItem(Holder<ArmorMaterial> material, Type type, List<ItemAttributeModifiers.Entry> extraModifiers, int maxDamage) {
+            super(material, type, new Item.Properties().durability(maxDamage));
             this.extraModifiers = extraModifiers;
         }
 
