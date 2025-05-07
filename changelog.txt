@@ -8,8 +8,8 @@ v2.4.1-beta
 - Changed Memory Tablet recipe
 
 [Bugfixes]
-- Fixed Cognitive tools and armor not accepting enchantments
-- Fixed Cognitive armor not having a durability value
+- (1.21.1) Fixed Cognitive tools and armor not accepting enchantments
+- (1.21.1) Fixed Cognitive armor not having durability values
 
 v2.4.0-beta
 

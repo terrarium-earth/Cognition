@@ -23,6 +23,7 @@ import net.minecraft.world.item.*;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.block.Block;
+import net.neoforged.neoforge.event.entity.player.ItemTooltipEvent;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -125,24 +126,33 @@ public class CognitiveToolset {
         }
 
         public String getPercentageString(float multiplier){
-            return (int) Math.floor((multiplier - 1) * 100) + "%";
+            return Math.round((multiplier - 1) * 100) + "%";
         }
 
-        @Override
-        public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltipComponents, TooltipFlag tooltipFlag) {
-            if(tooltipComponents.size() == 1){
-                tooltipComponents.add(Component.literal(""));
-                tooltipComponents.add(Component.translatable("item.modifiers.mainhand").withStyle(ChatFormatting.GRAY));
+        public static void handleTooltip(ItemTooltipEvent event){
+            List<Component> tooltipList = event.getToolTip();
+
+            if(event.getItemStack().getItem() instanceof CognitiveBowItem bow){
+
+                List<Component> tooltips = new ArrayList<>();
+                tooltips.add(Component.literal(""));
+                tooltips.add(Component.translatable("tooltip.cognition.cognitive_bow.firing").withStyle(ChatFormatting.GRAY));
+
+                tooltips.add(Component.translatable("tooltip.cognition.cognitive_bow.velocity_multiplier",
+                        Component.literal(bow.getPercentageString(bow.velocityMultiplier)).withStyle(ChatFormatting.BLUE)));
+                tooltips.add(Component.translatable("tooltip.cognition.cognitive_bow.accuracy_multiplier",
+                        Component.literal(bow.getPercentageString(bow.accuracyMultiplier)).withStyle(ChatFormatting.BLUE)));
+
+                if(event.getFlags().isAdvanced()){
+                    tooltipList.addAll(tooltipList.size() - 2, tooltips);
+                }
+                else{
+                    tooltipList.addAll(tooltips);
+                }
+
             }
-
-            tooltipComponents.add(Component.translatable("tooltip.cognition.cognitive_bow.velocity_multiplier",
-                    Component.literal(getPercentageString(velocityMultiplier)).withStyle(ChatFormatting.BLUE)));
-
-            tooltipComponents.add(Component.translatable("tooltip.cognition.cognitive_bow.accuracy_multiplier",
-                    Component.literal(getPercentageString(accuracyMultiplier)).withStyle(ChatFormatting.BLUE)));
-
-            super.appendHoverText(stack, context, tooltipComponents, tooltipFlag);
         }
+
     }
 
     //-----FLINT AND COG-----//
