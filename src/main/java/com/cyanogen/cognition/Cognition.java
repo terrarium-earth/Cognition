@@ -3,6 +3,7 @@ package com.cyanogen.cognition;
 import com.cyanogen.cognition.config.Config;
 import com.cyanogen.cognition.event.EventHandler;
 import com.cyanogen.cognition.event.IModBusEventHandler;
+import com.cyanogen.cognition.item.CognitiveToolset;
 import com.cyanogen.cognition.registries.*;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
@@ -46,7 +47,7 @@ public class Cognition
     private void clientSetup(final FMLClientSetupEvent event){
         ItemBlockRenderTypes.setRenderLayer(RegisterFluids.COGNITIUM_SOURCE.get(), RenderType.translucent());
         ItemBlockRenderTypes.setRenderLayer(RegisterFluids.COGNITIUM_FLOWING.get(), RenderType.translucent());
+        event.enqueueWork(CognitiveToolset.CognitiveBowItem::registerProperties);
     }
-
 
 }

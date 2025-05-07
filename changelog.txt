@@ -9,6 +9,7 @@ v2.4.1-beta
 
 [Bugfixes]
 - Fixed Cognitive tools and armor not accepting enchantments
+- Fixed Cognitive armor not having a durability value
 
 v2.4.0-beta
 

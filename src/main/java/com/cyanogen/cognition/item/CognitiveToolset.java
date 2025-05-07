@@ -2,6 +2,7 @@ package com.cyanogen.cognition.item;
 
 import com.cyanogen.cognition.registries.RegisterItems;
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
@@ -10,6 +11,7 @@ import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -25,6 +27,8 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.cyanogen.cognition.Cognition.MOD_ID;
 
 public class CognitiveToolset {
 
@@ -98,6 +102,21 @@ public class CognitiveToolset {
             super(new Item.Properties().durability(maxDamage));
             this.velocityMultiplier = velocityMultiplier;
             this.accuracyMultiplier = accuracyMultiplier;
+        }
+
+        public static void registerProperties(){
+            ItemProperties.register(RegisterItems.COGNITIVE_BOW.get(), ResourceLocation.fromNamespaceAndPath(MOD_ID, "pulling"),
+                    (stack,level,entity,seed) -> getPull(stack, entity, true));
+            ItemProperties.register(RegisterItems.COGNITIVE_BOW.get(), ResourceLocation.fromNamespaceAndPath(MOD_ID, "pull"),
+                    (stack,level,entity,seed) -> getPull(stack, entity, false));
+        }
+
+        public static float getPull(ItemStack stack, Entity entity, boolean binary){
+            float pull = 0.0f;
+            if(entity instanceof Player player && player.isUsingItem() && stack.getItem() instanceof CognitiveBowItem){
+                pull = binary ? 1.0f : (float) player.getTicksUsingItem() / 20;
+            }
+            return pull;
         }
 
         @Override
