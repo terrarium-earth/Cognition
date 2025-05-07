@@ -1,7 +1,7 @@
 {
     "parent": "item/generated",
     "textures": {
-        "layer0": "item/bow"
+        "layer0": "cognition:item/cognitive_bow"
     },
     "display": {
         "thirdperson_righthand": {
@@ -30,21 +30,21 @@
             "predicate": {
                 "cognition:pulling": 1
             },
-            "model": "item/bow_pulling_0"
+            "model": "cognition:item/cognitive_bow_pulling_0"
         },
         {
             "predicate": {
                 "cognition:pulling": 1,
                 "cognition:pull": 0.65
             },
-            "model": "item/bow_pulling_1"
+            "model": "cognition:item/cognitive_bow_pulling_1"
         },
         {
             "predicate": {
                 "cognition:pulling": 1,
                 "cognition:pull": 0.9
             },
-            "model": "item/bow_pulling_2"
+            "model": "cognition:item/cognitive_bow_pulling_2"
         }
     ]
 }

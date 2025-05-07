@@ -1,0 +1,6 @@
+{
+    "parent": "cognition:item/cognitive_bow",
+    "textures": {
+        "layer0": "cognition:item/cognitive_bow_pulling_0"
+    }
+}
