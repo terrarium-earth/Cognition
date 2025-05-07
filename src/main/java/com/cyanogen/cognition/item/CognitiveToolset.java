@@ -149,7 +149,6 @@ public class CognitiveToolset {
                 else{
                     tooltipList.addAll(tooltips);
                 }
-
             }
         }
 
