@@ -5,8 +5,10 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.stats.Stats;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.InteractionHand;
@@ -18,16 +20,18 @@ import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.neoforged.neoforge.event.EventHooks;
 import net.neoforged.neoforge.event.entity.player.ItemTooltipEvent;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import static com.cyanogen.cognition.Cognition.MOD_ID;
 
@@ -114,15 +118,39 @@ public class CognitiveToolset {
 
         public static float getPull(ItemStack stack, Entity entity, boolean binary){
             float pull = 0.0f;
-            if(entity instanceof Player player && player.isUsingItem() && stack.getItem() instanceof CognitiveBowItem){
+            if(entity instanceof Player player && stack.getItem() instanceof CognitiveBowItem && Objects.equals(player.getUseItem(), stack)){
                 pull = binary ? 1.0f : (float) player.getTicksUsingItem() / 20;
             }
             return pull;
         }
 
         @Override
-        protected void shootProjectile(LivingEntity shooter, Projectile projectile, int index, float velocity, float inaccuracy, float angle, @Nullable LivingEntity target) {
-            super.shootProjectile(shooter, projectile, index, velocity * velocityMultiplier, inaccuracy / accuracyMultiplier, angle, target);
+        public void releaseUsing(ItemStack stack, Level level, LivingEntity entityLiving, int timeLeft) {
+            if (entityLiving instanceof Player player) {
+                ItemStack itemstack = player.getProjectile(stack);
+                if (!itemstack.isEmpty()) {
+                    int i = this.getUseDuration(stack, entityLiving) - timeLeft;
+                    i = EventHooks.onArrowLoose(stack, level, player, i, !itemstack.isEmpty());
+                    if (i < 0) {
+                        return;
+                    }
+
+                    float f = getPowerForTime(i);
+                    float velocity = f * 3.0f * velocityMultiplier;
+                    float inaccuracy = 1 / accuracyMultiplier;
+                    if (!((double)f < 0.1)) {
+                        List<ItemStack> list = draw(stack, itemstack, player);
+                        if (level instanceof ServerLevel serverlevel) {
+                            if (!list.isEmpty()) {
+                                this.shoot(serverlevel, player, player.getUsedItemHand(), stack, list, velocity, inaccuracy, f == 1.0F, null);
+                            }
+                        }
+                        level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.ARROW_SHOOT, SoundSource.PLAYERS, 1.0F, 1.0F / (level.getRandom().nextFloat() * 0.4F + 1.2F) + f * 0.5F);
+                        player.awardStat(Stats.ITEM_USED.get(this));
+                    }
+                }
+            }
+
         }
 
         public String getPercentageString(float multiplier){
