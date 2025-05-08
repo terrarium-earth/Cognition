@@ -12,6 +12,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -134,6 +135,8 @@ public class ExperienceFountainBlock extends ExperienceReceivingBlock implements
 
             ExperienceFountainBlock block = (ExperienceFountainBlock) level.getBlockState(pos).getBlock();
             block.handleExperienceItem(heldItem, getXPforItem(heldItem), fountain.getBoundObelisk(), true);
+            event.setCancellationResult(InteractionResult.sidedSuccess(level.isClientSide));
+            event.setCanceled(true);
         }
     }
 
