@@ -10,9 +10,9 @@ public class Config {
 
     public static class Common{
 
-        public final ModConfigSpec.ConfigValue<List<? extends String>> allowedFluids;
+        public final ModConfigSpec.ConfigValue<List<String>> allowedFluids;
         public final ModConfigSpec.ConfigValue<Integer> capacity;
-        public final ModConfigSpec.ConfigValue<List<? extends String>> allowedExperienceItems;
+        public final ModConfigSpec.ConfigValue<List<String>> allowedExperienceItems;
         public final ModConfigSpec.ConfigValue<Double> amuletRange;
         public final ModConfigSpec.ConfigValue<Double> bindingRange;
         public final ModConfigSpec.ConfigValue<Boolean> amuletIgnoresFountainOrbs;

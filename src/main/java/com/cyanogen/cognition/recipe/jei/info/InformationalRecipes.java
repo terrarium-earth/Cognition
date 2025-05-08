@@ -1,16 +1,23 @@
 package com.cyanogen.cognition.recipe.jei.info;
 
+import com.cyanogen.cognition.config.Config;
 import com.cyanogen.cognition.registries.RegisterItems;
+import com.cyanogen.cognition.utils.MiscUtils;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class InformationalRecipes {
 
-    public static List<FillingRecipe> populateFillingRecipes(){
-        List<FillingRecipe> recipes = new ArrayList<>();
+    public static List<AbstractInformationalRecipe> populateFillingRecipes(){
+        List<AbstractInformationalRecipe> recipes = new ArrayList<>();
 
         recipes.add(new FillingRecipe(
                 Ingredient.of(Items.GLASS_BOTTLE),
@@ -27,9 +34,29 @@ public class InformationalRecipes {
         return recipes;
     }
 
-    public static List<InfectingRecipe> populateInfectingRecipes(){
+    public static List<FillingRecipe> populateEmptyingRecipesFromConfig(){
+        List<FillingRecipe> recipes = new ArrayList<>();
+        Map<String, Float> allowedItemsMap = MiscUtils.getMapFromStringList(Config.COMMON.allowedExperienceItems.get());
 
-        List<InfectingRecipe> recipes = new ArrayList<>();
+        for(Map.Entry<String, Float> entry : allowedItemsMap.entrySet()){
+            ResourceLocation itemResource = ResourceLocation.bySeparator(entry.getKey(), ':');
+
+            if(BuiltInRegistries.ITEM.containsKey(itemResource)){
+                Item item = BuiltInRegistries.ITEM.get(itemResource);
+                recipes.add(new FillingRecipe(
+                        Ingredient.of(item),
+                        Ingredient.of(RegisterItems.EXPERIENCE_FOUNTAIN_ITEM.get()),
+                        ItemStack.EMPTY,
+                        "cognition:" + itemResource.getPath() + "_filling"));
+            }
+        }
+
+        return recipes;
+    }
+
+    public static List<AbstractInformationalRecipe> populateInfectingRecipes(){
+
+        List<AbstractInformationalRecipe> recipes = new ArrayList<>();
         Ingredient catalysts = Ingredient.of(RegisterItems.BIBLIOPHAGE.get(), RegisterItems.INFECTED_BOOKSHELF_ITEM.get(), RegisterItems.NUTRIENT_AGAR_ITEM.get(),
                 RegisterItems.INSIGHTFUL_AGAR_ITEM.get(), RegisterItems.EXTRAVAGANT_AGAR_ITEM.get());
 

@@ -214,5 +214,9 @@
   "jei.cognition.info.infecting.tooltip": "Infect with §aBibliophages§r or by\nplacing next to §ainfectious blocks§r",
   "jei.cognition.info.infecting.tooltip_count": "Requires §a%s§r infections",
   "jei.cognition.info.filling.title": "Filling",
-  "jei.cognition.info.filling.tooltip": "Right click an §aExperience Fountain§r\nthat is bound to an §aExperience Obelisk§r.\nThe Obelisk must have enough XP."
+  "jei.cognition.info.filling.tooltip": "Right click an §aExperience Fountain§r\nthat is bound to an §aExperience Obelisk§r.\nThe Obelisk must have enough XP.",
+  "jei.cognition.info.emptying.title": "Emptying",
+  "jei.cognition.info.emptying.tooltip": "Right click an §aExperience Fountain§r\nthat is bound to an §aExperience Obelisk§r.\nThe Obelisk must have enough space.",
+  "jei.cognition.info.emptying.cognitium_amount": "%s mB Cognitium"
+
 }

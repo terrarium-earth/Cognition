@@ -4,6 +4,8 @@ v2.4.1-beta
 - Added Cognitive Bow
 
 [Changes]
+- Items whitelisted in the config file may now be converted into Cognitium by right-clicking a bound Fountain
+- Added JEI information for emptying recipes
 - Memory Tablet area of effect is now determined by the absorption radius of the linked Obelisk
 - Changed Memory Tablet recipe
 
