@@ -3,6 +3,7 @@ package com.cyanogen.cognition.recipe.jei;
 import com.cyanogen.cognition.Cognition;
 import com.cyanogen.cognition.gui.MolecularMetamorpherScreen;
 import com.cyanogen.cognition.recipe.MolecularMetamorpherRecipe;
+import com.cyanogen.cognition.recipe.jei.info.EmptyingCategory;
 import com.cyanogen.cognition.recipe.jei.info.FillingCategory;
 import com.cyanogen.cognition.recipe.jei.info.InfectingCategory;
 import com.cyanogen.cognition.recipe.jei.info.InformationalRecipes;
@@ -30,6 +31,7 @@ public class CognitionJeiPlugin implements IModPlugin {
     public void registerCategories(IRecipeCategoryRegistration registration) {
         registration.addRecipeCategories(new MolecularMetamorpherCategory(registration));
         registration.addRecipeCategories(new FillingCategory(registration));
+        registration.addRecipeCategories(new EmptyingCategory(registration));
         registration.addRecipeCategories(new InfectingCategory(registration));
         IModPlugin.super.registerCategories(registration);
     }
@@ -51,6 +53,7 @@ public class CognitionJeiPlugin implements IModPlugin {
 
         //INFO V2
         registration.addRecipes(FillingCategory.fillingType, InformationalRecipes.populateFillingRecipes());
+        registration.addRecipes(EmptyingCategory.emptyingType, InformationalRecipes.populateEmptyingRecipes());
         registration.addRecipes(InfectingCategory.infectingType, InformationalRecipes.populateInfectingRecipes());
 
         //INFO

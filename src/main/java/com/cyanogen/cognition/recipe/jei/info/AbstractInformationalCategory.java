@@ -18,14 +18,18 @@ public abstract class AbstractInformationalCategory implements IRecipeCategory<A
 
     public final IGuiHelper guiHelper;
     public final ResourceLocation texture = ResourceLocation.parse("cognition:textures/gui/recipes/information_jei.png");
+    public final ResourceLocation cognitiumTexture = ResourceLocation.parse("cognition:textures/block/cognitium_still.png");
     public final IDrawableAnimated arrow;
     public final IDrawable counterArrow;
+    public final IDrawable cognitiumStack;
+    public final int grey = 0x8b8b8b;
 
     public AbstractInformationalCategory(IRecipeCategoryRegistration registration){
         this.guiHelper = registration.getJeiHelpers().getGuiHelper();
         this.arrow = guiHelper.drawableBuilder(texture,0,66,41,7)
                 .buildAnimated(100, IDrawableAnimated.StartDirection.LEFT, false);
         this.counterArrow = guiHelper.drawableBuilder(texture, 0,73,11,9).build();
+        this.cognitiumStack = guiHelper.drawableBuilder(cognitiumTexture, 0,0,16,16).build();
     }
 
     @Override
@@ -69,7 +73,7 @@ public abstract class AbstractInformationalCategory implements IRecipeCategory<A
     public void setRecipe(IRecipeLayoutBuilder builder, AbstractInformationalRecipe recipe, IFocusGroup focuses) {
         builder.addSlot(RecipeIngredientRole.INPUT, 18,18).setSlotName("input").addIngredients(recipe.getInput());
         builder.addSlot(RecipeIngredientRole.CATALYST, 61,34).setSlotName("catalyst").addIngredients(recipe.getCatalyst());
-        builder.addSlot(RecipeIngredientRole.OUTPUT, 102,18).setSlotName("output").addItemStack(recipe.getResultItem(null));
+        builder.addSlot(RecipeIngredientRole.OUTPUT, 102,18).setSlotName("output").addItemStack(recipe.getResultItem());
     }
 
 }

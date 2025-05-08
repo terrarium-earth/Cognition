@@ -23,19 +23,43 @@ public class InformationalRecipes {
                 Ingredient.of(Items.GLASS_BOTTLE),
                 Ingredient.of(RegisterItems.EXPERIENCE_FOUNTAIN_ITEM.get()),
                 Items.EXPERIENCE_BOTTLE.getDefaultInstance(),
-                "cognition:experience_bottle_filling"));
+                "cognition:experience_bottle_filling",
+                12.5f));
 
         recipes.add(new FillingRecipe(
                 Ingredient.of(Items.BUCKET),
                 Ingredient.of(RegisterItems.EXPERIENCE_FOUNTAIN_ITEM.get()),
                 RegisterItems.COGNITIUM_BUCKET.get().getDefaultInstance(),
-                "cognition:cognitium_bucket_filling"));
+                "cognition:cognitium_bucket_filling",
+                50f));
 
         return recipes;
     }
 
-    public static List<FillingRecipe> populateEmptyingRecipesFromConfig(){
-        List<FillingRecipe> recipes = new ArrayList<>();
+    public static List<AbstractInformationalRecipe> populateEmptyingRecipes(){
+        List<AbstractInformationalRecipe> recipes = new ArrayList<>();
+
+        recipes.add(new EmptyingRecipe(
+                Ingredient.of(Items.EXPERIENCE_BOTTLE),
+                Ingredient.of(RegisterItems.EXPERIENCE_FOUNTAIN_ITEM.get()),
+                Items.GLASS_BOTTLE.getDefaultInstance(),
+                "cognition:experience_bottle_emptying",
+                12.5f));
+
+        recipes.add(new EmptyingRecipe(
+                Ingredient.of(RegisterItems.COGNITIUM_BUCKET.get()),
+                Ingredient.of(RegisterItems.EXPERIENCE_FOUNTAIN_ITEM.get()),
+                Items.BUCKET.getDefaultInstance(),
+                "cognition:cognitium_bucket_emptying",
+                50f));
+
+        recipes.addAll(populateEmptyingRecipesFromConfig());
+
+        return recipes;
+    }
+
+    public static List<AbstractInformationalRecipe> populateEmptyingRecipesFromConfig(){
+        List<AbstractInformationalRecipe> recipes = new ArrayList<>();
         Map<String, Float> allowedItemsMap = MiscUtils.getMapFromStringList(Config.COMMON.allowedExperienceItems.get());
 
         for(Map.Entry<String, Float> entry : allowedItemsMap.entrySet()){
@@ -43,11 +67,12 @@ public class InformationalRecipes {
 
             if(BuiltInRegistries.ITEM.containsKey(itemResource)){
                 Item item = BuiltInRegistries.ITEM.get(itemResource);
-                recipes.add(new FillingRecipe(
+                recipes.add(new EmptyingRecipe(
                         Ingredient.of(item),
                         Ingredient.of(RegisterItems.EXPERIENCE_FOUNTAIN_ITEM.get()),
                         ItemStack.EMPTY,
-                        "cognition:" + itemResource.getPath() + "_filling"));
+                        "cognition:" + itemResource.getPath() + "_emptying",
+                        entry.getValue()));
             }
         }
 

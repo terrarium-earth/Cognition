@@ -55,6 +55,10 @@ public abstract class AbstractInformationalRecipe implements Recipe<RecipeInput>
         return output.copy();
     }
 
+    public ItemStack getResultItem(){
+        return output.copy();
+    }
+
     public ResourceLocation getId() {
         return ResourceLocation.parse(id);
     }

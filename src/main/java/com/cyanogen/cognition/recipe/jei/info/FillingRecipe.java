@@ -6,8 +6,11 @@ import net.minecraft.world.item.crafting.RecipeType;
 
 public class FillingRecipe extends AbstractInformationalRecipe {
 
-    public FillingRecipe(Ingredient input, Ingredient catalyst, ItemStack output, String id) {
+    private final float xpCost;
+
+    public FillingRecipe(Ingredient input, Ingredient catalyst, ItemStack output, String id, float xp) {
         super(input, catalyst, output, id, 0);
+        this.xpCost = xp;
     }
 
     public RecipeType<?> getType() {
@@ -19,5 +22,12 @@ public class FillingRecipe extends AbstractInformationalRecipe {
         public static final String ID = "filling";
     }
 
+    public float getXpCost(){
+        return xpCost;
+    }
+
+    public int getIntegerXpCost(){
+        return (int) getXpCost();
+    }
 
 }
