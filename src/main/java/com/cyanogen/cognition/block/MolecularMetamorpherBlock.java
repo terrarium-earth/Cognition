@@ -129,10 +129,10 @@ public class MolecularMetamorpherBlock extends ExperienceReceivingBlock implemen
     }
 
     public void saveContentsToItem(Level level, BlockPos pos){
-        if(level.getBlockEntity(pos) instanceof MolecularMetamorpherEntity metamorpher && !metamorpher.isEmpty() && super.stack != null){
-            CompoundTag tag = ItemUtils.getCustomDataTag(stack);
+        if(level.getBlockEntity(pos) instanceof MolecularMetamorpherEntity metamorpher && !metamorpher.isEmpty() && super.getBlockItem() != null){
+            CompoundTag tag = ItemUtils.getCustomDataTag(getBlockItem());
             tag.putBoolean("isEmpty", false);
-            ItemUtils.saveCustomDataTag(stack, tag);
+            ItemUtils.saveCustomDataTag(getBlockItem(), tag);
         }
     }
 

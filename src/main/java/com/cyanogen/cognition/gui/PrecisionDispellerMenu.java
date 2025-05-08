@@ -149,8 +149,8 @@ public class PrecisionDispellerMenu extends AbstractContainerMenu {
             }
 
             if(removed != null){
-                if(dispeller.isBound() && server.getBlockEntity(dispeller.getBoundPos()) instanceof ExperienceObeliskEntity obelisk){
-                    handleExperienceBound(removed, enchLevel, server, obelisk, player);
+                if(dispeller.isBound() && dispeller.getBoundObelisk() != null){
+                    handleExperienceBound(removed, enchLevel, server, dispeller.getBoundObelisk(), player);
                 }
                 else{
                     handleExperienceUnbound(removed, enchLevel, server, player);

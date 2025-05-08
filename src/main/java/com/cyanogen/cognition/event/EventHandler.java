@@ -1,5 +1,6 @@
 package com.cyanogen.cognition.event;
 
+import com.cyanogen.cognition.block.ExperienceFountainBlock;
 import com.cyanogen.cognition.item.CognitiveToolset;
 import com.cyanogen.cognition.item.FortuitousAmuletItem;
 import com.cyanogen.cognition.item.MemoryTabletItem;
@@ -11,6 +12,7 @@ import net.neoforged.neoforge.event.ItemStackedOnOtherEvent;
 import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
 import net.neoforged.neoforge.event.entity.living.LivingExperienceDropEvent;
 import net.neoforged.neoforge.event.entity.player.ItemTooltipEvent;
+import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 
 
 public class EventHandler {
@@ -36,6 +38,11 @@ public class EventHandler {
     @SubscribeEvent
     public void onLivingDeath(LivingDeathEvent event){
         MemoryTabletItem.handleDeath(event);
+    }
+
+    @SubscribeEvent
+    public void onPlayerRightClickBlock(PlayerInteractEvent.RightClickBlock event){
+        ExperienceFountainBlock.handleExperienceItem(event);
     }
 
 }

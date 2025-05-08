@@ -7,7 +7,9 @@ import net.minecraft.network.chat.Style;
 import net.minecraft.world.phys.Vec3;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MiscUtils {
 
@@ -68,6 +70,18 @@ public class MiscUtils {
         }
 
         return outputLines;
+    }
+
+    //----- DATA -----//
+
+    public static Map<String, Float> getMapFromStringList(List<String> list){
+        Map<String, Float> map = new HashMap<>();
+
+        for(String element : list){
+            String[] substrings = element.split(" = ");
+            map.put(substrings[0], Float.valueOf(substrings[1]));
+        }
+        return map;
     }
 
 }

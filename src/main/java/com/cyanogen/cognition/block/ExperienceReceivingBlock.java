@@ -62,7 +62,11 @@ public abstract class ExperienceReceivingBlock extends Block {
 
     //-----DROPS-----//
 
-    public ItemStack stack;
+    private ItemStack blockItem;
+
+    public ItemStack getBlockItem(){
+        return blockItem;
+    }
 
     @Override
     public BlockState playerWillDestroy(Level level, BlockPos pos, BlockState state, Player player) {
@@ -70,8 +74,8 @@ public abstract class ExperienceReceivingBlock extends Block {
         if (!level.isClientSide) {
             BlockEntity entity = level.getBlockEntity(pos);
             if (player.hasCorrectToolForDrops(state, level, pos) && entity != null) {
-                stack = new ItemStack(state.getBlock(), 1);
-                entity.saveToItem(stack, level.registryAccess());
+                blockItem = new ItemStack(state.getBlock(), 1);
+                entity.saveToItem(blockItem, level.registryAccess());
             }
         }
 
@@ -83,8 +87,8 @@ public abstract class ExperienceReceivingBlock extends Block {
         if (!level.isClientSide) {
             BlockEntity entity = level.getBlockEntity(pos);
             if(entity != null){
-                stack = new ItemStack(state.getBlock(), 1);
-                entity.saveToItem(stack, level.registryAccess());
+                blockItem = new ItemStack(state.getBlock(), 1);
+                entity.saveToItem(blockItem, level.registryAccess());
             }
         }
 
@@ -94,8 +98,8 @@ public abstract class ExperienceReceivingBlock extends Block {
     @Override
     public List<ItemStack> getDrops(BlockState state, LootParams.Builder params) {
         List<ItemStack> drops = new ArrayList<>();
-        if(stack != null){
-            drops.add(stack);
+        if(blockItem != null){
+            drops.add(blockItem);
             return drops;
         }
         else{

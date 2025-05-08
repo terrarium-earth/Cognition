@@ -2,9 +2,12 @@ package com.cyanogen.cognition.block;
 
 import com.cyanogen.cognition.block_entities.ExperienceFountainEntity;
 import com.cyanogen.cognition.block_entities.ExperienceObeliskEntity;
+import com.cyanogen.cognition.config.Config;
 import com.cyanogen.cognition.registries.RegisterBlockEntities;
 import com.cyanogen.cognition.registries.RegisterFluids;
+import com.cyanogen.cognition.utils.MiscUtils;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.sounds.SoundEvents;
@@ -29,13 +32,18 @@ import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.FluidUtil;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import net.neoforged.neoforge.fluids.capability.IFluidHandlerItem;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Map;
+
 public class ExperienceFountainBlock extends ExperienceReceivingBlock implements EntityBlock {
+
+    private static final FluidStack cognitium = new FluidStack(RegisterFluids.COGNITIUM_SOURCE.get(), 1000);
 
     public ExperienceFountainBlock() {
         super(BlockBehaviour.Properties.of()
@@ -49,27 +57,31 @@ public class ExperienceFountainBlock extends ExperienceReceivingBlock implements
     }
 
     @Override
-    protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
+    protected ItemInteractionResult useItemOn(ItemStack heldItem, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
 
-        if(super.useItemOn(stack, state, level, pos, player, hand, hitResult) != ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION){
-            return ItemInteractionResult.CONSUME;
+        if(super.useItemOn(heldItem, state, level, pos, player, hand, hitResult) != ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION){
+            return ItemInteractionResult.sidedSuccess(level.isClientSide);
         }
 
         BlockEntity entity = level.getBlockEntity(pos);
-        ItemStack heldItem = player.getItemInHand(hand);
-
         IFluidHandlerItem fluidHandler = FluidUtil.getFluidHandler(heldItem.copy()).orElse(null);
 
         if(entity instanceof ExperienceFountainEntity fountain){
 
-            if(fountain.isBound() && level.getBlockEntity(fountain.getBoundPos()) instanceof ExperienceObeliskEntity obelisk){
+            if(fountain.isBound() && fountain.getBoundObelisk() != null){
 
-                if(heldItem.getItem() == Items.EXPERIENCE_BOTTLE || heldItem.getItem() == Items.GLASS_BOTTLE){
+                ExperienceObeliskEntity obelisk = fountain.getBoundObelisk();
+
+                if(getXPforItem(heldItem) > 0){
+                    handleExperienceItem(heldItem, getXPforItem(heldItem), obelisk, player.isShiftKeyDown());
+                    return ItemInteractionResult.sidedSuccess(level.isClientSide);
+                }
+                else if(heldItem.getItem() == Items.EXPERIENCE_BOTTLE || heldItem.getItem() == Items.GLASS_BOTTLE){
                     handleExperienceBottle(heldItem, player, hand, obelisk);
                     return ItemInteractionResult.sidedSuccess(level.isClientSide);
                 }
                 else if(fluidHandler != null){
-                    handleExperienceItem(heldItem, fluidHandler, player, hand, obelisk);
+                    handleExperienceContainer(heldItem, fluidHandler, player, hand, obelisk);
                     return ItemInteractionResult.sidedSuccess(level.isClientSide);
                 }
             }
@@ -101,9 +113,54 @@ public class ExperienceFountainBlock extends ExperienceReceivingBlock implements
         return message;
     }
 
-    private static final FluidStack cognitium = new FluidStack(RegisterFluids.COGNITIUM_SOURCE.get(), 1000);
+    public static float getXPforItem(ItemStack stack){
+        String itemName = BuiltInRegistries.ITEM.getKey(stack.getItem()).toString();
+        Map<String, Float> xpItemsMap = MiscUtils.getMapFromStringList(Config.COMMON.defaultAllowedExperienceItems);
+        return xpItemsMap.containsKey(itemName) ? xpItemsMap.get(itemName) : 0;
+    }
 
-    public void handleExperienceItem(ItemStack heldItem, IFluidHandlerItem fluidHandler, Player player, InteractionHand hand, ExperienceObeliskEntity obelisk){
+    public static void handleExperienceItem(PlayerInteractEvent.RightClickBlock event){
+
+        //Shift right click functionality
+        //This is to step around useItemOn() not being called when the shift key is held down
+
+        ItemStack heldItem = event.getEntity().getItemInHand(event.getHand());
+        BlockPos pos = event.getPos();
+        Level level = event.getLevel();
+
+        if(level.getBlockEntity(pos) instanceof ExperienceFountainEntity fountain
+                && fountain.isBound() && fountain.getBoundObelisk() != null && !heldItem.isEmpty()
+                && getXPforItem(heldItem) > 0 && event.getEntity().isShiftKeyDown()){
+
+            ExperienceFountainBlock block = (ExperienceFountainBlock) level.getBlockState(pos).getBlock();
+            block.handleExperienceItem(heldItem, getXPforItem(heldItem), fountain.getBoundObelisk(), true);
+        }
+    }
+
+    public void handleExperienceItem(ItemStack heldItem, float xp, ExperienceObeliskEntity obelisk, boolean shiftKeyDown){
+
+        int fillAmount = Math.round(xp * 20);
+
+        if(!shiftKeyDown){
+            if(obelisk.getSpace() >= fillAmount){
+                obelisk.fill(fillAmount);
+                heldItem.shrink(1);
+            }
+        }
+        else{
+            int maxFillCount = obelisk.getSpace() / fillAmount;
+            if(maxFillCount >= heldItem.getCount()){
+                obelisk.fill(fillAmount * heldItem.getCount());
+                heldItem.setCount(0);
+            }
+            else{
+                obelisk.fill(fillAmount * maxFillCount);
+                heldItem.shrink(maxFillCount);
+            }
+        }
+    }
+
+    public void handleExperienceContainer(ItemStack heldItem, IFluidHandlerItem fluidHandler, Player player, InteractionHand hand, ExperienceObeliskEntity obelisk){
 
         if(obelisk.getFluidAmount() >= 1000 && fluidHandler.fill(cognitium, IFluidHandler.FluidAction.SIMULATE) >= 1000){
 
@@ -138,19 +195,6 @@ public class ExperienceFountainBlock extends ExperienceReceivingBlock implements
         }
     }
 
-    public void replaceBottle(ItemStack heldItem, ItemStack bottle, Player player, InteractionHand hand){
-        if(!player.isCreative()){
-            heldItem.shrink(1);
-
-            if(heldItem.isEmpty()){
-                player.setItemInHand(hand, bottle);
-            }
-            else if(!player.addItem(bottle)){
-                player.drop(bottle, false);
-            }
-        }
-    }
-
     public void replaceFluidHandlerItem(ItemStack heldItem, IFluidHandlerItem fluidHandler, Player player, InteractionHand hand, boolean fill){
         if(!player.isCreative()){
             heldItem.shrink(1);
@@ -171,6 +215,21 @@ public class ExperienceFountainBlock extends ExperienceReceivingBlock implements
             }
         }
     }
+
+    public void replaceBottle(ItemStack heldItem, ItemStack bottle, Player player, InteractionHand hand){
+        if(!player.isCreative()){
+            heldItem.shrink(1);
+
+            if(heldItem.isEmpty()){
+                player.setItemInHand(hand, bottle);
+            }
+            else if(!player.addItem(bottle)){
+                player.drop(bottle, false);
+            }
+        }
+    }
+
+    //-----OTHER PROPERTIES-----//
 
     @Override
     public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {

@@ -1,4 +1,5 @@
 package com.cyanogen.cognition.config;
+
 import net.neoforged.neoforge.common.ModConfigSpec;
 import org.apache.commons.lang3.tuple.Pair;
 
@@ -11,6 +12,7 @@ public class Config {
 
         public final ModConfigSpec.ConfigValue<List<? extends String>> allowedFluids;
         public final ModConfigSpec.ConfigValue<Integer> capacity;
+        public final ModConfigSpec.ConfigValue<List<? extends String>> allowedExperienceItems;
         public final ModConfigSpec.ConfigValue<Double> amuletRange;
         public final ModConfigSpec.ConfigValue<Double> bindingRange;
         public final ModConfigSpec.ConfigValue<Boolean> amuletIgnoresFountainOrbs;
@@ -43,6 +45,7 @@ public class Config {
         public final ModConfigSpec.ConfigValue<Boolean> agarEmitsLight;
 
         public List<String> defaultAllowedFluids = new ArrayList<>();
+        public List<String> defaultAllowedExperienceItems = new ArrayList<>();
 
         public Common(ModConfigSpec.Builder builder){
 
@@ -53,6 +56,11 @@ public class Config {
             defaultAllowedFluids.add("enderio:fluid_xp_juice_still");
             defaultAllowedFluids.add("reliquary:xp_still");
 
+            defaultAllowedExperienceItems.add("forbidden_arcanus:xpetrified_orb = 91.0f");
+            defaultAllowedExperienceItems.add("mysticalagriculture:experience_droplet = 12.5f");
+            defaultAllowedExperienceItems.add("actually_additions:solidified_experience = 8.0f");
+            defaultAllowedExperienceItems.add("minecraft:gold_ingot = 10.0f");
+
             builder.push("Allowed Experience Fluids");
             this.allowedFluids = builder.comment("Add IDs of fluids you want the obelisk to support here in the form mod_id:fluid_name. Fluids have to be tagged forge:experience.")
                     .define("AllowedFluids", defaultAllowedFluids);
@@ -62,6 +70,12 @@ public class Config {
             this.capacity = builder.comment("The fluid capacity of the obelisk in mB. Default = 100000000, which is ~1072 levels' worth. Ensure that the new value is divisible by 20.")
                     .comment("Warning: setting this value above the default may lead to unintended loss or gain of XP. This is due to a rounding error in Minecraft's XP handling")
                     .defineInRange("Capacity", 100000000, 1000, 2147483640);
+            builder.pop();
+
+            builder.push("Allowed Experience Items");
+            this.allowedExperienceItems = builder.comment("Add IDs of items you want the fountain to support here in the form mod_id:fluid_name, value in experience points.")
+                    .comment("Whitelisted items will be able to be converted to Cognitium by right-clicking / shift-right-clicking a bound fountain.")
+                    .define("AllowedItems", defaultAllowedExperienceItems);
             builder.pop();
 
             builder.push("Enlightened Amulet");
@@ -137,7 +151,7 @@ public class Config {
                     .defineInRange("AgarEdgeBonus", 1.15, 0.0, 4);
             this.agarVertexBonus = builder.comment("The bonus that Insightful & Extravagant Agar apply to bookshelves sharing a vertex. Default = 1.10")
                     .defineInRange("AgarVertexBonus", 1.10, 0.0, 4);
-            this.agarEmitsLight = builder.comment("Whether or not Agar blocks emit light. Default = true. Set this to false if you are using intensive shader settings and are experiencing fps drops.")
+            this.agarEmitsLight = builder.comment("Whether Agar blocks emit light. Default = true. Set this to false if you are using intensive shader settings and are experiencing fps drops.")
                     .define("AgarEmitsLight", true);
             this.agarPermeableToDust = builder.comment("Whether Agar blocks are permeable to Forgotten Dust item entities. Default = false")
                     .define("ShelvesPermeableToDust", false);
