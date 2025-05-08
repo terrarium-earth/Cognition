@@ -58,7 +58,7 @@ public class Config {
 
             defaultAllowedExperienceItems.add("forbidden_arcanus:xpetrified_orb = 91.0f");
             defaultAllowedExperienceItems.add("mysticalagriculture:experience_droplet = 12.5f");
-            defaultAllowedExperienceItems.add("actually_additions:solidified_experience = 8.0f");
+            defaultAllowedExperienceItems.add("actuallyadditions:solidified_experience = 8.0f");
 
             builder.push("Allowed Experience Fluids");
             this.allowedFluids = builder.comment("Add IDs of fluids you want the obelisk to support here in the form mod_id:fluid_name. Fluids have to be tagged forge:experience.")
