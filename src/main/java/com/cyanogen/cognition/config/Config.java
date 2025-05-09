@@ -72,7 +72,7 @@ public class Config {
             builder.pop();
 
             builder.push("Allowed Experience Items");
-            this.allowedExperienceItems = builder.comment("Add IDs of items you want the fountain to support here in the form mod_id:fluid_name, value in experience points.")
+            this.allowedExperienceItems = builder.comment("Add IDs of items you want the fountain to support here in the form mod_id:item_name = value in experience points.")
                     .comment("Whitelisted items will be able to be converted to Cognitium by right-clicking / shift-right-clicking a bound fountain.")
                     .define("AllowedItems", defaultAllowedExperienceItems);
             builder.pop();
