@@ -116,7 +116,7 @@ public class ExperienceFountainBlock extends ExperienceReceivingBlock implements
 
     public static float getXPforItem(ItemStack stack){
         String itemName = BuiltInRegistries.ITEM.getKey(stack.getItem()).toString();
-        Map<String, Float> xpItemsMap = MiscUtils.getMapFromStringList(Config.COMMON.allowedExperienceItems.get());
+        Map<String, Float> xpItemsMap = MiscUtils.getExperienceItemMapFromList(Config.COMMON.allowedExperienceItems.get());
         return xpItemsMap.containsKey(itemName) ? xpItemsMap.get(itemName) : 0;
     }
 

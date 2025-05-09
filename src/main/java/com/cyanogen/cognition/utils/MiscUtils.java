@@ -58,7 +58,7 @@ public class MiscUtils {
         return new Vec3(x,y,z);
     }
 
-    //----- FORMATTING -----//
+    //----- DATA CONVERSION -----//
 
     public static List<String> getLinesFromString(String input, int lineWidth, Font font){
 
@@ -72,16 +72,31 @@ public class MiscUtils {
         return outputLines;
     }
 
-    //----- DATA -----//
-
-    public static Map<String, Float> getMapFromStringList(List<String> list){
+    public static Map<String, Float> getExperienceItemMapFromList(List<String> list){
         Map<String, Float> map = new HashMap<>();
 
         for(String element : list){
             String[] substrings = element.split(" = ");
-            map.put(substrings[0], Float.valueOf(substrings[1]));
+            if(substrings.length == 2){
+                String itemName = substrings[0];
+                String xp = substrings[1];
+
+                if(isValidFloat(xp)){
+                    map.put(itemName, Float.valueOf(xp));
+                }
+            }
         }
         return map;
+    }
+
+    public static boolean isValidFloat(String n){
+        try{
+            Float.valueOf(n);
+            return true;
+        }
+        catch(NumberFormatException exception){
+            return false;
+        }
     }
 
 }

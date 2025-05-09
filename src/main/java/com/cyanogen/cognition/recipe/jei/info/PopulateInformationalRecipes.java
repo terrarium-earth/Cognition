@@ -60,7 +60,7 @@ public class PopulateInformationalRecipes {
 
     public static List<AbstractInformationalRecipe> populateEmptyingRecipesFromConfig(){
         List<AbstractInformationalRecipe> recipes = new ArrayList<>();
-        Map<String, Float> allowedItemsMap = MiscUtils.getMapFromStringList(Config.COMMON.allowedExperienceItems.get());
+        Map<String, Float> allowedItemsMap = MiscUtils.getExperienceItemMapFromList(Config.COMMON.allowedExperienceItems.get());
 
         for(Map.Entry<String, Float> entry : allowedItemsMap.entrySet()){
             ResourceLocation itemResource = ResourceLocation.bySeparator(entry.getKey(), ':');
