@@ -17,7 +17,8 @@ import net.minecraft.resources.ResourceLocation;
 public abstract class AbstractInformationalCategory implements IRecipeCategory<AbstractInformationalRecipe> {
 
     public final IGuiHelper guiHelper;
-    public final ResourceLocation texture = ResourceLocation.parse("cognition:textures/gui/recipes/information_jei.png");
+    public final ResourceLocation defaultBackground = ResourceLocation.parse("cognition:textures/gui/recipes/information_jei.png");
+    public final ResourceLocation emptyingBackground = ResourceLocation.parse("cognition:textures/gui/recipes/emptying_jei.png");
     public final ResourceLocation cognitiumTexture = ResourceLocation.parse("cognition:textures/block/cognitium_still.png");
     public final IDrawableAnimated arrow;
     public final IDrawable counterArrow;
@@ -26,9 +27,9 @@ public abstract class AbstractInformationalCategory implements IRecipeCategory<A
 
     public AbstractInformationalCategory(IRecipeCategoryRegistration registration){
         this.guiHelper = registration.getJeiHelpers().getGuiHelper();
-        this.arrow = guiHelper.drawableBuilder(texture,0,66,41,7)
+        this.arrow = guiHelper.drawableBuilder(defaultBackground,0,66,41,7)
                 .buildAnimated(100, IDrawableAnimated.StartDirection.LEFT, false);
-        this.counterArrow = guiHelper.drawableBuilder(texture, 0,73,11,9).build();
+        this.counterArrow = guiHelper.drawableBuilder(defaultBackground, 0,73,11,9).build();
         this.cognitiumStack = guiHelper.drawableBuilder(cognitiumTexture, 0,0,16,16).build();
     }
 
@@ -44,7 +45,7 @@ public abstract class AbstractInformationalCategory implements IRecipeCategory<A
 
     @Override
     public void draw(AbstractInformationalRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY) {
-        guiHelper.createDrawable(texture, 0, 0, 136, 66).draw(guiGraphics);
+        guiHelper.createDrawable(defaultBackground, 0, 0, 136, 66).draw(guiGraphics);
         arrow.draw(guiGraphics, 49, 21);
         IRecipeCategory.super.draw(recipe, recipeSlotsView, guiGraphics, mouseX, mouseY);
     }

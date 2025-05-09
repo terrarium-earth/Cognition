@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class InformationalRecipes {
+public class PopulateInformationalRecipes {
 
     public static List<AbstractInformationalRecipe> populateFillingRecipes(){
         List<AbstractInformationalRecipe> recipes = new ArrayList<>();

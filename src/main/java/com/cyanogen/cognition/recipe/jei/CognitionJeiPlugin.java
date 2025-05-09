@@ -6,7 +6,7 @@ import com.cyanogen.cognition.recipe.MolecularMetamorpherRecipe;
 import com.cyanogen.cognition.recipe.jei.info.EmptyingCategory;
 import com.cyanogen.cognition.recipe.jei.info.FillingCategory;
 import com.cyanogen.cognition.recipe.jei.info.InfectingCategory;
-import com.cyanogen.cognition.recipe.jei.info.InformationalRecipes;
+import com.cyanogen.cognition.recipe.jei.info.PopulateInformationalRecipes;
 import com.cyanogen.cognition.registries.RegisterItems;
 import com.cyanogen.cognition.utils.RecipeUtils;
 import mezz.jei.api.IModPlugin;
@@ -52,9 +52,9 @@ public class CognitionJeiPlugin implements IModPlugin {
         registration.addRecipes(metamorpherType, metamorpherRecipes);
 
         //INFO V2
-        registration.addRecipes(FillingCategory.fillingType, InformationalRecipes.populateFillingRecipes());
-        registration.addRecipes(EmptyingCategory.emptyingType, InformationalRecipes.populateEmptyingRecipes());
-        registration.addRecipes(InfectingCategory.infectingType, InformationalRecipes.populateInfectingRecipes());
+        registration.addRecipes(FillingCategory.fillingType, PopulateInformationalRecipes.populateFillingRecipes());
+        registration.addRecipes(EmptyingCategory.emptyingType, PopulateInformationalRecipes.populateEmptyingRecipes());
+        registration.addRecipes(InfectingCategory.infectingType, PopulateInformationalRecipes.populateInfectingRecipes());
 
         //INFO
         ItemStack forgottenDust = new ItemStack(RegisterItems.FORGOTTEN_DUST.get());
