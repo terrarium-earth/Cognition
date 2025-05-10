@@ -1,3 +1,8 @@
+v2.4.2-beta
+
+[Content]
+- Added Blob of Mending Neurogel
+
 v2.4.1-beta
 
 [Content]

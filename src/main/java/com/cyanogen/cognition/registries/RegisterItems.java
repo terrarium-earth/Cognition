@@ -132,6 +132,9 @@ public class RegisterItems {
     public static final DeferredHolder<Item, MemoryTabletItem> MEMORY_TABLET = ITEMS.register("memory_tablet",
             () -> new MemoryTabletItem(new Item.Properties()));
 
+    public static final DeferredHolder<Item, NeurogelMendingBlobItem> MENDING_NEUROGEL_BLOB = ITEMS.register("mending_neurogel_blob",
+            () -> new NeurogelMendingBlobItem(new Item.Properties()));
+
     //-----FUNCTIONAL BLOCK ITEMS-----//
 
     public static final DeferredHolder<Item, ExperienceObeliskItem> EXPERIENCE_OBELISK_ITEM = ITEMS.register("experience_obelisk",

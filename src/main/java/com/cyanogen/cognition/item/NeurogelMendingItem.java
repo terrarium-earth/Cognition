@@ -1,6 +1,5 @@
 package com.cyanogen.cognition.item;
 
-import com.cyanogen.cognition.registries.RegisterItems;
 import com.cyanogen.cognition.registries.RegisterSounds;
 import com.cyanogen.cognition.utils.MiscUtils;
 import net.minecraft.core.BlockPos;
@@ -18,57 +17,57 @@ import net.neoforged.neoforge.event.ItemStackedOnOtherEvent;
 
 public class NeurogelMendingItem extends Item {
 
-    public static final int maxRepairPoints = 320;
-    public static final double maxRepairPercentage = 0.25;
-
     public NeurogelMendingItem(Properties p) {
         super(p);
     }
 
+    public int maxRepairPoints(){
+        return 320;
+    }
+
+    public double maxRepairPercentage(){
+        return 0.25;
+    }
+
     public static void handleItem(ItemStackedOnOtherEvent event){
         ItemStack itemToRepair = event.getStackedOnItem();
-        ItemStack neurogel = event.getCarriedItem();
+        ItemStack stackedOn = event.getCarriedItem();
         Player player = event.getPlayer();
 
-        ItemStack chippedAnvil = new ItemStack(Items.CHIPPED_ANVIL, 1);
-        ItemStack anvil = new ItemStack(Items.ANVIL, 1);
-
-        if(neurogel.is(RegisterItems.MENDING_NEUROGEL.get())){
+        if(stackedOn.getItem() instanceof NeurogelMendingItem neurogel){
 
             if(itemToRepair.isDamaged()){
                 int maxDurability = itemToRepair.getMaxDamage();
                 int damage = itemToRepair.getDamageValue();
-                int repairAmount = (int) Math.max(maxDurability * maxRepairPercentage, maxRepairPoints);
+                int repairAmount = (int) Math.max(maxDurability * neurogel.maxRepairPercentage(), neurogel.maxRepairPoints());
 
-                neurogel.shrink(1);
+                stackedOn.shrink(1);
                 itemToRepair.setDamageValue(Math.max(damage - repairAmount, 0));
                 player.playSound(RegisterSounds.NEUROGEL_APPLY.get(), 0.75f, MiscUtils.randomInRange(0.8f, 1.2f));
                 event.setCanceled(true);
             }
-            else if(itemToRepair.is(Items.CHIPPED_ANVIL)){
-                setItem(anvil, event.getSlot(), player, neurogel, itemToRepair);
-                event.setCanceled(true);
-            }
-            else if(itemToRepair.is(Items.DAMAGED_ANVIL)){
-                setItem(chippedAnvil, event.getSlot(), player, neurogel, itemToRepair);
-                event.setCanceled(true);
+            else if(itemToRepair.is(Items.CHIPPED_ANVIL) || itemToRepair.is(Items.DAMAGED_ANVIL)){
+                neurogel.handleAnvilItem(event.getSlot(), player, stackedOn, itemToRepair, event);
             }
         }
 
     }
 
-    public static void setItem(ItemStack item, Slot slot, Player player, ItemStack stackedOn, ItemStack itemToRepair){
+    public void handleAnvilItem(Slot slot, Player player, ItemStack stackedOn, ItemStack itemToRepair, ItemStackedOnOtherEvent event){
 
         stackedOn.shrink(1);
         player.playSound(RegisterSounds.NEUROGEL_APPLY.get(), 0.75f, MiscUtils.randomInRange(0.8f, 1.2f));
 
+        ItemStack result = itemToRepair.is(Items.CHIPPED_ANVIL) ? Items.ANVIL.getDefaultInstance() : Items.CHIPPED_ANVIL.getDefaultInstance();
+
         if(itemToRepair.getCount() == 1){
-            slot.set(item);
+            slot.set(result);
         }
         else{
-            player.addItem(item);
+            player.addItem(result);
             itemToRepair.shrink(1);
         }
+        event.setCanceled(true);
     }
 
     @Override

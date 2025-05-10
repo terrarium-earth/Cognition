@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "cognition:mending_neurogel"
+    }
+  ],
+  "result": {
+    "id": "cognition:mending_neurogel_blob",
+    "count": 4
+  }
+}
