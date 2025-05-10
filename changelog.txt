@@ -3,6 +3,9 @@ v2.4.2-beta
 [Content]
 - Added Blob of Mending Neurogel
 
+[Changes]
+- Reworked Fortuitous Amulet XP boost mechanics
+
 v2.4.1-beta
 
 [Content]

@@ -1,6 +1,5 @@
 package com.cyanogen.cognition.item;
 
-import com.cyanogen.cognition.utils.MiscUtils;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
@@ -11,8 +10,9 @@ import net.neoforged.neoforge.event.entity.living.LivingExperienceDropEvent;
 
 public class FortuitousAmuletItem extends EnlightenedAmuletItem{
 
-    public static final float xpBoostMin = 1.0f;
-    public static final float xpBoostMax = 1.5f;
+    public static final float xpBoostForSmall = 1.7f;
+    public static final float xpBoostForMed = 1.4f;
+    public static final float xpBoostForLarge = 1.2f;
 
     public FortuitousAmuletItem(Properties properties) {
         super(properties);
@@ -31,12 +31,22 @@ public class FortuitousAmuletItem extends EnlightenedAmuletItem{
     public static void handleExperience(LivingExperienceDropEvent event) {
         int xp = event.getOriginalExperience();
         Player player = event.getAttackingPlayer();
-        float boost = MiscUtils.randomInRange(xpBoostMin, xpBoostMax);
 
-        if(player != null && xp <= 20 &&
-                player.getInventory().contains((stack) -> stack.getItem() instanceof FortuitousAmuletItem amulet && amulet.isActive(stack))){
+        if(player != null && player.getInventory().contains((stack) -> stack.getItem() instanceof FortuitousAmuletItem amulet &&
+                amulet.isActive(stack))){
 
-            event.setDroppedExperience((int) (xp * boost));
+            float xpBoost;
+            if(xp <= 25){
+                xpBoost = xpBoostForSmall;
+            }
+            else if(xp <= 100){
+                xpBoost = xpBoostForMed;
+            }
+            else{
+                xpBoost = xpBoostForLarge;
+            }
+
+            event.setDroppedExperience((int) (xp * xpBoost));
         }
     }
 
