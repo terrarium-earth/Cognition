@@ -10,7 +10,7 @@ import net.neoforged.neoforge.event.entity.living.LivingExperienceDropEvent;
 
 public class FortuitousAmuletItem extends EnlightenedAmuletItem{
 
-    public static final float xpBoostForSmall = 1.7f;
+    public static final float xpBoostForSmall = 1.6f;
     public static final float xpBoostForMed = 1.4f;
     public static final float xpBoostForLarge = 1.2f;
 
@@ -36,10 +36,10 @@ public class FortuitousAmuletItem extends EnlightenedAmuletItem{
                 amulet.isActive(stack))){
 
             float xpBoost;
-            if(xp <= 25){
+            if(xp <= 20){
                 xpBoost = xpBoostForSmall;
             }
-            else if(xp <= 100){
+            else if(xp <= 50){
                 xpBoost = xpBoostForMed;
             }
             else{
