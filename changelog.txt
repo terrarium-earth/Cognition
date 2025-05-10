@@ -10,8 +10,8 @@ v2.4.1-beta
 
 [Changes]
 - Added support for experience items from other mods to the Fountain.
-- Items whitelisted in the config file may be converted into Cognitium by right-clicking a bound Fountain. Shift-right-clicking empties the entire stack.
-- Whitelisted items may be viewed in JEI, under the "Emptying" recipe category
+  - Items whitelisted in the config file may be converted into Cognitium by right-clicking a bound Fountain. Shift-right-clicking empties the entire stack.
+  - Whitelisted items may be viewed in JEI, under the "Emptying" recipe category
 - Memory Tablet area of effect is now determined by the absorption radius of the linked Obelisk
 - Changed Memory Tablet recipe
 
