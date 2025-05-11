@@ -117,9 +117,7 @@ public class MolecularMetamorpherEntity extends ExperienceReceivingEntity implem
             }
             else if(active && metamorpher.hasContents()){
 
-                if(metamorpher.handleJsonRecipes()){
-                    metamorpher.busy = true;
-                }
+                if(metamorpher.handleJsonRecipes()) metamorpher.busy = true;
                 else metamorpher.busy = metamorpher.handleNameFormattingRecipes();
 
             }
