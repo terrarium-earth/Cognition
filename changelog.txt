@@ -6,6 +6,9 @@ v2.4.2-beta
 [Changes]
 - Reworked Fortuitous Amulet xp mechanics to give a diminishing boost to greater xp drops, rather than capping the effect off at 20 XP
 
+[Bugfixes]
+- Fixed Metamorpher name formatting recipes not working
+
 v2.4.1-beta
 
 [Content]
