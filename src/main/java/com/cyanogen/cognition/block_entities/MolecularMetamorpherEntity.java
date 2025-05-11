@@ -387,7 +387,12 @@ public class MolecularMetamorpherEntity extends ExperienceReceivingEntity implem
         for(RecipeHolder<MolecularMetamorpherRecipe> holder : list){
             if(holder.value().getId().equals(recipeId)){
                 recipe = holder.value();
+                break;
             }
+        }
+
+        if(recipe == null && hasNameFormattingRecipe()){
+            recipe = getNameFormattingRecipe();
         }
 
         if(recipe != null){
@@ -558,6 +563,7 @@ public class MolecularMetamorpherEntity extends ExperienceReceivingEntity implem
     }
 
     public void resetAll(){
+        isProcessing = false;
         processProgress = 0;
         processTime = 0;
         recipeId = null;
