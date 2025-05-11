@@ -154,7 +154,7 @@ public class Config {
             this.agarEmitsLight = builder.comment("Whether Agar blocks emit light. Default = true. Set this to false if you are using intensive shader settings and are experiencing fps drops.")
                     .define("AgarEmitsLight", true);
             this.agarPermeableToDust = builder.comment("Whether Agar blocks are permeable to Forgotten Dust item entities. Default = false")
-                    .define("ShelvesPermeableToDust", false);
+                    .define("AgarPermeableToDust", false);
             builder.pop();
         }
 
