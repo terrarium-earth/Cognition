@@ -154,7 +154,6 @@ public class MolecularMetamorpherOptionsScreen extends Screen{
         buttons.add(toggleRedstone);
         buttons.add(toggleInputLock);
         //not gonna bother switching these. if there's ever an index OOB error from this class, it's probably related to this
-        //todo: tooltips for lock button
     }
 
     private void toggleRedstone(){

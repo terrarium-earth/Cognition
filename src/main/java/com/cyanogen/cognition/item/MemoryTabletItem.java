@@ -105,7 +105,6 @@ public class MemoryTabletItem extends Item {
             event.setDroppedExperience(0);
             event.setCanceled(true);
         }
-        //todo: check interactions with gravestone mods
     }
 
 }

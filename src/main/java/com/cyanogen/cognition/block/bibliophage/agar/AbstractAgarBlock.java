@@ -21,7 +21,7 @@ public abstract class AbstractAgarBlock extends HalfTransparentBlock {
     private final int lightLevel;
 
     public AbstractAgarBlock(int lightLevel, boolean emissiveRendering) {
-        super(Properties.ofFullCopy(Blocks.SLIME_BLOCK) //todo: check if this overrides drops
+        super(Properties.ofFullCopy(Blocks.SLIME_BLOCK)
                 .noOcclusion()
                 .isViewBlocking((state,getter,pos)->false)
                 .lightLevel(value -> 0)

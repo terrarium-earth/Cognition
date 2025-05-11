@@ -4,7 +4,7 @@ v2.4.2-beta
 - Added Blob of Mending Neurogel
 
 [Changes]
-- Reworked Fortuitous Amulet XP boost mechanics
+- Reworked Fortuitous Amulet xp mechanics to give a diminishing boost to greater xp drops, rather than capping the effect off at 20 XP
 
 v2.4.1-beta
 
