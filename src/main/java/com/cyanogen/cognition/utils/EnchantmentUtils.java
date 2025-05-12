@@ -3,10 +3,12 @@ package com.cyanogen.cognition.utils;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import net.minecraft.core.Holder;
 import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.ItemEnchantments;
 
@@ -44,9 +46,9 @@ public class EnchantmentUtils {
     }
 
     public static HashMap<Holder<Enchantment>, Integer> getEnchantmentMap(ItemStack item){
-        ItemEnchantments enchantments = item.getTagEnchantments();
-        HashMap<Holder<Enchantment>,Integer> enchantmentMap = new java.util.HashMap<>(Map.of());
+        ItemEnchantments enchantments = getItemEnchantmentsFromBookOrItem(item);
 
+        HashMap<Holder<Enchantment>,Integer> enchantmentMap = new java.util.HashMap<>(Map.of());
         for(Object2IntMap.Entry<Holder<Enchantment>> entry : enchantments.entrySet()){
             enchantmentMap.put(entry.getKey(), entry.getIntValue());
         }
@@ -61,6 +63,18 @@ public class EnchantmentUtils {
             mutableEnchantments.set(entry.getKey(), entry.getValue());
         }
         return mutableEnchantments.toImmutable();
+    }
+
+    public static ItemEnchantments getItemEnchantmentsFromBookOrItem(ItemStack item){
+        ItemEnchantments enchantments;
+        if(item.getItem().equals(Items.ENCHANTED_BOOK)){
+            enchantments = item.getOrDefault(DataComponents.STORED_ENCHANTMENTS, ItemEnchantments.EMPTY);
+        }
+        else{
+            enchantments = item.getTagEnchantments();
+        }
+
+        return enchantments;
     }
 
 }

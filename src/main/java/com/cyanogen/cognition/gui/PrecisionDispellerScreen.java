@@ -156,7 +156,7 @@ public class PrecisionDispellerScreen extends AbstractContainerScreen<PrecisionD
             gui.blit(texture, x + 153, y + 18, 187, 0, 9, 13, 256, 256);
         }
 
-        if(inputStack.isEnchanted() || inputStack.is(Items.ENCHANTED_BOOK)){
+        if(!enchantmentMap.isEmpty()){
             int index = 0;
 
             //populating selectablePanels
@@ -396,9 +396,7 @@ public class PrecisionDispellerScreen extends AbstractContainerScreen<PrecisionD
                         }
                         else{
                             outputItem = new ItemStack(Items.ENCHANTED_BOOK, 1);
-                            for(Map.Entry<Holder<Enchantment>,Integer> entry : map.entrySet()){
-                                outputItem.enchant(entry.getKey(), entry.getValue());
-                            }
+                            EnchantmentHelper.setEnchantments(outputItem, EnchantmentUtils.getItemEnchantmentsFromMap(map));
                         }
                     }
                     else{

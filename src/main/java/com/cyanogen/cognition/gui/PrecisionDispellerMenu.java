@@ -3,6 +3,7 @@ package com.cyanogen.cognition.gui;
 import com.cyanogen.cognition.block_entities.ExperienceObeliskEntity;
 import com.cyanogen.cognition.block_entities.PrecisionDispellerEntity;
 import com.cyanogen.cognition.registries.RegisterMenus;
+import com.cyanogen.cognition.utils.EnchantmentUtils;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
@@ -136,8 +137,8 @@ public class PrecisionDispellerMenu extends AbstractContainerMenu {
             Holder<Enchantment> removed = null;
             int enchLevel = 0;
 
-            ItemEnchantments inputEnchantments = inputItem.getTagEnchantments();
-            ItemEnchantments outputEnchantments = outputItem.getTagEnchantments();
+            ItemEnchantments inputEnchantments = EnchantmentUtils.getItemEnchantmentsFromBookOrItem(inputItem);
+            ItemEnchantments outputEnchantments = EnchantmentUtils.getItemEnchantmentsFromBookOrItem(outputItem);
 
             for(Object2IntMap.Entry<Holder<Enchantment>> entry : inputEnchantments.entrySet()){
 
