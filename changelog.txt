@@ -7,7 +7,8 @@ v2.4.2-beta
 - Reworked Fortuitous Amulet xp mechanics to give a diminishing boost to greater xp drops, rather than capping the effect off at 20 XP
 
 [Bugfixes]
-- Fixed Metamorpher name formatting recipes not working
+- Fixed Metamorpher name formatting recipes not dispensing result
+- Fixed Precision Dispeller not working on enchanted books
 
 v2.4.1-beta
 
