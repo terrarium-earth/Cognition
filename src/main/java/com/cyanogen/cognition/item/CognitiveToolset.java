@@ -215,6 +215,7 @@ public class CognitiveToolset {
             if(state.getBlock() instanceof TntBlock tnt){
                 tnt.onCaughtFire(state, level, pos, null, player);
                 level.removeBlock(pos, false);
+                return InteractionResult.sidedSuccess(level.isClientSide);
             }
             return super.useOn(context);
         }
