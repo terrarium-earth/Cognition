@@ -14,7 +14,6 @@ import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.AbstractCauldronBlock;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.BucketPickup;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -61,7 +60,7 @@ public class FlaskChaosItem extends Item{
                     }
                 }
                 else if(state.getBlock() instanceof AbstractCauldronBlock block && block.isFull(state)){ //cauldrons
-                    level.setBlockAndUpdate(pos, Blocks.CAULDRON.defaultBlockState());
+                    level.setBlockAndUpdate(pos, block.defaultBlockState());
 
                     return handlePlayer(player, level);
                 }
