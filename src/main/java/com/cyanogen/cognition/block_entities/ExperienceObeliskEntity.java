@@ -176,9 +176,9 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
     //-----------MEMORY TABLET-----------//
 
     public static final DeferredHolder<AttachmentType<?>, AttachmentType<Integer>> xpLevels =
-            RegisterAttachments.PLAYER_EXPERIENCE_LEVELS_ON_DEATH;
+            RegisterAttachments.PLAYER_EXPERIENCE_LEVELS_UPON_DEATH;
     public static final DeferredHolder<AttachmentType<?>, AttachmentType<Float>> xpProgress =
-            RegisterAttachments.PLAYER_EXPERIENCE_PROGRESS_ON_DEATH;
+            RegisterAttachments.PLAYER_EXPERIENCE_PROGRESS_UPON_DEATH;
     public final List<String> savedPlayers = new ArrayList<>(10);
 
     public boolean saveToObelisk(Player player){

@@ -16,12 +16,12 @@ public class RegisterAttachments {
             ATTACHMENTS.register("player_has_linked_obelisk",
             () -> AttachmentType.builder(()->false).serialize(Codec.BOOL).copyOnDeath().build());
 
-    public static final DeferredHolder<AttachmentType<?>, AttachmentType<Integer>> PLAYER_EXPERIENCE_LEVELS_ON_DEATH =
-            ATTACHMENTS.register("player_experience_levels_on_death",
+    public static final DeferredHolder<AttachmentType<?>, AttachmentType<Integer>> PLAYER_EXPERIENCE_LEVELS_UPON_DEATH =
+            ATTACHMENTS.register("player_experience_levels_upon_death",
                     () -> AttachmentType.builder(()-> 0).serialize(Codec.INT).copyOnDeath().build());
 
-    public static final DeferredHolder<AttachmentType<?>, AttachmentType<Float>> PLAYER_EXPERIENCE_PROGRESS_ON_DEATH =
-            ATTACHMENTS.register("player_experience_progress_on_death",
+    public static final DeferredHolder<AttachmentType<?>, AttachmentType<Float>> PLAYER_EXPERIENCE_PROGRESS_UPON_DEATH =
+            ATTACHMENTS.register("player_experience_progress_upon_death",
                     () -> AttachmentType.builder(()-> 0.0f).serialize(Codec.FLOAT).copyOnDeath().build());
 
     public static void register(IEventBus eventBus){

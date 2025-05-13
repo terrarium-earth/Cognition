@@ -6,7 +6,8 @@ v2.4.2-beta
 [Changes]
 - Reworked Fortuitous Amulet xp mechanics to give a diminishing boost to greater xp drops, rather than capping the effect off at 20 XP
 - Obelisks linked using a Memory Tablet now save player data. This means Obelisks retain their linkage after moving them around, and that
- a single player may bind themselves to multiple Obelisks.
+ a single player may bind themselves to multiple Obelisks. This also means you will need to relink yourself to an Obelisk if updating from
+ v2.4.1 or prior.
 
 [Bugfixes]
 - (1.21.1) Fixed Metamorpher name formatting recipes not dispensing results

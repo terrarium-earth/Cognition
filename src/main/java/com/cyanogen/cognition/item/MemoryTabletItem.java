@@ -98,8 +98,8 @@ public class MemoryTabletItem extends Item {
             int levels = player.experienceLevel;
             float progress = player.experienceProgress;
             //this roundabout method is because serialize() does not accept Codec.LONG
-            player.setData(RegisterAttachments.PLAYER_EXPERIENCE_LEVELS_ON_DEATH, levels);
-            player.setData(RegisterAttachments.PLAYER_EXPERIENCE_PROGRESS_ON_DEATH, progress);
+            player.setData(RegisterAttachments.PLAYER_EXPERIENCE_LEVELS_UPON_DEATH, levels);
+            player.setData(RegisterAttachments.PLAYER_EXPERIENCE_PROGRESS_UPON_DEATH, progress);
         }
 
     }
