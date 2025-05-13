@@ -23,8 +23,8 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 
 public class MemoryTabletItem extends Item {
 
-    public static final DeferredHolder<AttachmentType<?>, AttachmentType<BlockPos>> obeliskLocation =
-            RegisterAttachments.MEMORY_TABLET_OBELISK_LOCATION;
+    public static final DeferredHolder<AttachmentType<?>, AttachmentType<Boolean>> hasLinkedObelisk =
+            RegisterAttachments.HAS_LINKED_OBELISK;
 
     public MemoryTabletItem(Properties properties) {
         super(properties);
@@ -39,12 +39,8 @@ public class MemoryTabletItem extends Item {
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand usedHand) {
 
         if(!level.isClientSide){
-            if(player.hasData(obeliskLocation)){
-
-                BlockPos pos = player.getData(obeliskLocation);
-                player.displayClientMessage(Component.translatable("message.cognition.memory_tablet.query",
-                        Component.literal(pos.toShortString()).withStyle(ChatFormatting.GREEN)), true);
-
+            if(player.getData(hasLinkedObelisk)){
+                player.displayClientMessage(Component.translatable("message.cognition.memory_tablet.query"), true);
             }
             else{
                 player.displayClientMessage(Component.translatable("message.cognition.memory_tablet.query_fail"), true);
@@ -66,18 +62,26 @@ public class MemoryTabletItem extends Item {
             if(!level.isClientSide){
 
                 if(obelisk.hasBeenMemorized(player)){
-                    player.removeData(obeliskLocation);
+                    obelisk.removeFromObelisk(player);
+                    player.removeData(hasLinkedObelisk);
+
                     player.displayClientMessage(Component.translatable("message.cognition.memory_tablet.unlink",
                             Component.literal(pos.toShortString()).withStyle(ChatFormatting.GREEN)), true);
-
                     level.playSound(null, player.blockPosition(), RegisterSounds.MEMORY_TABLET_UNLINK.get(), SoundSource.PLAYERS, 0.2f, 0.8f);
                 }
                 else{
-                    player.setData(obeliskLocation, pos);
-                    player.displayClientMessage(Component.translatable("message.cognition.memory_tablet.link",
-                            Component.literal(pos.toShortString()).withStyle(ChatFormatting.GREEN)), true);
+                    boolean success = obelisk.saveToObelisk(player);
+                    player.setData(hasLinkedObelisk, success);
 
-                    level.playSound(null, player.blockPosition(), RegisterSounds.MEMORY_TABLET_LINK.get(), SoundSource.PLAYERS, 0.2f, 1f);
+                    if(success){
+                        player.displayClientMessage(Component.translatable("message.cognition.memory_tablet.link",
+                                Component.literal(pos.toShortString()).withStyle(ChatFormatting.GREEN)), true);
+                        level.playSound(null, player.blockPosition(), RegisterSounds.MEMORY_TABLET_LINK.get(), SoundSource.PLAYERS, 0.2f, 1f);
+                    }
+                    else{
+                        player.displayClientMessage(Component.translatable("message.cognition.memory_tablet.link_failed",
+                                Component.literal(pos.toShortString()).withStyle(ChatFormatting.RED)), true);
+                    }
                 }
             }
             return InteractionResult.sidedSuccess(level.isClientSide);
@@ -90,7 +94,7 @@ public class MemoryTabletItem extends Item {
 
         boolean keepInventory = event.getEntity().level().getGameRules().getRule(GameRules.RULE_KEEPINVENTORY).get();
 
-        if(event.getEntity() instanceof Player player && player.hasData(obeliskLocation) && !keepInventory){
+        if(event.getEntity() instanceof Player player && player.getData(hasLinkedObelisk) && !keepInventory){
             int levels = player.experienceLevel;
             float progress = player.experienceProgress;
             //this roundabout method is because serialize() does not accept Codec.LONG
@@ -101,7 +105,7 @@ public class MemoryTabletItem extends Item {
     }
 
     public static void handleExperience(LivingExperienceDropEvent event) {
-        if(event.getEntity() instanceof Player player && player.hasData(obeliskLocation)){
+        if(event.getEntity() instanceof Player player && player.getData(hasLinkedObelisk)){
             event.setDroppedExperience(0);
             event.setCanceled(true);
         }
