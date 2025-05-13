@@ -3,6 +3,7 @@ package com.cyanogen.cognition.item;
 import com.cyanogen.cognition.registries.RegisterItems;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.renderer.item.ItemProperties;
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -22,9 +23,12 @@ import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
+import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.TntBlock;
+import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.event.EventHooks;
 import net.neoforged.neoforge.event.entity.player.ItemTooltipEvent;
 import org.jetbrains.annotations.Nullable;
@@ -198,6 +202,21 @@ public class CognitiveToolset {
                 return InteractionResult.sidedSuccess(player.level().isClientSide);
             }
             return super.interactLivingEntity(stack, player, interactionTarget, usedHand);
+        }
+
+        @Override
+        public InteractionResult useOn(UseOnContext context) {
+
+            BlockPos pos = context.getClickedPos();
+            Level level = context.getLevel();
+            BlockState state = level.getBlockState(pos);
+            Player player = context.getPlayer();
+
+            if(state.getBlock() instanceof TntBlock tnt){
+                tnt.onCaughtFire(state, level, pos, null, player);
+                level.removeBlock(pos, false);
+            }
+            return super.useOn(context);
         }
 
     }
