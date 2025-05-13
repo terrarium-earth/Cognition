@@ -7,8 +7,8 @@ v2.4.2-beta
 - Reworked Fortuitous Amulet xp mechanics to give a diminishing boost to greater xp drops, rather than capping the effect off at 20 XP
 
 [Bugfixes]
-- Fixed Metamorpher name formatting recipes not dispensing results
-- Fixed Precision Dispeller not working on enchanted books
+- (1.21.1) Fixed Metamorpher name formatting recipes not dispensing results
+- (1.21.1) Fixed Precision Dispeller not working on enchanted books
 - Fixed Flint and Cognitive Alloy not igniting TNT
 
 v2.4.1-beta
