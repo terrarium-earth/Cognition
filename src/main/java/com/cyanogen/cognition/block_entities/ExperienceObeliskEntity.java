@@ -261,11 +261,6 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
     //-----------FLUID HANDLER-----------//
 
     public static final BlockCapability<IFluidHandler, Direction> FLUID_HANDLER = Capabilities.FluidHandler.BLOCK;
-
-    public static @Nullable IFluidHandler getCapability(ExperienceObeliskEntity obelisk, Direction direction) {
-        return direction == null || !direction.equals(Direction.UP) ? obelisk.tank : null;
-    }
-
     protected ExperienceObeliskTank tank = new ExperienceObeliskTank();
     private static final Fluid cognitium = RegisterFluids.COGNITIUM_SOURCE.get();
     public static final int capacity = (int) Math.min((Math.round((double) Config.COMMON.capacity.get() / 20) * 20), 2147483640);
@@ -322,6 +317,10 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
             return 1;
         }
 
+    }
+
+    public static @Nullable IFluidHandler getCapability(ExperienceObeliskEntity obelisk, Direction direction) {
+        return direction == null || !direction.equals(Direction.UP) ? obelisk.tank : null;
     }
 
     public int fill(int amount){
@@ -434,14 +433,12 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
             }
             //normal operation
             else if(sender.experienceLevel >= levels){
-
                 this.fill((int) (addAmount));
                 sender.giveExperienceLevels(-levels);
 
             }
             //if player has less than the required XP
             else if (playerXP >= 1){
-
                 this.fill((int) (playerXP * 20));
                 sender.setExperiencePoints(0);
                 sender.setExperienceLevels(0);
@@ -460,15 +457,12 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
 
             long drainAmount = (finalXP - playerXP) * 20;
 
-            //normal operation
             if(amount >= drainAmount){
-
                 this.drain((int) drainAmount);
                 sender.giveExperienceLevels(levels);
 
             }
             else if(amount >= 1){
-
                 sender.giveExperiencePoints(amount / 20);
                 this.setFluid(0);
             }
