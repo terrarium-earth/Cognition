@@ -93,6 +93,7 @@ public class FlaskHadesItem extends BucketItem {
 
     @Override
     public InteractionResult onItemUseFirst(ItemStack stack, UseOnContext context) {
+        //for cauldrons and fluid containers
 
         Player player = context.getPlayer();
         Level level = context.getLevel();
