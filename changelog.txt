@@ -8,6 +8,7 @@ v2.4.2-beta
 - Obelisks linked using a Memory Tablet now save player data. This means Obelisks retain their linkage after moving them around, and that
  a single player may bind themselves to multiple Obelisks. This also means you will need to relink yourself to an Obelisk if updating from
  v2.4.1 or prior.
+ - To improve compatibility, Flasks of Power now use vanilla bucket behavior where possible
 
 [Bugfixes]
 - (1.21.1) Fixed Metamorpher name formatting recipes not dispensing results

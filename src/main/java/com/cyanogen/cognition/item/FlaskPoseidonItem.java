@@ -47,7 +47,9 @@ public class FlaskPoseidonItem extends BucketItem{
     private final FluidStack fluidStack = new FluidStack(Fluids.WATER.getSource(), 1000);
 
     @Override
-    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) { //vanilla bucket behavior
+    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
+        //for regular placement & waterlogging
+        //uses vanilla bucket behavior
 
         ItemStack itemstack = player.getItemInHand(hand);
         BlockHitResult blockhitresult = getPlayerPOVHitResult(
@@ -93,6 +95,7 @@ public class FlaskPoseidonItem extends BucketItem{
 
     @Override
     public InteractionResult onItemUseFirst(ItemStack stack, UseOnContext context) {
+        //for cauldrons and fluid containers
 
         BlockPos clickedPos = context.getClickedPos();
         Level level = context.getLevel();
@@ -104,7 +107,7 @@ public class FlaskPoseidonItem extends BucketItem{
             boolean edit = !player.isShiftKeyDown() && canModifyClicked;
             BlockState clickedState = level.getBlockState(clickedPos);
 
-            if(clickedState.getBlock() instanceof AbstractCauldronBlock && edit){ //cauldrons
+            if(clickedState.getBlock() instanceof AbstractCauldronBlock && edit){
 
                 if(clickedState.getBlock().equals(Blocks.CAULDRON)){
                     level.setBlockAndUpdate(clickedPos, Blocks.WATER_CAULDRON.defaultBlockState().trySetValue(BlockStateProperties.LEVEL_CAULDRON, 3));
@@ -115,7 +118,7 @@ public class FlaskPoseidonItem extends BucketItem{
                     return InteractionResult.FAIL;
                 }
             }
-            else if(clickedState.hasBlockEntity() && edit){ //fluid containers
+            else if(clickedState.hasBlockEntity() && edit){
 
                 BlockEntity entity = level.getBlockEntity(clickedPos);
                 assert entity != null;

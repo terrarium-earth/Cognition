@@ -39,6 +39,8 @@ public class FlaskChaosItem extends BucketItem {
 
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
+        //for regular collection & removal of waterlogging
+        //uses vanilla bucket behavior
 
         ItemStack itemstack = player.getItemInHand(hand);
         BlockHitResult blockhitresult = getPlayerPOVHitResult(
@@ -74,10 +76,10 @@ public class FlaskChaosItem extends BucketItem {
 
     @Override
     public InteractionResult onItemUseFirst(ItemStack stack, UseOnContext context) {
+        //for cauldrons and fluid containers
 
         Level level = context.getLevel();
         Player player = context.getPlayer();
-        InteractionHand hand = context.getHand();
 
         if(player != null && canUse(player)){
 
@@ -87,13 +89,13 @@ public class FlaskChaosItem extends BucketItem {
             BlockState state = level.getBlockState(pos);
 
             if(state.getBlock() instanceof AbstractCauldronBlock block
-                && (block.equals(Blocks.LAVA_CAULDRON) || block.equals(Blocks.WATER_CAULDRON))) { //cauldrons
+                && (block.equals(Blocks.LAVA_CAULDRON) || block.equals(Blocks.WATER_CAULDRON))) {
 
                     level.setBlockAndUpdate(pos, Blocks.CAULDRON.defaultBlockState());
                     handlePlayer(player);
                     return InteractionResult.sidedSuccess(level.isClientSide);
             }
-            else if(state.hasBlockEntity()){ // block entities
+            else if(state.hasBlockEntity()){
 
                 BlockEntity entity = level.getBlockEntity(pos);
                 assert entity != null;
