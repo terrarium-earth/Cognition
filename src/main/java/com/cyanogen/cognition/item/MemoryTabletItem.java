@@ -48,7 +48,7 @@ public class MemoryTabletItem extends Item {
                     boolean obeliskMissing = level.isLoaded(pos) && !(level.getBlockEntity(pos) instanceof ExperienceObeliskEntity);
 
                     if(obeliskMissing){
-                        player.displayClientMessage(Component.translatable("message.cognition.memory_tablet.query_missing",
+                        player.displayClientMessage(Component.translatable("message.cognition.memory_tablet.query_warning",
                                 Component.literal(pos.toShortString()).withStyle(ChatFormatting.GOLD)), true);
                     }
                     else{
@@ -79,17 +79,24 @@ public class MemoryTabletItem extends Item {
 
                 if(obelisk.hasBeenMemorized(player)){
                     player.removeData(LINKED_OBELISK_POS);
+                    obelisk.forget(player);
 
                     player.displayClientMessage(Component.translatable("message.cognition.memory_tablet.unlink",
                             Component.literal(pos.toShortString()).withStyle(ChatFormatting.GREEN)), true);
                     level.playSound(null, player.blockPosition(), RegisterSounds.MEMORY_TABLET_UNLINK.get(), SoundSource.PLAYERS, 0.2f, 0.8f);
                 }
                 else{
-                    player.setData(LINKED_OBELISK_POS, obelisk.getBlockPos());
+                    if(obelisk.remember(player)){
+                        player.setData(LINKED_OBELISK_POS, obelisk.getBlockPos());
 
-                    player.displayClientMessage(Component.translatable("message.cognition.memory_tablet.link",
-                            Component.literal(pos.toShortString()).withStyle(ChatFormatting.GREEN)), true);
-                    level.playSound(null, player.blockPosition(), RegisterSounds.MEMORY_TABLET_LINK.get(), SoundSource.PLAYERS, 0.2f, 1f);
+                        player.displayClientMessage(Component.translatable("message.cognition.memory_tablet.link",
+                                Component.literal(pos.toShortString()).withStyle(ChatFormatting.GREEN)), true);
+                        level.playSound(null, player.blockPosition(), RegisterSounds.MEMORY_TABLET_LINK.get(), SoundSource.PLAYERS, 0.2f, 1f);
+                    }
+                    else{
+                        player.displayClientMessage(Component.translatable("message.cognition.memory_tablet.link_fail",
+                                Component.literal(pos.toShortString()).withStyle(ChatFormatting.RED)), true);
+                    }
                 }
             }
             return InteractionResult.sidedSuccess(level.isClientSide);

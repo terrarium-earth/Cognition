@@ -41,8 +41,10 @@ import software.bernie.geckolib.animation.*;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
 import javax.annotation.Nonnull;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 import static com.cyanogen.cognition.utils.ExperienceUtils.*;
 
@@ -72,15 +74,19 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
         if(animation == null || level == null){
             controller.setAnimation(IDLE);
         }
+        else if(controller.getAnimationState() == AnimationController.State.STOPPED
+                || controller.getAnimationState() == AnimationController.State.PAUSED){
+
+            controller.forceAnimationReset();
+            controller.setAnimation(IDLE);
+        }
         else{
             boolean isInactive = obelisk.redstoneEnabled && !level.hasNeighborSignal(obelisk.getBlockPos());
 
             if(isInactive && animation.equals(IDLE)){
-                controller.forceAnimationReset();
                 controller.setAnimation(IDLE_INACTIVE);
             }
             else if(!isInactive && animation.equals(IDLE_INACTIVE)){
-                controller.forceAnimationReset();
                 controller.setAnimation(IDLE);
             }
         }
@@ -175,6 +181,41 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
 
     public static final DeferredHolder<AttachmentType<?>, AttachmentType<BlockPos>> LINKED_OBELISK_POS = RegisterAttachments.LINKED_OBELISK_POS;
     public static final DeferredHolder<AttachmentType<?>, AttachmentType<Long>> EXPERIENCE_UPON_DEATH = RegisterAttachments.EXPERIENCE_UPON_DEATH;
+    public final List<String> savedPlayers = new ArrayList<>(10);
+
+    public boolean remember(Player player){
+        if(savedPlayers.size() <= 9){
+            savedPlayers.add(player.getStringUUID());
+            setChanged();
+            return true;
+        }
+        return false;
+    }
+
+    public void forget(Player player){
+        savedPlayers.remove(player.getStringUUID());
+        setChanged();
+    }
+
+    public CompoundTag getSavedPlayersTag(){
+        CompoundTag tag = new CompoundTag();
+        for(int i = 0; i < savedPlayers.size(); i++){
+            tag.putString("Player" + i, savedPlayers.get(i));
+        }
+        return tag;
+    }
+
+    public void readSavedPlayersTag(CompoundTag tag){
+        savedPlayers.clear();
+
+        Set<String> players = tag.getAllKeys();
+        for(String player : players){
+            String uuid = tag.getString(player);
+            if(!uuid.isEmpty()){
+                savedPlayers.add(uuid);
+            }
+        }
+    }
 
     public void checkAroundForMemorized(){
         if(level != null && level.getGameTime() % 20 == 0){
@@ -191,7 +232,10 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
     }
 
     public boolean hasBeenMemorized(Player player){
-        return player.hasData(LINKED_OBELISK_POS) && player.getData(LINKED_OBELISK_POS).equals(getBlockPos());
+        boolean playerLinkedHere = player.hasData(LINKED_OBELISK_POS) && player.getData(LINKED_OBELISK_POS).equals(getBlockPos());
+        boolean obeliskRemembersPlayer = savedPlayers.contains(player.getStringUUID());
+
+        return playerLinkedHere || obeliskRemembersPlayer;
     }
 
     public boolean hasXpToRecover(Player player){
@@ -317,6 +361,7 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
         super.loadAdditional(tag, provider);
 
         tank.readFromNBT(provider, tag);
+        readSavedPlayersTag(tag.getCompound("SavedPlayers"));
         this.radius = tag.getDouble("Radius");
         this.redstoneEnabled = tag.getBoolean("isRedstoneControllable");
     }
@@ -327,6 +372,7 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
         super.saveAdditional(tag, provider);
 
         tank.writeToNBT(provider, tag);
+        tag.put("SavedPlayers", getSavedPlayersTag());
         tag.putDouble("Radius", radius);
         tag.putBoolean("isRedstoneControllable", redstoneEnabled);
     }
@@ -337,6 +383,7 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
         super.handleUpdateTag(tag, provider);
 
         tank.readFromNBT(provider, tag);
+        readSavedPlayersTag(tag.getCompound("SavedPlayers"));
         this.radius = tag.getDouble("Radius");
         this.redstoneEnabled = tag.getBoolean("isRedstoneControllable");
     }
@@ -347,6 +394,7 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
         CompoundTag tag = super.getUpdateTag(provider);
 
         tank.writeToNBT(provider, tag);
+        tag.put("SavedPlayers", getSavedPlayersTag());
         tag.putDouble("Radius", radius);
         tag.putBoolean("isRedstoneControllable", redstoneEnabled);
 
