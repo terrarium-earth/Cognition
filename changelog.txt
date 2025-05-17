@@ -1,3 +1,10 @@
+v2.4.3-beta
+
+[Changes]
+- Optimized the way Obelisk linking is handled by the Memory Tablet
+- Players can now view the location of their linked Obelisk by right-clicking
+- Once again, you will need to relink yourself to an Obelisk if updating from prior versions
+
 v2.4.2-beta
 
 [Content]

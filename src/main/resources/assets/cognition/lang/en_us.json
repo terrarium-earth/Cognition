@@ -183,7 +183,7 @@
   "message.cognition.memory_tablet.link": "§a[✔]§r Successfully linked to %s",
   "message.cognition.memory_tablet.link_failed": "§c[✖]§r %s has reached the maximum number of saved players. Please use another Obelisk",
   "message.cognition.memory_tablet.unlink": "§a[✔]§r Successfully unlinked from %s",
-  "message.cognition.memory_tablet.query": "§b[ⓘ]§r You are currently linked to an obelisk",
+  "message.cognition.memory_tablet.query": "§b[ⓘ]§r You are currently linked to the obelisk at %s",
   "message.cognition.memory_tablet.query_fail": "§b[ⓘ]§r You are not yet linked to an obelisk",
   "message.cognition.experience_obelisk.experience_recovered": "§a[✔]§r Successfully recovered %s levels",
 
