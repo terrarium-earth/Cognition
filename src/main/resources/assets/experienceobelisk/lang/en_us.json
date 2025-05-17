@@ -106,8 +106,8 @@
   "tooltip.experienceobelisk.experience_obelisk.item_points": "%s §7points",
   "tooltip.experienceobelisk.experience_obelisk.xp": "%s §7XP",
 
-  "tooltip.experienceobelisk.enlightened_amulet.active": "§7Currently §aactive",
-  "tooltip.experienceobelisk.enlightened_amulet.inactive": "§7Currently §cinactive",
+  "tooltip.experienceobelisk.activatable_item.active": "§7Currently §aactive",
+  "tooltip.experienceobelisk.activatable_item.inactive": "§7Currently §cinactive",
 
   "tooltip.experienceobelisk.precision_dispeller.curse": "§7Costs §c30 §7XP levels / §c1395 §7XP",
   "tooltip.experienceobelisk.precision_dispeller.enchantment": "§7Gives %s §7XP levels / %s §7XP",
