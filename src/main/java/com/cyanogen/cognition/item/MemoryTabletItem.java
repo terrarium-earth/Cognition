@@ -24,7 +24,8 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 
 public class MemoryTabletItem extends Item {
 
-    public static final DeferredHolder<AttachmentType<?>, AttachmentType<BlockPos>> LINKED_OBELISK_POS = RegisterAttachments.LINKED_OBELISK_POS;
+    public static final DeferredHolder<AttachmentType<?>, AttachmentType<Integer>> LINKED_OBELISK_COUNT = RegisterAttachments.LINKED_OBELISK_COUNT;
+    public static final DeferredHolder<AttachmentType<?>, AttachmentType<BlockPos>> LATEST_LINKED_OBELISK_POS = RegisterAttachments.LATEST_LINKED_OBELISK_POS;
     public static final DeferredHolder<AttachmentType<?>, AttachmentType<Long>> EXPERIENCE_UPON_DEATH = RegisterAttachments.EXPERIENCE_UPON_DEATH;
 
     public MemoryTabletItem(Properties properties) {
@@ -40,12 +41,17 @@ public class MemoryTabletItem extends Item {
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand usedHand) {
 
         if(!player.isShiftKeyDown()){
-
             if(!level.isClientSide){
-                if(player.hasData(LINKED_OBELISK_POS)){
-                    BlockPos pos = player.getData(LINKED_OBELISK_POS);
-                    player.displayClientMessage(Component.translatable("message.cognition.memory_tablet.query",
-                            Component.literal(pos.toShortString()).withStyle(ChatFormatting.GREEN)), true);
+                if(player.getData(LINKED_OBELISK_COUNT) > 0){
+
+                    if(player.hasData(LATEST_LINKED_OBELISK_POS)){
+                        BlockPos pos = player.getData(LATEST_LINKED_OBELISK_POS);
+                        player.displayClientMessage(Component.translatable("message.cognition.memory_tablet.query",
+                                Component.literal(pos.toShortString()).withStyle(ChatFormatting.GREEN)), true);
+                    }
+                    else{
+                        player.displayClientMessage(Component.translatable("message.cognition.memory_tablet.query_unknown"), true);
+                    }
                 }
                 else{
                     player.displayClientMessage(Component.translatable("message.cognition.memory_tablet.query_fail"), true);
@@ -68,8 +74,9 @@ public class MemoryTabletItem extends Item {
 
             if(!level.isClientSide){
 
-                if(obelisk.hasBeenMemorized(player)){
-                    player.removeData(LINKED_OBELISK_POS);
+                if(obelisk.hasMemorized(player)){
+                    player.removeData(LATEST_LINKED_OBELISK_POS);
+                    incrementCount(player, -1);
                     obelisk.forget(player);
 
                     player.displayClientMessage(Component.translatable("message.cognition.memory_tablet.unlink",
@@ -78,7 +85,8 @@ public class MemoryTabletItem extends Item {
                 }
                 else{
                     if(obelisk.remember(player)){
-                        player.setData(LINKED_OBELISK_POS, obelisk.getBlockPos());
+                        player.setData(LATEST_LINKED_OBELISK_POS, obelisk.getBlockPos());
+                        incrementCount(player, 1);
 
                         player.displayClientMessage(Component.translatable("message.cognition.memory_tablet.link",
                                 Component.literal(pos.toShortString()).withStyle(ChatFormatting.GREEN)), true);
@@ -100,16 +108,22 @@ public class MemoryTabletItem extends Item {
 
         boolean keepInventory = event.getEntity().level().getGameRules().getRule(GameRules.RULE_KEEPINVENTORY).get();
 
-        if(event.getEntity() instanceof Player player && player.hasData(LINKED_OBELISK_POS) && !keepInventory){
+        if(event.getEntity() instanceof Player player && !keepInventory && player.getData(LINKED_OBELISK_COUNT) > 0){
             player.setData(EXPERIENCE_UPON_DEATH, ExperienceUtils.getTotalXP(player));
         }
     }
 
     public static void handleExperience(LivingExperienceDropEvent event) {
-        if(event.getEntity() instanceof Player player && player.hasData(LINKED_OBELISK_POS)){
+        if(event.getEntity() instanceof Player player && player.getData(LINKED_OBELISK_COUNT) > 0){
             event.setDroppedExperience(0);
             event.setCanceled(true);
         }
+    }
+
+    public void incrementCount(Player player, int increment){
+        int count = player.getData(LINKED_OBELISK_COUNT) + increment;
+        if(count + increment < 0) count = 0; 
+        player.setData(LINKED_OBELISK_COUNT, count);
     }
 
 }

@@ -179,7 +179,6 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
 
     //-----------MEMORY TABLET-----------//
 
-    public static final DeferredHolder<AttachmentType<?>, AttachmentType<BlockPos>> LINKED_OBELISK_POS = RegisterAttachments.LINKED_OBELISK_POS;
     public static final DeferredHolder<AttachmentType<?>, AttachmentType<Long>> EXPERIENCE_UPON_DEATH = RegisterAttachments.EXPERIENCE_UPON_DEATH;
     public final List<String> savedPlayers = new ArrayList<>(10);
 
@@ -223,7 +222,7 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
 
             List<Player> list = level.getEntitiesOfClass(Player.class, getAreaOfEffect(pos, getRadius()));
             for(Player player : list){
-                if(!player.isDeadOrDying() && hasBeenMemorized(player) && hasXpToRecover(player)){
+                if(!player.isDeadOrDying() && hasMemorized(player) && hasXpToRecover(player)){
                     handleExperienceRecovery(player);
                     break;
                 }
@@ -231,13 +230,8 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
         }
     }
 
-    public boolean hasBeenMemorized(Player player){
-        boolean playerLinkedHere = player.hasData(LINKED_OBELISK_POS) && player.getData(LINKED_OBELISK_POS).equals(getBlockPos());
-        boolean obeliskRemembersPlayer = savedPlayers.contains(player.getStringUUID());
-
-        //Memory Tablet returns only the latest linked Obelisk when queried
-        //However, all prior Obelisks may still recover experience
-        return playerLinkedHere || obeliskRemembersPlayer;
+    public boolean hasMemorized(Player player){
+        return savedPlayers.contains(player.getStringUUID());
     }
 
     public boolean hasXpToRecover(Player player){
