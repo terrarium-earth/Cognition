@@ -26,7 +26,6 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.templates.FluidTank;
 import net.minecraftforge.registries.ForgeRegistries;
-import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib.animatable.GeoBlockEntity;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.core.animation.AnimatableManager;
@@ -201,26 +200,11 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
             public int fill(FluidStack resource, FluidAction action) {
 
                 if(isFluidValid(resource)){
-                    //setChanged();
                     return super.fill(new FluidStack(cognitium, resource.getAmount()), action);
                 }
                 else{
                     return 0;
                 }
-            }
-
-            @NotNull
-            @Override
-            public FluidStack drain(int maxDrain, FluidAction action) {
-                //setChanged();
-                return super.drain(maxDrain, action);
-            }
-
-            @NotNull
-            @Override
-            public FluidStack drain(FluidStack resource, FluidAction action) {
-                //setChanged();
-                return super.drain(resource, action);
             }
 
             @Override
@@ -229,7 +213,6 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
                 this.fluid = stack;
                 onContentsChanged();
             }
-
         };
     }
 
@@ -237,7 +220,7 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
         return tank.fill(new FluidStack(cognitium, amount), IFluidHandler.FluidAction.EXECUTE);
     }
 
-    public void drainObelisk(int amount)
+    public void drain(int amount)
     {
         tank.drain(new FluidStack(cognitium, amount), IFluidHandler.FluidAction.EXECUTE);
     }
@@ -373,7 +356,7 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
             //normal operation
             if(amount >= drainAmount){
 
-                this.drainObelisk((int) drainAmount);
+                this.drain((int) drainAmount);
                 sender.giveExperienceLevels(XP);
 
             }
