@@ -181,9 +181,9 @@
   "message.cognition.experience_fountain.hyper": "Experience Fountain set to: §bHyper§r",
 
   "message.cognition.memory_tablet.link": "§a[✔]§r Successfully linked to %s",
-  "message.cognition.memory_tablet.link_failed": "§c[✖]§r %s has reached the maximum number of saved players. Please use another Obelisk",
   "message.cognition.memory_tablet.unlink": "§a[✔]§r Successfully unlinked from %s",
   "message.cognition.memory_tablet.query": "§b[ⓘ]§r You were last linked to the obelisk at %s",
+  "message.cognition.memory_tablet.query_missing": "§6[ⓘ]§r Your linked obelisk at %s no longer exists",
   "message.cognition.memory_tablet.query_fail": "§b[ⓘ]§r You are not yet linked to an obelisk",
   "message.cognition.experience_obelisk.experience_recovered": "§a[✔]§r Successfully recovered %s levels",
 
