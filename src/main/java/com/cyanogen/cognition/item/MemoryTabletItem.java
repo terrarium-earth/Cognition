@@ -75,7 +75,9 @@ public class MemoryTabletItem extends Item {
             if(!level.isClientSide){
 
                 if(obelisk.hasMemorized(player)){
-                    player.removeData(LATEST_LINKED_OBELISK_POS);
+                    if(player.getData(LATEST_LINKED_OBELISK_POS).equals(obelisk.getBlockPos())){
+                        player.removeData(LATEST_LINKED_OBELISK_POS);
+                    }
                     incrementCount(player, -1);
                     obelisk.forget(player);
 
@@ -122,7 +124,7 @@ public class MemoryTabletItem extends Item {
 
     public void incrementCount(Player player, int increment){
         int count = player.getData(LINKED_OBELISK_COUNT) + increment;
-        if(count + increment < 0) count = 0; 
+        if(count + increment < 0) count = 0;
         player.setData(LINKED_OBELISK_COUNT, count);
     }
 
