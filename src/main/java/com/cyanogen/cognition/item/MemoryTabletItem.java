@@ -42,15 +42,35 @@ public class MemoryTabletItem extends Item {
 
         if(!player.isShiftKeyDown()){
             if(!level.isClientSide){
-                if(player.getData(LINKED_OBELISK_COUNT) > 0){
+
+                int count = player.getData(LINKED_OBELISK_COUNT);
+
+                if(count > 0){
 
                     if(player.hasData(LATEST_LINKED_OBELISK_POS)){
                         BlockPos pos = player.getData(LATEST_LINKED_OBELISK_POS);
-                        player.displayClientMessage(Component.translatable("message.cognition.memory_tablet.query",
-                                Component.literal(pos.toShortString()).withStyle(ChatFormatting.GREEN)), true);
+
+                        if(count == 1){
+                            player.displayClientMessage(Component.translatable("message.cognition.memory_tablet.query_singular",
+                                    Component.literal(pos.toShortString()).withStyle(ChatFormatting.GREEN)), true);
+                        }
+                        else{
+                            player.displayClientMessage(Component.translatable("message.cognition.memory_tablet.query",
+                                    Component.literal(pos.toShortString()).withStyle(ChatFormatting.GREEN),
+                                    Component.literal(String.valueOf(count)).withStyle(ChatFormatting.GREEN)
+                                    ), true);
+                        }
+
                     }
                     else{
-                        player.displayClientMessage(Component.translatable("message.cognition.memory_tablet.query_unknown"), true);
+
+                        if(count == 1){
+                            player.displayClientMessage(Component.translatable("message.cognition.memory_tablet.query_singular_unknown"), true);
+                        }
+                        else{
+                            player.displayClientMessage(Component.translatable("message.cognition.memory_tablet.query_unknown",
+                                    Component.literal(String.valueOf(count)).withStyle(ChatFormatting.GREEN)), true);
+                        }
                     }
                 }
                 else{
