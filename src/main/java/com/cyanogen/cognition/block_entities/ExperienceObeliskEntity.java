@@ -33,6 +33,7 @@ import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
+import net.neoforged.neoforge.registries.DeferredHolder;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.animatable.GeoBlockEntity;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
@@ -172,8 +173,8 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
 
     //-----------MEMORY TABLET-----------//
 
-    public static final AttachmentType<BlockPos> LINKED_OBELISK_POS = RegisterAttachments.LINKED_OBELISK_POS.get();
-    public static final AttachmentType<Long> EXPERIENCE_UPON_DEATH = RegisterAttachments.EXPERIENCE_UPON_DEATH.get();
+    public static final DeferredHolder<AttachmentType<?>, AttachmentType<BlockPos>> LINKED_OBELISK_POS = RegisterAttachments.LINKED_OBELISK_POS;
+    public static final DeferredHolder<AttachmentType<?>, AttachmentType<Long>> EXPERIENCE_UPON_DEATH = RegisterAttachments.EXPERIENCE_UPON_DEATH;
 
     public void checkAroundForMemorized(){
         if(level != null && level.getGameTime() % 20 == 0){

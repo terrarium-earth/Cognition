@@ -20,11 +20,12 @@ import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.attachment.AttachmentType;
 import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
 import net.neoforged.neoforge.event.entity.living.LivingExperienceDropEvent;
+import net.neoforged.neoforge.registries.DeferredHolder;
 
 public class MemoryTabletItem extends Item {
 
-    public static final AttachmentType<BlockPos> LINKED_OBELISK_POS = RegisterAttachments.LINKED_OBELISK_POS.get();
-    public static final AttachmentType<Long> EXPERIENCE_UPON_DEATH = RegisterAttachments.EXPERIENCE_UPON_DEATH.get();
+    public static final DeferredHolder<AttachmentType<?>, AttachmentType<BlockPos>> LINKED_OBELISK_POS = RegisterAttachments.LINKED_OBELISK_POS;
+    public static final DeferredHolder<AttachmentType<?>, AttachmentType<Long>> EXPERIENCE_UPON_DEATH = RegisterAttachments.EXPERIENCE_UPON_DEATH;
 
     public MemoryTabletItem(Properties properties) {
         super(properties);
@@ -38,7 +39,7 @@ public class MemoryTabletItem extends Item {
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand usedHand) {
 
-        if(!level.isClientSide){
+        if(!level.isClientSide && !player.isShiftKeyDown()){
             if(player.hasData(LINKED_OBELISK_POS)){
 
                 BlockPos pos = player.getData(LINKED_OBELISK_POS);
