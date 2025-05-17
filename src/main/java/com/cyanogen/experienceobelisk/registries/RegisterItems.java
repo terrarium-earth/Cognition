@@ -200,6 +200,9 @@ public class RegisterItems {
     public static final RegistryObject<Item> TRANSFORMING_FOCUS = ITEMS.register("transforming_focus",
             () -> new TransformingFocusItem(new Item.Properties()));
 
+    public static final RegistryObject<Item> FORTUITOUS_AMULET = ITEMS.register("fortuitous_amulet",
+            () -> new FortuitousAmuletItem(new Item.Properties()));
+
     //-----FUNCTIONAL BLOCK ITEMS-----//
 
     public static final RegistryObject<Item> EXPERIENCE_OBELISK_ITEM = ITEMS.register("experience_obelisk",
