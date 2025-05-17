@@ -44,7 +44,7 @@ public class FlaskHadesItem extends Item{
         BlockPos clickedPos = context.getClickedPos();
         BlockPos placePos = context.getClickedPos().relative(context.getClickedFace());
 
-        if(player != null && (player.isCreative() || ExperienceUtils.getTotalXp(player) >= cost) && !player.getCooldowns().isOnCooldown(this)){
+        if(player != null && (player.isCreative() || ExperienceUtils.getTotalXP(player) >= cost) && !player.getCooldowns().isOnCooldown(this)){
 
             boolean canModifyClicked = level.mayInteract(player, clickedPos) && player.mayUseItemAt(clickedPos, context.getClickedFace(), player.getItemInHand(context.getHand()));
             boolean canPlace = level.mayInteract(player, placePos) && player.mayUseItemAt(placePos, context.getClickedFace(), player.getItemInHand(context.getHand()));

@@ -25,8 +25,12 @@ public class ExperienceUtils {
         }
     }
 
-    public static long getTotalXp(Player player){
-        return ExperienceObeliskEntity.getTotalXP(player);
+    public static long getTotalXP(Player player){
+        return levelsToXP(player.experienceLevel) + Math.round(player.experienceProgress * player.getXpNeededForNextLevel());
+    }
+
+    public static long getTotalXP(int levels, float progress) {
+        return levelsToXP(levels) + Math.round(progress * getXpNeededForNextLevel(levels));
     }
 
     public static double getProgressToNextLevel(int experiencePoints, int experienceLevels){
@@ -35,4 +39,13 @@ public class ExperienceUtils {
 
         return (double) n/m;
     }
+
+    public static long getXpNeededForNextLevel(int experienceLevel) {
+        if (experienceLevel >= 30) {
+            return 112 + (experienceLevel - 30) * 9L;
+        } else {
+            return experienceLevel >= 15 ? 37 + (experienceLevel - 15) * 5 : 7 + experienceLevel * 2L;
+        }
+    }
+
 }

@@ -41,7 +41,7 @@ public class FlaskChaosItem extends Item{
         Player player = context.getPlayer();
         InteractionHand hand = context.getHand();
 
-        if(player != null && (player.isCreative() || ExperienceUtils.getTotalXp(player) >= cost) && !player.getCooldowns().isOnCooldown(this)){
+        if(player != null && (player.isCreative() || ExperienceUtils.getTotalXP(player) >= cost) && !player.getCooldowns().isOnCooldown(this)){
 
             BlockHitResult result = getPlayerPOVHitResult(level, player, ClipContext.Fluid.SOURCE_ONLY);
             BlockPos pos = result.getBlockPos();
