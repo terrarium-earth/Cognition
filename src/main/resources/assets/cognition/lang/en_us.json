@@ -183,9 +183,8 @@
   "message.cognition.memory_tablet.link": "§a[✔]§r Successfully linked to %s",
   "message.cognition.memory_tablet.unlink": "§a[✔]§r Successfully unlinked from %s",
   "message.cognition.memory_tablet.link_fail": "§c[✖]§f %s has too many linked players",
-  "message.cognition.memory_tablet.query": "§b[ⓘ]§r Most recently link to the obelisk at %s",
-  "message.cognition.memory_tablet.query_warning": "§6[ⓘ]§r Your linked obelisk at %s has been moved or destroyed",
-  "message.cognition.memory_tablet.query_fail": "§b[ⓘ]§r You are not yet linked to an obelisk",
+  "message.cognition.memory_tablet.query": "§b[ⓘ]§r Your most recent linked obelisk is at %s",
+  "message.cognition.memory_tablet.query_fail": "§b[ⓘ]§r You are not yet linked to any obelisk",
   "message.cognition.experience_obelisk.experience_recovered": "§a[✔]§r Successfully recovered %s levels",
 
   "============ SOUND SUBTITLES ===================": "=====================",

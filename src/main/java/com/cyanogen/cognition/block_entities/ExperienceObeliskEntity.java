@@ -235,6 +235,8 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
         boolean playerLinkedHere = player.hasData(LINKED_OBELISK_POS) && player.getData(LINKED_OBELISK_POS).equals(getBlockPos());
         boolean obeliskRemembersPlayer = savedPlayers.contains(player.getStringUUID());
 
+        //Memory Tablet returns only the latest linked Obelisk when queried
+        //However, all prior Obelisks may still recover experience
         return playerLinkedHere || obeliskRemembersPlayer;
     }
 

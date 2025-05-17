@@ -43,18 +43,9 @@ public class MemoryTabletItem extends Item {
 
             if(!level.isClientSide){
                 if(player.hasData(LINKED_OBELISK_POS)){
-
                     BlockPos pos = player.getData(LINKED_OBELISK_POS);
-                    boolean obeliskMissing = level.isLoaded(pos) && !(level.getBlockEntity(pos) instanceof ExperienceObeliskEntity);
-
-                    if(obeliskMissing){
-                        player.displayClientMessage(Component.translatable("message.cognition.memory_tablet.query_warning",
-                                Component.literal(pos.toShortString()).withStyle(ChatFormatting.GOLD)), true);
-                    }
-                    else{
-                        player.displayClientMessage(Component.translatable("message.cognition.memory_tablet.query",
-                                Component.literal(pos.toShortString()).withStyle(ChatFormatting.GREEN)), true);
-                    }
+                    player.displayClientMessage(Component.translatable("message.cognition.memory_tablet.query",
+                            Component.literal(pos.toShortString()).withStyle(ChatFormatting.GREEN)), true);
                 }
                 else{
                     player.displayClientMessage(Component.translatable("message.cognition.memory_tablet.query_fail"), true);
