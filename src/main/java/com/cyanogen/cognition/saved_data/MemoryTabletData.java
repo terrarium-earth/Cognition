@@ -79,14 +79,12 @@ public class MemoryTabletData extends SavedData {
         }
     }
 
-    public static @Nullable MemoryTabletData getFromStorage(Player player){
-        Level level = player.level();
-
+    public static @Nullable MemoryTabletData getFromStorage(Level level, String uuid){
         if(level.getServer() != null) {
 
             try(ServerLevel overworld = level.getServer().overworld()){
                 DimensionDataStorage overworldStorage = overworld.getDataStorage();
-                MemoryTabletData data = overworldStorage.get(factory(null), "MemoryTabletData=" + player.getStringUUID());
+                MemoryTabletData data = overworldStorage.get(factory(null), "MemoryTabletData=" + uuid);
                 if(data != null && data.hasLinkedObelisk){
                     return data;
                 }
@@ -99,14 +97,16 @@ public class MemoryTabletData extends SavedData {
         return null;
     }
 
-    public static void createAndSaveToStorage(Player player, MemoryTabletData data){
-        Level level = player.level();
+    public static @Nullable MemoryTabletData getFromStorage(Player player){
+        return getFromStorage(player.level(), player.getStringUUID());
+    }
 
+    public static void createAndSaveToStorage(Level level, String uuid, MemoryTabletData data){
         if(level.getServer() != null) {
 
             try(ServerLevel overworld = level.getServer().overworld()){
                 DimensionDataStorage overworldStorage = overworld.getDataStorage();
-                overworldStorage.computeIfAbsent(factory(data), "MemoryTabletData=" + player.getStringUUID());
+                overworldStorage.computeIfAbsent(factory(data), "MemoryTabletData=" + uuid);
             }
             catch(IOException exception){
                 System.out.println("[Cognition] Unable to load overworld data storage for Memory Tablet");
@@ -115,5 +115,8 @@ public class MemoryTabletData extends SavedData {
         }
     }
 
+    public static void createAndSaveToStorage(Player player, MemoryTabletData data){
+        createAndSaveToStorage(player.level(), player.getStringUUID(), data);
+    }
 
 }

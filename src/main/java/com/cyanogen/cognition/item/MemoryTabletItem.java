@@ -39,6 +39,7 @@ public class MemoryTabletItem extends Item {
             if(data != null){
                 //todo: check if within range. if out of range, display client message
                 //todo: open linked obelisk gui
+                System.out.println("OPEN GUI HERE!!");
                 return InteractionResultHolder.sidedSuccess(player.getItemInHand(usedHand), level.isClientSide);
             }
             else{
@@ -55,22 +56,19 @@ public class MemoryTabletItem extends Item {
         Player player = context.getPlayer();
 
         if(level.getBlockEntity(pos) instanceof ExperienceObeliskEntity obelisk && player != null && player.isShiftKeyDown()){
+
             MemoryTabletData data = MemoryTabletData.getFromStorage(player);
 
-            if(data == null || !(data.getLinkedObelisk().equals(obelisk.getBlockPos()))){
+            if(obelisk.getSavedPlayer().isEmpty()){
                 //new player or player switching obelisks
-                boolean success = obelisk.remember(player, data);
-                if(success){
-                    player.displayClientMessage(Component.translatable("message.cognition.memory_tablet.link",
-                            Component.literal(pos.toShortString()).withStyle(ChatFormatting.GREEN)), true);
-                    level.playSound(null, player.blockPosition(), RegisterSounds.MEMORY_TABLET_LINK.get(),
-                            SoundSource.PLAYERS, 0.2f, 1f);
-                }
-                else{
-                    player.displayClientMessage(Component.translatable("message.cognition.memory_tablet.obelisk_in_use"), true);
-                }
+                obelisk.remember(player, data);
+
+                player.displayClientMessage(Component.translatable("message.cognition.memory_tablet.link",
+                        Component.literal(pos.toShortString()).withStyle(ChatFormatting.GREEN)), true);
+                level.playSound(null, player.blockPosition(), RegisterSounds.MEMORY_TABLET_LINK.get(),
+                        SoundSource.PLAYERS, 0.2f, 1f);
             }
-            else{
+            else if(obelisk.getSavedPlayer().equals(player.getStringUUID())){
                 //player unlinking from linked obelisk
                 obelisk.forget(player, data);
 
@@ -78,6 +76,9 @@ public class MemoryTabletItem extends Item {
                         Component.literal(pos.toShortString()).withStyle(ChatFormatting.GREEN)), true);
                 level.playSound(null, player.blockPosition(), RegisterSounds.MEMORY_TABLET_UNLINK.get(),
                         SoundSource.PLAYERS, 0.2f, 0.8f);
+            }
+            else{
+                player.displayClientMessage(Component.translatable("message.cognition.memory_tablet.obelisk_in_use"), true);
             }
 
             return InteractionResult.sidedSuccess(level.isClientSide);

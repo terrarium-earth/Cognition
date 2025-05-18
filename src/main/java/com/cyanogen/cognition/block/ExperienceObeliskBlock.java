@@ -2,8 +2,8 @@ package com.cyanogen.cognition.block;
 
 import com.cyanogen.cognition.block_entities.ExperienceObeliskEntity;
 import com.cyanogen.cognition.gui.ExperienceObeliskMenu;
-import com.cyanogen.cognition.item.MemoryTabletItem;
 import com.cyanogen.cognition.registries.RegisterBlockEntities;
+import com.cyanogen.cognition.saved_data.MemoryTabletData;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
@@ -37,7 +37,6 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 public class ExperienceObeliskBlock extends Block implements EntityBlock {
 
@@ -108,26 +107,30 @@ public class ExperienceObeliskBlock extends Block implements EntityBlock {
 
     }
 
-    protected void updateRememberedPlayers(Level level, BlockPos pos, int increment){
-        if(level.getBlockEntity(pos) instanceof ExperienceObeliskEntity obelisk && !obelisk.savedPlayers.isEmpty()){
-            for(String uuid : obelisk.savedPlayers){
-                Player player = level.getPlayerByUUID(UUID.fromString(uuid));
-                if(player != null){
-                    MemoryTabletItem.incrementCount(player, increment);
-                }
+    protected void updateRememberedPlayers(Level level, BlockPos pos, boolean replace){
+        if(level.getBlockEntity(pos) instanceof ExperienceObeliskEntity obelisk){
+            MemoryTabletData data = MemoryTabletData.getFromStorage(level, obelisk.getSavedPlayer());
+
+            BlockPos updatePos = new BlockPos(0,0,0);
+            if(replace){
+                updatePos = obelisk.getBlockPos();
+            }
+
+            if(data != null){
+                data.setLinkedObelisk(updatePos, replace);
             }
         }
     }
 
     @Override
     protected void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean movedByPiston) {
-        updateRememberedPlayers(level, pos, -1); 
+        updateRememberedPlayers(level, pos, false);
         super.onRemove(state, level, pos, newState, movedByPiston);
     }
 
     @Override
     protected void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean movedByPiston) {
-        updateRememberedPlayers(level, pos, 1);
+        updateRememberedPlayers(level, pos, true);
         super.onPlace(state, level, pos, oldState, movedByPiston);
     }
 
