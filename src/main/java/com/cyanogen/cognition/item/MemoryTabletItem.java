@@ -40,13 +40,13 @@ public class MemoryTabletItem extends Item {
                 //todo: check if within range. if out of range, display client message
                 //todo: open linked obelisk gui
                 System.out.println("OPEN GUI HERE!!");
-                return InteractionResultHolder.sidedSuccess(player.getItemInHand(usedHand), level.isClientSide);
             }
             else{
                 player.displayClientMessage(Component.translatable("message.cognition.memory_tablet.query_fail"), true);
             }
         }
-        return super.use(level, player, usedHand);
+
+        return InteractionResultHolder.sidedSuccess(player.getItemInHand(usedHand), level.isClientSide);
     }
 
     @Override
@@ -81,7 +81,7 @@ public class MemoryTabletItem extends Item {
                 player.displayClientMessage(Component.translatable("message.cognition.memory_tablet.obelisk_in_use"), true);
             }
 
-            return InteractionResult.sidedSuccess(level.isClientSide);
+            return InteractionResult.sidedSuccess(false);
         }
         return super.useOn(context);
     }

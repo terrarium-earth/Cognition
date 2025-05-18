@@ -3,14 +3,12 @@ package com.cyanogen.cognition.saved_data;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.saveddata.SavedData;
 import net.minecraft.world.level.storage.DimensionDataStorage;
 
 import javax.annotation.Nullable;
-import java.io.IOException;
 
 public class MemoryTabletData extends SavedData {
 
@@ -56,10 +54,6 @@ public class MemoryTabletData extends SavedData {
         return linkedObelisk;
     }
 
-    public boolean hasLinkedObelisk(){
-        return hasLinkedObelisk;
-    }
-
     public void setExperienceToRecover(long points){
         this.experienceToRecover = points;
         setDirty();
@@ -82,16 +76,13 @@ public class MemoryTabletData extends SavedData {
     public static @Nullable MemoryTabletData getFromStorage(Level level, String uuid){
         if(level.getServer() != null) {
 
-            try(ServerLevel overworld = level.getServer().overworld()){
-                DimensionDataStorage overworldStorage = overworld.getDataStorage();
-                MemoryTabletData data = overworldStorage.get(factory(null), "MemoryTabletData=" + uuid);
-                if(data != null && data.hasLinkedObelisk){
-                    return data;
-                }
-            }
-            catch(IOException exception){
-                System.out.println("[Cognition] Unable to load overworld data storage for Memory Tablet");
-                System.out.println(exception.getMessage());
+            DimensionDataStorage overworldStorage = level.getServer().overworld().getDataStorage();
+            MemoryTabletData data = overworldStorage.get(factory(null), "memory_tablet_data_of_" + uuid);
+
+            if(data != null && data.hasLinkedObelisk){
+                System.out.println("getting from storage ============");
+                System.out.println(data);
+                return data;
             }
         }
         return null;
@@ -102,21 +93,27 @@ public class MemoryTabletData extends SavedData {
     }
 
     public static void createAndSaveToStorage(Level level, String uuid, MemoryTabletData data){
+
+        //data is saving to file properly
+
         if(level.getServer() != null) {
 
-            try(ServerLevel overworld = level.getServer().overworld()){
-                DimensionDataStorage overworldStorage = overworld.getDataStorage();
-                overworldStorage.computeIfAbsent(factory(data), "MemoryTabletData=" + uuid);
-            }
-            catch(IOException exception){
-                System.out.println("[Cognition] Unable to load overworld data storage for Memory Tablet");
-                System.out.println(exception.getMessage());
-            }
+            System.out.println(data.toString());
+            DimensionDataStorage overworldStorage = level.getServer().overworld().getDataStorage();
+            overworldStorage.computeIfAbsent(factory(data), "memory_tablet_data_of_" + uuid);
+            overworldStorage.save();
         }
     }
 
     public static void createAndSaveToStorage(Player player, MemoryTabletData data){
         createAndSaveToStorage(player.level(), player.getStringUUID(), data);
+    }
+
+    public String toString(){
+        return "[Memory Tablet Data] \n" +
+                "HasLinkedObelisk: " + hasLinkedObelisk + "\n" +
+                "LinkedObelisk: " + linkedObelisk.toShortString() + "\n" +
+                "ExperienceToRecover: " + experienceToRecover;
     }
 
 }

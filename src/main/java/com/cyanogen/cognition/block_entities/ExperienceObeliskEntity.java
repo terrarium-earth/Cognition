@@ -181,6 +181,16 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
         return savedPlayer;
     }
 
+    public void syncFromStorage(){
+        if(level != null){
+            MemoryTabletData data = MemoryTabletData.getFromStorage(level, this.savedPlayer);
+            if(data != null && data.getLinkedObelisk() != getBlockPos()){
+                this.savedPlayer = "";
+                setChanged();
+            }
+        }
+    }
+
     public void remember(Player player, MemoryTabletData data){
         this.savedPlayer = player.getStringUUID();
         if(data == null){
@@ -197,10 +207,6 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
     public void forget(Player player, MemoryTabletData data){
         this.savedPlayer = "";
         if(data == null){
-            //While there shouldn't be any situation in normal gameplay where an Obelisk has a player saved without
-            //a level data instance being already present for that player, this is to prevent crashes from players
-            //updating from previous versions
-
             MemoryTabletData newData = new MemoryTabletData();
             newData.setLinkedObelisk(new BlockPos(0,0,0), false);
             MemoryTabletData.createAndSaveToStorage(player, newData);
@@ -217,6 +223,14 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
 
             List<Player> list = level.getEntitiesOfClass(Player.class, getAreaOfEffect(pos, getRadius()));
             for(Player player : list){
+
+                MemoryTabletData data = MemoryTabletData.getFromStorage(player);
+                if(data == null){
+                    System.out.println("null");
+                }
+                else{
+                    System.out.println(data);
+                }
 
                 if(!player.isDeadOrDying() && hasMemorized(player) && hasXpToRecover(player)){
                     handleExperienceRecovery(player);
