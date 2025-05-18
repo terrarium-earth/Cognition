@@ -2,6 +2,7 @@ package com.cyanogen.cognition.gui;
 
 import com.cyanogen.cognition.registries.RegisterItems;
 import com.cyanogen.cognition.registries.RegisterMenus;
+import com.cyanogen.cognition.utils.MiscUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Inventory;
@@ -11,7 +12,6 @@ import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.inventory.SimpleContainerData;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.Vec3;
 
 import javax.annotation.Nullable;
 
@@ -65,7 +65,7 @@ public class ExperienceObeliskMenu extends AbstractContainerMenu {
 
         int distance = 7;
         if(player.getItemInHand(InteractionHand.MAIN_HAND).is(RegisterItems.MEMORY_TABLET.get())) distance = 48;
-        return player.position().distanceTo(Vec3.atCenterOf(getBlockPos())) <= distance;
+        return MiscUtils.straightLineDistance(getBlockPos(), player.blockPosition()) <= distance;
     }
 
 }
