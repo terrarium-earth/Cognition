@@ -175,7 +175,7 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
 
     //-----------MEMORY TABLET-----------//
 
-    private String savedPlayer = "";
+    protected String savedPlayer = "";
 
     public String getSavedPlayer(){
         return savedPlayer;
@@ -192,7 +192,7 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
     }
 
     public void remember(Player player, MemoryTabletData data){
-        syncFromStorage();
+        //syncFromStorage();
         this.savedPlayer = player.getStringUUID();
         if(data == null){
             MemoryTabletData newData = new MemoryTabletData();
@@ -206,7 +206,7 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
     }
 
     public void forget(Player player, MemoryTabletData data){
-        syncFromStorage();
+        //syncFromStorage();
         this.savedPlayer = "";
         if(data == null){
             MemoryTabletData newData = new MemoryTabletData();
@@ -243,7 +243,7 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
     }
 
     public boolean hasMemorized(Player player){
-        syncFromStorage();
+        //syncFromStorage();
         return savedPlayer.equals(player.getStringUUID());
     }
 
@@ -384,7 +384,7 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
         super.saveAdditional(tag, provider);
 
         tank.writeToNBT(provider, tag);
-        tag.putString("SavedPlayers", savedPlayer);
+        tag.putString("SavedPlayer", savedPlayer);
         tag.putDouble("Radius", radius);
         tag.putBoolean("isRedstoneControllable", redstoneEnabled);
     }
@@ -406,7 +406,7 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
         CompoundTag tag = super.getUpdateTag(provider);
 
         tank.writeToNBT(provider, tag);
-        tag.putString("SavedPlayers", savedPlayer);
+        tag.putString("SavedPlayer", savedPlayer);
         tag.putDouble("Radius", radius);
         tag.putBoolean("isRedstoneControllable", redstoneEnabled);
 

@@ -107,20 +107,28 @@ public class ExperienceObeliskBlock extends Block implements EntityBlock {
 
     }
 
-    public static void updateRememberedPlayers(Level level, BlockPos pos, boolean hasLinkedObelisk){
+    @Override
+    protected void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean movedByPiston) {
         if(level.getBlockEntity(pos) instanceof ExperienceObeliskEntity obelisk){
             MemoryTabletData data = MemoryTabletData.getFromStorage(level, obelisk.getSavedPlayer());
+
             if(data != null){
-                data.setLinkedObelisk(pos, false);
+                data.setLinkedObelisk(new BlockPos(0,0,0), false);
             }
         }
+        super.onRemove(state, level, pos, newState, movedByPiston);
     }
 
     @Override
-    protected void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean movedByPiston) {
-        //placement is handled in the item class
-        updateRememberedPlayers(level, new BlockPos(0,0,0), false);
-        super.onRemove(state, level, pos, newState, movedByPiston);
+    protected void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean movedByPiston) {
+        if(level.getBlockEntity(pos) instanceof ExperienceObeliskEntity obelisk){
+            MemoryTabletData data = MemoryTabletData.getFromStorage(level, obelisk.getSavedPlayer());
+
+            if(data != null){
+                data.setLinkedObelisk(pos, true);
+            }
+        }
+        super.onPlace(state, level, pos, oldState, movedByPiston);
     }
 
     @Override
