@@ -79,11 +79,11 @@ public class EnlightenedAmuletItem extends ActivatableItem{
 
                 ServerLevel server = (ServerLevel) level;
 
-                if(totalValue < 32768){
+                if(totalValue <= 32767 && totalValue != 0){
                     ExperienceOrb orb = new ExperienceOrb(server, pos.x(), pos.y(), pos.z(), totalValue);
                     server.addFreshEntity(orb);
                 }
-                else{ //edge case if total value of orbs exceeds 32767
+                else if(totalValue > 32767){ //edge case if total value of orbs exceeds 32767
                     while(totalValue > 0){
                         int v = Math.min(totalValue, 32767);
                         ExperienceOrb orb = new ExperienceOrb(server, pos.x(), pos.y(), pos.z(), v);

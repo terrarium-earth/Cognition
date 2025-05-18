@@ -83,9 +83,9 @@ public class Config {
             this.amuletRange = builder.comment("The range of the enlightened amulet in blocks. Accepts decimals. Default = 8.0.")
                     .defineInRange("Range", 8.0, 1, 16.0);
             this.amuletIgnoresFountainOrbs = builder.comment("Whether the enlightened amulet ignores orbs spawned by Experience Fountains. Default = true")
-                    .define("Ignores", true);
+                    .define("IgnoresFountainOrbs", true);
             this.amuletIgnoresBookshelfOrbs = builder.comment("Whether the enlightened amulet ignores orbs spawned by Infected Bookshelves. Default = false")
-                    .define("Ignores", false);
+                    .define("IgnoresBookshelfOrbs", false);
             builder.pop();
 
             builder.push("Staff of Attunement Range");
