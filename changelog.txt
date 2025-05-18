@@ -1,11 +1,16 @@
 v2.4.3-beta
 
 [Changes]
-- Optimized the way Obelisk linking using the Memory Tablet is handled
-- Once again, you will need to relink yourself to an Obelisk if updating from prior versions
+- Big rework to Memory Tablet:
+  - Memory Tablet can now be used to remotely access an Obelisk up to 48 blocks away
+  - However, as a consequence of this change, there is now a one-to-one player-to-obelisk correspondence
+  - This reverts the change in v2.4.2 -- Players can no longer link themselves to multiple Obelisks
+  - Obelisks still retain player data if they are moved around
+  - No change to experience recovery functionality
 
 [Bugfixes]
 - Fixed bug where destroying a linked Obelisk without unlinking it first will erase all other prior linkages
+- Removed unused files
 
 v2.4.2-beta
 
