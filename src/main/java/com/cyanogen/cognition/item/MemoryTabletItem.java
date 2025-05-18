@@ -5,6 +5,7 @@ import com.cyanogen.cognition.block_entities.ExperienceObeliskEntity;
 import com.cyanogen.cognition.registries.RegisterSounds;
 import com.cyanogen.cognition.saved_data.MemoryTabletData;
 import com.cyanogen.cognition.utils.ExperienceUtils;
+import com.cyanogen.cognition.utils.MiscUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -43,12 +44,14 @@ public class MemoryTabletItem extends Item {
                 BlockPos pos = data.getLinkedObelisk();
                 BlockState state = level.getBlockState(pos);
 
-                if(state.getBlock() instanceof ExperienceObeliskBlock obeliskBlock){
+                if(state.getBlock() instanceof ExperienceObeliskBlock obeliskBlock &&
+                        MiscUtils.straightLineDistance(player.blockPosition(), pos) <= 48){
+
                     player.openMenu(obeliskBlock.getMenuProvider(state, level, pos));
                 }
-                //todo: check if within range. if out of range, display client message
-                //todo: open linked obelisk gui
-                System.out.println("OPEN GUI HERE!!");
+                else{
+                    player.displayClientMessage(Component.translatable("message.cognition.memory_tablet.out_of_range"), true);
+                }
             }
             else{
                 player.displayClientMessage(Component.translatable("message.cognition.memory_tablet.query_fail"), true);
