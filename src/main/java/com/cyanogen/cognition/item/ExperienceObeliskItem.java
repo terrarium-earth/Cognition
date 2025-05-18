@@ -1,5 +1,6 @@
 package com.cyanogen.cognition.item;
 
+import com.cyanogen.cognition.block.ExperienceObeliskBlock;
 import com.cyanogen.cognition.renderer.ExperienceObeliskItemRenderer;
 import com.cyanogen.cognition.utils.ItemUtils;
 import net.minecraft.ChatFormatting;
@@ -9,7 +10,9 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
 import software.bernie.geckolib.animatable.GeoItem;
 import software.bernie.geckolib.animatable.SingletonGeoAnimatable;
 import software.bernie.geckolib.animatable.client.GeoRenderProvider;
@@ -65,6 +68,18 @@ public class ExperienceObeliskItem extends BlockItem implements GeoItem{
             }
         });
     }
+
+    //-----MEMORY TABLET-----//
+
+    @Override
+    protected boolean placeBlock(BlockPlaceContext context, BlockState state) {
+        boolean success = super.placeBlock(context, state);
+        if(success){
+            ExperienceObeliskBlock.updateRememberedPlayers(context.getLevel(), context.getClickedPos(), true);
+        }
+        return success;
+    }
+
 
     //-----CUSTOM HOVER TEXT-----//
 
