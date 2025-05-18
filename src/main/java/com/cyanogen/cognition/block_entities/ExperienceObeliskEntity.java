@@ -5,6 +5,7 @@ import com.cyanogen.cognition.network.experience_obelisk.UpdateContents;
 import com.cyanogen.cognition.registries.RegisterAttachments;
 import com.cyanogen.cognition.registries.RegisterBlockEntities;
 import com.cyanogen.cognition.registries.RegisterFluids;
+import com.cyanogen.cognition.saved_data.MemoryTabletData;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -179,41 +180,24 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
 
     //-----------MEMORY TABLET-----------//
 
-    public static final DeferredHolder<AttachmentType<?>, AttachmentType<Long>> EXPERIENCE_UPON_DEATH = RegisterAttachments.EXPERIENCE_UPON_DEATH;
-    public final List<String> savedPlayers = new ArrayList<>(10);
+    public String savedPlayer = "";
 
-    public boolean remember(Player player){
-        if(savedPlayers.size() <= 9){
-            savedPlayers.add(player.getStringUUID());
+    public boolean remember(Player player, MemoryTabletData data){
+        if(!savedPlayer.isEmpty()){
+            this.savedPlayer = player.getStringUUID();
+            data.setLinkedObelisk(getBlockPos(), true);
             setChanged();
             return true;
         }
-        return false;
+        else{
+            return false;
+        }
     }
 
-    public void forget(Player player){
-        savedPlayers.remove(player.getStringUUID());
+    public void forget(Player player, MemoryTabletData data){
+        this.savedPlayer = "";
+        data.setLinkedObelisk(new BlockPos(0,0,0), false);
         setChanged();
-    }
-
-    public CompoundTag getSavedPlayersTag(){
-        CompoundTag tag = new CompoundTag();
-        for(int i = 0; i < savedPlayers.size(); i++){
-            tag.putString("Player" + i, savedPlayers.get(i));
-        }
-        return tag;
-    }
-
-    public void readSavedPlayersTag(CompoundTag tag){
-        savedPlayers.clear();
-
-        Set<String> players = tag.getAllKeys();
-        for(String player : players){
-            String uuid = tag.getString(player);
-            if(!uuid.isEmpty()){
-                savedPlayers.add(uuid);
-            }
-        }
     }
 
     public void checkAroundForMemorized(){
@@ -222,6 +206,7 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
 
             List<Player> list = level.getEntitiesOfClass(Player.class, getAreaOfEffect(pos, getRadius()));
             for(Player player : list){
+
                 if(!player.isDeadOrDying() && hasMemorized(player) && hasXpToRecover(player)){
                     handleExperienceRecovery(player);
                     break;
@@ -236,6 +221,10 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
 
     public boolean hasXpToRecover(Player player){
         return player.getData(EXPERIENCE_UPON_DEATH) > 0;
+    }
+
+    public boolean isPendingReset(Player player){
+        return hasMemorized(player) && player.getData(LINKED_OBELISK_COUNT) == 0;
     }
 
     public void handleExperienceRecovery(Player player){

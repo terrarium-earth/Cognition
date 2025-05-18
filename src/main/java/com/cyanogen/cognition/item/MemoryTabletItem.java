@@ -1,8 +1,8 @@
 package com.cyanogen.cognition.item;
 
 import com.cyanogen.cognition.block_entities.ExperienceObeliskEntity;
-import com.cyanogen.cognition.registries.RegisterAttachments;
 import com.cyanogen.cognition.registries.RegisterSounds;
+import com.cyanogen.cognition.saved_data.MemoryTabletData;
 import com.cyanogen.cognition.utils.ExperienceUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
@@ -17,16 +17,10 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
-import net.neoforged.neoforge.attachment.AttachmentType;
 import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
 import net.neoforged.neoforge.event.entity.living.LivingExperienceDropEvent;
-import net.neoforged.neoforge.registries.DeferredHolder;
 
 public class MemoryTabletItem extends Item {
-
-    public static final DeferredHolder<AttachmentType<?>, AttachmentType<Integer>> LINKED_OBELISK_COUNT = RegisterAttachments.LINKED_OBELISK_COUNT;
-    public static final DeferredHolder<AttachmentType<?>, AttachmentType<BlockPos>> LATEST_LINKED_OBELISK_POS = RegisterAttachments.LATEST_LINKED_OBELISK_POS;
-    public static final DeferredHolder<AttachmentType<?>, AttachmentType<Long>> EXPERIENCE_UPON_DEATH = RegisterAttachments.EXPERIENCE_UPON_DEATH;
 
     public MemoryTabletItem(Properties properties) {
         super(properties);
@@ -41,88 +35,53 @@ public class MemoryTabletItem extends Item {
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand usedHand) {
 
         if(!player.isShiftKeyDown()){
-            if(!level.isClientSide){
-
-                int count = player.getData(LINKED_OBELISK_COUNT);
-
-                if(count > 0){
-
-                    if(player.hasData(LATEST_LINKED_OBELISK_POS)){
-                        BlockPos pos = player.getData(LATEST_LINKED_OBELISK_POS);
-
-                        if(count == 1){
-                            player.displayClientMessage(Component.translatable("message.cognition.memory_tablet.query_singular",
-                                    Component.literal(pos.toShortString()).withStyle(ChatFormatting.GREEN)), true);
-                        }
-                        else{
-                            player.displayClientMessage(Component.translatable("message.cognition.memory_tablet.query",
-                                    Component.literal(pos.toShortString()).withStyle(ChatFormatting.GREEN),
-                                    Component.literal(String.valueOf(count)).withStyle(ChatFormatting.GREEN)
-                                    ), true);
-                        }
-
-                    }
-                    else{
-
-                        if(count == 1){
-                            player.displayClientMessage(Component.translatable("message.cognition.memory_tablet.query_singular_unknown"), true);
-                        }
-                        else{
-                            player.displayClientMessage(Component.translatable("message.cognition.memory_tablet.query_unknown",
-                                    Component.literal(String.valueOf(count)).withStyle(ChatFormatting.GREEN)), true);
-                        }
-                    }
-                }
-                else{
-                    player.displayClientMessage(Component.translatable("message.cognition.memory_tablet.query_fail"), true);
-                }
+            MemoryTabletData data = MemoryTabletData.getFromStorage(player);
+            if(data != null){
+                //todo: check if within range. if out of range, display client message
+                //todo: open linked obelisk gui
+                return InteractionResultHolder.sidedSuccess(player.getItemInHand(usedHand), level.isClientSide);
             }
-            return InteractionResultHolder.sidedSuccess(player.getItemInHand(usedHand), level.isClientSide);
+            else{
+                player.displayClientMessage(Component.translatable("message.cognition.memory_tablet.query_fail"), true);
+            }
         }
-
         return super.use(level, player, usedHand);
     }
 
     @Override
     public InteractionResult useOn(UseOnContext context) {
-
         Level level = context.getLevel();
         BlockPos pos = context.getClickedPos();
         Player player = context.getPlayer();
 
         if(level.getBlockEntity(pos) instanceof ExperienceObeliskEntity obelisk && player != null && player.isShiftKeyDown()){
+            MemoryTabletData data = MemoryTabletData.getFromStorage(player);
 
-            if(!level.isClientSide){
-
-                if(obelisk.hasMemorized(player)){
-                    if(player.getData(LATEST_LINKED_OBELISK_POS).equals(obelisk.getBlockPos())){
-                        player.removeData(LATEST_LINKED_OBELISK_POS);
-                    }
-                    incrementCount(player, -1);
-                    obelisk.forget(player);
-
-                    player.displayClientMessage(Component.translatable("message.cognition.memory_tablet.unlink",
+            if(data == null || !(data.getLinkedObelisk().equals(obelisk.getBlockPos()))){
+                //new player or player switching obelisks
+                boolean success = obelisk.remember(player, data);
+                if(success){
+                    player.displayClientMessage(Component.translatable("message.cognition.memory_tablet.link",
                             Component.literal(pos.toShortString()).withStyle(ChatFormatting.GREEN)), true);
-                    level.playSound(null, player.blockPosition(), RegisterSounds.MEMORY_TABLET_UNLINK.get(), SoundSource.PLAYERS, 0.2f, 0.8f);
+                    level.playSound(null, player.blockPosition(), RegisterSounds.MEMORY_TABLET_LINK.get(),
+                            SoundSource.PLAYERS, 0.2f, 1f);
                 }
                 else{
-                    if(obelisk.remember(player)){
-                        player.setData(LATEST_LINKED_OBELISK_POS, obelisk.getBlockPos());
-                        incrementCount(player, 1);
-
-                        player.displayClientMessage(Component.translatable("message.cognition.memory_tablet.link",
-                                Component.literal(pos.toShortString()).withStyle(ChatFormatting.GREEN)), true);
-                        level.playSound(null, player.blockPosition(), RegisterSounds.MEMORY_TABLET_LINK.get(), SoundSource.PLAYERS, 0.2f, 1f);
-                    }
-                    else{
-                        player.displayClientMessage(Component.translatable("message.cognition.memory_tablet.link_fail",
-                                Component.literal(pos.toShortString()).withStyle(ChatFormatting.RED)), true);
-                    }
+                    player.displayClientMessage(Component.translatable("message.cognition.memory_tablet.obelisk_in_use"), true);
                 }
             }
+            else{
+                //player unlinking from linked obelisk
+                obelisk.forget(player, data);
+
+                player.displayClientMessage(Component.translatable("message.cognition.memory_tablet.unlink",
+                        Component.literal(pos.toShortString()).withStyle(ChatFormatting.GREEN)), true);
+                level.playSound(null, player.blockPosition(), RegisterSounds.MEMORY_TABLET_UNLINK.get(),
+                        SoundSource.PLAYERS, 0.2f, 0.8f);
+            }
+
             return InteractionResult.sidedSuccess(level.isClientSide);
         }
-
         return super.useOn(context);
     }
 
@@ -130,22 +89,24 @@ public class MemoryTabletItem extends Item {
 
         boolean keepInventory = event.getEntity().level().getGameRules().getRule(GameRules.RULE_KEEPINVENTORY).get();
 
-        if(event.getEntity() instanceof Player player && !keepInventory && player.getData(LINKED_OBELISK_COUNT) > 0){
-            player.setData(EXPERIENCE_UPON_DEATH, ExperienceUtils.getTotalXP(player));
+        if(event.getEntity() instanceof Player player && !keepInventory){
+            MemoryTabletData data = MemoryTabletData.getFromStorage(player);
+
+            if(data != null){
+                data.setExperienceToRecover(ExperienceUtils.getTotalXP(player));
+            }
         }
     }
 
     public static void handleExperience(LivingExperienceDropEvent event) {
-        if(event.getEntity() instanceof Player player && player.getData(LINKED_OBELISK_COUNT) > 0){
-            event.setDroppedExperience(0);
-            event.setCanceled(true);
-        }
-    }
+        if(event.getEntity() instanceof Player player){
+            MemoryTabletData data = MemoryTabletData.getFromStorage(player);
 
-    public void incrementCount(Player player, int increment){
-        int count = player.getData(LINKED_OBELISK_COUNT) + increment;
-        if(count + increment < 0) count = 0;
-        player.setData(LINKED_OBELISK_COUNT, count);
+            if(data != null){
+                event.setDroppedExperience(0);
+                event.setCanceled(true);
+            }
+        }
     }
 
 }
