@@ -113,7 +113,7 @@ public class ExperienceObeliskBlock extends Block implements EntityBlock {
             MemoryTabletData data = MemoryTabletData.getFromStorage(level, obelisk.getSavedPlayer());
 
             if(data != null){
-                data.setLinkedObelisk(new BlockPos(0,0,0), false);
+                data.setLinkedObelisk(new BlockPos(0,0,0), "minecraft:overworld",false);
             }
         }
         super.onRemove(state, level, pos, newState, movedByPiston);
@@ -125,7 +125,7 @@ public class ExperienceObeliskBlock extends Block implements EntityBlock {
             MemoryTabletData data = MemoryTabletData.getFromStorage(level, obelisk.getSavedPlayer());
 
             if(data != null){
-                data.setLinkedObelisk(pos, true);
+                data.setLinkedObelisk(pos, level.dimension().location().toString(),true);
             }
         }
         super.onPlace(state, level, pos, oldState, movedByPiston);

@@ -19,6 +19,7 @@ public class MemoryTabletData extends SavedData {
 
     private boolean hasLinkedObelisk = false;
     private BlockPos linkedObelisk = new BlockPos(0,0,0);
+    private String dimension = "minecraft:overworld";
     private long experienceToRecover = 0L;
 
     @Override
@@ -26,6 +27,7 @@ public class MemoryTabletData extends SavedData {
 
         tag.putBoolean("HasLinkedObelisk", hasLinkedObelisk);
         tag.putIntArray("LinkedObelisk", new int[]{linkedObelisk.getX(), linkedObelisk.getY(), linkedObelisk.getZ()});
+        tag.putString("Dimension", dimension);
         tag.putLong("ExperienceToRecover", experienceToRecover);
         return tag;
     }
@@ -35,6 +37,7 @@ public class MemoryTabletData extends SavedData {
         hasLinkedObelisk = tag.getBoolean("HasLinkedObelisk");
         int[] pos = tag.getIntArray("LinkedObelisk");
         linkedObelisk = new BlockPos(pos[0], pos[1], pos[2]);
+        dimension = tag.getString("Dimension");
         experienceToRecover = tag.getLong("ExperienceToRecover");
         return this;
     }
@@ -44,8 +47,9 @@ public class MemoryTabletData extends SavedData {
         return data.load(tag);
     }
 
-    public void setLinkedObelisk(BlockPos pos, boolean hasLinkedObelisk){
+    public void setLinkedObelisk(BlockPos pos, String dimension, boolean hasLinkedObelisk){
         this.linkedObelisk = pos;
+        this.dimension = dimension;
         this.hasLinkedObelisk = hasLinkedObelisk;
         setDirty();
     }
@@ -56,6 +60,14 @@ public class MemoryTabletData extends SavedData {
 
     public BlockPos getLinkedObelisk(){
         return linkedObelisk;
+    }
+
+    public String getDimension(){
+        return dimension;
+    }
+
+    public boolean dimensionMatches(Level level){
+        return level.dimension().location().toString().equals(dimension);
     }
 
     public void setExperienceToRecover(long points){
@@ -106,6 +118,7 @@ public class MemoryTabletData extends SavedData {
         return "[Memory Tablet Data] \n" +
                 "HasLinkedObelisk: " + hasLinkedObelisk + "\n" +
                 "LinkedObelisk: " + linkedObelisk.toShortString() + "\n" +
+                "Dimension: " + dimension + "\n" +
                 "ExperienceToRecover: " + experienceToRecover;
     }
 

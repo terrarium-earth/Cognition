@@ -196,11 +196,11 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
         this.savedPlayer = player.getStringUUID();
         if(data == null){
             MemoryTabletData newData = new MemoryTabletData();
-            newData.setLinkedObelisk(getBlockPos(), true);
+            newData.setLinkedObelisk(getBlockPos(), player.level().dimension().location().toString(), true);
             MemoryTabletData.createAndSaveToStorage(player, newData);
         }
         else{
-            data.setLinkedObelisk(getBlockPos(), true);
+            data.setLinkedObelisk(getBlockPos(), player.level().dimension().location().toString(), true);
         }
         setChanged();
     }
@@ -209,11 +209,11 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
         this.savedPlayer = "";
         if(data == null){
             MemoryTabletData newData = new MemoryTabletData();
-            newData.setLinkedObelisk(new BlockPos(0,0,0), false);
+            newData.setLinkedObelisk(new BlockPos(0,0,0), "minecraft:overworld",false);
             MemoryTabletData.createAndSaveToStorage(player, newData);
         }
         else{
-            data.setLinkedObelisk(new BlockPos(0,0,0), false);
+            data.setLinkedObelisk(new BlockPos(0,0,0), "minecraft:overworld",false);
         }
         setChanged();
     }

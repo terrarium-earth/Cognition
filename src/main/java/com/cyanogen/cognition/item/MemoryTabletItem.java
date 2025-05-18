@@ -37,20 +37,28 @@ public class MemoryTabletItem extends Item {
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand usedHand) {
 
-        if(!player.isShiftKeyDown() && !level.isClientSide){
+        if(!level.isClientSide){
             MemoryTabletData data = MemoryTabletData.getFromStorage(player);
             if(data != null && data.hasLinkedObelisk()){
 
                 BlockPos pos = data.getLinkedObelisk();
                 BlockState state = level.getBlockState(pos);
 
-                if(state.getBlock() instanceof ExperienceObeliskBlock obeliskBlock &&
-                        MiscUtils.straightLineDistance(player.blockPosition(), pos) <= 48){
+                if(!player.isShiftKeyDown()){
+                    if(state.getBlock() instanceof ExperienceObeliskBlock obeliskBlock
+                            && data.dimensionMatches(level)
+                            && MiscUtils.straightLineDistance(player.blockPosition(), pos) <= 48){
 
-                    player.openMenu(obeliskBlock.getMenuProvider(state, level, pos));
+                        player.openMenu(obeliskBlock.getMenuProvider(state, level, pos));
+                    }
+                    else{
+                        player.displayClientMessage(Component.translatable("message.cognition.memory_tablet.out_of_range"), true);
+                    }
                 }
                 else{
-                    player.displayClientMessage(Component.translatable("message.cognition.memory_tablet.out_of_range"), true);
+                    player.displayClientMessage(Component.translatable("message.cognition.memory_tablet.query",
+                        Component.literal(pos.toShortString()).withStyle(ChatFormatting.GREEN),
+                            Component.literal(data.getDimension()).withStyle(ChatFormatting.GRAY)), true);
                 }
             }
             else{
@@ -97,7 +105,7 @@ public class MemoryTabletItem extends Item {
                 player.displayClientMessage(Component.translatable("message.cognition.memory_tablet.obelisk_in_use"), true);
             }
 
-            return InteractionResult.sidedSuccess(false);
+            return InteractionResult.sidedSuccess(level.isClientSide);
         }
         return super.useOn(context);
     }
