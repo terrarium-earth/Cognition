@@ -7,10 +7,10 @@ v2.4.3-beta
   - This reverts the change in v2.4.2 -- Players can no longer link themselves to multiple Obelisks
   - Obelisks still retain player data if they are moved around
   - There is no change to experience recovery functionality
+- Changed Memory Tablet recipe to require an enchanted book (any)
 - Added config option to allow Enlightened Amulet to ignore orbs spawned by bookshelves (false by default)
 
 [Bugfixes]
-- Fixed bug where destroying a linked Obelisk without unlinking it first will erase all other prior linkages
 - (1.21.1) Fixed Enlightened Amulet spawning zero value orbs
 - Removed unused files
 
