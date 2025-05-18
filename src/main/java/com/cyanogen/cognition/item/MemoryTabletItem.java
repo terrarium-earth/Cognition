@@ -72,6 +72,7 @@ public class MemoryTabletItem extends Item {
 
         if(level.getBlockEntity(pos) instanceof ExperienceObeliskEntity obelisk && player != null && player.isShiftKeyDown()){
 
+            obelisk.syncFromStorage();
             MemoryTabletData data = MemoryTabletData.getFromStorage(player);
 
             if(obelisk.getSavedPlayer().isEmpty()){

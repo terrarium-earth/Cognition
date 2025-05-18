@@ -79,15 +79,8 @@ public class MemoryTabletData extends SavedData {
 
     public static @Nullable MemoryTabletData getFromStorage(Level level, String uuid){
         if(level.getServer() != null) {
-
             DimensionDataStorage overworldStorage = level.getServer().overworld().getDataStorage();
-            MemoryTabletData data = overworldStorage.get(factory(null), "memory_tablet_data_of_" + uuid);
-
-            if(data != null){
-                System.out.println("getting from storage ============");
-                System.out.println(data);
-                return data;
-            }
+            return overworldStorage.get(factory(null), "memory_tablet_data_of_" + uuid);
         }
         return null;
     }
@@ -98,11 +91,7 @@ public class MemoryTabletData extends SavedData {
 
     public static void createAndSaveToStorage(Level level, String uuid, MemoryTabletData data){
 
-        //data is saving to file properly
-
         if(level.getServer() != null) {
-
-            System.out.println(data.toString());
             DimensionDataStorage overworldStorage = level.getServer().overworld().getDataStorage();
             overworldStorage.computeIfAbsent(factory(data), "memory_tablet_data_of_" + uuid);
             overworldStorage.save();

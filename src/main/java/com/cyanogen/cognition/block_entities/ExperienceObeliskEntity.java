@@ -182,6 +182,7 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
     }
 
     public void syncFromStorage(){
+        //clears any saved player who has linked elsewhere, making room for someone else
         if(level != null){
             MemoryTabletData data = MemoryTabletData.getFromStorage(level, this.savedPlayer);
             if(data != null && data.hasLinkedObelisk() && data.getLinkedObelisk() != getBlockPos()){
@@ -192,7 +193,6 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
     }
 
     public void remember(Player player, MemoryTabletData data){
-        //syncFromStorage();
         this.savedPlayer = player.getStringUUID();
         if(data == null){
             MemoryTabletData newData = new MemoryTabletData();
@@ -206,7 +206,6 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
     }
 
     public void forget(Player player, MemoryTabletData data){
-        //syncFromStorage();
         this.savedPlayer = "";
         if(data == null){
             MemoryTabletData newData = new MemoryTabletData();
@@ -226,14 +225,6 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
             List<Player> list = level.getEntitiesOfClass(Player.class, getAreaOfEffect(pos, getRadius()));
             for(Player player : list){
 
-                MemoryTabletData data = MemoryTabletData.getFromStorage(player);
-                if(data == null){
-                    System.out.println("null");
-                }
-                else{
-                    System.out.println(data);
-                }
-
                 if(!player.isDeadOrDying() && hasMemorized(player) && hasXpToRecover(player)){
                     handleExperienceRecovery(player);
                     break;
@@ -243,8 +234,8 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
     }
 
     public boolean hasMemorized(Player player){
-        //syncFromStorage();
-        return savedPlayer.equals(player.getStringUUID());
+        MemoryTabletData data = MemoryTabletData.getFromStorage(player);
+        return data != null && data.getLinkedObelisk().equals(getBlockPos());
     }
 
     public boolean hasXpToRecover(Player player){
