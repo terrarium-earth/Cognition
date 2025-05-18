@@ -151,6 +151,8 @@
   "tooltip.cognition.cognitive_bow.velocity_multiplier": "§9+%s§9 Projectile Velocity",
   "tooltip.cognition.cognitive_bow.accuracy_multiplier": "§9+%s§9 Projectile Accuracy",
 
+  "tooltip.cognition.memory_tablet.linked_pos": "§7Linked to %s",
+
   "============ BUTTONS ===================": "=====================",
 
   "button.cognition.experience_obelisk.settings": "§l▶§r",
