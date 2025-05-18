@@ -1,5 +1,6 @@
 package com.cyanogen.cognition.item;
 
+import com.cyanogen.cognition.block.ExperienceObeliskBlock;
 import com.cyanogen.cognition.block_entities.ExperienceObeliskEntity;
 import com.cyanogen.cognition.registries.RegisterSounds;
 import com.cyanogen.cognition.saved_data.MemoryTabletData;
@@ -17,6 +18,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
 import net.neoforged.neoforge.event.entity.living.LivingExperienceDropEvent;
 
@@ -34,9 +36,16 @@ public class MemoryTabletItem extends Item {
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand usedHand) {
 
-        if(!player.isShiftKeyDown()){
+        if(!player.isShiftKeyDown() && !level.isClientSide){
             MemoryTabletData data = MemoryTabletData.getFromStorage(player);
-            if(data != null){
+            if(data != null && data.hasLinkedObelisk()){
+
+                BlockPos pos = data.getLinkedObelisk();
+                BlockState state = level.getBlockState(pos);
+
+                if(state.getBlock() instanceof ExperienceObeliskBlock obeliskBlock){
+                    player.openMenu(obeliskBlock.getMenuProvider(state, level, pos));
+                }
                 //todo: check if within range. if out of range, display client message
                 //todo: open linked obelisk gui
                 System.out.println("OPEN GUI HERE!!");
@@ -93,7 +102,7 @@ public class MemoryTabletItem extends Item {
         if(event.getEntity() instanceof Player player && !keepInventory){
             MemoryTabletData data = MemoryTabletData.getFromStorage(player);
 
-            if(data != null){
+            if(data != null && data.hasLinkedObelisk()){
                 data.setExperienceToRecover(ExperienceUtils.getTotalXP(player));
             }
         }
@@ -103,7 +112,7 @@ public class MemoryTabletItem extends Item {
         if(event.getEntity() instanceof Player player){
             MemoryTabletData data = MemoryTabletData.getFromStorage(player);
 
-            if(data != null){
+            if(data != null && data.hasLinkedObelisk()){
                 event.setDroppedExperience(0);
                 event.setCanceled(true);
             }

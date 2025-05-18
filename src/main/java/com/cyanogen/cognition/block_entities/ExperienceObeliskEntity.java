@@ -184,7 +184,7 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
     public void syncFromStorage(){
         if(level != null){
             MemoryTabletData data = MemoryTabletData.getFromStorage(level, this.savedPlayer);
-            if(data != null && data.getLinkedObelisk() != getBlockPos()){
+            if(data != null && data.hasLinkedObelisk() && data.getLinkedObelisk() != getBlockPos()){
                 this.savedPlayer = "";
                 setChanged();
             }
@@ -192,6 +192,7 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
     }
 
     public void remember(Player player, MemoryTabletData data){
+        syncFromStorage();
         this.savedPlayer = player.getStringUUID();
         if(data == null){
             MemoryTabletData newData = new MemoryTabletData();
@@ -205,6 +206,7 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
     }
 
     public void forget(Player player, MemoryTabletData data){
+        syncFromStorage();
         this.savedPlayer = "";
         if(data == null){
             MemoryTabletData newData = new MemoryTabletData();
@@ -241,6 +243,7 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
     }
 
     public boolean hasMemorized(Player player){
+        syncFromStorage();
         return savedPlayer.equals(player.getStringUUID());
     }
 

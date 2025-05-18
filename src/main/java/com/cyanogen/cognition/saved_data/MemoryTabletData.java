@@ -50,6 +50,10 @@ public class MemoryTabletData extends SavedData {
         setDirty();
     }
 
+    public boolean hasLinkedObelisk(){
+        return hasLinkedObelisk;
+    }
+
     public BlockPos getLinkedObelisk(){
         return linkedObelisk;
     }
@@ -79,7 +83,7 @@ public class MemoryTabletData extends SavedData {
             DimensionDataStorage overworldStorage = level.getServer().overworld().getDataStorage();
             MemoryTabletData data = overworldStorage.get(factory(null), "memory_tablet_data_of_" + uuid);
 
-            if(data != null && data.hasLinkedObelisk){
+            if(data != null){
                 System.out.println("getting from storage ============");
                 System.out.println(data);
                 return data;

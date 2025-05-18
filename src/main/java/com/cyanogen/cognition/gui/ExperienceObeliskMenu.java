@@ -60,7 +60,7 @@ public class ExperienceObeliskMenu extends AbstractContainerMenu {
 
     @Override
     public boolean stillValid(Player player) {
-        return player.position().distanceTo(Vec3.atCenterOf(getBlockPos())) <= 7;
+        return player.position().distanceTo(Vec3.atCenterOf(getBlockPos())) <= 48;
     }
 
 }
