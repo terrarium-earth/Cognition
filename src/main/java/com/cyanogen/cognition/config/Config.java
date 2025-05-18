@@ -14,8 +14,9 @@ public class Config {
         public final ModConfigSpec.ConfigValue<Integer> capacity;
         public final ModConfigSpec.ConfigValue<List<String>> allowedExperienceItems;
         public final ModConfigSpec.ConfigValue<Double> amuletRange;
-        public final ModConfigSpec.ConfigValue<Double> bindingRange;
         public final ModConfigSpec.ConfigValue<Boolean> amuletIgnoresFountainOrbs;
+        public final ModConfigSpec.ConfigValue<Boolean> amuletIgnoresBookshelfOrbs;
+        public final ModConfigSpec.ConfigValue<Double> bindingRange;
         public final ModConfigSpec.ConfigValue<Boolean> formatting;
         public final ModConfigSpec.ConfigValue<Integer> jellyNutrition;
         public final ModConfigSpec.ConfigValue<Double> jellySaturation;
@@ -83,6 +84,8 @@ public class Config {
                     .defineInRange("Range", 8.0, 1, 16.0);
             this.amuletIgnoresFountainOrbs = builder.comment("Whether the enlightened amulet ignores orbs spawned by Experience Fountains. Default = true")
                     .define("Ignores", true);
+            this.amuletIgnoresBookshelfOrbs = builder.comment("Whether the enlightened amulet ignores orbs spawned by Infected Bookshelves. Default = false")
+                    .define("Ignores", false);
             builder.pop();
 
             builder.push("Staff of Attunement Range");

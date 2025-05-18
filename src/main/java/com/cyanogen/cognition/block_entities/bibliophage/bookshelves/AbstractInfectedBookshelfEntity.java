@@ -8,6 +8,7 @@ import com.cyanogen.cognition.registries.RegisterItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
@@ -45,6 +46,8 @@ public abstract class AbstractInfectedBookshelfEntity extends AbstractInfectiveE
     double infectivity = 0.02; //the chance for a bookshelf to infect another adjacent bookshelf every second
     boolean redstoneEnabled = false; //whether the bookshelf is sensitive to redstone. Disabled bookshelves will not infect adjacents, produce XP, or decay
 
+    public static final Component FROM_BOOKSHELF = Component.literal("SpawnedFromBookshelf");
+
     //-----------BEHAVIOR-----------//
 
     public static <T> void tick(Level level, BlockPos pos, BlockState state, T blockEntity) {
@@ -62,7 +65,7 @@ public abstract class AbstractInfectedBookshelfEntity extends AbstractInfectiveE
                     bookshelf.resetSpawnDelay();
                 }
                 else if(bookshelf.timeTillSpawn <= 0){
-                    bookshelf.handleExperience(level, pos);
+                    bookshelf.spawnOrb(level, pos);
                     bookshelf.incrementDecayValue();
                     bookshelf.resetSpawnDelay();
                 }
@@ -97,7 +100,7 @@ public abstract class AbstractInfectedBookshelfEntity extends AbstractInfectiveE
         this.setChanged();
     }
 
-    public void handleExperience(Level level, BlockPos pos){
+    public void spawnOrb(Level level, BlockPos pos){
 
         int value = orbValue;
         double bonus = getTotalBonus(2);
@@ -111,6 +114,8 @@ public abstract class AbstractInfectedBookshelfEntity extends AbstractInfectiveE
             ServerLevel server = (ServerLevel) level;
             ExperienceOrb orb = new ExperienceOrb(server, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, value);
             orb.setDeltaMovement(0,0,0);
+            orb.setCustomName(FROM_BOOKSHELF);
+            orb.setCustomNameVisible(false);
 
             server.addFreshEntity(orb);
         }
