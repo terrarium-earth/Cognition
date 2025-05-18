@@ -22,7 +22,6 @@ public class EventHandler {
     public void onTooltip(ItemTooltipEvent event){
         DescriptionTooltips.handleTooltip(event);
         CognitiveToolset.CognitiveBowItem.handleTooltip(event);
-        MemoryTabletItem.handleTooltip(event);
     }
 
     @SubscribeEvent

@@ -21,7 +21,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
 import net.neoforged.neoforge.event.entity.living.LivingExperienceDropEvent;
-import net.neoforged.neoforge.event.entity.player.ItemTooltipEvent;
 
 public class MemoryTabletItem extends Item {
 
@@ -56,6 +55,9 @@ public class MemoryTabletItem extends Item {
             }
         }
 
+        if(player.isShiftKeyDown()){
+            return super.use(level, player, usedHand);
+        }
         return InteractionResultHolder.sidedSuccess(player.getItemInHand(usedHand), level.isClientSide);
     }
 
@@ -116,17 +118,6 @@ public class MemoryTabletItem extends Item {
             if(data != null && data.hasLinkedObelisk()){
                 event.setDroppedExperience(0);
                 event.setCanceled(true);
-            }
-        }
-    }
-
-    public static void handleTooltip(ItemTooltipEvent event) {
-        if(event.getEntity() instanceof Player player){
-            MemoryTabletData data = MemoryTabletData.getFromStorage(player);
-            if(data != null && data.hasLinkedObelisk()){
-                event.getToolTip().add(
-                        Component.translatable("tooltip.cognition.memory_tablet.linked_pos",
-                                Component.literal(data.getLinkedObelisk().toShortString()).withStyle(ChatFormatting.GREEN)));
             }
         }
     }
