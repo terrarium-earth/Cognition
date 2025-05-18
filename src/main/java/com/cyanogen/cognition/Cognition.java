@@ -35,7 +35,6 @@ public class Cognition
         RegisterMenus.register(eventBus);
         RegisterRecipes.register(eventBus);
         RegisterSounds.register(eventBus);
-        RegisterAttachments.register(eventBus);
 
         eventBus.register(new IModBusEventHandler()); //for events implementing IModBusEvent
     }
