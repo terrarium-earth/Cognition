@@ -3,6 +3,7 @@ package com.cyanogen.experienceobelisk.block;
 import com.cyanogen.experienceobelisk.block_entities.ExperienceObeliskEntity;
 import com.cyanogen.experienceobelisk.gui.ExperienceObeliskMenu;
 import com.cyanogen.experienceobelisk.registries.RegisterBlockEntities;
+import com.cyanogen.experienceobelisk.saved_data.MemoryTabletData;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
@@ -104,6 +105,30 @@ public class ExperienceObeliskBlock extends Block implements EntityBlock {
             return super.getDrops(state, params);
         }
 
+    }
+
+    @Override
+    public void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean movedByPiston) {
+        if(level.getBlockEntity(pos) instanceof ExperienceObeliskEntity obelisk){
+            MemoryTabletData data = MemoryTabletData.getFromStorage(level, obelisk.getSavedPlayer());
+
+            if(data != null){
+                data.setLinkedObelisk(new BlockPos(0,0,0), "minecraft:overworld",false);
+            }
+        }
+        super.onRemove(state, level, pos, newState, movedByPiston);
+    }
+
+    @Override
+    public void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean movedByPiston) {
+        if(level.getBlockEntity(pos) instanceof ExperienceObeliskEntity obelisk){
+            MemoryTabletData data = MemoryTabletData.getFromStorage(level, obelisk.getSavedPlayer());
+
+            if(data != null){
+                data.setLinkedObelisk(pos, level.dimension().location().toString(),true);
+            }
+        }
+        super.onPlace(state, level, pos, oldState, movedByPiston);
     }
 
     @Override
