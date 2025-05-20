@@ -1,5 +1,6 @@
 package com.cyanogen.experienceobelisk.saved_data;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
@@ -10,43 +11,44 @@ import javax.annotation.Nullable;
 
 public class MemoryTabletData extends SavedData {
 
+    //Each instance is specific to every player using a Memory Tablet
+    //Contains:
+    // - the position of each player's linked obelisk (dynamic, will change if obelisk is moved)
+    // - experience points to recover on the event of death
+
     private boolean hasLinkedObelisk = false;
-    private int xpLevelsToRecover = 0;
-    private float xpProgressToRecover = 0.0f;
+    private BlockPos linkedObelisk = new BlockPos(0,0,0);
+    private String dimension = "minecraft:overworld";
+    private long experienceToRecover = 0L;
 
     @Override
     public CompoundTag save(CompoundTag tag) {
         tag.putBoolean("HasLinkedObelisk", hasLinkedObelisk);
-        tag.putInt("XPLevelsToRecover", xpLevelsToRecover);
-        tag.putFloat("XProgressToRecover", xpProgressToRecover);
+        tag.putIntArray("LinkedObelisk", new int[]{linkedObelisk.getX(), linkedObelisk.getY(), linkedObelisk.getZ()});
+        tag.putString("Dimension", dimension);
+        tag.putLong("ExperienceToRecover", experienceToRecover);
         return tag;
     }
 
     public MemoryTabletData load(CompoundTag tag){
+
         hasLinkedObelisk = tag.getBoolean("HasLinkedObelisk");
-        xpLevelsToRecover = tag.getInt("XPLevelsToRecover");
-        xpProgressToRecover = tag.getFloat("XProgressToRecover");
+        int[] pos = tag.getIntArray("LinkedObelisk");
+        linkedObelisk = new BlockPos(pos[0], pos[1], pos[2]);
+        dimension = tag.getString("Dimension");
+        experienceToRecover = tag.getLong("ExperienceToRecover");
         return this;
     }
 
-    public void set(boolean hasLinkedObelisk, int xpLevelsToRecover, float xpProgressToRecover){
-        setLinkedObelisk(hasLinkedObelisk);
-        setXpLevelsToRecover(xpLevelsToRecover);
-        setXpProgressToRecover(xpProgressToRecover);
+    public static MemoryTabletData loadStatic(CompoundTag tag){
+        MemoryTabletData data = new MemoryTabletData();
+        return data.load(tag);
     }
 
-    public void setLinkedObelisk(boolean hasLinkedObelisk){
+    public void setLinkedObelisk(BlockPos pos, String dimension, boolean hasLinkedObelisk){
+        this.linkedObelisk = pos;
+        this.dimension = dimension;
         this.hasLinkedObelisk = hasLinkedObelisk;
-        setDirty();
-    }
-
-    public void setXpLevelsToRecover(int levels){
-        this.xpLevelsToRecover = levels;
-        setDirty();
-    }
-
-    public void setXpProgressToRecover(float progress){
-        this.xpProgressToRecover = progress;
         setDirty();
     }
 
@@ -54,37 +56,59 @@ public class MemoryTabletData extends SavedData {
         return hasLinkedObelisk;
     }
 
-    public int getXpLevelsToRecover() {
-        return xpLevelsToRecover;
+    public BlockPos getLinkedObelisk(){
+        return linkedObelisk;
     }
 
-    public float getXpProgressToRecover() {
-        return xpProgressToRecover;
+    public String getDimension(){
+        return dimension;
     }
 
-    public static MemoryTabletData loadStatic(CompoundTag tag){
-        MemoryTabletData data = new MemoryTabletData();
-        data.load(tag);
-        return data;
+    public boolean dimensionMatches(Level level){
+        return level.dimension().location().toString().equals(dimension);
     }
 
-    public static @Nullable MemoryTabletData getFromStorage(Player player){
-        Level level = player.level();
+    public void setExperienceToRecover(long points){
+        this.experienceToRecover = points;
+        setDirty();
+    }
 
+    public long getExperienceToRecover() {
+        return experienceToRecover;
+    }
+
+    public static @Nullable MemoryTabletData getFromStorage(Level level, String uuid){
         if(level.getServer() != null) {
             DimensionDataStorage overworldStorage = level.getServer().overworld().getDataStorage();
-            return overworldStorage.get(MemoryTabletData::loadStatic, "memoryTabletData_" + player.getStringUUID());
+            return overworldStorage.get(MemoryTabletData::loadStatic, "memory_tablet_data_of_" + uuid);
         }
         return null;
     }
 
-    public static void createAndSaveToStorage(Player player, MemoryTabletData data){
-        Level level = player.level();
+    public static @Nullable MemoryTabletData getFromStorage(Player player){
+        return getFromStorage(player.level(), player.getStringUUID());
+    }
+
+    public static void createAndSaveToStorage(Level level, String uuid, MemoryTabletData data){
 
         if(level.getServer() != null) {
             DimensionDataStorage overworldStorage = level.getServer().overworld().getDataStorage();
-            overworldStorage.computeIfAbsent(MemoryTabletData::loadStatic, () -> data, "memoryTabletData_" + player.getStringUUID());
+            overworldStorage.computeIfAbsent(MemoryTabletData::loadStatic, () -> data,"memory_tablet_data_of_" + uuid);
+            overworldStorage.save();
         }
     }
+
+    public static void createAndSaveToStorage(Player player, MemoryTabletData data){
+        createAndSaveToStorage(player.level(), player.getStringUUID(), data);
+    }
+
+    public String toString(){
+        return "[Memory Tablet Data] \n" +
+                "HasLinkedObelisk: " + hasLinkedObelisk + "\n" +
+                "LinkedObelisk: " + linkedObelisk.toShortString() + "\n" +
+                "Dimension: " + dimension + "\n" +
+                "ExperienceToRecover: " + experienceToRecover;
+    }
+
 
 }

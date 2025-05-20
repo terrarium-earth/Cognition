@@ -133,6 +133,10 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
                     }
                 }
             }
+
+            if(!level.isClientSide){
+                obelisk.checkAroundForMemorized();
+            }
         }
     }
 
@@ -174,40 +178,47 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
 
     //-----------MEMORY TABLET-----------//
 
-    public final List<String> savedPlayers = new ArrayList<>(10);
+    protected String savedPlayer = "";
 
-    public boolean saveToObelisk(Player player){
-        if(savedPlayers.size() <= 9){
-            savedPlayers.add(player.getStringUUID());
-            setChanged();
-            return true;
-        }
-        return false;
+    public String getSavedPlayer(){
+        return savedPlayer;
     }
 
-    public void removeFromObelisk(Player player){
-        savedPlayers.remove(player.getStringUUID());
+    public void syncFromStorage(){
+        //clears any saved player who has linked elsewhere, making room for someone else
+        if(level != null){
+            MemoryTabletData data = MemoryTabletData.getFromStorage(level, this.savedPlayer);
+            if(data != null && data.hasLinkedObelisk() && data.getLinkedObelisk() != getBlockPos()){
+                this.savedPlayer = "";
+                setChanged();
+            }
+        }
+    }
+
+    public void remember(Player player, MemoryTabletData data){
+        this.savedPlayer = player.getStringUUID();
+        if(data == null){
+            MemoryTabletData newData = new MemoryTabletData();
+            newData.setLinkedObelisk(getBlockPos(), player.level().dimension().location().toString(), true);
+            MemoryTabletData.createAndSaveToStorage(player, newData);
+        }
+        else{
+            data.setLinkedObelisk(getBlockPos(), player.level().dimension().location().toString(), true);
+        }
         setChanged();
     }
 
-    public CompoundTag getSavedPlayersTag(){
-        CompoundTag tag = new CompoundTag();
-        for(int i = 0; i < savedPlayers.size(); i++){
-            tag.putString("Player" + i, savedPlayers.get(i));
+    public void forget(Player player, MemoryTabletData data){
+        this.savedPlayer = "";
+        if(data == null){
+            MemoryTabletData newData = new MemoryTabletData();
+            newData.setLinkedObelisk(new BlockPos(0,0,0), "minecraft:overworld",false);
+            MemoryTabletData.createAndSaveToStorage(player, newData);
         }
-        return tag;
-    }
-
-    public void readSavedPlayersTag(CompoundTag tag){
-        savedPlayers.clear();
-
-        Set<String> players = tag.getAllKeys();
-        for(String player : players){
-            String uuid = tag.getString(player);
-            if(!uuid.isEmpty()){
-                savedPlayers.add(uuid);
-            }
+        else{
+            data.setLinkedObelisk(new BlockPos(0,0,0), "minecraft:overworld",false);
         }
+        setChanged();
     }
 
     public void checkAroundForMemorized(){
@@ -216,7 +227,8 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
 
             List<Player> list = level.getEntitiesOfClass(Player.class, getAreaOfEffect(pos, getRadius()));
             for(Player player : list){
-                if(!player.isDeadOrDying() && hasBeenMemorized(player) && hasXpToRecover(player)){
+
+                if(!player.isDeadOrDying() && hasMemorized(player) && hasXpToRecover(player)){
                     handleExperienceRecovery(player);
                     break;
                 }
@@ -224,23 +236,20 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
         }
     }
 
-    public boolean hasBeenMemorized(Player player){
-        return savedPlayers.contains(player.getStringUUID());
+    public boolean hasMemorized(Player player){
+        MemoryTabletData data = MemoryTabletData.getFromStorage(player);
+        return data != null && data.getLinkedObelisk().equals(getBlockPos());
     }
 
     public boolean hasXpToRecover(Player player){
         MemoryTabletData data = MemoryTabletData.getFromStorage(player);
-        return data != null && data.getXpLevelsToRecover() + data.getXpProgressToRecover() > 0f;
+        return data != null && data.getExperienceToRecover() > 0;
     }
 
     public void handleExperienceRecovery(Player player){
-
         MemoryTabletData data = MemoryTabletData.getFromStorage(player);
         assert data != null;
-
-        int levels = data.getXpLevelsToRecover();
-        float progress = data.getXpProgressToRecover();
-        long xp = getTotalXP(levels, progress);
+        long xp = data.getExperienceToRecover();
         int pointsRecovered = (int) Math.min(5000000 - getExperiencePoints(), xp);
 
         player.giveExperiencePoints(pointsRecovered); assert level != null;
@@ -252,8 +261,7 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
                 ParticleTypes.TOTEM_OF_UNDYING, false,
                 pos.getX() + 0.5, pos.getY() + 0.6, pos.getZ() + 0.5, 64, 1, 1, 1, 0.1);
 
-        data.setXpLevelsToRecover(0);
-        data.setXpProgressToRecover(0.0f);
+        data.setExperienceToRecover(0);
         player.displayClientMessage(Component.translatable("message.cognition.experience_obelisk.experience_recovered",
                 Component.literal(String.valueOf(xpToLevels(pointsRecovered))).withStyle(ChatFormatting.GREEN)), true);
     }
