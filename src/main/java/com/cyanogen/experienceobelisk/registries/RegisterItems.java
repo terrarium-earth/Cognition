@@ -150,6 +150,9 @@ public class RegisterItems {
                 }
             });
 
+    public static final RegistryObject<Item> FLINT_AND_COGNITIVE_ALLOY = ITEMS.register("flint_and_cognitive_alloy",
+            () -> new FlintAndCognitiveAlloyItem(2200));
+
     public static Multimap<Attribute, AttributeModifier> addRangeAttributeModifier(Multimap<Attribute, AttributeModifier> attributeMap,
                                                                                    EquipmentSlot slot, EquipmentSlot validSlot, AttributeModifier modifier){
 

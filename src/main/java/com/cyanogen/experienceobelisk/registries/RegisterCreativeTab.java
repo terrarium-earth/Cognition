@@ -39,7 +39,7 @@ public class RegisterCreativeTab {
                         //output.accept(RegisterItems.COGNITIVE_BOW.get());
                         output.accept(RegisterItems.COGNITIVE_ROD.get());
                         output.accept(RegisterItems.COGNITIVE_SHEARS.get());
-                        //output.accept(RegisterItems.FLINT_AND_COGNITIVE_ALLOY.get());
+                        output.accept(RegisterItems.FLINT_AND_COGNITIVE_ALLOY.get());
                         output.accept(RegisterItems.COGNITIVE_HELMET.get());
                         output.accept(RegisterItems.COGNITIVE_CHESTPLATE.get());
                         output.accept(RegisterItems.COGNITIVE_LEGGINGS.get());
