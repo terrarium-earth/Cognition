@@ -298,7 +298,7 @@ public class MolecularMetamorpherEntity extends ExperienceReceivingEntity implem
                 if(ingredient.test(stack)){
 
                     if(stack.is(RegisterItems.TRANSFORMING_FOCUS.get())){
-                        if(stack.getDamageValue() >= TransformingFocusItem.durability - 1){
+                        if(stack.getDamageValue() >= TransformingFocusItem.durability - 1 || recipe.isNameFormatting()){
                             stack.shrink(1);
                         }
                         else{
