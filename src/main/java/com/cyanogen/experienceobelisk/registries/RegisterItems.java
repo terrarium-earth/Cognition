@@ -206,8 +206,8 @@ public class RegisterItems {
     public static final RegistryObject<Item> MEMORY_TABLET = ITEMS.register("memory_tablet",
             () -> new MemoryTabletItem(new Item.Properties()));
 
-//    public static final RegistryObject<Item> MENDING_NEUROGEL_BLOB = ITEMS.register("mending_neurogel_blob",
-//            () -> new NeurogelMendingBlobItem(new Item.Properties()));
+    public static final RegistryObject<Item> MENDING_NEUROGEL_BLOB = ITEMS.register("mending_neurogel_blob",
+            () -> new NeurogelMendingBlobItem(new Item.Properties()));
 
     //-----FUNCTIONAL BLOCK ITEMS-----//
 

@@ -51,7 +51,7 @@ public class RegisterCreativeTab {
                         output.accept(RegisterItems.BIBLIOPHAGE.get());
                         output.accept(RegisterItems.EXPERIENCE_JELLY.get());
                         output.accept(RegisterItems.MENDING_NEUROGEL.get());
-                        //output.accept(RegisterItems.MENDING_NEUROGEL_BLOB.get());
+                        output.accept(RegisterItems.MENDING_NEUROGEL_BLOB.get());
                         output.accept(RegisterItems.MEMORY_TABLET.get());
                         output.accept(RegisterItems.FORTUITOUS_AMULET.get());
                         output.accept(RegisterItems.POSEIDON_FLASK.get());
