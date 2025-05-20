@@ -370,8 +370,9 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
     public void load(CompoundTag tag)
     {
         super.load(tag);
-        tank.readFromNBT(tag);
 
+        tank.readFromNBT(tag);
+        this.savedPlayer = tag.getString("SavedPlayer");
         this.radius = tag.getDouble("Radius");
         this.redstoneEnabled = tag.getBoolean("isRedstoneControllable");
     }
@@ -380,8 +381,8 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
     protected void saveAdditional(CompoundTag tag)
     {
         super.saveAdditional(tag);
-        tank.writeToNBT(tag);
 
+        tank.writeToNBT(tag);
         tag.putDouble("Radius", radius);
         tag.putBoolean("isRedstoneControllable", redstoneEnabled);
     }
@@ -390,8 +391,9 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
     public CompoundTag getUpdateTag()
     {
         CompoundTag tag = super.getUpdateTag();
-        tank.writeToNBT(tag);
 
+        tank.writeToNBT(tag);
+        tag.putString("SavedPlayer", savedPlayer);
         tag.putDouble("Radius", radius);
         tag.putBoolean("isRedstoneControllable", redstoneEnabled);
 
