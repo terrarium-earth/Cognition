@@ -383,6 +383,7 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
         super.saveAdditional(tag);
 
         tank.writeToNBT(tag);
+        tag.putString("SavedPlayer", savedPlayer);
         tag.putDouble("Radius", radius);
         tag.putBoolean("isRedstoneControllable", redstoneEnabled);
     }
