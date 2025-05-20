@@ -1,3 +1,62 @@
+v2.4.3-beta
+
+>> This is a 1.20.1 backport of v2.4.3-1.21.1-beta <<
+
+[Changes]
+- Big rework to Memory Tablet:
+  - Memory Tablet can now be used to remotely access an Obelisk up to 48 blocks away
+  - However, as a consequence of this change, there is now a one-to-one player-to-obelisk correspondence
+  - This reverts the change in v2.4.2 -- Players can no longer link themselves to multiple Obelisks
+  - Obelisks still retain player data if they are moved around
+  - There is no change to experience recovery functionality
+- Changed Memory Tablet recipe to require an enchanted book (any)
+- Added config option to allow Enlightened Amulet to ignore orbs spawned by bookshelves (false by default)
+
+[Bugfixes]
+- Removed unused files
+
+v2.4.2-beta (1.21.1)
+
+[Content]
+- Added Blob of Mending Neurogel
+
+[Changes]
+- Reworked Fortuitous Amulet xp mechanics to give a diminishing boost to greater xp drops, rather than capping the effect off at 20 XP
+- Obelisks linked using a Memory Tablet now save player data. This means Obelisks retain their linkage after moving them around, and that
+ a single player may bind themselves to multiple Obelisks. This also means you will need to relink yourself to an Obelisk if updating from
+ v2.4.1 or prior.
+ - To improve compatibility, Flasks of Power now use vanilla bucket behavior where possible
+
+[Bugfixes]
+- Fixed Flint and Cognitive Alloy not igniting TNT
+- Fixed Transforming Foci being duped when used in name formatting recipes
+
+v2.4.1-beta (1.21.1)
+
+[Content]
+- Added Cognitive Bow
+
+[Changes]
+- Added support for experience items from other mods to the Fountain.
+  - Items whitelisted in the config file may be converted into Cognitium by right-clicking a bound Fountain. Shift-right-clicking empties the entire stack.
+  - Whitelisted items may be viewed in JEI, under the "Emptying" recipe category
+- Memory Tablet area of effect is now determined by the absorption radius of the linked Obelisk
+- Changed Memory Tablet recipe
+
+v2.4.0-beta (1.21.1)
+
+[Content]
+- Added Fortuitous Amulet
+- Added Memory Tablet
+- Added Flint and Cognitive Alloy
+
+[Changes]
+- Metamorphers now have an additional setting to lock input slots
+- Added many more transforming recipes
+
+[Bugfixes]
+- Fixed game crashing upon placing a Supplementaries faucet on the Obelisk
+
 v2.3.7
 
 [Changes]
