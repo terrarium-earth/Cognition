@@ -224,27 +224,24 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
 
             List<Player> list = level.getEntitiesOfClass(Player.class, getAreaOfEffect(pos, getRadius()));
             for(Player player : list){
-
-                if(!player.isDeadOrDying() && hasMemorized(player) && hasXpToRecover(player)){
-                    handleExperienceRecovery(player);
+                MemoryTabletData data = MemoryTabletData.getFromStorage(player);
+                if(data != null && !player.isDeadOrDying() && hasMemorized(data) && hasXpToRecover(data)){
+                    handleExperienceRecovery(player, data);
                     break;
                 }
             }
         }
     }
 
-    public boolean hasMemorized(Player player){
-        MemoryTabletData data = MemoryTabletData.getFromStorage(player);
+    public boolean hasMemorized(MemoryTabletData data){
         return data != null && data.getLinkedObelisk().equals(getBlockPos());
     }
 
-    public boolean hasXpToRecover(Player player){
-        MemoryTabletData data = MemoryTabletData.getFromStorage(player);
+    public boolean hasXpToRecover(MemoryTabletData data){
         return data != null && data.getExperienceToRecover() > 0;
     }
 
-    public void handleExperienceRecovery(Player player){
-        MemoryTabletData data = MemoryTabletData.getFromStorage(player);
+    public void handleExperienceRecovery(Player player, MemoryTabletData data){
         assert data != null;
         long xp = data.getExperienceToRecover();
         int pointsRecovered = (int) Math.min(5000000 - getExperiencePoints(), xp);
