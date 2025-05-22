@@ -2,6 +2,7 @@ package com.cyanogen.cognition.registries;
 
 import com.cyanogen.cognition.Cognition;
 import com.cyanogen.cognition.item.*;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.item.*;
@@ -80,10 +81,13 @@ public class RegisterItems {
             () -> new CognitiveToolset.CognitiveBowItem(835, 1.25f, 1.40f));
 
     public static final DeferredHolder<Item, FishingRodItem> COGNITIVE_ROD = ITEMS.register("cognitive_rod",
-            () -> new FishingRodItem(createCustomAttributes(new Item.Properties(), null, increasedReach()).durability(2200)));
+            () -> new FishingRodItem(createCustomAttributes(new Item.Properties(), null, increasedReach())
+                    .durability(2200)));
 
     public static final DeferredHolder<Item, ShearsItem> COGNITIVE_SHEARS = ITEMS.register("cognitive_shears",
-            () -> new ShearsItem(createCustomAttributes(new Item.Properties(), null, increasedReach()).durability(2200)));
+            () -> new ShearsItem(createCustomAttributes(new Item.Properties(), null, increasedReach())
+                    .durability(2200)
+                    .component(DataComponents.TOOL, ShearsItem.createToolProperties())));
 
     public static final DeferredHolder<Item, CognitiveToolset.FlintAndCognitiveAlloyItem> FLINT_AND_COGNITIVE_ALLOY = ITEMS.register("flint_and_cognitive_alloy",
             () -> new CognitiveToolset.FlintAndCognitiveAlloyItem(2200));
