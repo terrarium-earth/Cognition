@@ -1,5 +1,6 @@
 package com.cyanogen.cognition.gui;
 
+import com.cyanogen.cognition.config.Config;
 import com.cyanogen.cognition.registries.RegisterItems;
 import com.cyanogen.cognition.registries.RegisterMenus;
 import com.cyanogen.cognition.utils.MiscUtils;
@@ -63,8 +64,8 @@ public class ExperienceObeliskMenu extends AbstractContainerMenu {
     @Override
     public boolean stillValid(Player player) {
 
-        int distance = 7;
-        if(player.getItemInHand(InteractionHand.MAIN_HAND).is(RegisterItems.MEMORY_TABLET.get())) distance = 48;
+        double distance = 7;
+        if(player.getItemInHand(InteractionHand.MAIN_HAND).is(RegisterItems.MEMORY_TABLET.get())) distance = Config.COMMON.bindingRange.get();
         return MiscUtils.straightLineDistance(getBlockPos(), player.blockPosition()) <= distance;
     }
 

@@ -88,8 +88,8 @@ public class Config {
                     .define("IgnoresBookshelfOrbs", false);
             builder.pop();
 
-            builder.push("Staff of Attunement Range");
-            this.bindingRange = builder.comment("The binding range of the Staff of Attunement in blocks. Accepts decimals. Default = 48.0.")
+            builder.push("Binding Range");
+            this.bindingRange = builder.comment("The binding range of the Staff of Attunement & Memory Tablet in blocks. Accepts decimals. Default = 48.0.")
                     .comment("Lower this if you experience issues with bound blocks not working correctly.")
                     .defineInRange("Range", 48.0, 4, 100.0);
             builder.pop();

@@ -2,6 +2,7 @@ package com.cyanogen.cognition.item;
 
 import com.cyanogen.cognition.block.ExperienceObeliskBlock;
 import com.cyanogen.cognition.block_entities.ExperienceObeliskEntity;
+import com.cyanogen.cognition.config.Config;
 import com.cyanogen.cognition.registries.RegisterSounds;
 import com.cyanogen.cognition.saved_data.MemoryTabletData;
 import com.cyanogen.cognition.utils.ExperienceUtils;
@@ -47,7 +48,7 @@ public class MemoryTabletItem extends Item {
                 if(!player.isShiftKeyDown()){
                     if(state.getBlock() instanceof ExperienceObeliskBlock obeliskBlock
                             && data.dimensionMatches(level)
-                            && MiscUtils.straightLineDistance(player.blockPosition(), pos) <= 48){
+                            && MiscUtils.straightLineDistance(player.blockPosition(), pos) <= Config.COMMON.bindingRange.get()){
 
                         player.openMenu(obeliskBlock.getMenuProvider(state, level, pos));
                     }

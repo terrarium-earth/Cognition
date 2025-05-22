@@ -1,5 +1,8 @@
 v2.4.4-beta
 
+[Changes]
+- Memory Tablet range now conforms to the Staff of Attunement binding range set in the Config file
+
 [Bugfixes]
 - Fixed Cognitive Shears not having increased mining speed for wool, cobwebs etc.
 
