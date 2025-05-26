@@ -2,6 +2,8 @@ v2.4.4-beta
 
 [Changes]
 - Memory Tablet range now conforms to the Staff of Attunement binding range set in the Config file
+- Decreased Linear Accelerator area of effect by 0.1 on each side to make it easier to walk between
+activated accelerators without being launched
 
 [Bugfixes]
 - Fixed Cognitive Shears not having increased mining speed for wool, cobwebs etc.
