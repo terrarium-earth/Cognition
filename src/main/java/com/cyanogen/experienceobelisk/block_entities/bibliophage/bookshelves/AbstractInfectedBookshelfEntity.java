@@ -6,6 +6,7 @@ import com.cyanogen.experienceobelisk.registries.RegisterBlocks;
 import com.cyanogen.experienceobelisk.registries.RegisterItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
@@ -42,6 +43,8 @@ public abstract class AbstractInfectedBookshelfEntity extends AbstractInfectiveE
     int decayValue = 0; //the number of times a bookshelf has spawned an orb
     final double infectivity = 0.02; //the chance for a bookshelf to infect another adjacent bookshelf every second
     boolean redstoneEnabled = false; //whether the bookshelf is sensitive to redstone. Disabled bookshelves will not infect adjacents, produce XP, or decay
+
+    public static final Component FROM_BOOKSHELF = Component.literal("SpawnedFromBookshelf");
 
     //-----------BEHAVIOR-----------//
 
@@ -109,6 +112,8 @@ public abstract class AbstractInfectedBookshelfEntity extends AbstractInfectiveE
             ServerLevel server = (ServerLevel) level;
             ExperienceOrb orb = new ExperienceOrb(server, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, value);
             orb.setDeltaMovement(0,0,0);
+            orb.setCustomName(FROM_BOOKSHELF);
+            orb.setCustomNameVisible(false);
 
             server.addFreshEntity(orb);
         }

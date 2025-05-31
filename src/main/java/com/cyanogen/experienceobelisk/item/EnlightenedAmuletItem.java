@@ -15,7 +15,8 @@ import net.minecraft.world.phys.Vec3;
 import java.util.List;
 import java.util.Objects;
 
-import static com.cyanogen.experienceobelisk.block_entities.ExperienceFountainEntity.customName;
+import static com.cyanogen.experienceobelisk.block_entities.ExperienceFountainEntity.FROM_FOUNTAIN;
+import static com.cyanogen.experienceobelisk.block_entities.bibliophage.bookshelves.AbstractInfectedBookshelfEntity.FROM_BOOKSHELF;
 
 public class EnlightenedAmuletItem extends ActivatableItem{
 
@@ -59,9 +60,11 @@ public class EnlightenedAmuletItem extends ActivatableItem{
                     CompoundTag tag = new CompoundTag();
                     orb.addAdditionalSaveData(tag);
 
-                    boolean spawnedFromFountain = orb.hasCustomName() && Objects.equals(orb.getCustomName(), customName);
-                    boolean ignore = Config.COMMON.amuletIgnoresFountainOrbs.get();
-                    boolean shouldCollect = !(ignore && spawnedFromFountain);
+                    boolean spawnedFromFountain = orb.hasCustomName() && Objects.equals(orb.getCustomName(), FROM_FOUNTAIN);
+                    boolean ignoreFountain = Config.COMMON.amuletIgnoresFountainOrbs.get();
+                    boolean spawnedFromBookshelf = orb.hasCustomName() && Objects.equals(orb.getCustomName(), FROM_BOOKSHELF);
+                    boolean ignoreBookshelf = Config.COMMON.amuletIgnoresBookshelfOrbs.get();
+                    boolean shouldCollect = !(ignoreFountain && spawnedFromFountain) && !(ignoreBookshelf && spawnedFromBookshelf);
 
                     if(shouldCollect){
                         int value = orb.value;

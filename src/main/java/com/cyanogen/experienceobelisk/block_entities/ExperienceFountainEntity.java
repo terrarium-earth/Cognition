@@ -112,7 +112,7 @@ public class ExperienceFountainEntity extends ExperienceReceivingEntity implemen
 
     //-----------PASSIVE BEHAVIOR-----------//
 
-    public static final Component customName = Component.literal("SpawnedFromFountain");
+    public static final Component FROM_FOUNTAIN = Component.literal("SpawnedFromFountain");
 
     public static <T> void tick(Level level, BlockPos pos, BlockState state, T blockEntity) {
 
@@ -169,7 +169,7 @@ public class ExperienceFountainEntity extends ExperienceReceivingEntity implemen
                     ServerLevel server = (ServerLevel) level;
                     ExperienceOrb orb = new ExperienceOrb(server, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, value);
 
-                    orb.setCustomName(customName);
+                    orb.setCustomName(FROM_FOUNTAIN);
                     orb.setCustomNameVisible(false);
 
                     obelisk.drain(value * 20);
