@@ -5,6 +5,7 @@ import com.cyanogen.experienceobelisk.event.EventHandler;
 import com.cyanogen.experienceobelisk.gui.ExperienceObeliskScreen;
 import com.cyanogen.experienceobelisk.gui.MolecularMetamorpherScreen;
 import com.cyanogen.experienceobelisk.gui.PrecisionDispellerScreen;
+import com.cyanogen.experienceobelisk.item.CognitiveBowItem;
 import com.cyanogen.experienceobelisk.network.PacketHandler;
 import com.cyanogen.experienceobelisk.registries.*;
 import net.minecraft.client.gui.screens.MenuScreens;
@@ -58,6 +59,7 @@ public class ExperienceObelisk
 
         ItemBlockRenderTypes.setRenderLayer(RegisterFluids.COGNITIUM.get(), RenderType.translucent());
         ItemBlockRenderTypes.setRenderLayer(RegisterFluids.COGNITIUM_FLOWING.get(), RenderType.translucent());
+        event.enqueueWork(CognitiveBowItem::registerProperties);
     }
 
 

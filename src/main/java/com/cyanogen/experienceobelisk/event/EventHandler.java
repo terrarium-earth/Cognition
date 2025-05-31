@@ -1,5 +1,6 @@
 package com.cyanogen.experienceobelisk.event;
 
+import com.cyanogen.experienceobelisk.item.CognitiveBowItem;
 import com.cyanogen.experienceobelisk.item.FortuitousAmuletItem;
 import com.cyanogen.experienceobelisk.item.MemoryTabletItem;
 import com.cyanogen.experienceobelisk.item.NeurogelMendingItem;
@@ -28,6 +29,7 @@ public class EventHandler {
     @OnlyIn(Dist.CLIENT)
     public void onTooltip(ItemTooltipEvent event){
         DescriptionTooltips.handleTooltip(event);
+        CognitiveBowItem.handleTooltip(event);
     }
 
     @SubscribeEvent
