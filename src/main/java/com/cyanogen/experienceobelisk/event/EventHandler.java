@@ -1,5 +1,6 @@
 package com.cyanogen.experienceobelisk.event;
 
+import com.cyanogen.experienceobelisk.block.ExperienceFountainBlock;
 import com.cyanogen.experienceobelisk.item.CognitiveBowItem;
 import com.cyanogen.experienceobelisk.item.FortuitousAmuletItem;
 import com.cyanogen.experienceobelisk.item.MemoryTabletItem;
@@ -19,6 +20,7 @@ import net.minecraftforge.event.ItemStackedOnOtherEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingExperienceDropEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -46,6 +48,11 @@ public class EventHandler {
     @SubscribeEvent
     public void onLivingDeath(LivingDeathEvent event){
         MemoryTabletItem.handleDeath(event);
+    }
+
+    @SubscribeEvent
+    public void onPlayerRightClickBlock(PlayerInteractEvent.RightClickBlock event){
+        ExperienceFountainBlock.handleExperienceItem(event);
     }
 
 }

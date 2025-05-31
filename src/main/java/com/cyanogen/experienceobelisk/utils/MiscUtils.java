@@ -7,7 +7,9 @@ import net.minecraft.network.chat.Style;
 import net.minecraft.world.phys.Vec3;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MiscUtils {
 
@@ -64,6 +66,33 @@ public class MiscUtils {
         }
 
         return new Vec3(x,y,z);
+    }
+
+    public static Map<String, Float> getExperienceItemMapFromList(List<String> list){
+        Map<String, Float> map = new HashMap<>();
+
+        for(String element : list){
+            String[] substrings = element.split(" = ");
+            if(substrings.length == 2){
+                String itemName = substrings[0];
+                String xp = substrings[1];
+
+                if(isValidFloat(xp)){
+                    map.put(itemName, Float.valueOf(xp));
+                }
+            }
+        }
+        return map;
+    }
+
+    public static boolean isValidFloat(String n){
+        try{
+            Float.valueOf(n);
+            return true;
+        }
+        catch(NumberFormatException exception){
+            return false;
+        }
     }
 
 }

@@ -2,9 +2,12 @@ package com.cyanogen.experienceobelisk.block;
 
 import com.cyanogen.experienceobelisk.block_entities.ExperienceFountainEntity;
 import com.cyanogen.experienceobelisk.block_entities.ExperienceObeliskEntity;
+import com.cyanogen.experienceobelisk.config.Config;
 import com.cyanogen.experienceobelisk.registries.RegisterBlockEntities;
 import com.cyanogen.experienceobelisk.registries.RegisterFluids;
+import com.cyanogen.experienceobelisk.utils.MiscUtils;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.sounds.SoundEvents;
@@ -29,6 +32,7 @@ import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.capability.IFluidHandler;
@@ -36,6 +40,8 @@ import net.minecraftforge.fluids.capability.IFluidHandlerItem;
 import net.minecraftforge.items.ItemHandlerHelper;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.Map;
 
 public class ExperienceFountainBlock extends ExperienceReceivingBlock implements EntityBlock {
 
@@ -58,18 +64,22 @@ public class ExperienceFountainBlock extends ExperienceReceivingBlock implements
 
         BlockEntity entity = level.getBlockEntity(pos);
         ItemStack heldItem = player.getItemInHand(hand);
-        IFluidHandlerItem fluidHandler = FluidUtil.getFluidHandler(ItemHandlerHelper.copyStackWithSize(heldItem, 1)).orElse(null);
+        @Nullable IFluidHandlerItem fluidHandler = FluidUtil.getFluidHandler(ItemHandlerHelper.copyStackWithSize(heldItem, 1)).orElse(null);
 
         if(entity instanceof ExperienceFountainEntity fountain){
 
             if(fountain.isBound && level.getBlockEntity(fountain.getBoundPos()) instanceof ExperienceObeliskEntity obelisk){
 
-              if(heldItem.getItem() == Items.EXPERIENCE_BOTTLE || heldItem.getItem() == Items.GLASS_BOTTLE){
+                if(getXPforItem(heldItem) > 0){
+                    handleExperienceItem(heldItem, getXPforItem(heldItem), obelisk, player.isShiftKeyDown());
+                    return InteractionResult.sidedSuccess(true);
+                }
+                else if(heldItem.getItem() == Items.EXPERIENCE_BOTTLE || heldItem.getItem() == Items.GLASS_BOTTLE){
                     handleExperienceBottle(heldItem, player, hand, obelisk);
                     return InteractionResult.sidedSuccess(true);
                 }
                 else if(fluidHandler != null){
-                    handleExperienceItem(heldItem, fluidHandler, player, hand, obelisk);
+                    handleExperienceContainer(heldItem, fluidHandler, player, hand, obelisk);
                     return InteractionResult.sidedSuccess(true);
                 }
             }
@@ -102,7 +112,52 @@ public class ExperienceFountainBlock extends ExperienceReceivingBlock implements
         return message;
     }
 
-    public void handleExperienceItem(ItemStack heldItem, IFluidHandlerItem fluidHandler, Player player, InteractionHand hand, ExperienceObeliskEntity obelisk){
+    public static float getXPforItem(ItemStack stack){
+        String itemName = BuiltInRegistries.ITEM.getKey(stack.getItem()).toString();
+        Map<String, Float> xpItemsMap = MiscUtils.getExperienceItemMapFromList(Config.COMMON.allowedExperienceItems.get());
+        return xpItemsMap.containsKey(itemName) ? xpItemsMap.get(itemName) : 0;
+    }
+
+    public static void handleExperienceItem(PlayerInteractEvent.RightClickBlock event){
+        ItemStack heldItem = event.getEntity().getItemInHand(event.getHand());
+        BlockPos pos = event.getPos();
+        Level level = event.getLevel();
+
+        if(level.getBlockEntity(pos) instanceof ExperienceFountainEntity fountain
+                && fountain.isBound && fountain.getBoundObelisk() != null && !heldItem.isEmpty()
+                && getXPforItem(heldItem) > 0 && event.getEntity().isShiftKeyDown()){
+
+            ExperienceFountainBlock block = (ExperienceFountainBlock) level.getBlockState(pos).getBlock();
+            block.handleExperienceItem(heldItem, getXPforItem(heldItem), fountain.getBoundObelisk(), true);
+            event.setCancellationResult(InteractionResult.sidedSuccess(level.isClientSide));
+            event.setCanceled(true);
+        }
+    }
+
+    public void handleExperienceItem(ItemStack heldItem, float xp, ExperienceObeliskEntity obelisk, boolean shiftKeyDown){
+
+        int fillAmount = Math.round(xp * 20);
+
+        if(!shiftKeyDown){
+            if(obelisk.getSpace() >= fillAmount){
+                obelisk.fill(fillAmount);
+                heldItem.shrink(1);
+            }
+        }
+        else{
+            int maxFillCount = obelisk.getSpace() / fillAmount;
+            if(maxFillCount >= heldItem.getCount()){
+                obelisk.fill(fillAmount * heldItem.getCount());
+                heldItem.setCount(0);
+            }
+            else{
+                obelisk.fill(fillAmount * maxFillCount);
+                heldItem.shrink(maxFillCount);
+            }
+        }
+    }
+
+    public void handleExperienceContainer(ItemStack heldItem, IFluidHandlerItem fluidHandler, Player player, InteractionHand hand, ExperienceObeliskEntity obelisk){
 
         FluidStack cognitium = new FluidStack(RegisterFluids.COGNITIUM.get(), 1000);
 

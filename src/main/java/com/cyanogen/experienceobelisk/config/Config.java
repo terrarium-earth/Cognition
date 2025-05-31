@@ -12,6 +12,7 @@ public class Config {
 
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> allowedFluids;
         public final ForgeConfigSpec.ConfigValue<Integer> capacity;
+        public final ForgeConfigSpec.ConfigValue<List<String>> allowedExperienceItems;
         public final ForgeConfigSpec.ConfigValue<Double> amuletRange;
         public final ForgeConfigSpec.ConfigValue<Boolean> amuletIgnoresFountainOrbs;
         public final ForgeConfigSpec.ConfigValue<Double> bindingRange;
@@ -44,6 +45,7 @@ public class Config {
         public final ForgeConfigSpec.ConfigValue<Boolean> agarEmitsLight;
 
         public final List<String> defaultAllowedFluids = new ArrayList<>();
+        public List<String> defaultAllowedExperienceItems = new ArrayList<>();
 
         public Common(ForgeConfigSpec.Builder builder){
 
@@ -52,6 +54,10 @@ public class Config {
             defaultAllowedFluids.add("industrialforegoing:essence");
             defaultAllowedFluids.add("sophisticatedcore:xp_still");
             defaultAllowedFluids.add("enderio:xp_juice");
+
+            defaultAllowedExperienceItems.add("forbidden_arcanus:xpetrified_orb = 91.0f");
+            defaultAllowedExperienceItems.add("mysticalagriculture:experience_droplet = 12.5f");
+            defaultAllowedExperienceItems.add("actuallyadditions:solidified_experience = 8.0f");
 
             builder.push("Allowed Experience Fluids");
             this.allowedFluids = builder.comment("Add IDs of fluids you want the obelisk to support here in the form mod_id:fluid_name. Fluids have to be tagged forge:experience.")
@@ -62,6 +68,13 @@ public class Config {
             this.capacity = builder.comment("The fluid capacity of the obelisk in mB. Default = 100000000, which is ~1072 levels' worth. Ensure that the new value is divisible by 20.")
                     .comment("Warning: setting this value above the default may lead to unintended loss or gain of XP. This is due to a rounding error in Minecraft's XP handling")
                     .defineInRange("Capacity", 100000000, 1000, 2147483640);
+            builder.pop();
+
+            builder.push("Allowed Experience Items");
+            this.allowedExperienceItems = builder.comment("Add IDs of items you want the fountain to support here in the form mod_id:item_name = value in experience points.")
+                    .comment("Whitelisted items will be able to be converted to Cognitium by right-clicking / shift-right-clicking a bound fountain.")
+                    .comment("This list has to be identical on both client and server for valid items to be viewed in JEI")
+                    .define("AllowedItems", defaultAllowedExperienceItems);
             builder.pop();
 
             builder.push("Enlightened Amulet");
