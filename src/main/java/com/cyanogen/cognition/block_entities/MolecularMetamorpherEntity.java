@@ -17,6 +17,7 @@ import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.item.DyeItem;
@@ -354,8 +355,9 @@ public class MolecularMetamorpherEntity extends ExperienceReceivingEntity implem
                             stack.shrink(1);
                         }
                         else{
-                            int damage = stack.getDamageValue();
-                            stack.setDamageValue(damage + 1);
+                            if(level != null && !level.isClientSide){
+                                stack.hurtAndBreak(1, (ServerLevel) level, null, (onBreak) -> {});
+                            }
                         }
                         break;
                     }
