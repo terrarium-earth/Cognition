@@ -31,23 +31,23 @@ public class NeurogelMendingItem extends Item {
 
     public static void handleItem(ItemStackedOnOtherEvent event){
         ItemStack itemToRepair = event.getStackedOnItem();
-        ItemStack stackedOn = event.getCarriedItem();
+        ItemStack itemBeingCarried = event.getCarriedItem();
         Player player = event.getPlayer();
 
-        if(stackedOn.getItem() instanceof NeurogelMendingItem neurogel){
+        if(itemBeingCarried.getItem() instanceof NeurogelMendingItem neurogel){
 
             if(itemToRepair.isDamaged()){
                 int maxDurability = itemToRepair.getMaxDamage();
                 int damage = itemToRepair.getDamageValue();
                 int repairAmount = (int) Math.max(maxDurability * neurogel.maxRepairPercentage(), neurogel.maxRepairPoints());
 
-                stackedOn.shrink(1);
+                itemBeingCarried.shrink(1);
                 itemToRepair.setDamageValue(Math.max(damage - repairAmount, 0));
                 player.playSound(RegisterSounds.NEUROGEL_APPLY.get(), 0.75f, MiscUtils.randomInRange(0.8f, 1.2f));
                 event.setCanceled(true);
             }
             else if(itemToRepair.is(Items.CHIPPED_ANVIL) || itemToRepair.is(Items.DAMAGED_ANVIL)){
-                neurogel.handleAnvilItem(event.getSlot(), player, stackedOn, itemToRepair, event);
+                neurogel.handleAnvilItem(event.getSlot(), player, itemBeingCarried, itemToRepair, event);
             }
         }
 
