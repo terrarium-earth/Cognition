@@ -1,9 +1,13 @@
 package com.cyanogen.experienceobelisk.gui;
 
 import com.cyanogen.experienceobelisk.block_entities.ExperienceObeliskEntity;
+import com.cyanogen.experienceobelisk.config.Config;
+import com.cyanogen.experienceobelisk.registries.RegisterItems;
 import com.cyanogen.experienceobelisk.registries.RegisterMenus;
+import com.cyanogen.experienceobelisk.utils.MiscUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -39,6 +43,8 @@ public class ExperienceObeliskMenu extends AbstractContainerMenu {
 
     @Override
     public boolean stillValid(Player player) {
-        return player.position().distanceTo(Vec3.atCenterOf(posServer)) <= 7;
+        double distance = 7;
+        if(player.getItemInHand(InteractionHand.MAIN_HAND).is(RegisterItems.MEMORY_TABLET.get())) distance = Config.COMMON.bindingRange.get();
+        return MiscUtils.straightLineDistance(posServer, player.blockPosition()) <= distance;
     }
 }

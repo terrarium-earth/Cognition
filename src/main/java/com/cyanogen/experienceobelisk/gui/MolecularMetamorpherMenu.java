@@ -159,9 +159,6 @@ public class MolecularMetamorpherMenu extends AbstractContainerMenu {
 
     @Override
     public boolean stillValid(Player player) {
-
-        double distance = 7;
-        if(player.getItemInHand(InteractionHand.MAIN_HAND).is(RegisterItems.MEMORY_TABLET.get())) distance = Config.COMMON.bindingRange.get();
-        return MiscUtils.straightLineDistance(posServer, player.blockPosition()) <= distance;
+        return player.position().distanceTo(Vec3.atCenterOf(posServer)) <= 7;
     }
 }
