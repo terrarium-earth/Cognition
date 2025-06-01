@@ -12,6 +12,7 @@ import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.item.ItemStack;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +25,8 @@ public class MolecularMetamorpherScreen extends AbstractContainerScreen<Molecula
     private final Component title = Component.translatable("title.experienceobelisk.molecular_metamorpher");
     private final Component inventoryTitle = Component.translatable("title.experienceobelisk.precision_dispeller.inventory");
     private final MolecularMetamorpherMenu menu;
+    private final int[] inputSlotsX = {19, 50, 70};
+    private final int[] inputSlotsY = {35, 52, 18};
 
     public MolecularMetamorpherScreen(MolecularMetamorpherMenu menu, Inventory inventory, Component component) {
         super(menu, menu.inventory, menu.component);
@@ -67,6 +70,16 @@ public class MolecularMetamorpherScreen extends AbstractContainerScreen<Molecula
 
         //render background texture
         gui.blit(texture, x, y, 0, 0, 176, 166);
+
+        //render fake items
+        if(metamorpher.inputsAreLocked()){
+            for(int i = 0; i < 3; i++){
+                ItemStack stack = metamorpher.getSavedInputs().getStackInSlot(i);
+                gui.renderFakeItem(stack, x + inputSlotsX[i], y + inputSlotsY[i]);
+                gui.fill(x + inputSlotsX[i], y + inputSlotsY[i], x + inputSlotsX[i] + 16, y + inputSlotsY[i] + 16,
+                        220, 9145227 + (140<<24));  //color is in decimal. leftshifted bits determine opacity (0-255)
+            }
+        }
 
         //render recipe progress
         gui.blit(texture, this.width / 2 + 109 - 88, this.height / 2 + 48 - 83, 0, 175, (int) (arrowWidth * completion), 4);

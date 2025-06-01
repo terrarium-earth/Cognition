@@ -2,6 +2,7 @@ package com.cyanogen.experienceobelisk.item;
 
 import com.cyanogen.experienceobelisk.block.ExperienceObeliskBlock;
 import com.cyanogen.experienceobelisk.block_entities.ExperienceObeliskEntity;
+import com.cyanogen.experienceobelisk.config.Config;
 import com.cyanogen.experienceobelisk.saved_data.MemoryTabletData;
 import com.cyanogen.experienceobelisk.utils.ExperienceUtils;
 import com.cyanogen.experienceobelisk.utils.MiscUtils;
@@ -46,7 +47,7 @@ public class MemoryTabletItem extends Item {
                 if(!player.isShiftKeyDown()){
                     if(state.getBlock() instanceof ExperienceObeliskBlock obeliskBlock
                             && data.dimensionMatches(level)
-                            && MiscUtils.straightLineDistance(player.blockPosition(), pos) <= 48){
+                            && MiscUtils.straightLineDistance(player.blockPosition(), pos) <= Config.COMMON.bindingRange.get()){
 
                         player.openMenu(obeliskBlock.getMenuProvider(state, level, pos));
                     }
