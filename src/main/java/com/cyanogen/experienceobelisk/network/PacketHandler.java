@@ -3,6 +3,7 @@ package com.cyanogen.experienceobelisk.network;
 import com.cyanogen.experienceobelisk.ExperienceObelisk;
 import com.cyanogen.experienceobelisk.network.experience_obelisk.UpdateContents;
 import com.cyanogen.experienceobelisk.network.experience_obelisk.UpdateRadius;
+import com.cyanogen.experienceobelisk.network.molecular_metamorpher.UpdateLockedStatus;
 import com.cyanogen.experienceobelisk.network.precision_dispeller.UpdateSlot;
 import com.cyanogen.experienceobelisk.network.shared.UpdateInventory;
 import com.cyanogen.experienceobelisk.network.shared.UpdateRedstone;
@@ -52,6 +53,12 @@ public final class PacketHandler {
                 UpdateInventory::encode,
                 UpdateInventory::new,
                 UpdateInventory::handle);
+
+        INSTANCE.registerMessage(index++,
+                UpdateLockedStatus.class,
+                UpdateLockedStatus::encode,
+                UpdateLockedStatus::new,
+                UpdateLockedStatus::handle);
 
     }
 

@@ -61,6 +61,7 @@ public class MolecularMetamorpherEntity extends ExperienceReceivingEntity implem
     int processProgress = 0;
     int recipeCost = 0;
     ResourceLocation recipeId;
+    private boolean lockInputs = false;
 
     //-----------ANIMATIONS-----------//
 
@@ -173,6 +174,7 @@ public class MolecularMetamorpherEntity extends ExperienceReceivingEntity implem
 
     protected ItemStackHandler inputHandler = inputHandler();
     protected ItemStackHandler outputHandler = outputHandler();
+    protected ItemStackHandler savedInputs = savedInputs();
     private final LazyOptional<IItemHandler> inputHandlerOptional = LazyOptional.of(() -> inputHandler);
     private final LazyOptional<IItemHandler> outputHandlerOptional = LazyOptional.of(() -> outputHandler);
 
@@ -189,12 +191,62 @@ public class MolecularMetamorpherEntity extends ExperienceReceivingEntity implem
         };
     }
 
+    public ItemStackHandler savedInputs(){
+        return new ItemStackHandler(3){
+            @Override
+            public boolean isItemValid(int slot, ItemStack stack) {
+                return false;
+            }
+
+            @Override
+            protected void onContentsChanged(int slot) {
+                setChanged();
+                super.onContentsChanged(slot);
+            }
+        };
+    }
+
     public ItemStackHandler getInputHandler(){
         return inputHandler;
     }
 
     public ItemStackHandler getOutputHandler(){
         return outputHandler;
+    }
+
+    public ItemStackHandler getSavedInputs(){
+        return savedInputs;
+    }
+
+    public boolean isEmpty(){
+        return inputsAreEmpty() && outputHandler.getStackInSlot(0).isEmpty();
+    }
+
+    public boolean inputsAreEmpty(){
+        return inputHandler.getStackInSlot(0).isEmpty() &&
+                inputHandler.getStackInSlot(1).isEmpty() &&
+                inputHandler.getStackInSlot(2).isEmpty();
+    }
+
+    public boolean inputsAreLocked(){
+        return this.lockInputs;
+    }
+
+    public void lockInputs(boolean lock){
+        this.lockInputs = lock;
+
+        for(int i = 0; i < 3; i++){
+            if(lock){
+                savedInputs.setStackInSlot(i, inputHandler.getStackInSlot(i).copy());
+            }
+            else{
+                savedInputs.setStackInSlot(i, ItemStack.EMPTY);
+            }
+        }
+        if(level != null){
+            level.sendBlockUpdated(getBlockPos(), getBlockState(), getBlockState(), 2);
+        }
+        setChanged();
     }
 
     @Override

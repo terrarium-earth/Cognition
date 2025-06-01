@@ -2,6 +2,7 @@ package com.cyanogen.experienceobelisk.gui;
 
 import com.cyanogen.experienceobelisk.block_entities.MolecularMetamorpherEntity;
 import com.cyanogen.experienceobelisk.network.PacketHandler;
+import com.cyanogen.experienceobelisk.network.molecular_metamorpher.UpdateLockedStatus;
 import com.cyanogen.experienceobelisk.network.shared.UpdateRedstone;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
@@ -78,6 +79,20 @@ public class MolecularMetamorpherOptionsScreen extends Screen{
         else{
             buttons.get(1).setMessage(Component.translatable("button.experienceobelisk.experience_obelisk.ignored"));
         }
+        if(metamorpher.inputsAreLocked()){
+            buttons.get(2).setMessage(Component.translatable("button.experienceobelisk.molecular_metamorpher.unlock"));
+            buttons.get(2).setTooltip(Tooltip.create(Component.translatable("tooltip.experienceobelisk.molecular_metamorpher.options.unlock")));
+        }
+        else{
+            buttons.get(2).setMessage(Component.translatable("button.experienceobelisk.molecular_metamorpher.lock"));
+            if(metamorpher.inputsAreEmpty()){
+                buttons.get(2).setTooltip(Tooltip.create(Component.translatable("tooltip.experienceobelisk.molecular_metamorpher.options.lock.inputsempty")));
+            }
+            else{
+                buttons.get(2).setTooltip(Tooltip.create(Component.translatable("tooltip.experienceobelisk.molecular_metamorpher.options.lock")));
+            }
+
+        }
         loadWidgetElements();
 
 
@@ -133,7 +148,21 @@ public class MolecularMetamorpherOptionsScreen extends Screen{
                 .pos(this.width / 2 - 25, this.height / 2 - y1)
                 .build();
 
+        Button toggleInputLock = Button.builder(Component.empty(),
+                        (onPress) -> toggleLockedStatus())
+                .size(w, h)
+                .pos(this.width / 2 - 25, this.height / 2 - y1)
+                .build();
+
         buttons.add(back);
         buttons.add(toggleRedstone);
+        buttons.add(toggleInputLock);
     }
+
+    private void toggleLockedStatus(){
+        if(!metamorpher.inputsAreEmpty() || metamorpher.inputsAreLocked()){
+            PacketHandler.INSTANCE.sendToServer(new UpdateLockedStatus(pos));
+        }
+    }
+
 }
