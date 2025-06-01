@@ -47,13 +47,14 @@ public class LinearAcceleratorEntity extends AbstractAcceleratorEntity{
                     case WEST -> x = -1;
                 }
 
+                float offset = 0.1f;
                 AABB area = new AABB(
-                        pos.getX(),
+                        pos.getX() + offset,
                         pos.getY() + 1,
-                        pos.getZ(),
-                        pos.getX() + 1,
+                        pos.getZ() + offset,
+                        pos.getX() + 1 - offset,
                         pos.getY() + 2,
-                        pos.getZ() + 1);
+                        pos.getZ() + 1 - offset);
 
                 List<Entity> list = level.getEntities(null, area);
 
