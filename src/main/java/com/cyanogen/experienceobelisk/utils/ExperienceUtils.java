@@ -1,6 +1,5 @@
 package com.cyanogen.experienceobelisk.utils;
 
-import com.cyanogen.experienceobelisk.block_entities.ExperienceObeliskEntity;
 import net.minecraft.world.entity.player.Player;
 
 public class ExperienceUtils {

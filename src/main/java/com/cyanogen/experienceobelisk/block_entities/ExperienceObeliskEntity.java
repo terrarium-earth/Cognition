@@ -44,9 +44,7 @@ import software.bernie.geckolib.util.GeckoLibUtil;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import static com.cyanogen.experienceobelisk.utils.ExperienceUtils.*;
 
