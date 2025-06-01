@@ -36,7 +36,7 @@ public class RegisterCreativeTab {
                         output.accept(RegisterItems.COGNITIVE_PICKAXE.get());
                         output.accept(RegisterItems.COGNITIVE_AXE.get());
                         output.accept(RegisterItems.COGNITIVE_HOE.get());
-                        //output.accept(RegisterItems.COGNITIVE_BOW.get());
+                        output.accept(RegisterItems.COGNITIVE_BOW.get());
                         output.accept(RegisterItems.COGNITIVE_ROD.get());
                         output.accept(RegisterItems.COGNITIVE_SHEARS.get());
                         output.accept(RegisterItems.FLINT_AND_COGNITIVE_ALLOY.get());

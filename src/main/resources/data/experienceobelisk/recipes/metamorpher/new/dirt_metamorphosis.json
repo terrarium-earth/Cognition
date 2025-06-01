@@ -1,11 +1,11 @@
 {
-  "type": "cognition:molecular_metamorphosis",
+  "type": "experienceobelisk:molecular_metamorphosis",
   "ingredient1": {
     "item": "minecraft:moss_block"
   },
   "count1": 1,
   "ingredient2": {
-    "item": "cognition:transforming_focus"
+    "item": "experienceobelisk:transforming_focus"
   },
   "count2": 1,
   "ingredient3": [],

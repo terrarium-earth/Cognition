@@ -2,14 +2,14 @@
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
     {
-      "item": "cognition:cognitive_alloy"
+      "item": "experienceobelisk:cognitive_alloy"
     },
     {
       "item": "minecraft:flint"
     }
   ],
   "result": {
-    "item": "cognition:flint_and_cognitive_alloy",
+    "item": "experienceobelisk:flint_and_cognitive_alloy",
     "count": 1
   }
 }

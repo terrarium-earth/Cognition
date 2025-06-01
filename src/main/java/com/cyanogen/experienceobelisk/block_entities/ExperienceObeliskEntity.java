@@ -260,7 +260,7 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
                 pos.getX() + 0.5, pos.getY() + 0.6, pos.getZ() + 0.5, 64, 1, 1, 1, 0.1);
 
         data.setExperienceToRecover(0);
-        player.displayClientMessage(Component.translatable("message.cognition.experience_obelisk.experience_recovered",
+        player.displayClientMessage(Component.translatable("message.experienceobelisk.experience_obelisk.experience_recovered",
                 Component.literal(String.valueOf(xpToLevels(pointsRecovered))).withStyle(ChatFormatting.GREEN)), true);
     }
 

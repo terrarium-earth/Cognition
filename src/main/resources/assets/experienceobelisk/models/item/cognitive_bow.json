@@ -1,0 +1,50 @@
+{
+    "parent": "item/generated",
+    "textures": {
+        "layer0": "experienceobelisk:item/cognitive_bow"
+    },
+    "display": {
+        "thirdperson_righthand": {
+            "rotation": [ -80, 260, -40 ],
+            "translation": [ -1, -2, 2.5 ],
+            "scale": [ 0.9, 0.9, 0.9 ]
+        },
+        "thirdperson_lefthand": {
+            "rotation": [ -80, -280, 40 ],
+            "translation": [ -1, -2, 2.5 ],
+            "scale": [ 0.9, 0.9, 0.9 ]
+        },
+        "firstperson_righthand": {
+            "rotation": [ 0, -90, 25 ],
+            "translation": [ 1.13, 3.2, 1.13],
+            "scale": [ 0.68, 0.68, 0.68 ]
+        },
+        "firstperson_lefthand": {
+            "rotation": [ 0, 90, -25 ],
+            "translation": [ 1.13, 3.2, 1.13],
+            "scale": [ 0.68, 0.68, 0.68 ]
+        }
+    },
+    "overrides": [
+        {
+            "predicate": {
+                "experienceobelisk:pulling": 1
+            },
+            "model": "experienceobelisk:item/cognitive_bow_pulling_0"
+        },
+        {
+            "predicate": {
+                "experienceobelisk:pulling": 1,
+                "experienceobelisk:pull": 0.65
+            },
+            "model": "experienceobelisk:item/cognitive_bow_pulling_1"
+        },
+        {
+            "predicate": {
+                "experienceobelisk:pulling": 1,
+                "experienceobelisk:pull": 0.9
+            },
+            "model": "experienceobelisk:item/cognitive_bow_pulling_2"
+        }
+    ]
+}

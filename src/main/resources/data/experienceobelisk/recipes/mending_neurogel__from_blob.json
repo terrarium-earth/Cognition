@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "experienceobelisk:mending_neurogel_blob"
+    },
+    {
+      "item": "experienceobelisk:mending_neurogel_blob"
+    },
+    {
+      "item": "experienceobelisk:mending_neurogel_blob"
+    },
+    {
+      "item": "experienceobelisk:mending_neurogel_blob"
+    }
+  ],
+  "result": {
+    "item": "experienceobelisk:mending_neurogel",
+    "count": 1
+  }
+}

@@ -1,0 +1,6 @@
+{
+    "parent": "experienceobelisk:item/cognitive_bow",
+    "textures": {
+        "layer0": "experienceobelisk:item/cognitive_bow_pulling_0"
+    }
+}

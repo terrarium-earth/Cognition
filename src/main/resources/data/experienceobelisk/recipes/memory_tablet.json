@@ -7,10 +7,10 @@
   ],
   "key": {
     "A": {
-      "item": "cognition:cognitive_alloy"
+      "item": "experienceobelisk:cognitive_alloy"
     },
     "B": {
-      "item": "cognition:cognitive_crystal"
+      "item": "experienceobelisk:cognitive_crystal"
     },
     "C": {
       "item": "minecraft:gold_ingot"
@@ -19,11 +19,11 @@
       "item": "minecraft:enchanted_book"
     },
     "E": {
-      "item": "cognition:calcarine_matrix"
+      "item": "experienceobelisk:calcarine_matrix"
     }
   },
   "result": {
-    "item": "cognition:memory_tablet",
+    "item": "experienceobelisk:memory_tablet",
     "count": 1
   }
 }

@@ -1,7 +1,7 @@
 {
   "type": "experienceobelisk:molecular_metamorphosis",
   "ingredient1": {
-    "item": "minecraft:cobblestone"
+    "item": "minecraft:rotten_flesh"
   },
   "count1": 1,
   "ingredient2": {
@@ -11,7 +11,7 @@
   "ingredient3": [],
   "count3": 0,
   "result": {
-    "item": "minecraft:gravel",
+    "item": "minecraft:dried_kelp",
     "count": 1
   },
   "cost": 16,

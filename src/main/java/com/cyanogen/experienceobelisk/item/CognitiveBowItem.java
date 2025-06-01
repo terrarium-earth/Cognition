@@ -37,7 +37,7 @@ public class CognitiveBowItem extends BowItem {
 
     public static void registerProperties(){
         ResourceLocation pulling = new ResourceLocation(MOD_ID + ":pulling");
-        ResourceLocation pull = new ResourceLocation(MOD_ID + ":pulling");
+        ResourceLocation pull = new ResourceLocation(MOD_ID + ":pull");
 
         ItemProperties.register(RegisterItems.COGNITIVE_BOW.get(), pulling,
                 (stack,level,entity,seed) -> getPull(stack, entity, true));
@@ -132,11 +132,11 @@ public class CognitiveBowItem extends BowItem {
 
             List<Component> tooltips = new ArrayList<>();
             tooltips.add(Component.literal(""));
-            tooltips.add(Component.translatable("tooltip.cognition.cognitive_bow.firing").withStyle(ChatFormatting.GRAY));
+            tooltips.add(Component.translatable("tooltip.experienceobelisk.cognitive_bow.firing").withStyle(ChatFormatting.GRAY));
 
-            tooltips.add(Component.translatable("tooltip.cognition.cognitive_bow.velocity_multiplier",
+            tooltips.add(Component.translatable("tooltip.experienceobelisk.cognitive_bow.velocity_multiplier",
                     Component.literal(bow.getPercentageString(bow.velocityMultiplier)).withStyle(ChatFormatting.BLUE)));
-            tooltips.add(Component.translatable("tooltip.cognition.cognitive_bow.accuracy_multiplier",
+            tooltips.add(Component.translatable("tooltip.experienceobelisk.cognitive_bow.accuracy_multiplier",
                     Component.literal(bow.getPercentageString(bow.accuracyMultiplier)).withStyle(ChatFormatting.BLUE)));
 
             if(event.getFlags().isAdvanced()){

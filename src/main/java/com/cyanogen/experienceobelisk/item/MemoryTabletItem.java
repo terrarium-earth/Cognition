@@ -9,6 +9,7 @@ import com.cyanogen.experienceobelisk.utils.MiscUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
@@ -21,6 +22,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingExperienceDropEvent;
+import net.minecraftforge.network.NetworkHooks;
 
 public class MemoryTabletItem extends Item {
 
@@ -48,20 +50,20 @@ public class MemoryTabletItem extends Item {
                             && data.dimensionMatches(level)
                             && MiscUtils.straightLineDistance(player.blockPosition(), pos) <= Config.COMMON.bindingRange.get()){
 
-                        player.openMenu(obeliskBlock.getMenuProvider(state, level, pos));
+                        NetworkHooks.openScreen((ServerPlayer) player, state.getMenuProvider(level, pos), pos);
                     }
                     else{
-                        player.displayClientMessage(Component.translatable("message.cognition.memory_tablet.out_of_range"), true);
+                        player.displayClientMessage(Component.translatable("message.experienceobelisk.memory_tablet.out_of_range"), true);
                     }
                 }
                 else{
-                    player.displayClientMessage(Component.translatable("message.cognition.memory_tablet.query",
+                    player.displayClientMessage(Component.translatable("message.experienceobelisk.memory_tablet.query",
                             Component.literal(pos.toShortString()).withStyle(ChatFormatting.GREEN),
                             Component.literal(data.getDimension()).withStyle(ChatFormatting.GRAY)), true);
                 }
             }
             else{
-                player.displayClientMessage(Component.translatable("message.cognition.memory_tablet.query_fail"), true);
+                player.displayClientMessage(Component.translatable("message.experienceobelisk.memory_tablet.query_fail"), true);
             }
         }
 
@@ -86,7 +88,7 @@ public class MemoryTabletItem extends Item {
                 //new player or player switching obelisks
                 obelisk.remember(player, data);
 
-                player.displayClientMessage(Component.translatable("message.cognition.memory_tablet.link",
+                player.displayClientMessage(Component.translatable("message.experienceobelisk.memory_tablet.link",
                         Component.literal(pos.toShortString()).withStyle(ChatFormatting.GREEN)), true);
               //  level.playSound(null, player.blockPosition(), RegisterSounds.MEMORY_TABLET_LINK.get(),
               //          SoundSource.PLAYERS, 0.2f, 1f);
@@ -95,13 +97,13 @@ public class MemoryTabletItem extends Item {
                 //player unlinking from linked obelisk
                 obelisk.forget(player, data);
 
-                player.displayClientMessage(Component.translatable("message.cognition.memory_tablet.unlink",
+                player.displayClientMessage(Component.translatable("message.experienceobelisk.memory_tablet.unlink",
                         Component.literal(pos.toShortString()).withStyle(ChatFormatting.GREEN)), true);
               //  level.playSound(null, player.blockPosition(), RegisterSounds.MEMORY_TABLET_UNLINK.get(),
              //           SoundSource.PLAYERS, 0.2f, 0.8f);
             }
             else{
-                player.displayClientMessage(Component.translatable("message.cognition.memory_tablet.obelisk_in_use"), true);
+                player.displayClientMessage(Component.translatable("message.experienceobelisk.memory_tablet.obelisk_in_use"), true);
             }
 
             return InteractionResult.sidedSuccess(level.isClientSide);

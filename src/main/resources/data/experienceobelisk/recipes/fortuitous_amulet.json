@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ABA",
+    "BCB",
+    "ABA"
+  ],
+  "key": {
+    "A": {
+      "item": "minecraft:gold_nugget"
+    },
+    "B": {
+      "item": "experienceobelisk:calcarine_matrix"
+    },
+    "C": {
+      "item": "experienceobelisk:enlightened_amulet"
+    }
+  },
+  "result": {
+    "item": "experienceobelisk:fortuitous_amulet",
+    "count": 1
+  }
+}
