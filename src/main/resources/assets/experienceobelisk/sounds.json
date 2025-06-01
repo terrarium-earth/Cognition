@@ -52,5 +52,17 @@
     "sounds": [
       "experienceobelisk:fluorescent_agar_infect"
     ]
+  },
+  "memory_tablet_link": {
+    "subtitle": "sounds.experienceobelisk.memory_tablet_link",
+    "sounds": [
+      "experienceobelisk:enlightened_amulet"
+    ]
+  },
+  "memory_tablet_unlink": {
+    "subtitle": "sounds.experienceobelisk.memory_tablet_unlink",
+    "sounds": [
+      "experienceobelisk:enlightened_amulet"
+    ]
   }
 }

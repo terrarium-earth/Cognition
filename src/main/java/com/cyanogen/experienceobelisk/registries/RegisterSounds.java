@@ -22,6 +22,8 @@ public class RegisterSounds {
     public static final RegistryObject<SoundEvent> FLASK_EMPTY_LAVA = registerSound("flask_empty_lava", 4);
     public static final RegistryObject<SoundEvent> FLASK_EMPTY_WATER = registerSound("flask_empty_water", 4);
     public static final RegistryObject<SoundEvent> FLASK_FILL_VOID = registerSound("flask_fill_void", 4);
+    public static final RegistryObject<SoundEvent> MEMORY_TABLET_LINK = registerSound("memory_tablet_link", 4);
+    public static final RegistryObject<SoundEvent> MEMORY_TABLET_UNLINK = registerSound("memory_tablet_unlink", 4);
 
     public static RegistryObject<SoundEvent> registerSound(String soundName, float range){
         return SOUNDS.register(soundName, () -> SoundEvent.createFixedRangeEvent(new ResourceLocation(ExperienceObelisk.MOD_ID, soundName), range));

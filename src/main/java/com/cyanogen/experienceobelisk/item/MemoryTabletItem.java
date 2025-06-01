@@ -3,6 +3,7 @@ package com.cyanogen.experienceobelisk.item;
 import com.cyanogen.experienceobelisk.block.ExperienceObeliskBlock;
 import com.cyanogen.experienceobelisk.block_entities.ExperienceObeliskEntity;
 import com.cyanogen.experienceobelisk.config.Config;
+import com.cyanogen.experienceobelisk.registries.RegisterSounds;
 import com.cyanogen.experienceobelisk.saved_data.MemoryTabletData;
 import com.cyanogen.experienceobelisk.utils.ExperienceUtils;
 import com.cyanogen.experienceobelisk.utils.MiscUtils;
@@ -10,6 +11,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
@@ -46,7 +48,7 @@ public class MemoryTabletItem extends Item {
                 BlockState state = level.getBlockState(pos);
 
                 if(!player.isShiftKeyDown()){
-                    if(state.getBlock() instanceof ExperienceObeliskBlock obeliskBlock
+                    if(state.getBlock() instanceof ExperienceObeliskBlock
                             && data.dimensionMatches(level)
                             && MiscUtils.straightLineDistance(player.blockPosition(), pos) <= Config.COMMON.bindingRange.get()){
 
@@ -90,8 +92,8 @@ public class MemoryTabletItem extends Item {
 
                 player.displayClientMessage(Component.translatable("message.experienceobelisk.memory_tablet.link",
                         Component.literal(pos.toShortString()).withStyle(ChatFormatting.GREEN)), true);
-              //  level.playSound(null, player.blockPosition(), RegisterSounds.MEMORY_TABLET_LINK.get(),
-              //          SoundSource.PLAYERS, 0.2f, 1f);
+                level.playSound(null, player.blockPosition(), RegisterSounds.MEMORY_TABLET_LINK.get(),
+                        SoundSource.PLAYERS, 0.2f, 1f);
             }
             else if(obelisk.getSavedPlayer().equals(player.getStringUUID())){
                 //player unlinking from linked obelisk
@@ -99,8 +101,8 @@ public class MemoryTabletItem extends Item {
 
                 player.displayClientMessage(Component.translatable("message.experienceobelisk.memory_tablet.unlink",
                         Component.literal(pos.toShortString()).withStyle(ChatFormatting.GREEN)), true);
-              //  level.playSound(null, player.blockPosition(), RegisterSounds.MEMORY_TABLET_UNLINK.get(),
-             //           SoundSource.PLAYERS, 0.2f, 0.8f);
+                level.playSound(null, player.blockPosition(), RegisterSounds.MEMORY_TABLET_UNLINK.get(),
+                        SoundSource.PLAYERS, 0.2f, 0.8f);
             }
             else{
                 player.displayClientMessage(Component.translatable("message.experienceobelisk.memory_tablet.obelisk_in_use"), true);
