@@ -30,7 +30,11 @@ public class NeurogelMendingItem extends Item {
     }
 
     public static void handleItem(ItemStackedOnOtherEvent event){
-        ItemStack holding = event.getStackedOnItem(); //note that in this version the items are inverted for some reason
+        //not a mistake:
+        //in this version the items are inverted for some reason
+        //(mojang fixed it in 1.21.1)
+
+        ItemStack holding = event.getStackedOnItem();
         ItemStack itemToRepair = event.getCarriedItem();
         Player player = event.getPlayer();
 
