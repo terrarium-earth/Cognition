@@ -47,7 +47,9 @@ public class FortuitousAmuletItem extends EnlightenedAmuletItem{
         ItemStack amulet = RegisterItems.FORTUITOUS_AMULET.get().getDefaultInstance();
         amulet.getOrCreateTag().putBoolean("isActive", true);
 
-        if(player != null && xp <= 20 && player.getInventory().contains(amulet)){
+        if(player != null && player.getInventory().contains(amulet)){
+
+            System.out.println("xp changed");
             event.setDroppedExperience((int) (xp * xpBoost));
         }
     }
