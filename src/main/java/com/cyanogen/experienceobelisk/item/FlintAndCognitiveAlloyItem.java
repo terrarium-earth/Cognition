@@ -33,6 +33,11 @@ public class FlintAndCognitiveAlloyItem extends FlintAndSteelItem {
     }
 
     @Override
+    public int getMaxStackSize(ItemStack stack) {
+        return 1;
+    }
+
+    @Override
     public int getMaxDamage(ItemStack stack) {
         return maxDamage;
     }
