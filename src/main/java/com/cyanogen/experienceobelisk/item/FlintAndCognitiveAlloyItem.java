@@ -16,6 +16,7 @@ import net.minecraft.world.item.FlintAndSteelItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
+import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.TntBlock;
 import net.minecraft.world.level.block.state.BlockState;
@@ -40,6 +41,16 @@ public class FlintAndCognitiveAlloyItem extends FlintAndSteelItem {
     @Override
     public int getMaxDamage(ItemStack stack) {
         return maxDamage;
+    }
+
+    @Override
+    public boolean isDamageable(ItemStack stack) {
+        return true;
+    }
+
+    @Override
+    public boolean canBeDepleted() {
+        return true;
     }
 
     @Override
