@@ -13,6 +13,7 @@ import net.minecraft.util.Tuple;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -103,6 +104,7 @@ public class MolecularMetamorpherRecipe implements Recipe<RecipeInput> {
     }
 
     @Override
+    @NotNull
     public NonNullList<Ingredient> getIngredients() {
         NonNullList<Ingredient> list = NonNullList.create();
         for(Tuple<Ingredient, Integer> ingredient : this.ingredients){
@@ -116,7 +118,8 @@ public class MolecularMetamorpherRecipe implements Recipe<RecipeInput> {
     }
 
     @Override
-    public ItemStack assemble(RecipeInput recipeInput, @Nullable HolderLookup.Provider provider) {
+    @NotNull
+    public ItemStack assemble(@Nullable RecipeInput recipeInput, @Nullable HolderLookup.Provider provider) {
         return result.copy();
     }
 
@@ -126,6 +129,7 @@ public class MolecularMetamorpherRecipe implements Recipe<RecipeInput> {
     }
 
     @Override
+    @NotNull
     public ItemStack getResultItem(@Nullable HolderLookup.Provider provider) {
         return result.copy();
     }

@@ -42,7 +42,7 @@ public class EventHandler {
 
     @SubscribeEvent
     public void onPlayerRightClickBlock(PlayerInteractEvent.RightClickBlock event){
-        ExperienceFountainBlock.handleExperienceItem(event);
+        ExperienceFountainBlock.handleExperienceItemStack(event);
     }
 
 }

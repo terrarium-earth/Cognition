@@ -1,6 +1,8 @@
 package com.cyanogen.cognition.registries;
 
 import com.cyanogen.cognition.Cognition;
+import com.cyanogen.cognition.recipe.EmptyingRecipe;
+import com.cyanogen.cognition.recipe.FillingRecipe;
 import com.cyanogen.cognition.recipe.InfectingRecipe;
 import com.cyanogen.cognition.recipe.MolecularMetamorpherRecipe;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -29,6 +31,18 @@ public class RegisterRecipes{
 
     public static final DeferredHolder<RecipeType<?>, RecipeType<InfectingRecipe>> INFECTING_TYPE =
             TYPES.register("infecting", () -> InfectingRecipe.Type.INSTANCE);
+
+    public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<FillingRecipe>> FILLING_SERIALIZER =
+            SERIALIZERS.register("filling", () -> FillingRecipe.Serializer.INSTANCE);
+
+    public static final DeferredHolder<RecipeType<?>, RecipeType<FillingRecipe>> FILLING_TYPE =
+            TYPES.register("filling", () -> FillingRecipe.Type.INSTANCE);
+
+    public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<EmptyingRecipe>> EMPTYING_SERIALIZER =
+            SERIALIZERS.register("emptying", () -> EmptyingRecipe.Serializer.INSTANCE);
+
+    public static final DeferredHolder<RecipeType<?>, RecipeType<EmptyingRecipe>> EMPTYING_TYPE =
+            TYPES.register("emptying", () -> EmptyingRecipe.Type.INSTANCE);
 
     public static void register(IEventBus eventBus) {
         TYPES.register(eventBus);

@@ -19,14 +19,14 @@ public class PopulateInformationalRecipes {
     public static List<AbstractInformationalRecipe> populateFillingRecipes(){
         List<AbstractInformationalRecipe> recipes = new ArrayList<>();
 
-        recipes.add(new FillingRecipe(
+        recipes.add(new FillingRecipeOld(
                 Ingredient.of(Items.GLASS_BOTTLE),
                 Ingredient.of(RegisterItems.EXPERIENCE_FOUNTAIN_ITEM.get()),
                 Items.EXPERIENCE_BOTTLE.getDefaultInstance(),
                 "cognition:experience_bottle_filling",
                 12.5f));
 
-        recipes.add(new FillingRecipe(
+        recipes.add(new FillingRecipeOld(
                 Ingredient.of(Items.BUCKET),
                 Ingredient.of(RegisterItems.EXPERIENCE_FOUNTAIN_ITEM.get()),
                 RegisterItems.COGNITIUM_BUCKET.get().getDefaultInstance(),
@@ -39,14 +39,14 @@ public class PopulateInformationalRecipes {
     public static List<AbstractInformationalRecipe> populateEmptyingRecipes(){
         List<AbstractInformationalRecipe> recipes = new ArrayList<>();
 
-        recipes.add(new EmptyingRecipe(
+        recipes.add(new EmptyingRecipeOld(
                 Ingredient.of(Items.EXPERIENCE_BOTTLE),
                 Ingredient.of(RegisterItems.EXPERIENCE_FOUNTAIN_ITEM.get()),
                 Items.GLASS_BOTTLE.getDefaultInstance(),
                 "cognition:experience_bottle_emptying",
                 12.5f));
 
-        recipes.add(new EmptyingRecipe(
+        recipes.add(new EmptyingRecipeOld(
                 Ingredient.of(RegisterItems.COGNITIUM_BUCKET.get()),
                 Ingredient.of(RegisterItems.EXPERIENCE_FOUNTAIN_ITEM.get()),
                 Items.BUCKET.getDefaultInstance(),
@@ -67,7 +67,7 @@ public class PopulateInformationalRecipes {
 
             if(BuiltInRegistries.ITEM.containsKey(itemResource)){
                 Item item = BuiltInRegistries.ITEM.get(itemResource);
-                recipes.add(new EmptyingRecipe(
+                recipes.add(new EmptyingRecipeOld(
                         Ingredient.of(item),
                         Ingredient.of(RegisterItems.EXPERIENCE_FOUNTAIN_ITEM.get()),
                         ItemStack.EMPTY,

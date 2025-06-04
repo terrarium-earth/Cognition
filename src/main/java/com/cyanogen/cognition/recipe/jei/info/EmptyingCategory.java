@@ -20,7 +20,7 @@ import net.minecraft.world.item.ItemStack;
 public class EmptyingCategory extends AbstractInformationalCategory{
 
     public static final RecipeType<AbstractInformationalRecipe> emptyingType =
-            RecipeType.create(Cognition.MOD_ID, EmptyingRecipe.Type.ID, EmptyingRecipe.class);
+            RecipeType.create(Cognition.MOD_ID, EmptyingRecipeOld.Type.ID, EmptyingRecipeOld.class);
 
     public EmptyingCategory(IRecipeCategoryRegistration registration){
         super(registration);
@@ -53,7 +53,7 @@ public class EmptyingCategory extends AbstractInformationalCategory{
         arrow.draw(guiGraphics, 35, 21);
         Font font = Minecraft.getInstance().font;
 
-        if(recipe instanceof EmptyingRecipe emptyingRecipe){
+        if(recipe instanceof EmptyingRecipeOld emptyingRecipe){
 
             if(emptyingRecipe.getCognitiumAmount() > 0){
                 cognitiumStack.draw(guiGraphics, 110, 18);
@@ -73,7 +73,7 @@ public class EmptyingCategory extends AbstractInformationalCategory{
         int y1 = 18;
         int y2 = y1 + 16;
 
-        if(recipe instanceof EmptyingRecipe emptyingRecipe && emptyingRecipe.getCognitiumAmount() > 0
+        if(recipe instanceof EmptyingRecipeOld emptyingRecipe && emptyingRecipe.getCognitiumAmount() > 0
                 && mouseX >= x1 && mouseX <= x2 && mouseY >= y1 && mouseY <= y2){
 
             Component amount = Component.translatable("jei.cognition.info.emptying.cognitium_amount",

@@ -86,10 +86,6 @@ public class InfectingRecipe implements Recipe<RecipeInput> {
         return true;
     }
 
-    public Ingredient getInputBlock(){
-        return inputBlock;
-    }
-
     @Override
     public ItemStack getResultItem(HolderLookup.Provider provider) {
         return resultBlock.copy();

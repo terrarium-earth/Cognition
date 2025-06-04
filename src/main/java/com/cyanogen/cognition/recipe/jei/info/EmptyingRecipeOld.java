@@ -4,11 +4,11 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeType;
 
-public class EmptyingRecipe extends AbstractInformationalRecipe {
+public class EmptyingRecipeOld extends AbstractInformationalRecipe {
 
     private final float xpGain;
 
-    public EmptyingRecipe(Ingredient input, Ingredient catalyst, ItemStack output, String id, float xp) {
+    public EmptyingRecipeOld(Ingredient input, Ingredient catalyst, ItemStack output, String id, float xp) {
         super(input, catalyst, output, id, 0);
         this.xpGain = xp;
     }
@@ -17,7 +17,7 @@ public class EmptyingRecipe extends AbstractInformationalRecipe {
         return Type.INSTANCE;
     }
 
-    public static class Type implements RecipeType<EmptyingRecipe>{
+    public static class Type implements RecipeType<EmptyingRecipeOld>{
         public static final Type INSTANCE = new Type();
         public static final String ID = "emptying";
     }

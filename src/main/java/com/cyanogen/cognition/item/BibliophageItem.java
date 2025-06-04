@@ -46,7 +46,7 @@ public class BibliophageItem extends Item {
         InfectingRecipe recipe = InfectingRecipe.getRecipe(level, level.getBlockState(pos).getBlock());
         Block oldBlock = level.getBlockState(pos).getBlock();
 
-        if(recipe != null){
+        if(recipe != null && !level.isClientSide){
             ItemStack result = recipe.assemble(oldBlock.asItem().getDefaultInstance(), level.registryAccess());
 
             if(result.getItem() instanceof BlockItem blockItem){

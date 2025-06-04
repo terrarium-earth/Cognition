@@ -15,7 +15,7 @@ import net.minecraft.world.item.ItemStack;
 public class FillingCategory extends AbstractInformationalCategory{
 
     public static final RecipeType<AbstractInformationalRecipe> fillingType =
-            RecipeType.create(Cognition.MOD_ID, FillingRecipe.Type.ID, FillingRecipe.class);
+            RecipeType.create(Cognition.MOD_ID, FillingRecipeOld.Type.ID, FillingRecipeOld.class);
 
     public FillingCategory(IRecipeCategoryRegistration registration){
         super(registration);
@@ -47,7 +47,7 @@ public class FillingCategory extends AbstractInformationalCategory{
         super.draw(recipe, recipeSlotsView, guiGraphics, mouseX, mouseY);
         Font font = Minecraft.getInstance().font;
 
-        if(recipe instanceof FillingRecipe fillingRecipe){
+        if(recipe instanceof FillingRecipeOld fillingRecipe){
             String cost = "-" + fillingRecipe.getIntegerXpCost() + " XP";
 
             guiGraphics.drawString(Minecraft.getInstance().font, cost,
