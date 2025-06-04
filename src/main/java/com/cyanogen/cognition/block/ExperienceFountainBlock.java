@@ -191,6 +191,8 @@ public class ExperienceFountainBlock extends ExperienceReceivingBlock implements
         else if(!player.addItem(result)){
             player.drop(result, false);
         }
+
+        player.playSound(SoundEvents.BOTTLE_FILL, 1f, 1f);
     }
 
     public void handleEmptyingRecipe(ItemStack heldItem, EmptyingRecipe recipe, Player player, InteractionHand hand,
@@ -229,6 +231,8 @@ public class ExperienceFountainBlock extends ExperienceReceivingBlock implements
                 player.drop(result, false);
             }
         }
+
+        player.playSound(SoundEvents.BOTTLE_EMPTY, 1f, 1f);
     }
 
     public static void handleExperienceItemStack(PlayerInteractEvent.RightClickBlock event){
