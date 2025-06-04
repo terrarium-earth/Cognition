@@ -1,0 +1,13 @@
+{
+  "type": "cognition:emptying",
+  "ingredient": {
+    "item": "forbidden_arcanus:xpetrified_orb"
+  },
+  "result": {
+    "id": "minecraft:barrier",
+    "count": 1
+  },
+  "hasResultStack": false,
+  "gain_mB": 1820,
+  "id": "cognition:xpetrified_orb_emptying"
+}

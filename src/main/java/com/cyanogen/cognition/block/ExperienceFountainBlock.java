@@ -116,7 +116,7 @@ public class ExperienceFountainBlock extends ExperienceReceivingBlock implements
     //-----XP HANDLING-----//
 
     public void handleExperienceContainer(ItemStack heldItem, IFluidHandlerItem fluidHandler, Player player, InteractionHand hand, ExperienceObeliskEntity obelisk){
-
+        //Vanilla buckets are handled here as NeoForge attaches the IFluidHandlerItem capability to them by default
         if(obelisk.getFluidAmount() >= 1000 && fluidHandler.fill(cognitium, IFluidHandler.FluidAction.SIMULATE) >= 1000){
 
             replaceFluidHandlerItem(heldItem, fluidHandler, player, hand, true);

@@ -1,0 +1,13 @@
+{
+  "type": "cognition:emptying",
+  "ingredient": {
+    "item": "mysticalagriculture:experience_droplet"
+  },
+  "result": {
+    "id": "minecraft:barrier",
+    "count": 1
+  },
+  "hasResultStack": false,
+  "gain_mB": 250,
+  "id": "cognition:experience_droplet_emptying"
+}

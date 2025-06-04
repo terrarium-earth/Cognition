@@ -1,0 +1,12 @@
+{
+  "type": "cognition:filling",
+  "ingredient": {
+    "item": "minecraft:bucket"
+  },
+  "result": {
+    "id": "cognition:cognitium_bucket",
+    "count": 1
+  },
+  "cost_mB": 1000,
+  "id": "cognition:cognitium_bucket_filling"
+}

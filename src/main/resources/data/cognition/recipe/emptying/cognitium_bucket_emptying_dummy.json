@@ -1,0 +1,13 @@
+{
+  "type": "cognition:emptying",
+  "ingredient": {
+    "item": "cognition:cognitium_bucket"
+  },
+  "result": {
+    "id": "minecraft:bucket",
+    "count": 1
+  },
+  "hasResultStack": true,
+  "gain_mB": 1000,
+  "id": "cognition:cognitium_bucket_emptying"
+}

@@ -1,0 +1,13 @@
+{
+  "type": "cognition:emptying",
+  "ingredient": {
+    "item": "actuallyadditions:solidified_experience"
+  },
+  "result": {
+    "id": "minecraft:barrier",
+    "count": 1
+  },
+  "hasResultStack": false,
+  "gain_mB": 160,
+  "id": "cognition:solidified_experience_emptying"
+}
