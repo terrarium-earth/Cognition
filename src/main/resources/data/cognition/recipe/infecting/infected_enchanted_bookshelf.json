@@ -1,0 +1,12 @@
+{
+  "type": "cognition:infecting",
+  "input": {
+    "item": "cognition:enchanted_bookshelf"
+  },
+  "result": {
+    "id": "cognition:infected_enchanted_bookshelf",
+    "count": 1
+  },
+  "infectionCount": 1,
+  "id": "cognition:infected_enchanted_bookshelf"
+}

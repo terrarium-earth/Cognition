@@ -1,0 +1,12 @@
+{
+  "type": "cognition:infecting",
+  "input": {
+    "item": "cognition:archivers_bookshelf"
+  },
+  "result": {
+    "id": "cognition:infected_archivers_bookshelf",
+    "count": 1
+  },
+  "infectionCount": 1,
+  "id": "cognition:infected_archivers_bookshelf"
+}

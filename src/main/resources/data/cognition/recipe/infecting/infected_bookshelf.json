@@ -1,0 +1,12 @@
+{
+  "type": "cognition:infecting",
+  "input": {
+    "tag": "c:bookshelves"
+  },
+  "result": {
+    "id": "cognition:infected_bookshelf",
+    "count": 1
+  },
+  "infectionCount": 1,
+  "id": "cognition:infected_bookshelf"
+}
