@@ -1,6 +1,7 @@
-package com.cyanogen.cognition.recipe.jei.info;
+package com.cyanogen.cognition.recipe.jei;
 
 import com.cyanogen.cognition.Cognition;
+import com.cyanogen.cognition.recipe.EmptyingRecipe;
 import com.cyanogen.cognition.registries.RegisterItems;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.builder.ITooltipBuilder;
@@ -17,9 +18,9 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 
-public class EmptyingCategory extends AbstractInformationalCategory{
+public class EmptyingCategory extends AbstractInformationalCategory {
 
-    public static final RecipeType<AbstractInformationalRecipe> emptyingType =
+    public static final RecipeType<EmptyingRecipe> emptyingType =
             RecipeType.create(Cognition.MOD_ID, EmptyingRecipeOld.Type.ID, EmptyingRecipeOld.class);
 
     public EmptyingCategory(IRecipeCategoryRegistration registration){

@@ -1,4 +1,4 @@
-package com.cyanogen.cognition.recipe.jei.info;
+package com.cyanogen.cognition.recipe.jei;
 
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.builder.ITooltipBuilder;
@@ -14,7 +14,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
-public abstract class AbstractInformationalCategory implements IRecipeCategory<AbstractInformationalRecipe> {
+public abstract class AbstractInformationalCategory implements IRecipeCategory<T> {
 
     public final IGuiHelper guiHelper;
     public final ResourceLocation defaultBackground = ResourceLocation.parse("cognition:textures/gui/recipes/information_jei.png");

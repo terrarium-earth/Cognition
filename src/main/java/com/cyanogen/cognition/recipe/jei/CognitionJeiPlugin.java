@@ -2,11 +2,10 @@ package com.cyanogen.cognition.recipe.jei;
 
 import com.cyanogen.cognition.Cognition;
 import com.cyanogen.cognition.gui.MolecularMetamorpherScreen;
+import com.cyanogen.cognition.recipe.EmptyingRecipe;
+import com.cyanogen.cognition.recipe.FillingRecipe;
+import com.cyanogen.cognition.recipe.InfectingRecipe;
 import com.cyanogen.cognition.recipe.MolecularMetamorpherRecipe;
-import com.cyanogen.cognition.recipe.jei.info.EmptyingCategory;
-import com.cyanogen.cognition.recipe.jei.info.FillingCategory;
-import com.cyanogen.cognition.recipe.jei.info.InfectingCategory;
-import com.cyanogen.cognition.recipe.jei.info.PopulateInformationalRecipes;
 import com.cyanogen.cognition.registries.RegisterItems;
 import com.cyanogen.cognition.utils.RecipeUtils;
 import mezz.jei.api.IModPlugin;
@@ -20,6 +19,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeHolder;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import static com.cyanogen.cognition.recipe.jei.MolecularMetamorpherCategory.metamorpherType;
@@ -41,20 +41,24 @@ public class CognitionJeiPlugin implements IModPlugin {
 
         //RECIPES
         List<MolecularMetamorpherRecipe> metamorpherRecipes = new ArrayList<>();
+        List<InfectingRecipe> infectingRecipes = new ArrayList<>();
+        List<FillingRecipe> fillingRecipes = new ArrayList<>();
+        List<EmptyingRecipe> emptyingRecipes = new ArrayList<>();
 
         assert Minecraft.getInstance().level != null;
-        for(RecipeHolder<?> recipe : Minecraft.getInstance().level.getRecipeManager().getRecipes()){
-            if(recipe.value() instanceof MolecularMetamorpherRecipe metamorpherRecipe){
-                metamorpherRecipes.add(metamorpherRecipe);
+
+        Collection<RecipeHolder<?>> recipes = Minecraft.getInstance().level.getRecipeManager().getRecipes();
+        for(RecipeHolder<?> recipe : recipes){
+            switch(recipe.value()){
+                case MolecularMetamorpherRecipe k -> metamorpherRecipes.add(k);
+                case InfectingRecipe j -> infectingRecipes.add(j);
+                case FillingRecipe l -> fillingRecipes.add(l);
+                case EmptyingRecipe m -> emptyingRecipes.add(m);
+                default -> {}
             }
         }
         metamorpherRecipes.add(RecipeUtils.getEmptyNameFormattingRecipe());
         registration.addRecipes(metamorpherType, metamorpherRecipes);
-
-        //INFO V2
-        registration.addRecipes(FillingCategory.fillingType, PopulateInformationalRecipes.populateFillingRecipes());
-        registration.addRecipes(EmptyingCategory.emptyingType, PopulateInformationalRecipes.populateEmptyingRecipes());
-        registration.addRecipes(InfectingCategory.infectingType, PopulateInformationalRecipes.populateInfectingRecipes());
 
         //INFO
         ItemStack forgottenDust = new ItemStack(RegisterItems.FORGOTTEN_DUST.get());

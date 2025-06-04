@@ -1,4 +1,4 @@
-package com.cyanogen.cognition.recipe.jei.info;
+package com.cyanogen.cognition.recipe.jei;
 
 import com.cyanogen.cognition.Cognition;
 import com.cyanogen.cognition.registries.RegisterItems;
@@ -12,7 +12,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 
-public class FillingCategory extends AbstractInformationalCategory{
+public class FillingCategory extends AbstractInformationalCategory {
 
     public static final RecipeType<AbstractInformationalRecipe> fillingType =
             RecipeType.create(Cognition.MOD_ID, FillingRecipeOld.Type.ID, FillingRecipeOld.class);

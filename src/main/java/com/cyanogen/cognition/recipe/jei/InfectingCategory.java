@@ -1,4 +1,4 @@
-package com.cyanogen.cognition.recipe.jei.info;
+package com.cyanogen.cognition.recipe.jei;
 
 import com.cyanogen.cognition.Cognition;
 import com.cyanogen.cognition.registries.RegisterItems;
@@ -13,7 +13,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 
-public class InfectingCategory extends AbstractInformationalCategory{
+public class InfectingCategory extends AbstractInformationalCategory {
 
     IRecipeCategoryRegistration registration;
     private final int counterArrowXOffset = 56;
