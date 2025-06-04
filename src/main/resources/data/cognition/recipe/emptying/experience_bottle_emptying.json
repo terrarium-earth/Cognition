@@ -1,0 +1,13 @@
+{
+  "type": "cognition:emptying",
+  "ingredient": {
+    "item": "minecraft:experience_bottle"
+  },
+  "result": {
+    "id": "minecraft:glass_bottle",
+    "count": 1
+  },
+  "hasResultStack": true,
+  "gain_mB": 250,
+  "id": "cognition:experience_bottle_emptying"
+}

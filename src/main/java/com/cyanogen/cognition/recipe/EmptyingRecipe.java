@@ -124,6 +124,7 @@ public class EmptyingRecipe implements Recipe<RecipeInput> {
 
             Ingredient.CONTENTS_STREAM_CODEC.encode(buffer, recipe.ingredient);
             ItemStack.STREAM_CODEC.encode(buffer, recipe.result);
+            buffer.writeBoolean(recipe.hasResultStack);
             buffer.writeInt(recipe.mBgain);
             ResourceLocation.STREAM_CODEC.encode(buffer, recipe.id);
         }
