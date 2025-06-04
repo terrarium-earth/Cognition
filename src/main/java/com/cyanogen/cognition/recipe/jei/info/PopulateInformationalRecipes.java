@@ -1,18 +1,11 @@
 package com.cyanogen.cognition.recipe.jei.info;
 
-import com.cyanogen.cognition.config.Config;
 import com.cyanogen.cognition.registries.RegisterItems;
-import com.cyanogen.cognition.utils.MiscUtils;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class PopulateInformationalRecipes {
 
@@ -53,31 +46,31 @@ public class PopulateInformationalRecipes {
                 "cognition:cognitium_bucket_emptying",
                 50f));
 
-        recipes.addAll(populateEmptyingRecipesFromConfig());
+        //recipes.addAll(populateEmptyingRecipesFromConfig());
 
         return recipes;
     }
 
-    public static List<AbstractInformationalRecipe> populateEmptyingRecipesFromConfig(){
-        List<AbstractInformationalRecipe> recipes = new ArrayList<>();
-        Map<String, Float> allowedItemsMap = MiscUtils.getExperienceItemMapFromList(Config.COMMON.allowedExperienceItems.get());
-
-        for(Map.Entry<String, Float> entry : allowedItemsMap.entrySet()){
-            ResourceLocation itemResource = ResourceLocation.bySeparator(entry.getKey(), ':');
-
-            if(BuiltInRegistries.ITEM.containsKey(itemResource)){
-                Item item = BuiltInRegistries.ITEM.get(itemResource);
-                recipes.add(new EmptyingRecipeOld(
-                        Ingredient.of(item),
-                        Ingredient.of(RegisterItems.EXPERIENCE_FOUNTAIN_ITEM.get()),
-                        ItemStack.EMPTY,
-                        "cognition:" + itemResource.getPath() + "_emptying",
-                        entry.getValue()));
-            }
-        }
-
-        return recipes;
-    }
+//    public static List<AbstractInformationalRecipe> populateEmptyingRecipesFromConfig(){
+//        List<AbstractInformationalRecipe> recipes = new ArrayList<>();
+//        Map<String, Float> allowedItemsMap = MiscUtils.getExperienceItemMapFromList(Config.COMMON.allowedExperienceItems.get());
+//
+//        for(Map.Entry<String, Float> entry : allowedItemsMap.entrySet()){
+//            ResourceLocation itemResource = ResourceLocation.bySeparator(entry.getKey(), ':');
+//
+//            if(BuiltInRegistries.ITEM.containsKey(itemResource)){
+//                Item item = BuiltInRegistries.ITEM.get(itemResource);
+//                recipes.add(new EmptyingRecipeOld(
+//                        Ingredient.of(item),
+//                        Ingredient.of(RegisterItems.EXPERIENCE_FOUNTAIN_ITEM.get()),
+//                        ItemStack.EMPTY,
+//                        "cognition:" + itemResource.getPath() + "_emptying",
+//                        entry.getValue()));
+//            }
+//        }
+//
+//        return recipes;
+//    }
 
     public static List<AbstractInformationalRecipe> populateInfectingRecipes(){
 
