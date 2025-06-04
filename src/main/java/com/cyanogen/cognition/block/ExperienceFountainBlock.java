@@ -164,10 +164,17 @@ public class ExperienceFountainBlock extends ExperienceReceivingBlock implements
                 obelisk.drain(drainAmount);
                 heldItem.shrink(1);
             }
+            else{
+                return;
+            }
         }
         else{
             int maxDrainCount = obelisk.getFluidAmount() / drainAmount;
-            if(maxDrainCount >= heldItem.getCount()){
+
+            if(obelisk.getFluidAmount() < drainAmount){
+                return;
+            }
+            else if(maxDrainCount >= heldItem.getCount()){
                 obelisk.drain(drainAmount * heldItem.getCount());
                 resultCount = result.getCount() * heldItem.getCount();
                 heldItem.setCount(0);
@@ -202,9 +209,16 @@ public class ExperienceFountainBlock extends ExperienceReceivingBlock implements
                 obelisk.fill(fillAmount);
                 heldItem.shrink(1);
             }
+            else{
+                return;
+            }
         }
         else{
             int maxFillCount = obelisk.getSpace() / fillAmount;
+
+            if(obelisk.getSpace() < fillAmount){
+                return;
+            }
             if(maxFillCount >= heldItem.getCount()){
                 obelisk.fill(fillAmount * heldItem.getCount());
                 resultCount = result.getCount() * heldItem.getCount();
