@@ -28,7 +28,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,11 +70,6 @@ public class MolecularMetamorpherCategory implements IRecipeCategory<MolecularMe
     @Override
     public Component getTitle() {
         return Component.translatable("title.cognition.molecular_metamorpher");
-    }
-
-    @Override
-    public @Nullable ResourceLocation getRegistryName(MolecularMetamorpherRecipe recipe) {
-        return IRecipeCategory.super.getRegistryName(recipe);
     }
 
     @Override

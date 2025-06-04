@@ -79,7 +79,7 @@ public class FillingRecipe implements Recipe<RecipeInput> {
         return result.copy();
     }
 
-    public int getmBcost() {
+    public int getCognitiumCost() {
         return mBcost;
     }
 

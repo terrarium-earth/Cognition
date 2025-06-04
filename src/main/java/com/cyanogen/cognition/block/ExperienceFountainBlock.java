@@ -155,7 +155,7 @@ public class ExperienceFountainBlock extends ExperienceReceivingBlock implements
     public void handleFillingRecipe(ItemStack heldItem, FillingRecipe recipe, Player player, InteractionHand hand,
                                     ExperienceObeliskEntity obelisk, boolean shiftKeyDown){
 
-        int drainAmount = recipe.getmBcost();
+        int drainAmount = recipe.getCognitiumCost();
         ItemStack result = recipe.getResultItem(null);
         int resultCount = result.getCount();
 
@@ -200,7 +200,7 @@ public class ExperienceFountainBlock extends ExperienceReceivingBlock implements
     public void handleEmptyingRecipe(ItemStack heldItem, EmptyingRecipe recipe, Player player, InteractionHand hand,
                                      ExperienceObeliskEntity obelisk, boolean shiftKeyDown){
 
-        int fillAmount = recipe.getmBgain();
+        int fillAmount = recipe.getCognitiumGain();
         ItemStack result = recipe.hasResultStack() ? recipe.getResultItem(null) : ItemStack.EMPTY;
         int resultCount = result.getCount();
 

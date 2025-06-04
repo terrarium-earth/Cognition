@@ -81,11 +81,15 @@ public class EmptyingRecipe implements Recipe<RecipeInput> {
         return result.copy();
     }
 
+    public Ingredient getIngredient(){
+        return ingredient;
+    }
+
     public boolean hasResultStack(){
         return hasResultStack;
     }
 
-    public int getmBgain() {
+    public int getCognitiumGain() {
         return mBgain;
     }
 
