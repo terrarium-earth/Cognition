@@ -1,0 +1,12 @@
+{
+  "type": "cognition:infecting",
+  "input": {
+    "item": "cognition:fluorescent_agar"
+  },
+  "result": {
+    "id": "cognition:nutrient_agar",
+    "count": 1
+  },
+  "infectionCount": 4,
+  "id": "cognition:nutrient_agar"
+}

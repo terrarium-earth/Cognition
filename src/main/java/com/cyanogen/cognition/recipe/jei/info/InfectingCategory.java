@@ -20,7 +20,7 @@ public class InfectingCategory extends AbstractInformationalCategory{
     private final int counterArrowYOffset = 7;
 
     public static final RecipeType<AbstractInformationalRecipe> infectingType =
-            RecipeType.create(Cognition.MOD_ID, InfectingRecipe.Type.ID, InfectingRecipe.class);
+            RecipeType.create(Cognition.MOD_ID, InfectingRecipeOld.Type.ID, InfectingRecipeOld.class);
 
     public InfectingCategory(IRecipeCategoryRegistration registration){
         super(registration);
@@ -68,7 +68,7 @@ public class InfectingCategory extends AbstractInformationalCategory{
         int counterArrow_x2 = counterArrowXOffset + 30;
         int counterArrow_y2 = counterArrowYOffset + 9;
 
-        if(recipe instanceof InfectingRecipe infectingRecipe && infectingRecipe.getCount() > 0
+        if(recipe instanceof InfectingRecipeOld infectingRecipe && infectingRecipe.getCount() > 0
                 && mouseX >= counterArrowXOffset && mouseX <= counterArrow_x2 && mouseY >= counterArrowYOffset && mouseY <= counterArrow_y2){
 
             tooltipBuilder.add(requiredCount);

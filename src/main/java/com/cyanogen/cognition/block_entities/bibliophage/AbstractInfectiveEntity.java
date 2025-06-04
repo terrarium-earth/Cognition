@@ -1,5 +1,6 @@
 package com.cyanogen.cognition.block_entities.bibliophage;
 
+import com.cyanogen.cognition.recipe.InfectingRecipe;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -8,11 +9,8 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import static com.cyanogen.cognition.item.BibliophageItem.getValidBlocksForInfection;
 import static com.cyanogen.cognition.item.BibliophageItem.infectBlock;
 
 public abstract class AbstractInfectiveEntity extends BlockEntity {
@@ -23,27 +21,22 @@ public abstract class AbstractInfectiveEntity extends BlockEntity {
 
     public void infectAdjacent(Level level, BlockPos pos){
 
-        Map<BlockPos, Block> adjacentMap = new HashMap<>();
         List<BlockPos> posList = new ArrayList<>();
 
         for(BlockPos adjacentPos : getAdjacents(pos)){
-            if(getValidBlocksForInfection().contains(level.getBlockState(adjacentPos).getBlock())){
 
-                Block adjacentBlock = level.getBlockState(adjacentPos).getBlock();
-                adjacentMap.put(adjacentPos, adjacentBlock);
+            Block adjacentBlock = level.getBlockState(adjacentPos).getBlock();
+            InfectingRecipe infectingRecipe = InfectingRecipe.getRecipe(level, adjacentBlock);
+            if(infectingRecipe != null){
                 posList.add(adjacentPos);
             }
         }
 
-        if(!adjacentMap.isEmpty()){
-
+        if(!posList.isEmpty()){
             int index = (int) Math.floor(Math.random() * posList.size());
             BlockPos posToInfect = posList.get(index);
-            Block block = adjacentMap.get(posToInfect);
-
-            infectBlock(level, posToInfect, block);
+            infectBlock(level, posToInfect);
         }
-
     }
 
     public List<BlockPos> getAdjacents(BlockPos pos){

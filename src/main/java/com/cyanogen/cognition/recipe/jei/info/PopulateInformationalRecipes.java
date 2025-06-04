@@ -85,25 +85,25 @@ public class PopulateInformationalRecipes {
         Ingredient catalysts = Ingredient.of(RegisterItems.BIBLIOPHAGE.get(), RegisterItems.INFECTED_BOOKSHELF_ITEM.get(), RegisterItems.NUTRIENT_AGAR_ITEM.get(),
                 RegisterItems.INSIGHTFUL_AGAR_ITEM.get(), RegisterItems.EXTRAVAGANT_AGAR_ITEM.get());
 
-        recipes.add(new InfectingRecipe(
+        recipes.add(new InfectingRecipeOld(
                 Ingredient.of(Items.BOOKSHELF),
                 catalysts,
                 RegisterItems.INFECTED_BOOKSHELF_ITEM.get().getDefaultInstance(),
                 "cognition:infected_bookshelf_infecting"));
 
-        recipes.add(new InfectingRecipe(
+        recipes.add(new InfectingRecipeOld(
                 Ingredient.of(RegisterItems.ARCHIVERS_BOOKSHELF_ITEM.get()),
                 catalysts,
                 RegisterItems.INFECTED_ARCHIVERS_BOOKSHELF_ITEM.get().getDefaultInstance(),
                 "cognition:infected_archivers_bookshelf_infecting"));
 
-        recipes.add(new InfectingRecipe(
+        recipes.add(new InfectingRecipeOld(
                 Ingredient.of(RegisterItems.ENCHANTED_BOOKSHELF_ITEM.get()),
                 catalysts,
                 RegisterItems.INFECTED_ENCHANTED_BOOKSHELF_ITEM.get().getDefaultInstance(),
                 "cognition:infected_enchanted_bookshelf_infecting"));
 
-        recipes.add(new InfectingRecipe(
+        recipes.add(new InfectingRecipeOld(
                 Ingredient.of(RegisterItems.FLUORESCENT_AGAR_ITEM.get()),
                 catalysts,
                 RegisterItems.NUTRIENT_AGAR_ITEM.get().getDefaultInstance(),

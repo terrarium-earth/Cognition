@@ -16,14 +16,13 @@ import net.minecraft.world.level.block.state.BlockState;
 
 public class FluorescentAgarEntity extends BlockEntity {
 
+    private int infectionProgress = 0;
+
     public FluorescentAgarEntity(BlockPos pos, BlockState state) {
         super(RegisterBlockEntities.FLUORESCENT_AGAR.get(), pos, state);
     }
 
-    int infectionProgress = 0;
-
     public void incrementInfectionProgress(){
-
         infectionProgress++;
         BlockPos pos = getBlockPos();
 
@@ -35,7 +34,6 @@ public class FluorescentAgarEntity extends BlockEntity {
                 level.setBlockAndUpdate(getBlockPos(), RegisterBlocks.NUTRIENT_AGAR.get().defaultBlockState());
             }
         }
-
         setChanged();
     }
 
@@ -49,7 +47,6 @@ public class FluorescentAgarEntity extends BlockEntity {
     protected void loadAdditional(CompoundTag tag, HolderLookup.Provider provider) {
 
         super.loadAdditional(tag, provider);
-
         this.infectionProgress = tag.getInt("InfectionProgress");
     }
 
@@ -57,7 +54,6 @@ public class FluorescentAgarEntity extends BlockEntity {
     protected void saveAdditional(CompoundTag tag, HolderLookup.Provider provider) {
 
         super.saveAdditional(tag, provider);
-
         tag.putInt("InfectionProgress", infectionProgress);
     }
 
@@ -65,7 +61,6 @@ public class FluorescentAgarEntity extends BlockEntity {
     public void handleUpdateTag(CompoundTag tag, HolderLookup.Provider provider) {
 
         super.handleUpdateTag(tag, provider);
-
         this.infectionProgress = tag.getInt("InfectionProgress");
     }
 
@@ -73,7 +68,6 @@ public class FluorescentAgarEntity extends BlockEntity {
     public CompoundTag getUpdateTag(HolderLookup.Provider provider) {
 
         CompoundTag tag = super.getUpdateTag(provider);
-
         tag.putInt("InfectionProgress", infectionProgress);
         return tag;
     }
