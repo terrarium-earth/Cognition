@@ -27,7 +27,10 @@ import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.network.PacketDistributor;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Optional;
 
 import static com.cyanogen.cognition.utils.ExperienceUtils.levelsToXP;
 import static com.cyanogen.cognition.utils.ExperienceUtils.xpToLevels;

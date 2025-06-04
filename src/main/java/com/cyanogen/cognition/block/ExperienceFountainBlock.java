@@ -2,14 +2,11 @@ package com.cyanogen.cognition.block;
 
 import com.cyanogen.cognition.block_entities.ExperienceFountainEntity;
 import com.cyanogen.cognition.block_entities.ExperienceObeliskEntity;
-import com.cyanogen.cognition.config.Config;
 import com.cyanogen.cognition.recipe.EmptyingRecipe;
 import com.cyanogen.cognition.recipe.FillingRecipe;
 import com.cyanogen.cognition.registries.RegisterBlockEntities;
 import com.cyanogen.cognition.registries.RegisterFluids;
-import com.cyanogen.cognition.utils.MiscUtils;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.sounds.SoundEvents;
@@ -40,8 +37,6 @@ import net.neoforged.neoforge.fluids.FluidUtil;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import net.neoforged.neoforge.fluids.capability.IFluidHandlerItem;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.Map;
 
 public class ExperienceFountainBlock extends ExperienceReceivingBlock implements EntityBlock {
 
