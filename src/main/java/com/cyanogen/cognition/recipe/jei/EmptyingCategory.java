@@ -136,10 +136,14 @@ public class EmptyingCategory implements IRecipeCategory<EmptyingRecipe> {
     public void setRecipe(IRecipeLayoutBuilder builder, EmptyingRecipe recipe, IFocusGroup focuses) {
 
         ItemStack catalyst = RegisterItems.EXPERIENCE_FOUNTAIN_ITEM.get().getDefaultInstance();
+        ItemStack result = ItemStack.EMPTY;
+        if(recipe.hasResultStack()){
+            result = recipe.getResultItem(null);
+        }
 
         builder.addSlot(RecipeIngredientRole.INPUT, 10,18).setSlotName("input").addIngredients(recipe.getIngredient());
         builder.addSlot(RecipeIngredientRole.CATALYST, 47,34).setSlotName("catalyst").addItemStack(catalyst);
-        builder.addSlot(RecipeIngredientRole.OUTPUT, 86,18).setSlotName("output").addItemStack(recipe.getResultItem(null));
+        builder.addSlot(RecipeIngredientRole.OUTPUT, 86,18).setSlotName("output").addItemStack(result);
     }
 
 }
