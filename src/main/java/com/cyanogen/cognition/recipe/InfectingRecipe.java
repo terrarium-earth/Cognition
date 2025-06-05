@@ -87,8 +87,16 @@ public class InfectingRecipe implements Recipe<RecipeInput> {
     }
 
     @Override
-    public ItemStack getResultItem(HolderLookup.Provider provider) {
+    public ItemStack getResultItem(@Nullable HolderLookup.Provider provider) {
         return resultBlock.copy();
+    }
+
+    public Ingredient getIngredient(){
+        return inputBlock;
+    }
+
+    public int getInfectionCount() {
+        return infectionCount;
     }
 
     @Override
