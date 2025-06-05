@@ -86,7 +86,7 @@ public class CognitionJeiPlugin implements IModPlugin {
         registration.addRecipeCatalyst(RegisterItems.MOLECULAR_METAMORPHER_ITEM.get(), METAMORPHER_TYPE);
         registration.addRecipeCatalyst(RegisterItems.EXPERIENCE_FOUNTAIN_ITEM.get(), FILLING_TYPE);
         registration.addRecipeCatalyst(RegisterItems.EXPERIENCE_FOUNTAIN_ITEM.get(), EMPTYING_TYPE);
-        registration.addRecipeCatalyst(RegisterItems.BIBLIOPHAGE.get(), INFECTING_TYPE);
+        registration.addRecipeCatalysts(INFECTING_TYPE, VanillaTypes.ITEM_STACK, RecipeUtils.getCatalysts());
 
         IModPlugin.super.registerRecipeCatalysts(registration);
     }

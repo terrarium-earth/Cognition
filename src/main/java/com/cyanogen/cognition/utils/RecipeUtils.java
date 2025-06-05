@@ -3,6 +3,7 @@ package com.cyanogen.cognition.utils;
 import com.cyanogen.cognition.Cognition;
 import com.cyanogen.cognition.recipe.MolecularMetamorpherRecipe;
 import com.cyanogen.cognition.recipe.jei.MolecularMetamorpherCategory;
+import com.cyanogen.cognition.registries.RegisterItems;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -112,6 +113,20 @@ public class RecipeUtils {
         }
 
         return list;
+    }
+
+    public static List<ItemStack> getCatalysts(){
+        List<ItemStack> catalysts = new ArrayList<>();
+
+        catalysts.add(RegisterItems.BIBLIOPHAGE.get().getDefaultInstance());
+        catalysts.add(RegisterItems.INFECTED_BOOKSHELF_ITEM.get().getDefaultInstance());
+        catalysts.add(RegisterItems.INFECTED_ARCHIVERS_BOOKSHELF_ITEM.get().getDefaultInstance());
+        catalysts.add(RegisterItems.INFECTED_ENCHANTED_BOOKSHELF_ITEM.get().getDefaultInstance());
+        catalysts.add(RegisterItems.NUTRIENT_AGAR_ITEM.get().getDefaultInstance());
+        catalysts.add(RegisterItems.INSIGHTFUL_AGAR_ITEM.get().getDefaultInstance());
+        catalysts.add(RegisterItems.EXTRAVAGANT_AGAR_ITEM.get().getDefaultInstance());
+
+        return catalysts;
     }
 
 

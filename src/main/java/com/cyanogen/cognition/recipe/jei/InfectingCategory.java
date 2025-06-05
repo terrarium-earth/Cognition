@@ -21,8 +21,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 
-import java.util.ArrayList;
-import java.util.List;
+import static com.cyanogen.cognition.utils.RecipeUtils.getCatalysts;
 
 public class InfectingCategory implements IRecipeCategory<InfectingRecipe> {
 
@@ -135,20 +134,6 @@ public class InfectingCategory implements IRecipeCategory<InfectingRecipe> {
         builder.addSlot(RecipeIngredientRole.INPUT, 18,18).setSlotName("input").addIngredients(recipe.getIngredient());
         builder.addSlot(RecipeIngredientRole.CATALYST, 61,34).setSlotName("catalyst").addItemStacks(getCatalysts());
         builder.addSlot(RecipeIngredientRole.OUTPUT, 102,18).setSlotName("output").addItemStack(recipe.getResultItem(null));
-    }
-
-    public List<ItemStack> getCatalysts(){
-        List<ItemStack> catalysts = new ArrayList<>();
-
-        catalysts.add(RegisterItems.BIBLIOPHAGE.get().getDefaultInstance());
-        catalysts.add(RegisterItems.INFECTED_BOOKSHELF_ITEM.get().getDefaultInstance());
-        catalysts.add(RegisterItems.INFECTED_ARCHIVERS_BOOKSHELF_ITEM.get().getDefaultInstance());
-        catalysts.add(RegisterItems.INFECTED_ENCHANTED_BOOKSHELF_ITEM.get().getDefaultInstance());
-        catalysts.add(RegisterItems.NUTRIENT_AGAR_ITEM.get().getDefaultInstance());
-        catalysts.add(RegisterItems.INSIGHTFUL_AGAR_ITEM.get().getDefaultInstance());
-        catalysts.add(RegisterItems.EXTRAVAGANT_AGAR_ITEM.get().getDefaultInstance());
-
-        return catalysts;
     }
 
 }
