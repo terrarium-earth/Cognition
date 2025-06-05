@@ -41,7 +41,7 @@ public class MolecularMetamorpherCategory implements IRecipeCategory<MolecularMe
     private final ResourceLocation texture = ResourceLocation.parse("cognition:textures/gui/recipes/molecular_metamorpher_jei.png");
     private final IDrawableAnimated arrow;
 
-    public static final RecipeType<MolecularMetamorpherRecipe> metamorpherType =
+    public static final RecipeType<MolecularMetamorpherRecipe> METAMORPHER_TYPE =
             RecipeType.create(Cognition.MOD_ID, MolecularMetamorpherRecipe.Type.ID, MolecularMetamorpherRecipe.class);
 
     public MolecularMetamorpherCategory(IRecipeCategoryRegistration registration){
@@ -54,7 +54,7 @@ public class MolecularMetamorpherCategory implements IRecipeCategory<MolecularMe
 
     @Override
     public RecipeType<MolecularMetamorpherRecipe> getRecipeType() {
-        return metamorpherType;
+        return METAMORPHER_TYPE;
     }
 
     @Override

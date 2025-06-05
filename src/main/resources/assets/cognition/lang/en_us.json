@@ -136,8 +136,8 @@
   "tooltip.cognition.activatable_item.active": "§7Currently §aactive",
   "tooltip.cognition.activatable_item.inactive": "§7Currently §cinactive",
 
-  "tooltip.cognition.precision_dispeller.curse": "§7Costs §c30 §7XP levels / §c1395 §7XP",
-  "tooltip.cognition.precision_dispeller.enchantment": "§7Gives %s §7XP levels / %s §7XP",
+  "tooltip.cognition.precision_dispeller.curse": "§7Costs §c30 §7levels / §c1395 §7XP",
+  "tooltip.cognition.precision_dispeller.enchantment": "§7Gives %s §7levels / %s §7XP",
   "tooltip.cognition.precision_dispeller.insufficient_xp": "§6Insufficient XP!",
 
   "tooltip.cognition.molecular_metamorpher.bound": "Bound Obelisk",
@@ -210,18 +210,17 @@
   "jei.cognition.metamorpher.cost_xp": "§7Consumes %s §7XP",
   "jei.cognition.metamorpher.process_time": "§7Process time: %s",
   "jei.cognition.description.forgotten_dust": "Dropped by Infected Bookshelves upon being broken (100%) and upon decaying (50%)",
-  "jei.cognition.description.experience_vessels": "Right click a bound Experience Fountain with an empty bottle / bucket. The bound Obelisk must have enough Cognitium",
-  "jei.cognition.description.nutrient_agar": "Infect a block of Fluorescent Agar with Bibliophages. After a few infections, it will transform into Nutrient Agar",
   "jei.cognition.error.missing_items": "§cMissing Items",
   "jei.cognition.error.inventory_full": "§cInventory Full",
   "jei.cognition.name.any_item": "Any Item...",
-  "jei.cognition.info.infecting.title": "Infecting",
-  "jei.cognition.info.infecting.tooltip": "Infect with §aBibliophages§r or by\nplacing next to §ainfectious blocks§r",
-  "jei.cognition.info.infecting.tooltip_count": "Requires §a%s§r infections",
-  "jei.cognition.info.filling.title": "Filling",
-  "jei.cognition.info.filling.tooltip": "Right click an §aExperience Fountain§r\nthat is bound to an §aExperience Obelisk§r.\nThe Obelisk must have enough XP.",
-  "jei.cognition.info.emptying.title": "Emptying",
-  "jei.cognition.info.emptying.tooltip": "Right click an §aExperience Fountain§r\nthat is bound to an §aExperience Obelisk§r.\nThe Obelisk must have enough space.",
-  "jei.cognition.info.emptying.cognitium_amount": "%s §7mB Cognitium"
+  "jei.cognition.infecting.title": "Infecting",
+  "jei.cognition.infecting.tooltip": "Infect with §aBibliophages§r or by\nplacing next to §ainfectious blocks§r",
+  "jei.cognition.infecting.tooltip_count": "Requires §a%s§r infections",
+  "jei.cognition.filling.title": "Filling",
+  "jei.cognition.filling.tooltip": "Right click an §aExperience Fountain§r\nthat is bound to an §aExperience Obelisk§r.\nThe Obelisk must have enough XP.",
+  "jei.cognition.emptying.title": "Emptying",
+  "jei.cognition.emptying.tooltip": "Right click an §aExperience Fountain§r\nthat is bound to an §aExperience Obelisk§r.\nThe Obelisk must have enough space.",
+  "jei.cognition.shared.cognitium_amount.mb": "%s §7mB Cognitium",
+  "jei.cognition.shared.cognitium_amount.levels_xp": "%s §7levels / %s §7XP"
 
 }

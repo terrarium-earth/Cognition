@@ -105,13 +105,13 @@ public class EmptyingRecipe implements Recipe<RecipeInput> {
 
     public static class Type implements RecipeType<EmptyingRecipe>{
         public static final EmptyingRecipe.Type INSTANCE = new EmptyingRecipe.Type();
-        public static final String ID = "filling";
+        public static final String ID = "emptying";
     }
 
     public static class Serializer implements RecipeSerializer<EmptyingRecipe>{
 
         public static final EmptyingRecipe.Serializer INSTANCE = new EmptyingRecipe.Serializer();
-        public static final ResourceLocation ID = ResourceLocation.fromNamespaceAndPath(Cognition.MOD_ID, "filling");
+        public static final ResourceLocation ID = ResourceLocation.fromNamespaceAndPath(Cognition.MOD_ID, "emptying");
 
         public static EmptyingRecipe fromNetwork(RegistryFriendlyByteBuf buffer) {
 

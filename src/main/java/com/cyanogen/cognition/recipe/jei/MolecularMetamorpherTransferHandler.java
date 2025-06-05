@@ -47,7 +47,7 @@ public class MolecularMetamorpherTransferHandler implements IRecipeTransferHandl
 
     @Override
     public RecipeType<MolecularMetamorpherRecipe> getRecipeType() {
-        return MolecularMetamorpherCategory.metamorpherType;
+        return MolecularMetamorpherCategory.METAMORPHER_TYPE;
     }
 
     @Override

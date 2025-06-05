@@ -3,6 +3,7 @@ package com.cyanogen.cognition.recipe.jei;
 import com.cyanogen.cognition.Cognition;
 import com.cyanogen.cognition.recipe.EmptyingRecipe;
 import com.cyanogen.cognition.registries.RegisterItems;
+import com.cyanogen.cognition.utils.ExperienceUtils;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.builder.ITooltipBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
@@ -65,7 +66,7 @@ public class EmptyingCategory implements IRecipeCategory<EmptyingRecipe> {
 
     @Override
     public Component getTitle() {
-        return Component.translatable("jei.cognition.info.emptying.title");
+        return Component.translatable("jei.cognition.emptying.title");
     }
 
 
@@ -89,13 +90,13 @@ public class EmptyingCategory implements IRecipeCategory<EmptyingRecipe> {
     public void getTooltip(ITooltipBuilder tooltipBuilder, EmptyingRecipe recipe,
                            IRecipeSlotsView recipeSlotsView, double mouseX, double mouseY) {
 
-        getArrowTooltip(tooltipBuilder, mouseX, mouseY); //displayed when hovering over arrow
-        getCognitiumTooltip(recipe.getCognitiumGain(), tooltipBuilder, mouseX, mouseY); //displayed when hovering over Cognitium slot
+        getArrowTooltip(tooltipBuilder, mouseX, mouseY);
+        getCognitiumTooltip(recipe.getCognitiumGain(), tooltipBuilder, mouseX, mouseY);
     }
 
     public void getArrowTooltip(ITooltipBuilder tooltipBuilder, double mouseX, double mouseY){
 
-        Component arrowTooltip = Component.translatable("jei.cognition.info.emptying.tooltip");
+        Component arrowTooltip = Component.translatable("jei.cognition.emptying.tooltip");
 
         int x1 = arrowOffsetX - 3;
         int x2 = arrowOffsetX + arrowWidth + 3;
@@ -116,16 +117,18 @@ public class EmptyingCategory implements IRecipeCategory<EmptyingRecipe> {
 
         if(cognitiumGain > 0 && mouseX >= x1 && mouseX <= x2 && mouseY >= y1 && mouseY <= y2){
 
-            Component amount = Component.translatable("jei.cognition.info.emptying.cognitium_amount",
+            int xp = cognitiumGain / 20;
+            int levels = ExperienceUtils.xpToLevels(xp);
+
+            Component volumeComponent = Component.translatable("jei.cognition.shared.cognitium_amount.mb",
                     Component.literal(String.valueOf(cognitiumGain)).withStyle(ChatFormatting.GREEN));
 
-            //todo: tooltip should give the following info:
-            // 1. cognitium volume --- e.g. [106900] mB Cognitium
-            // 2. levels --- e.g. [50] levels
-            // 3. xp --- e.g. [5345] XP
-            // format [] with ChatFormatting.GREEN
+            Component xpLevelsComponent = Component.translatable("jei.cognition.shared.cognitium_amount.levels_xp",
+                    Component.literal(String.valueOf(levels)).withStyle(ChatFormatting.GREEN),
+                    Component.literal(String.valueOf(xp)).withStyle(ChatFormatting.GREEN));
 
-            tooltipBuilder.add(amount);
+            tooltipBuilder.add(volumeComponent);
+            tooltipBuilder.add(xpLevelsComponent);
         }
     }
 

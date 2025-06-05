@@ -50,7 +50,7 @@ public class InfectingCategory implements IRecipeCategory<InfectingRecipe> {
         this.guiHelper = registration.getJeiHelpers().getGuiHelper();
         this.arrow = guiHelper.drawableBuilder(infectingBackground,0,66, arrowWidth, arrowHeight)
                 .buildAnimated(100, IDrawableAnimated.StartDirection.LEFT, false);
-        this.counterArrow = guiHelper.drawableBuilder(infectingBackground, 0,73,11,9).build();
+        this.counterArrow = guiHelper.drawableBuilder(infectingBackground, 0,73,counterArrowWidth,counterArrowHeight).build();
     }
 
     @Override
@@ -70,7 +70,7 @@ public class InfectingCategory implements IRecipeCategory<InfectingRecipe> {
 
     @Override
     public Component getTitle() {
-        return Component.translatable("jei.cognition.info.infecting.title");
+        return Component.translatable("jei.cognition.infecting.title");
     }
 
     @Override
@@ -82,9 +82,9 @@ public class InfectingCategory implements IRecipeCategory<InfectingRecipe> {
     @Override
     public void draw(InfectingRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY) {
         guiHelper.createDrawable(infectingBackground, 0, 0, 136, 66).draw(guiGraphics);
-        arrow.draw(guiGraphics, 49, 21);
+        arrow.draw(guiGraphics, arrowOffsetX, arrowOffsetY);
 
-        if(recipe.getInfectionCount() > 0){
+        if(recipe.getInfectionCount() > 1){
             counterArrow.draw(guiGraphics, counterArrowXOffset, counterArrowYOffset);
             guiGraphics.drawString(Minecraft.getInstance().font, "x"+recipe.getInfectionCount(),
                     counterArrowXOffset + 15,counterArrowYOffset + 1,
@@ -102,7 +102,7 @@ public class InfectingCategory implements IRecipeCategory<InfectingRecipe> {
 
     public void getArrowTooltip(ITooltipBuilder tooltipBuilder, double mouseX, double mouseY){
 
-        Component arrowTooltip = Component.translatable("jei.cognition.info.infecting.tooltip");
+        Component arrowTooltip = Component.translatable("jei.cognition.infecting.tooltip");
 
         int x1 = arrowOffsetX - 3;
         int x2 = arrowOffsetX + arrowWidth + 3;
@@ -116,7 +116,7 @@ public class InfectingCategory implements IRecipeCategory<InfectingRecipe> {
 
     public void getCounterArrowTooltip(int infectionCount, ITooltipBuilder tooltipBuilder, double mouseX, double mouseY){
 
-        Component counterArrowTooltip = Component.translatable("jei.cognition.info.infecting.tooltip_count",
+        Component counterArrowTooltip = Component.translatable("jei.cognition.infecting.tooltip_count",
                 Component.literal(String.valueOf(infectionCount)).withStyle(ChatFormatting.GREEN));
 
         int x1 = counterArrowXOffset - 1;

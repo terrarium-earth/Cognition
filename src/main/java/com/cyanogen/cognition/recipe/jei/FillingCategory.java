@@ -3,6 +3,7 @@ package com.cyanogen.cognition.recipe.jei;
 import com.cyanogen.cognition.Cognition;
 import com.cyanogen.cognition.recipe.FillingRecipe;
 import com.cyanogen.cognition.registries.RegisterItems;
+import com.cyanogen.cognition.utils.ExperienceUtils;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.builder.ITooltipBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
@@ -65,7 +66,7 @@ public class FillingCategory implements IRecipeCategory<FillingRecipe> {
 
     @Override
     public Component getTitle() {
-        return Component.translatable("jei.cognition.info.filling.title");
+        return Component.translatable("jei.cognition.filling.title");
     }
 
     @Override
@@ -82,6 +83,8 @@ public class FillingCategory implements IRecipeCategory<FillingRecipe> {
         if(recipe.getCognitiumCost() > 0){
             cognitiumStack.draw(guiGraphics, cognitiumOffsetX, cognitiumOffsetY);
         }
+
+        IRecipeCategory.super.draw(recipe, recipeSlotsView, guiGraphics, mouseX, mouseY);
     }
 
     @Override
@@ -90,11 +93,13 @@ public class FillingCategory implements IRecipeCategory<FillingRecipe> {
 
         getArrowTooltip(tooltipBuilder, mouseX, mouseY);
         getCognitiumTooltip(recipe.getCognitiumCost(), tooltipBuilder, mouseX, mouseY);
+
+        IRecipeCategory.super.getTooltip(tooltipBuilder, recipe, recipeSlotsView, mouseX, mouseY);
     }
 
     public void getArrowTooltip(ITooltipBuilder tooltipBuilder, double mouseX, double mouseY){
 
-        Component arrowTooltip = Component.translatable("jei.cognition.info.filling.tooltip");
+        Component arrowTooltip = Component.translatable("jei.cognition.filling.tooltip");
 
         int x1 = arrowOffsetX - 3;
         int x2 = arrowOffsetX + arrowWidth + 3;
@@ -115,16 +120,18 @@ public class FillingCategory implements IRecipeCategory<FillingRecipe> {
 
         if(cognitiumCost > 0 && mouseX >= x1 && mouseX <= x2 && mouseY >= y1 && mouseY <= y2){
 
-            Component amount = Component.translatable("jei.cognition.info.filling.cognitium_amount",
+            int xp = cognitiumCost / 20;
+            int levels = ExperienceUtils.xpToLevels(xp);
+
+            Component volumeComponent = Component.translatable("jei.cognition.shared.cognitium_amount.mb",
                     Component.literal(String.valueOf(cognitiumCost)).withStyle(ChatFormatting.GREEN));
 
-            //todo: tooltip should give the following info:
-            // 1. cognitium volume --- e.g. [106900] mB Cognitium
-            // 2. levels --- e.g. [50] levels
-            // 3. xp --- e.g. [5345] XP
-            // format [] with ChatFormatting.GREEN
+            Component xpLevelsComponent = Component.translatable("jei.cognition.shared.cognitium_amount.levels_xp",
+                    Component.literal(String.valueOf(levels)).withStyle(ChatFormatting.GREEN),
+                    Component.literal(String.valueOf(xp)).withStyle(ChatFormatting.GREEN));
 
-            tooltipBuilder.add(amount);
+            tooltipBuilder.add(volumeComponent);
+            tooltipBuilder.add(xpLevelsComponent);
         }
     }
 
@@ -135,6 +142,6 @@ public class FillingCategory implements IRecipeCategory<FillingRecipe> {
 
         builder.addSlot(RecipeIngredientRole.INPUT, 10,18).setSlotName("input").addIngredients(recipe.getIngredient());
         builder.addSlot(RecipeIngredientRole.CATALYST, 71,34).setSlotName("catalyst").addItemStack(catalyst);
-        builder.addSlot(RecipeIngredientRole.OUTPUT, 86,18).setSlotName("output").addItemStack(recipe.getResultItem(null));
+        builder.addSlot(RecipeIngredientRole.OUTPUT, 110,18).setSlotName("output").addItemStack(recipe.getResultItem(null));
     }
 }

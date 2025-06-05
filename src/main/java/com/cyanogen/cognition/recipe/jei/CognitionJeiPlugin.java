@@ -22,7 +22,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import static com.cyanogen.cognition.recipe.jei.MolecularMetamorpherCategory.metamorpherType;
+import static com.cyanogen.cognition.recipe.jei.EmptyingCategory.EMPTYING_TYPE;
+import static com.cyanogen.cognition.recipe.jei.FillingCategory.FILLING_TYPE;
+import static com.cyanogen.cognition.recipe.jei.InfectingCategory.INFECTING_TYPE;
+import static com.cyanogen.cognition.recipe.jei.MolecularMetamorpherCategory.METAMORPHER_TYPE;
 
 @JeiPlugin
 public class CognitionJeiPlugin implements IModPlugin {
@@ -30,9 +33,10 @@ public class CognitionJeiPlugin implements IModPlugin {
     @Override
     public void registerCategories(IRecipeCategoryRegistration registration) {
         registration.addRecipeCategories(new MolecularMetamorpherCategory(registration));
+        registration.addRecipeCategories(new InfectingCategory(registration));
         registration.addRecipeCategories(new FillingCategory(registration));
         registration.addRecipeCategories(new EmptyingCategory(registration));
-        registration.addRecipeCategories(new InfectingCategory(registration));
+
         IModPlugin.super.registerCategories(registration);
     }
 
@@ -58,7 +62,11 @@ public class CognitionJeiPlugin implements IModPlugin {
             }
         }
         metamorpherRecipes.add(RecipeUtils.getEmptyNameFormattingRecipe());
-        registration.addRecipes(metamorpherType, metamorpherRecipes);
+
+        registration.addRecipes(METAMORPHER_TYPE, metamorpherRecipes);
+        registration.addRecipes(INFECTING_TYPE, infectingRecipes);
+        registration.addRecipes(FILLING_TYPE, fillingRecipes);
+        registration.addRecipes(EMPTYING_TYPE, emptyingRecipes);
 
         //INFO
         ItemStack forgottenDust = new ItemStack(RegisterItems.FORGOTTEN_DUST.get());
@@ -75,8 +83,10 @@ public class CognitionJeiPlugin implements IModPlugin {
     @Override
     public void registerRecipeCatalysts(IRecipeCatalystRegistration registration) {
 
-        ItemStack stack = new ItemStack(RegisterItems.MOLECULAR_METAMORPHER_ITEM.get());
-        registration.addRecipeCatalyst(stack, metamorpherType);
+        registration.addRecipeCatalyst(RegisterItems.MOLECULAR_METAMORPHER_ITEM.get(), METAMORPHER_TYPE);
+        registration.addRecipeCatalyst(RegisterItems.EXPERIENCE_FOUNTAIN_ITEM.get(), FILLING_TYPE);
+        registration.addRecipeCatalyst(RegisterItems.EXPERIENCE_FOUNTAIN_ITEM.get(), EMPTYING_TYPE);
+        registration.addRecipeCatalyst(RegisterItems.BIBLIOPHAGE.get(), INFECTING_TYPE);
 
         IModPlugin.super.registerRecipeCatalysts(registration);
     }
@@ -84,7 +94,7 @@ public class CognitionJeiPlugin implements IModPlugin {
     @Override
     public void registerRecipeTransferHandlers(IRecipeTransferRegistration registration) {
 
-        registration.addRecipeTransferHandler(new MolecularMetamorpherTransferHandler(registration), metamorpherType);
+        registration.addRecipeTransferHandler(new MolecularMetamorpherTransferHandler(registration), METAMORPHER_TYPE);
 
         IModPlugin.super.registerRecipeTransferHandlers(registration);
     }
@@ -92,7 +102,7 @@ public class CognitionJeiPlugin implements IModPlugin {
     @Override
     public void registerGuiHandlers(IGuiHandlerRegistration registration) {
 
-        registration.addRecipeClickArea(MolecularMetamorpherScreen.class,107,45,32,10, metamorpherType);
+        registration.addRecipeClickArea(MolecularMetamorpherScreen.class,107,45,32,10, METAMORPHER_TYPE);
 
         IModPlugin.super.registerGuiHandlers(registration);
     }
