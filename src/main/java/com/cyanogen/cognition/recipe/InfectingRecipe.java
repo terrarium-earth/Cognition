@@ -21,22 +21,22 @@ import java.util.List;
 
 public class InfectingRecipe implements Recipe<RecipeInput> {
 
-    private final Ingredient inputBlock;
+    private final Ingredient ingredientBlock;
     private final ItemStack resultBlock;
     private final int infectionCount;
     //This field only exists for convenience in displaying the Nutrient Agar recipe in JEI, and doesn't actually do anything in-game
     private final ResourceLocation id;
 
     public InfectingRecipe(Ingredient inputBlock, ItemStack resultBlock, int infectionCount, ResourceLocation id){
-        this.inputBlock = inputBlock;
+        this.ingredientBlock = inputBlock;
         this.resultBlock = resultBlock;
         this.infectionCount = infectionCount;
         this.id = id;
     }
 
-    public static @Nullable InfectingRecipe getRecipe(Level level, Block inputBlock){
+    public static @Nullable InfectingRecipe getRecipe(Level level, Block ingredientBlock){
 
-        RecipeInput input = InfectingRecipe.recipeInput(inputBlock.asItem().getDefaultInstance());
+        RecipeInput input = InfectingRecipe.recipeInput(ingredientBlock.asItem().getDefaultInstance());
 
         List<RecipeHolder<InfectingRecipe>> recipeList =
                 level.getRecipeManager().getAllRecipesFor(RegisterRecipes.INFECTING_TYPE.get());
@@ -51,12 +51,12 @@ public class InfectingRecipe implements Recipe<RecipeInput> {
         return infectingRecipe;
     }
 
-    public static @Nullable BlockState getInfectedBlockState(Level level, BlockState inputBlock){
+    public static @Nullable BlockState getInfectedBlockState(Level level, BlockState ingredientBlockState){
 
-        InfectingRecipe recipe = InfectingRecipe.getRecipe(level, inputBlock.getBlock());
+        InfectingRecipe recipe = InfectingRecipe.getRecipe(level, ingredientBlockState.getBlock());
 
         if(recipe != null){
-            ItemStack result = recipe.assemble(inputBlock.getBlock().asItem().getDefaultInstance(), level.registryAccess());
+            ItemStack result = recipe.assemble(ingredientBlockState.getBlock().asItem().getDefaultInstance(), level.registryAccess());
             if(result.getItem() instanceof BlockItem blockItem){
                 return blockItem.getBlock().defaultBlockState();
             }
@@ -84,7 +84,7 @@ public class InfectingRecipe implements Recipe<RecipeInput> {
 
     @Override
     public boolean matches(RecipeInput recipeInput, @Nullable Level level) {
-        return inputBlock.test(recipeInput.getItem(0));
+        return ingredientBlock.test(recipeInput.getItem(0));
     }
 
     public ItemStack assemble(ItemStack stack, HolderLookup.Provider provider){
@@ -107,7 +107,7 @@ public class InfectingRecipe implements Recipe<RecipeInput> {
     }
 
     public Ingredient getIngredient(){
-        return inputBlock;
+        return ingredientBlock;
     }
 
     public int getInfectionCount() {
@@ -146,7 +146,7 @@ public class InfectingRecipe implements Recipe<RecipeInput> {
 
         public static void toNetwork(RegistryFriendlyByteBuf buffer, InfectingRecipe recipe) {
 
-            Ingredient.CONTENTS_STREAM_CODEC.encode(buffer, recipe.inputBlock);
+            Ingredient.CONTENTS_STREAM_CODEC.encode(buffer, recipe.ingredientBlock);
             ItemStack.STREAM_CODEC.encode(buffer, recipe.resultBlock);
             buffer.writeInt(recipe.infectionCount);
             ResourceLocation.STREAM_CODEC.encode(buffer, recipe.id);
@@ -154,7 +154,7 @@ public class InfectingRecipe implements Recipe<RecipeInput> {
 
         private static final MapCodec<InfectingRecipe> CODEC =
                 RecordCodecBuilder.mapCodec((recipeInstance) -> recipeInstance.group(
-                                Ingredient.CODEC.fieldOf("input").forGetter((recipe) -> recipe.inputBlock),
+                                Ingredient.CODEC.fieldOf("ingredient").forGetter((recipe) -> recipe.ingredientBlock),
                                 ItemStack.CODEC.fieldOf("result").forGetter((recipe) -> recipe.resultBlock),
                                 Codec.INT.fieldOf("infectionCount").forGetter((recipe) -> recipe.infectionCount),
                                 ResourceLocation.CODEC.fieldOf("id").forGetter((recipe) -> recipe.id)

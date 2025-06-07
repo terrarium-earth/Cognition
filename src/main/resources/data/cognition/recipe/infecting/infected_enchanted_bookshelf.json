@@ -1,6 +1,6 @@
 {
   "type": "cognition:infecting",
-  "input": {
+  "ingredient": {
     "item": "cognition:enchanted_bookshelf"
   },
   "result": {
