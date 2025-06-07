@@ -31,10 +31,7 @@ public class BibliophageItem extends Item {
 
         BlockState newBlock = InfectingRecipe.getInfectedBlockState(level, level.getBlockState(pos));
 
-        System.out.println(level.isClientSide + ", " + newBlock);
-
         if(newBlock != null){
-
             boolean success = infectBlock(level, pos, newBlock);
             if(success && player != null && !player.isCreative()){
                 player.getItemInHand(hand).shrink(1);

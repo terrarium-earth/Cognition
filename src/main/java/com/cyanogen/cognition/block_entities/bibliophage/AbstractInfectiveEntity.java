@@ -32,10 +32,8 @@ public abstract class AbstractInfectiveEntity extends BlockEntity {
             int index = (int) Math.floor(Math.random() * posList.size());
             BlockPos posToInfect = posList.get(index);
             BlockState newBlock = InfectingRecipe.getInfectedBlockState(level, level.getBlockState(posToInfect));
-
-            if(newBlock != null){
-                infectBlock(level, posToInfect, newBlock);
-            }
+            assert newBlock != null;
+            infectBlock(level, posToInfect, newBlock);
         }
     }
 
