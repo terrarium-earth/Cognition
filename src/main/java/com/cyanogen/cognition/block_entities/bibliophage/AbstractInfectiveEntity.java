@@ -3,7 +3,6 @@ package com.cyanogen.cognition.block_entities.bibliophage;
 import com.cyanogen.cognition.recipe.InfectingRecipe;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
@@ -24,10 +23,7 @@ public abstract class AbstractInfectiveEntity extends BlockEntity {
         List<BlockPos> posList = new ArrayList<>();
 
         for(BlockPos adjacentPos : getAdjacents(pos)){
-
-            Block adjacentBlock = level.getBlockState(adjacentPos).getBlock();
-            InfectingRecipe infectingRecipe = InfectingRecipe.getRecipe(level, adjacentBlock);
-            if(infectingRecipe != null){
+            if(InfectingRecipe.getInfectedBlockState(level, level.getBlockState(adjacentPos)) != null){
                 posList.add(adjacentPos);
             }
         }
@@ -35,7 +31,11 @@ public abstract class AbstractInfectiveEntity extends BlockEntity {
         if(!posList.isEmpty()){
             int index = (int) Math.floor(Math.random() * posList.size());
             BlockPos posToInfect = posList.get(index);
-            infectBlock(level, posToInfect);
+            BlockState newBlock = InfectingRecipe.getInfectedBlockState(level, level.getBlockState(posToInfect));
+
+            if(newBlock != null){
+                infectBlock(level, posToInfect, newBlock);
+            }
         }
     }
 

@@ -5,14 +5,15 @@ import com.cyanogen.cognition.recipe.InfectingRecipe;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
+import org.jetbrains.annotations.NotNull;
 
 public class BibliophageItem extends Item {
 
@@ -25,10 +26,19 @@ public class BibliophageItem extends Item {
 
         Level level = context.getLevel();
         BlockPos pos = context.getClickedPos();
+        Player player = context.getPlayer();
+        InteractionHand hand = context.getHand();
 
-        boolean success = infectBlock(level, pos);
+        BlockState newBlock = InfectingRecipe.getInfectedBlockState(level, level.getBlockState(pos));
 
-        if(success){
+        System.out.println(level.isClientSide + ", " + newBlock);
+
+        if(newBlock != null){
+
+            boolean success = infectBlock(level, pos, newBlock);
+            if(success && player != null && !player.isCreative()){
+                player.getItemInHand(hand).shrink(1);
+            }
             return InteractionResult.sidedSuccess(level.isClientSide);
         }
         else{
@@ -36,34 +46,23 @@ public class BibliophageItem extends Item {
         }
     }
 
-    public static boolean infectBlock(Level level, BlockPos pos){
+    public static boolean infectBlock(Level level, BlockPos pos, @NotNull BlockState newBlock){
 
         if(level.getBlockEntity(pos) instanceof FluorescentAgarEntity fluorescentAgarEntity){
             fluorescentAgarEntity.incrementInfectionProgress();
             return true;
         }
 
-        InfectingRecipe recipe = InfectingRecipe.getRecipe(level, level.getBlockState(pos).getBlock());
-        Block oldBlock = level.getBlockState(pos).getBlock();
-
-        if(recipe != null && !level.isClientSide){
-            ItemStack result = recipe.assemble(oldBlock.asItem().getDefaultInstance(), level.registryAccess());
-
-            if(result.getItem() instanceof BlockItem blockItem){
-                BlockState newBlockState = blockItem.getBlock().defaultBlockState();
-                boolean success = level.setBlockAndUpdate(pos, newBlockState);
-
-                if(success){
-                    level.playSound(null, pos, SoundEvents.WART_BLOCK_BREAK, SoundSource.BLOCKS, 1f,1f);
-                    level.levelEvent(null, 2001, pos, Block.getId(newBlockState));
-                    return true;
-                }
-            }
-            else{
-                System.out.println("[Cognition] This infecting recipe does not have a valid block as its result");
+        if(!level.isClientSide){
+            boolean success = level.setBlockAndUpdate(pos, newBlock);
+            if(success){
+                level.playSound(null, pos, SoundEvents.WART_BLOCK_BREAK, SoundSource.BLOCKS, 1f, 1f);
+                level.levelEvent(null, 2001, pos, Block.getId(newBlock));
+                return true;
             }
         }
         return false;
+
     }
 
 }

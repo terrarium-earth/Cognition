@@ -9,10 +9,12 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -47,6 +49,19 @@ public class InfectingRecipe implements Recipe<RecipeInput> {
             }
         }
         return infectingRecipe;
+    }
+
+    public static @Nullable BlockState getInfectedBlockState(Level level, BlockState inputBlock){
+
+        InfectingRecipe recipe = InfectingRecipe.getRecipe(level, inputBlock.getBlock());
+
+        if(recipe != null){
+            ItemStack result = recipe.assemble(inputBlock.getBlock().asItem().getDefaultInstance(), level.registryAccess());
+            if(result.getItem() instanceof BlockItem blockItem){
+                return blockItem.getBlock().defaultBlockState();
+            }
+        }
+        return null;
     }
 
     private static RecipeInput recipeInput(ItemStack stack){
