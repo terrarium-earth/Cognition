@@ -1,4 +1,10 @@
 {
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "forbidden_arcanus"
+    }
+  ],
   "type": "cognition:emptying",
   "ingredient": {
     "item": "forbidden_arcanus:xpetrified_orb"

@@ -1,4 +1,10 @@
 {
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "actuallyadditions"
+    }
+  ],
   "type": "cognition:emptying",
   "ingredient": {
     "item": "actuallyadditions:solidified_experience"

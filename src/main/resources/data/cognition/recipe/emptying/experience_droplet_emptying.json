@@ -1,4 +1,10 @@
 {
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "mysticalagriculture"
+    }
+  ],
   "type": "cognition:emptying",
   "ingredient": {
     "item": "mysticalagriculture:experience_droplet"
