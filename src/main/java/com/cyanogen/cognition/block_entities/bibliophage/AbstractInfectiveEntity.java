@@ -26,6 +26,10 @@ public abstract class AbstractInfectiveEntity extends BlockEntity {
 
         for(BlockPos adjacentPos : getAdjacents(pos)){
 
+            if(level.getBlockState(pos).isAir()){
+                continue;
+            }
+
             BlockState infectedState = InfectingRecipe.getInfectedBlockState(level, level.getBlockState(adjacentPos));
             if(infectedState != null){
                 adjacentMap.put(adjacentPos, infectedState);
