@@ -1,8 +1,12 @@
 package com.cyanogen.cognition.block_entities.bibliophage;
 
+import com.cyanogen.cognition.block.bibliophage.agar.AbstractAgarBlock;
+import com.cyanogen.cognition.block.bibliophage.agar.FluorescentAgarBlock;
+import com.cyanogen.cognition.block.bibliophage.bookshelves.InfectedBookshelfBlock;
 import com.cyanogen.cognition.recipe.InfectingRecipe;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
@@ -26,11 +30,15 @@ public abstract class AbstractInfectiveEntity extends BlockEntity {
 
         for(BlockPos adjacentPos : getAdjacents(pos)){
 
-            if(level.getBlockState(pos).isAir()){
+            BlockState adjacentState = level.getBlockState(adjacentPos);
+            Block adjacentBlock = adjacentState.getBlock();
+
+            if(adjacentState.isAir() || adjacentBlock instanceof InfectedBookshelfBlock
+                    || (adjacentBlock instanceof AbstractAgarBlock && !(adjacentBlock instanceof FluorescentAgarBlock))){
                 continue;
             }
 
-            BlockState infectedState = InfectingRecipe.getInfectedBlockState(level, level.getBlockState(adjacentPos));
+            BlockState infectedState = InfectingRecipe.getInfectedBlockState(level, adjacentState);
             if(infectedState != null){
                 adjacentMap.put(adjacentPos, infectedState);
             }
