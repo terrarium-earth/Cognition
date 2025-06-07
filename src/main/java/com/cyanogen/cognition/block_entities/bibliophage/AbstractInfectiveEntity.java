@@ -8,7 +8,9 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static com.cyanogen.cognition.item.BibliophageItem.infectBlock;
 
@@ -20,20 +22,25 @@ public abstract class AbstractInfectiveEntity extends BlockEntity {
 
     public void infectAdjacent(Level level, BlockPos pos){
 
-        List<BlockPos> posList = new ArrayList<>();
+        Map<BlockPos, BlockState> adjacentMap = new HashMap<>();
 
         for(BlockPos adjacentPos : getAdjacents(pos)){
-            if(InfectingRecipe.getInfectedBlockState(level, level.getBlockState(adjacentPos)) != null){
-                posList.add(adjacentPos);
+
+            BlockState infectedState = InfectingRecipe.getInfectedBlockState(level, level.getBlockState(adjacentPos));
+            if(infectedState != null){
+                adjacentMap.put(adjacentPos, infectedState);
             }
         }
 
-        if(!posList.isEmpty()){
-            int index = (int) Math.floor(Math.random() * posList.size());
-            BlockPos posToInfect = posList.get(index);
-            BlockState newBlock = InfectingRecipe.getInfectedBlockState(level, level.getBlockState(posToInfect));
-            assert newBlock != null;
-            infectBlock(level, posToInfect, newBlock);
+        if(!adjacentMap.isEmpty()){
+
+            int index = (int) Math.floor(Math.random() * adjacentMap.size());
+            BlockPos posToInfect = (BlockPos) adjacentMap.keySet().toArray()[index];
+            BlockState newBlock = adjacentMap.getOrDefault(posToInfect, null);
+
+            if(newBlock != null){
+                infectBlock(level, posToInfect, newBlock);
+            }
         }
     }
 
