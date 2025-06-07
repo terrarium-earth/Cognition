@@ -3,6 +3,7 @@ v2.4.5
 [Changes]
 - Added datapack support for infecting, filling & emptying recipes
 - Shifted enchanted golden apple recipe from metamorpher to filling via the fountain
+- Optimized infection spreading
 
 v2.4.4-beta
 
