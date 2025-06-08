@@ -21,10 +21,12 @@ import java.util.Objects;
 
 import static com.cyanogen.cognition.block_entities.ExperienceFountainEntity.FROM_FOUNTAIN;
 import static com.cyanogen.cognition.block_entities.bibliophage.bookshelves.AbstractInfectedBookshelfEntity.FROM_BOOKSHELF;
+import static com.cyanogen.cognition.utils.ExperienceUtils.getClumpedOrbValue;
+import static com.cyanogen.cognition.utils.ExperienceUtils.getOrbValue;
 
 public class EnlightenedAmuletItem extends ActivatableItem{
 
-    public final boolean clumpsIsLoaded;
+    private final boolean clumpsIsLoaded;
 
     public EnlightenedAmuletItem(Properties p) {
         super(p);
@@ -77,9 +79,7 @@ public class EnlightenedAmuletItem extends ActivatableItem{
                     boolean shouldCollect = !(ignoreFountain && spawnedFromFountain) && !(ignoreBookshelf && spawnedFromBookshelf);
 
                     if(shouldCollect && !orb.isRemoved()){
-                        int value = clumpsIsLoaded ? getClumpedOrbValue(orb, tag) :
-                                orb.value * tag.getInt("Count");
-
+                        int value = clumpsIsLoaded ? getClumpedOrbValue(orb) : getOrbValue(orb);
                         totalValue += value;
                         orb.discard();
                     }
@@ -111,25 +111,6 @@ public class EnlightenedAmuletItem extends ActivatableItem{
         }
 
         super.inventoryTick(stack, level, entity, slot, isCurrentItem);
-    }
-
-    public int getClumpedOrbValue(ExperienceOrb orb, CompoundTag tag){
-
-        //gets orb values directly from clumpedMap rather than orb.value if Clumps is installed
-
-        int totalValue = 0;
-
-        if(tag.contains("clumpedMap")){
-            CompoundTag clumpedMap = tag.getCompound("clumpedMap");
-
-            for(String value : clumpedMap.getAllKeys()){
-                totalValue += clumpedMap.getInt(value) * Integer.parseInt(value);
-            }
-        }
-        else{
-            totalValue = orb.value * tag.getInt("Count");
-        }
-        return totalValue;
     }
 
     public void sendDebugMessage(Player player, int orbsCollected, int totalValue, int orbsSpawned, List<Integer> spawnedOrbValues){

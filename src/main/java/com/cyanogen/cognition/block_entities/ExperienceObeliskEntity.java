@@ -27,6 +27,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.phys.AABB;
+import net.neoforged.fml.ModList;
 import net.neoforged.neoforge.capabilities.BlockCapability;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.fluids.FluidStack;
@@ -48,6 +49,7 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
 
     public ExperienceObeliskEntity(BlockPos pos, BlockState state) {
         super(RegisterBlockEntities.EXPERIENCE_OBELISK.get(), pos, state);
+        clumpsIsLoaded = ModList.get().isLoaded("clumps");
     }
 
     //-----------ANIMATIONS-----------//
@@ -99,6 +101,7 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
 
     protected boolean redstoneEnabled = false;
     protected double radius = 2.5;
+    public final boolean clumpsIsLoaded;
 
     public static <T> void tick(Level level, BlockPos pos, BlockState state, T blockEntity) {
 
@@ -119,10 +122,8 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
                     CompoundTag tag = new CompoundTag();
                     orb.addAdditionalSaveData(tag);
 
-                    int value = orb.value;
-                    int count = tag.getInt("Count");
-
-                    int amount = value * 20 * count;
+                    int value = obelisk.clumpsIsLoaded ? getClumpedOrbValue(orb) : getOrbValue(orb);
+                    int amount = value * 20;
                     if(space >= amount && !orb.isRemoved()){
                         obelisk.fill(amount);
                         space = space - amount;
