@@ -3,6 +3,7 @@ package com.cyanogen.cognition.utils;
 import net.minecraft.core.component.DataComponentPatch;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.CustomData;
 
@@ -19,6 +20,11 @@ public class ItemUtils {
 
     public static CompoundTag getBlockEntityTag(ItemStack stack){
         return stack.getOrDefault(DataComponents.BLOCK_ENTITY_DATA, CustomData.EMPTY).copyTag();
+    }
+
+    public static String getCustomName(ItemStack stack){
+        Component c = stack.getOrDefault(DataComponents.CUSTOM_NAME, Component.literal(""));
+        return c.getString();
     }
 
 }
