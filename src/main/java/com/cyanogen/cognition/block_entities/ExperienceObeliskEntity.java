@@ -123,7 +123,7 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
                     int count = tag.getInt("Count");
 
                     int amount = value * 20 * count;
-                    if(space >= amount){
+                    if(space >= amount && !orb.isRemoved()){
                         obelisk.fill(amount);
                         space = space - amount;
                         orb.discard();

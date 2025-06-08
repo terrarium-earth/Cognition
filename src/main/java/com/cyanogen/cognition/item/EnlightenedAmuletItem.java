@@ -74,7 +74,7 @@ public class EnlightenedAmuletItem extends ActivatableItem{
                     boolean ignoreBookshelf = Config.COMMON.amuletIgnoresBookshelfOrbs.get();
                     boolean shouldCollect = !(ignoreFountain && spawnedFromFountain) && !(ignoreBookshelf && spawnedFromBookshelf);
 
-                    if(shouldCollect){
+                    if(shouldCollect && !orb.isRemoved()){
                         int value = clumpsIsLoaded ? getClumpedOrbValue(orb, tag) :
                                 orb.value * tag.getInt("Count");
 
