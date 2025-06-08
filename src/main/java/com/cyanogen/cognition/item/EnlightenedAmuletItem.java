@@ -106,7 +106,6 @@ public class EnlightenedAmuletItem extends ActivatableItem{
     public int getClumpedOrbValue(ExperienceOrb orb, CompoundTag tag){
 
         //gets orb values directly from clumpedMap rather than orb.value if Clumps is installed
-        //this provides greater reliability especially in a modpack context where other mods dealing with XP are installed
 
         int totalValue = 0;
 

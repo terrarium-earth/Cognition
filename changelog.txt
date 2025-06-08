@@ -1,3 +1,8 @@
+v2.4.6
+
+[Bugfixes]
+- Fixed Enlightened or Fortuitous Amulet causing inflation of XP gain in [some specific contexts](https://github.com/terrarium-earth/Cognition/issues/35)
+
 v2.4.5
 
 [Changes]
