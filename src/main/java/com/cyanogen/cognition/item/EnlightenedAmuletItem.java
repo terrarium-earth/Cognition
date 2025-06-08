@@ -4,6 +4,7 @@ import com.cyanogen.cognition.config.Config;
 import com.cyanogen.cognition.registries.RegisterSounds;
 import com.cyanogen.cognition.utils.ItemUtils;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.ExperienceOrb;
@@ -12,6 +13,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.fml.ModList;
 
 import java.util.List;
 import java.util.Objects;
@@ -21,8 +23,11 @@ import static com.cyanogen.cognition.block_entities.bibliophage.bookshelves.Abst
 
 public class EnlightenedAmuletItem extends ActivatableItem{
 
+    public final boolean clumpsIsLoaded;
+
     public EnlightenedAmuletItem(Properties p) {
         super(p);
+        clumpsIsLoaded = ModList.get().isLoaded("clumps");
     }
 
     @Override
@@ -57,6 +62,10 @@ public class EnlightenedAmuletItem extends ActivatableItem{
 
             int totalValue = 0;
             if(!list.isEmpty()){
+
+                String a = "------------------- \n[Amulet] Orbs collected: " + Math.min(30, list.size());
+                player.sendSystemMessage(Component.literal(a));
+
                 for(int i = 0; i < Math.min(30,list.size()); i++) {
 
                     ExperienceOrb orb = list.get(i);
@@ -70,18 +79,25 @@ public class EnlightenedAmuletItem extends ActivatableItem{
                     boolean shouldCollect = !(ignoreFountain && spawnedFromFountain) && !(ignoreBookshelf && spawnedFromBookshelf);
 
                     if(shouldCollect){
-                        int value = orb.value;
-                        int count = tag.getInt("Count");
-                        totalValue += value * count;
+                        int value = clumpsIsLoaded ? getClumpedOrbValue(orb, tag) :
+                                orb.value * tag.getInt("Count");
+
+                        totalValue += value;
                         orb.discard();
                     }
                 }
 
                 ServerLevel server = (ServerLevel) level;
 
+               String b = "[Amulet] Total value: " + totalValue;
+               player.sendSystemMessage(Component.literal(b));
+
                 if(totalValue <= 32767 && totalValue != 0){
                     ExperienceOrb orb = new ExperienceOrb(server, pos.x(), pos.y(), pos.z(), totalValue);
                     server.addFreshEntity(orb);
+
+                    String c = "[Amulet] Added 1 orb with value " + totalValue;
+                    player.sendSystemMessage(Component.literal(c));
                 }
                 else if(totalValue > 32767){ //edge case if total value of orbs exceeds 32767
                     while(totalValue > 0){
@@ -89,12 +105,32 @@ public class EnlightenedAmuletItem extends ActivatableItem{
                         ExperienceOrb orb = new ExperienceOrb(server, pos.x(), pos.y(), pos.z(), v);
                         server.addFreshEntity(orb);
                         totalValue = totalValue - v;
+
+                        String d = "[Amulet] Added 1 orb with value " + v;
+                        player.sendSystemMessage(Component.literal(d));
                     }
                 }
             }
         }
 
         super.inventoryTick(stack, level, entity, slot, isCurrentItem);
+    }
+
+    public int getClumpedOrbValue(ExperienceOrb orb, CompoundTag tag){
+
+        int totalValue = 0;
+
+        if(tag.contains("clumpedMap")){
+            CompoundTag clumpedMap = tag.getCompound("clumpedMap");
+
+            for(String value : clumpedMap.getAllKeys()){
+                totalValue += clumpedMap.getInt(value) * Integer.parseInt(value);
+            }
+        }
+        else{
+            totalValue = orb.value * tag.getInt("Count");
+        }
+        return totalValue;
     }
 
 }
