@@ -1,7 +1,13 @@
 v2.4.6
 
+[Changes]
+- Removed unnecessary cap on the values of orbs spawned by the Amulet
+- Increased the number of orbs the Amulets can collect per batch
+- Increased Fortuitous Amulet XP bonus
+
 [Bugfixes]
-- Fixed Enlightened or Fortuitous Amulet causing inflation of XP gain in [some specific contexts](https://github.com/terrarium-earth/Cognition/issues/35)
+- Fixed Enlightened or Fortuitous Amulet causing inflation of XP gain in some specific contexts when Clumps is installed.
+See https://github.com/terrarium-earth/Cognition/issues/35 for more info
 
 v2.4.5
 
