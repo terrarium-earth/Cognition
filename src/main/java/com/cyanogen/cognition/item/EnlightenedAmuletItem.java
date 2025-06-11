@@ -20,8 +20,7 @@ import java.util.Objects;
 
 import static com.cyanogen.cognition.block_entities.ExperienceFountainEntity.FROM_FOUNTAIN;
 import static com.cyanogen.cognition.block_entities.bibliophage.bookshelves.AbstractInfectedBookshelfEntity.FROM_BOOKSHELF;
-import static com.cyanogen.cognition.utils.ExperienceUtils.getClumpedOrbValue;
-import static com.cyanogen.cognition.utils.ExperienceUtils.getOrbValue;
+import static com.cyanogen.cognition.utils.ExperienceUtils.*;
 
 public class EnlightenedAmuletItem extends ActivatableItem{
 
@@ -108,7 +107,8 @@ public class EnlightenedAmuletItem extends ActivatableItem{
         player.sendSystemMessage(Component.literal(
                 "----- [Amulet] -----" + "\n"
                         + "Clumps installed: " + clumpsIsLoaded + "\n"
-                        + orbsCollected + " orbs collected with total value " + totalValue
+                        + orbsCollected + " orbs collected with total value " + totalValue + " (" + xpToLevels(totalValue) + " levels)" + "\n"
+                        + "Player levels: " + player.experienceLevel
         ));
     }
 
