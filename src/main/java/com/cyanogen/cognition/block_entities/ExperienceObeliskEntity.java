@@ -113,7 +113,7 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
             double radius = obelisk.getRadius();
             int space = obelisk.getSpace();
 
-            if(absorb && level.getGameTime() % 10 == 0){
+            if(absorb && level.getGameTime() % 10 == 0 && space > 0){
                 List<ExperienceOrb> list = level.getEntitiesOfClass(ExperienceOrb.class, getAreaOfEffect(pos, radius));
 
                 if(!list.isEmpty()) for(int i = 0; i < Math.min(64,list.size()); i++){
@@ -132,7 +132,7 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
                 }
             }
 
-            if(!level.isClientSide){
+            if(!level.isClientSide && space > 0){
                 obelisk.checkAroundForMemorized();
             }
         }
@@ -245,9 +245,9 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
     public void handleExperienceRecovery(Player player, MemoryTabletData data){
         assert data != null;
         long xp = data.getExperienceToRecover();
-        int pointsRecovered = (int) Math.min(5000000 - getExperiencePoints(), xp);
+        int pointsToRecover = (int) Math.min(getSpace() / 20, xp);
 
-        player.giveExperiencePoints(pointsRecovered); assert level != null;
+        player.giveExperiencePoints(pointsToRecover); assert level != null;
         level.playSound(null, getBlockPos(), SoundEvents.PLAYER_LEVELUP, SoundSource.BLOCKS, 1.0f, 0.25f);
 
         ServerLevel server = (ServerLevel) level;
@@ -258,7 +258,7 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
 
         data.setExperienceToRecover(0);
         player.displayClientMessage(Component.translatable("message.cognition.experience_obelisk.experience_recovered",
-                Component.literal(String.valueOf(xpToLevels(pointsRecovered))).withStyle(ChatFormatting.GREEN)), true);
+                Component.literal(String.valueOf(xpToLevels(pointsToRecover))).withStyle(ChatFormatting.GREEN)), true);
     }
 
     //-----------FLUID HANDLER-----------//

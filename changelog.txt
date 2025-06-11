@@ -3,6 +3,7 @@ v2.4.6
 [Changes]
 - Removed unnecessary cap on the values of orbs spawned by the Amulet
 - Increased the number of orbs the Amulets can collect per batch
+- Increased the number of orbs the Obelisk can collect per batch
 - Increased Fortuitous Amulet XP bonus
 
 [Bugfixes]
