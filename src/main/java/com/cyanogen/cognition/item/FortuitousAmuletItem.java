@@ -10,9 +10,9 @@ import net.neoforged.neoforge.event.entity.living.LivingExperienceDropEvent;
 
 public class FortuitousAmuletItem extends EnlightenedAmuletItem{
 
-    public static final float xpBoostForSmall = 1.6f;
-    public static final float xpBoostForMed = 1.4f;
-    public static final float xpBoostForLarge = 1.2f;
+    public static final float xpBoostForSmall = 2f;
+    public static final float xpBoostForMed = 1.6f;
+    public static final float xpBoostForLarge = 1.4f;
 
     public FortuitousAmuletItem(Properties properties) {
         super(properties);
