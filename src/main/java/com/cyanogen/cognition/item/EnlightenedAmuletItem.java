@@ -15,7 +15,6 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.fml.ModList;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -64,9 +63,13 @@ public class EnlightenedAmuletItem extends ActivatableItem{
             List<ExperienceOrb> list = level.getEntitiesOfClass(ExperienceOrb.class, area);
 
             int totalValue = 0;
+            int valueLimit = Integer.MAX_VALUE - 1;
+            int collectionLimit = 64;
+            int collect = Math.min(collectionLimit, list.size());
+
             if(!list.isEmpty()){
 
-                for(int i = 0; i < Math.min(30,list.size()); i++) {
+                for(int i = 0; i < collect; i++) {
 
                     ExperienceOrb orb = list.get(i);
                     CompoundTag tag = new CompoundTag();
@@ -80,32 +83,20 @@ public class EnlightenedAmuletItem extends ActivatableItem{
 
                     if(shouldCollect && !orb.isRemoved()){
                         int value = clumpsIsLoaded ? getClumpedOrbValue(orb) : getOrbValue(orb);
+                        if(totalValue + value > valueLimit) break;
                         totalValue += value;
                         orb.discard();
                     }
                 }
 
                 ServerLevel server = (ServerLevel) level;
-                int capture = totalValue;
-                List<Integer> orbValueList = new ArrayList<>();
-
-                if(totalValue <= 32767 && totalValue != 0){
+                if(totalValue > 0){
                     ExperienceOrb orb = new ExperienceOrb(server, pos.x(), pos.y(), pos.z(), totalValue);
                     server.addFreshEntity(orb);
-                    orbValueList.add(totalValue);
-                }
-                else if(totalValue > 32767){ //edge case if total value of orbs exceeds 32767
-                    while(totalValue > 0){
-                        int v = Math.min(totalValue, 32767);
-                        ExperienceOrb orb = new ExperienceOrb(server, pos.x(), pos.y(), pos.z(), v);
-                        server.addFreshEntity(orb);
-                        orbValueList.add(v);
-                        totalValue = totalValue - v;
-                    }
                 }
 
                 if(ItemUtils.getCustomName(stack).equals("Debug")){
-                    sendDebugMessage(player, Math.min(30,list.size()), capture, orbValueList.size(), orbValueList);
+                    sendDebugMessage(player, collect, totalValue);
                 }
             }
         }
@@ -113,12 +104,11 @@ public class EnlightenedAmuletItem extends ActivatableItem{
         super.inventoryTick(stack, level, entity, slot, isCurrentItem);
     }
 
-    public void sendDebugMessage(Player player, int orbsCollected, int totalValue, int orbsSpawned, List<Integer> spawnedOrbValues){
+    public void sendDebugMessage(Player player, int orbsCollected, int totalValue){
         player.sendSystemMessage(Component.literal(
                 "----- [Amulet] -----" + "\n"
                         + "Clumps installed: " + clumpsIsLoaded + "\n"
-                        + orbsCollected + " orbs collected with total value " + totalValue + "\n"
-                        + orbsSpawned + " orbs spawned at player with values " + spawnedOrbValues
+                        + orbsCollected + " orbs collected with total value " + totalValue
         ));
     }
 

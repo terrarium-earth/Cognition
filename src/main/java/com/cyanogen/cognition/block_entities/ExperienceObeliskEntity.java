@@ -116,7 +116,7 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
             if(absorb && level.getGameTime() % 10 == 0){
                 List<ExperienceOrb> list = level.getEntitiesOfClass(ExperienceOrb.class, getAreaOfEffect(pos, radius));
 
-                if(!list.isEmpty()) for(int i = 0; i < Math.min(30,list.size()); i++){
+                if(!list.isEmpty()) for(int i = 0; i < Math.min(64,list.size()); i++){
 
                     ExperienceOrb orb = list.get(i);
                     CompoundTag tag = new CompoundTag();
