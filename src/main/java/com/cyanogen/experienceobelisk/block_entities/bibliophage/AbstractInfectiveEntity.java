@@ -46,7 +46,7 @@ public abstract class AbstractInfectiveEntity extends BlockEntity {
             BlockState newBlock = adjacentMap.getOrDefault(posToInfect, null);
 
             if(newBlock != null){
-                infectBlock(level, posToInfect, newBlock.getBlock());
+                infectBlock(level, posToInfect, newBlock);
             }
         }
     }
