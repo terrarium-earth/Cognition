@@ -53,11 +53,11 @@ public class CognitionJeiPlugin implements IModPlugin {
 
         Collection<Recipe<?>> recipes = Minecraft.getInstance().level.getRecipeManager().getRecipes();
         for(Recipe<?> recipe : recipes){
-            switch(recipe){
-                case MolecularMetamorpherRecipe k -> metamorpherRecipes.add(k);
-                case InfectingRecipe j -> infectingRecipes.add(j);
-                case FillingRecipe l -> fillingRecipes.add(l);
-                case EmptyingRecipe m -> emptyingRecipes.add(m);
+            switch(recipe.getType().toString()){
+                case MolecularMetamorpherRecipe.Type.ID -> metamorpherRecipes.add((MolecularMetamorpherRecipe) recipe);
+                case InfectingRecipe.Type.ID -> infectingRecipes.add((InfectingRecipe) recipe);
+                case FillingRecipe.Type.ID -> fillingRecipes.add((FillingRecipe) recipe);
+                case EmptyingRecipe.Type.ID -> emptyingRecipes.add((EmptyingRecipe) recipe);
                 default -> {}
             }
         }

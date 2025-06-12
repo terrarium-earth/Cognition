@@ -34,7 +34,7 @@ public class InfectingRecipe implements Recipe<SimpleContainer> {
     public static @Nullable InfectingRecipe getRecipe(Level level, ItemStack stack){
 
         List<InfectingRecipe> recipeList =
-                level.getRecipeManager().getAllRecipesFor(com.cyanogen.experienceobelisk.registries.RegisterRecipes.INFECTING_TYPE.get());
+                level.getRecipeManager().getAllRecipesFor(Type.INSTANCE);
         InfectingRecipe infectingRecipe = null;
 
         for(InfectingRecipe recipe : recipeList){

@@ -1,7 +1,6 @@
 package com.cyanogen.experienceobelisk.recipe;
 
 import com.cyanogen.experienceobelisk.ExperienceObelisk;
-import com.cyanogen.experienceobelisk.registries.RegisterRecipes;
 import com.google.gson.JsonObject;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.FriendlyByteBuf;
@@ -32,7 +31,7 @@ public class FillingRecipe implements Recipe<SimpleContainer> {
     public static @Nullable FillingRecipe getRecipe(Level level, ItemStack stack){
 
         List<FillingRecipe> recipeList =
-                level.getRecipeManager().getAllRecipesFor(RegisterRecipes.FILLING_TYPE.get());
+                level.getRecipeManager().getAllRecipesFor(Type.INSTANCE);
         FillingRecipe infectingRecipe = null;
 
         for(FillingRecipe recipe : recipeList){
