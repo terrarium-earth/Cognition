@@ -59,10 +59,11 @@ public class CognitionJeiPlugin implements IModPlugin {
         registration.addRecipes(FILLING_TYPE, fillingRecipes);
         registration.addRecipes(EMPTYING_TYPE, emptyingRecipes);
 
-        System.out.println("Metamorphosis: Added " + metamorpherRecipes.size() + " recipes -----------------------------");
-        System.out.println("Infecting: Added " + infectingRecipes.size() + " recipes -----------------------------");
-        System.out.println("Filling: Added " + fillingRecipes.size() + " recipes -----------------------------");
-        System.out.println("Emptying: Added " + emptyingRecipes.size() + " recipes -----------------------------");
+        System.out.println("[Cognition JEI Plugin]");
+        System.out.println("Metamorphosis: Added " + metamorpherRecipes.size() + " recipes");
+        System.out.println("Infecting: Added " + infectingRecipes.size() + " recipes");
+        System.out.println("Filling: Added " + fillingRecipes.size() + " recipes");
+        System.out.println("Emptying: Added " + emptyingRecipes.size() + " recipes");
 
         //INFO
         ItemStack forgottenDust = new ItemStack(RegisterItems.FORGOTTEN_DUST.get());
