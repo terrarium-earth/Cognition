@@ -4,8 +4,8 @@
     {
       "conditions": [
         {
-          "type": "neoforge:mod_loaded",
-          "modid": "actuallyadditions"
+          "type": "forge:mod_loaded",
+          "modid": "mysticalagriculture"
         }
       ],
 
