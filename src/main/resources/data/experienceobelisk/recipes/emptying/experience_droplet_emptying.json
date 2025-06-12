@@ -1,19 +1,27 @@
 {
-  "neoforge:conditions": [
+  "type": "forge:conditional",
+  "recipes": [
     {
-      "type": "neoforge:mod_loaded",
-      "modid": "mysticalagriculture"
+      "conditions": [
+        {
+          "type": "neoforge:mod_loaded",
+          "modid": "actuallyadditions"
+        }
+      ],
+
+      "recipe": {
+        "type": "experienceobelisk:emptying",
+        "ingredient": {
+          "item": "mysticalagriculture:experience_droplet"
+        },
+        "result": {
+          "item": "minecraft:barrier",
+          "count": 1
+        },
+        "hasResultStack": false,
+        "gain_mB": 250,
+        "id": "experienceobelisk:experience_droplet_emptying"
+      }
     }
-  ],
-  "type": "experienceobelisk:emptying",
-  "ingredient": {
-    "item": "mysticalagriculture:experience_droplet"
-  },
-  "result": {
-    "item": "minecraft:barrier",
-    "count": 1
-  },
-  "hasResultStack": false,
-  "gain_mB": 250,
-  "id": "experienceobelisk:experience_droplet_emptying"
+  ]
 }

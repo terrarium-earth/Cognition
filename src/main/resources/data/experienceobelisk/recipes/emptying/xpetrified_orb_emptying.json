@@ -1,19 +1,27 @@
 {
-  "neoforge:conditions": [
+  "type": "forge:conditional",
+  "recipes": [
     {
-      "type": "neoforge:mod_loaded",
-      "modid": "forbidden_arcanus"
+      "conditions": [
+        {
+          "type": "forge:mod_loaded",
+          "modid": "forbidden_arcanus"
+        }
+      ],
+
+      "recipe": {
+        "type": "experienceobelisk:emptying",
+        "ingredient": {
+          "item": "forbidden_arcanus:xpetrified_orb"
+        },
+        "result": {
+          "item": "minecraft:barrier",
+          "count": 1
+        },
+        "hasResultStack": false,
+        "gain_mB": 1820,
+        "id": "experienceobelisk:xpetrified_orb_emptying"
+      }
     }
-  ],
-  "type": "experienceobelisk:emptying",
-  "ingredient": {
-    "item": "forbidden_arcanus:xpetrified_orb"
-  },
-  "result": {
-    "item": "minecraft:barrier",
-    "count": 1
-  },
-  "hasResultStack": false,
-  "gain_mB": 1820,
-  "id": "experienceobelisk:xpetrified_orb_emptying"
+  ]
 }
