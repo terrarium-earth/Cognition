@@ -1,0 +1,12 @@
+{
+  "type": "experienceobelisk:infecting",
+  "ingredient": {
+    "tag": "c:bookshelves"
+  },
+  "result": {
+    "id": "experienceobelisk:infected_bookshelf",
+    "count": 1
+  },
+  "infectionCount": 1,
+  "id": "experienceobelisk:infected_bookshelf"
+}

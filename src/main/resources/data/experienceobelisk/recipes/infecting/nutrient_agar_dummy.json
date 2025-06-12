@@ -1,0 +1,12 @@
+{
+  "type": "experienceobelisk:infecting",
+  "ingredient": {
+    "item": "experienceobelisk:fluorescent_agar"
+  },
+  "result": {
+    "id": "experienceobelisk:nutrient_agar",
+    "count": 1
+  },
+  "infectionCount": 4,
+  "id": "experienceobelisk:nutrient_agar"
+}

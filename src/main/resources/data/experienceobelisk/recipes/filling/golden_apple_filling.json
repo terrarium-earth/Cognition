@@ -1,0 +1,12 @@
+{
+  "type": "experienceobelisk:filling",
+  "ingredient": {
+    "item": "minecraft:golden_apple"
+  },
+  "result": {
+    "id": "minecraft:enchanted_golden_apple",
+    "count": 1
+  },
+  "cost_mB": 106900,
+  "id": "experienceobelisk:golden_apple_filling"
+}

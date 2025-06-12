@@ -1,0 +1,19 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "mysticalagriculture"
+    }
+  ],
+  "type": "experienceobelisk:emptying",
+  "ingredient": {
+    "item": "mysticalagriculture:experience_droplet"
+  },
+  "result": {
+    "id": "minecraft:barrier",
+    "count": 1
+  },
+  "hasResultStack": false,
+  "gain_mB": 250,
+  "id": "experienceobelisk:experience_droplet_emptying"
+}

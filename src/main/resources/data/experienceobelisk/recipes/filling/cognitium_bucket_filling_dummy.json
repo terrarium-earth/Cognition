@@ -1,0 +1,12 @@
+{
+  "type": "experienceobelisk:filling",
+  "ingredient": {
+    "item": "minecraft:bucket"
+  },
+  "result": {
+    "id": "experienceobelisk:cognitium_bucket",
+    "count": 1
+  },
+  "cost_mB": 1000,
+  "id": "experienceobelisk:cognitium_bucket_filling"
+}

@@ -210,18 +210,17 @@
   "jei.experienceobelisk.metamorpher.cost_xp": "§7Consumes %s §7XP",
   "jei.experienceobelisk.metamorpher.process_time": "§7Process time: %s",
   "jei.experienceobelisk.description.forgotten_dust": "Dropped by Infected Bookshelves upon being broken (100%) and upon decaying (50%)",
-  "jei.experienceobelisk.description.experience_vessels": "Right click a bound Experience Fountain with an empty bottle / bucket. The bound Obelisk must have enough Cognitium",
-  "jei.experienceobelisk.description.nutrient_agar": "Infect a block of Fluorescent Agar with Bibliophages. After a few infections, it will transform into Nutrient Agar",
   "jei.experienceobelisk.error.missing_items": "§cMissing Items",
   "jei.experienceobelisk.error.inventory_full": "§cInventory Full",
   "jei.experienceobelisk.name.any_item": "Any Item...",
-  "jei.experienceobelisk.info.infecting.title": "Infecting",
-  "jei.experienceobelisk.info.infecting.tooltip": "Infect with §aBibliophages§r or by\nplacing next to §ainfectious blocks§r",
-  "jei.experienceobelisk.info.infecting.tooltip_count": "Requires §a%s§r infections",
-  "jei.experienceobelisk.info.filling.title": "Filling",
-  "jei.experienceobelisk.info.filling.tooltip": "Right click an §aExperience Fountain§r\nthat is bound to an §aExperience Obelisk§r.\nThe Obelisk must have enough XP.",
-  "jei.experienceobelisk.info.emptying.title": "Emptying",
-  "jei.experienceobelisk.info.emptying.tooltip": "Right click an §aExperience Fountain§r\nthat is bound to an §aExperience Obelisk§r.\nThe Obelisk must have enough space.",
-  "jei.experienceobelisk.info.emptying.cognitium_amount": "%s §7mB Cognitium"
+  "jei.experienceobelisk.infecting.title": "Infecting",
+  "jei.experienceobelisk.infecting.tooltip": "Infect with §aBibliophages§r or by\nplacing next to §ainfectious blocks§r",
+  "jei.experienceobelisk.infecting.tooltip_count": "Requires §a%s§r infections",
+  "jei.experienceobelisk.filling.title": "Filling",
+  "jei.experienceobelisk.filling.tooltip": "Right click an §aExperience Fountain§r\nthat is bound to an §aExperience Obelisk§r.\nThe Obelisk must have enough XP.",
+  "jei.experienceobelisk.emptying.title": "Emptying",
+  "jei.experienceobelisk.emptying.tooltip": "Right click an §aExperience Fountain§r\nthat is bound to an §aExperience Obelisk§r.\nThe Obelisk must have enough space.",
+  "jei.experienceobelisk.shared.cognitium_amount.mb": "%s §7mB Cognitium",
+  "jei.experienceobelisk.shared.cognitium_amount.levels_xp": "%s §7levels / %s §7XP"
 
 }

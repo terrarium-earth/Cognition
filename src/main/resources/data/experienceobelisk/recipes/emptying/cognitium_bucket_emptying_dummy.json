@@ -1,0 +1,13 @@
+{
+  "type": "experienceobelisk:emptying",
+  "ingredient": {
+    "item": "experienceobelisk:cognitium_bucket"
+  },
+  "result": {
+    "id": "minecraft:bucket",
+    "count": 1
+  },
+  "hasResultStack": true,
+  "gain_mB": 1000,
+  "id": "experienceobelisk:cognitium_bucket_emptying"
+}

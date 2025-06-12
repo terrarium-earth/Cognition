@@ -1,0 +1,19 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "forbidden_arcanus"
+    }
+  ],
+  "type": "experienceobelisk:emptying",
+  "ingredient": {
+    "item": "forbidden_arcanus:xpetrified_orb"
+  },
+  "result": {
+    "id": "minecraft:barrier",
+    "count": 1
+  },
+  "hasResultStack": false,
+  "gain_mB": 1820,
+  "id": "experienceobelisk:xpetrified_orb_emptying"
+}
