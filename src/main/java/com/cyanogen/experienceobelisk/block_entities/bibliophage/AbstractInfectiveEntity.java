@@ -1,8 +1,9 @@
 package com.cyanogen.experienceobelisk.block_entities.bibliophage;
 
+import com.cyanogen.experienceobelisk.recipe.InfectingRecipe;
+import com.cyanogen.experienceobelisk.registries.RegisterTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
@@ -12,7 +13,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.cyanogen.experienceobelisk.item.BibliophageItem.getValidBlocksForInfection;
 import static com.cyanogen.experienceobelisk.item.BibliophageItem.infectBlock;
 
 public abstract class AbstractInfectiveEntity extends BlockEntity {
@@ -23,27 +23,32 @@ public abstract class AbstractInfectiveEntity extends BlockEntity {
 
     public void infectAdjacent(Level level, BlockPos pos){
 
-        Map<BlockPos, Block> adjacentMap = new HashMap<>();
-        List<BlockPos> posList = new ArrayList<>();
+        Map<BlockPos, BlockState> adjacentMap = new HashMap<>();
 
         for(BlockPos adjacentPos : getAdjacents(pos)){
-            if(getValidBlocksForInfection().contains(level.getBlockState(adjacentPos).getBlock())){
 
-                Block adjacentBlock = level.getBlockState(adjacentPos).getBlock();
-                adjacentMap.put(adjacentPos, adjacentBlock);
-                posList.add(adjacentPos);
+            BlockState adjacentState = level.getBlockState(adjacentPos);
+
+            if(adjacentState.isAir() || adjacentState.is(RegisterTags.Blocks.INFECTIVE_BLOCKS)){
+                continue;
+            }
+
+            BlockState infectedState = InfectingRecipe.getInfectedBlockState(level, adjacentState);
+            if(infectedState != null){
+                adjacentMap.put(adjacentPos, infectedState);
             }
         }
 
         if(!adjacentMap.isEmpty()){
 
-            int index = (int) Math.floor(Math.random() * posList.size());
-            BlockPos posToInfect = posList.get(index);
-            Block block = adjacentMap.get(posToInfect);
+            int index = (int) Math.floor(Math.random() * adjacentMap.size());
+            BlockPos posToInfect = (BlockPos) adjacentMap.keySet().toArray()[index];
+            BlockState newBlock = adjacentMap.getOrDefault(posToInfect, null);
 
-            infectBlock(level, posToInfect, block);
+            if(newBlock != null){
+                infectBlock(level, posToInfect, newBlock.getBlock());
+            }
         }
-
     }
 
     public List<BlockPos> getAdjacents(BlockPos pos){
