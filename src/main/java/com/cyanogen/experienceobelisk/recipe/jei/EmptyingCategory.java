@@ -28,7 +28,7 @@ public class EmptyingCategory implements IRecipeCategory<EmptyingRecipe> {
     IRecipeCategoryRegistration registration;
     IGuiHelper guiHelper;
     public final ResourceLocation emptyingBackground = new ResourceLocation("experienceobelisk:textures/gui/recipes/emptying_jei.png");
-    public final ResourceLocation cognitiumTexture = new ResourceLocation("experienceobelisk:textures/block/cognitium_still.png");
+    public final ResourceLocation cognitiumTexture = new ResourceLocation("experienceobelisk:textures/block/cognitium.png");
     public final IDrawableAnimated arrow;
     public final IDrawable cognitiumStack;
 
@@ -102,7 +102,7 @@ public class EmptyingCategory implements IRecipeCategory<EmptyingRecipe> {
 
     public void getArrowTooltip(List<Component> components, double mouseX, double mouseY){
 
-        Component arrowTooltip = Component.translatable("jei.cognition.emptying.tooltip");
+        Component arrowTooltip = Component.translatable("jei.experienceobelisk.emptying.tooltip");
 
         int x1 = arrowOffsetX - 3;
         int x2 = arrowOffsetX + arrowWidth + 3;
@@ -126,10 +126,10 @@ public class EmptyingCategory implements IRecipeCategory<EmptyingRecipe> {
             int xp = cognitiumGain / 20;
             int levels = ExperienceUtils.xpToLevels(xp);
 
-            Component volumeComponent = Component.translatable("jei.cognition.shared.cognitium_amount.mb",
+            Component volumeComponent = Component.translatable("jei.experienceobelisk.shared.cognitium_amount.mb",
                     Component.literal(String.valueOf(cognitiumGain)).withStyle(ChatFormatting.GREEN));
 
-            Component xpLevelsComponent = Component.translatable("jei.cognition.shared.cognitium_amount.levels_xp",
+            Component xpLevelsComponent = Component.translatable("jei.experienceobelisk.shared.cognitium_amount.levels_xp",
                     Component.literal(String.valueOf(levels)).withStyle(ChatFormatting.GREEN),
                     Component.literal(String.valueOf(xp)).withStyle(ChatFormatting.GREEN));
 

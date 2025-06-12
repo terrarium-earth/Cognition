@@ -71,7 +71,7 @@ public class InfectingCategory implements IRecipeCategory<InfectingRecipe> {
 
     @Override
     public Component getTitle() {
-        return Component.translatable("jei.cognition.infecting.title");
+        return Component.translatable("jei.experienceobelisk.infecting.title");
     }
 
     @Override
@@ -109,7 +109,7 @@ public class InfectingCategory implements IRecipeCategory<InfectingRecipe> {
 
     public void getArrowTooltip(List<Component> tooltipBuilder, double mouseX, double mouseY){
 
-        Component arrowTooltip = Component.translatable("jei.cognition.infecting.tooltip");
+        Component arrowTooltip = Component.translatable("jei.experienceobelisk.infecting.tooltip");
 
         int x1 = arrowOffsetX - 3;
         int x2 = arrowOffsetX + arrowWidth + 3;
@@ -123,7 +123,7 @@ public class InfectingCategory implements IRecipeCategory<InfectingRecipe> {
 
     public void getCounterArrowTooltip(int infectionCount, List<Component> tooltipBuilder, double mouseX, double mouseY){
 
-        Component counterArrowTooltip = Component.translatable("jei.cognition.infecting.tooltip_count",
+        Component counterArrowTooltip = Component.translatable("jei.experienceobelisk.infecting.tooltip_count",
                 Component.literal(String.valueOf(infectionCount)).withStyle(ChatFormatting.GREEN));
 
         int x1 = counterArrowXOffset - 1;

@@ -28,7 +28,7 @@ public class FillingCategory implements IRecipeCategory<FillingRecipe> {
     IRecipeCategoryRegistration registration;
     IGuiHelper guiHelper;
     public final ResourceLocation fillingBackground = new ResourceLocation("experienceobelisk:textures/gui/recipes/filling_jei.png");
-    public final ResourceLocation cognitiumTexture = new ResourceLocation("experienceobelisk:textures/block/cognitium_still.png");
+    public final ResourceLocation cognitiumTexture = new ResourceLocation("experienceobelisk:textures/block/cognitium.png");
     public final IDrawableAnimated arrow;
     public final IDrawable cognitiumStack;
 
@@ -68,7 +68,7 @@ public class FillingCategory implements IRecipeCategory<FillingRecipe> {
 
     @Override
     public Component getTitle() {
-        return Component.translatable("jei.cognition.filling.title");
+        return Component.translatable("jei.experienceobelisk.filling.title");
     }
 
     @Override
@@ -104,7 +104,7 @@ public class FillingCategory implements IRecipeCategory<FillingRecipe> {
 
     public void getArrowTooltip(List<Component> components, double mouseX, double mouseY){
 
-        Component arrowTooltip = Component.translatable("jei.cognition.filling.tooltip");
+        Component arrowTooltip = Component.translatable("jei.experienceobelisk.filling.tooltip");
 
         int x1 = arrowOffsetX - 3;
         int x2 = arrowOffsetX + arrowWidth + 3;
@@ -128,10 +128,10 @@ public class FillingCategory implements IRecipeCategory<FillingRecipe> {
             int xp = cognitiumCost / 20;
             int levels = ExperienceUtils.xpToLevels(xp);
 
-            Component volumeComponent = Component.translatable("jei.cognition.shared.cognitium_amount.mb",
+            Component volumeComponent = Component.translatable("jei.experienceobelisk.shared.cognitium_amount.mb",
                     Component.literal(String.valueOf(cognitiumCost)).withStyle(ChatFormatting.GREEN));
 
-            Component xpLevelsComponent = Component.translatable("jei.cognition.shared.cognitium_amount.levels_xp",
+            Component xpLevelsComponent = Component.translatable("jei.experienceobelisk.shared.cognitium_amount.levels_xp",
                     Component.literal(String.valueOf(levels)).withStyle(ChatFormatting.GREEN),
                     Component.literal(String.valueOf(xp)).withStyle(ChatFormatting.GREEN));
 
