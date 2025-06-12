@@ -10,7 +10,7 @@
     "item": "forbidden_arcanus:xpetrified_orb"
   },
   "result": {
-    "id": "minecraft:barrier",
+    "item": "minecraft:barrier",
     "count": 1
   },
   "hasResultStack": false,

@@ -4,7 +4,7 @@
     "item": "experienceobelisk:cognitium_bucket"
   },
   "result": {
-    "id": "minecraft:bucket",
+    "item": "minecraft:bucket",
     "count": 1
   },
   "hasResultStack": true,

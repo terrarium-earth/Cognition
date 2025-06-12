@@ -45,6 +45,7 @@ public class RegisterRecipes{
             TYPES.register("emptying", () -> EmptyingRecipe.Type.INSTANCE);
 
     public static void register(IEventBus eventBus) {
+        TYPES.register(eventBus);
         SERIALIZERS.register(eventBus);
     }
 }

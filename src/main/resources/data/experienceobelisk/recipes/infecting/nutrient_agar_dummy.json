@@ -4,7 +4,7 @@
     "item": "experienceobelisk:fluorescent_agar"
   },
   "result": {
-    "id": "experienceobelisk:nutrient_agar",
+    "item": "experienceobelisk:nutrient_agar",
     "count": 1
   },
   "infectionCount": 4,

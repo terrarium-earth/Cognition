@@ -4,7 +4,7 @@
     "item": "minecraft:glass_bottle"
   },
   "result": {
-    "id": "minecraft:experience_bottle",
+    "item": "minecraft:experience_bottle",
     "count": 1
   },
   "cost_mB": 250,

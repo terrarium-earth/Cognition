@@ -4,7 +4,7 @@
     "item": "minecraft:enchanted_golden_apple"
   },
   "result": {
-    "id": "minecraft:golden_apple",
+    "item": "minecraft:golden_apple",
     "count": 1
   },
   "hasResultStack": true,

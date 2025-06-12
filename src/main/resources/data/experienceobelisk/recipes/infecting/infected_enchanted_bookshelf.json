@@ -4,7 +4,7 @@
     "item": "experienceobelisk:enchanted_bookshelf"
   },
   "result": {
-    "id": "experienceobelisk:infected_enchanted_bookshelf",
+    "item": "experienceobelisk:infected_enchanted_bookshelf",
     "count": 1
   },
   "infectionCount": 1,

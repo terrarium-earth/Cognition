@@ -10,7 +10,7 @@
     "item": "mysticalagriculture:experience_droplet"
   },
   "result": {
-    "id": "minecraft:barrier",
+    "item": "minecraft:barrier",
     "count": 1
   },
   "hasResultStack": false,

@@ -16,10 +16,9 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeManager;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import static com.cyanogen.experienceobelisk.recipe.jei.EmptyingCategory.EMPTYING_TYPE;
@@ -44,33 +43,30 @@ public class CognitionJeiPlugin implements IModPlugin {
     public void registerRecipes(IRecipeRegistration registration) {
 
         //RECIPES
-        List<MolecularMetamorpherRecipe> metamorpherRecipes = new ArrayList<>();
-        List<InfectingRecipe> infectingRecipes = new ArrayList<>();
-        List<FillingRecipe> fillingRecipes = new ArrayList<>();
-        List<EmptyingRecipe> emptyingRecipes = new ArrayList<>();
-
         assert Minecraft.getInstance().level != null;
+        RecipeManager manager = Minecraft.getInstance().level.getRecipeManager();
+        List<MolecularMetamorpherRecipe> metamorpherRecipes = manager.getAllRecipesFor(MolecularMetamorpherRecipe.Type.INSTANCE);
+        List<InfectingRecipe> infectingRecipes = manager.getAllRecipesFor(InfectingRecipe.Type.INSTANCE);
+        List<FillingRecipe> fillingRecipes = manager.getAllRecipesFor(FillingRecipe.Type.INSTANCE);
+        List<EmptyingRecipe> emptyingRecipes = manager.getAllRecipesFor(EmptyingRecipe.Type.INSTANCE);
 
-        Collection<Recipe<?>> recipes = Minecraft.getInstance().level.getRecipeManager().getRecipes();
-        for(Recipe<?> recipe : recipes){
-            switch(recipe.getType().toString()){
-                case MolecularMetamorpherRecipe.Type.ID -> metamorpherRecipes.add((MolecularMetamorpherRecipe) recipe);
-                case InfectingRecipe.Type.ID -> infectingRecipes.add((InfectingRecipe) recipe);
-                case FillingRecipe.Type.ID -> fillingRecipes.add((FillingRecipe) recipe);
-                case EmptyingRecipe.Type.ID -> emptyingRecipes.add((EmptyingRecipe) recipe);
-                default -> {}
-            }
-        }
-        metamorpherRecipes.add(RecipeUtils.getEmptyNameFormattingRecipe());
+        List<MolecularMetamorpherRecipe> extra = new ArrayList<>();
+        extra.add(RecipeUtils.getEmptyNameFormattingRecipe());
 
         registration.addRecipes(METAMORPHER_TYPE, metamorpherRecipes);
+        registration.addRecipes(METAMORPHER_TYPE, extra);
         registration.addRecipes(INFECTING_TYPE, infectingRecipes);
         registration.addRecipes(FILLING_TYPE, fillingRecipes);
         registration.addRecipes(EMPTYING_TYPE, emptyingRecipes);
 
+        System.out.println("Metamorphosis: Added " + metamorpherRecipes.size() + " recipes -----------------------------");
+        System.out.println("Infecting: Added " + infectingRecipes.size() + " recipes -----------------------------");
+        System.out.println("Filling: Added " + fillingRecipes.size() + " recipes -----------------------------");
+        System.out.println("Emptying: Added " + emptyingRecipes.size() + " recipes -----------------------------");
+
         //INFO
         ItemStack forgottenDust = new ItemStack(RegisterItems.FORGOTTEN_DUST.get());
-        registration.addIngredientInfo(forgottenDust, VanillaTypes.ITEM_STACK, Component.translatable("jei.cognition.description.forgotten_dust"));
+        registration.addIngredientInfo(forgottenDust, VanillaTypes.ITEM_STACK, Component.translatable("jei.experienceobelisk.description.forgotten_dust"));
 
         //HIDE FROM VIEWER
         List<ItemStack> hidden = new ArrayList<>();
