@@ -1,3 +1,24 @@
+v2.4.6
+
+This is a backport of v2.4.6 for NeoForge 1.21.1.
+
+[Changes]
+- Removed unnecessary cap on the values of orbs spawned by the Amulet
+- Increased the number of orbs the Amulets can collect per batch
+- Increased the number of orbs the Obelisk can collect per batch
+- Increased Fortuitous Amulet XP bonus
+
+[Bugfixes]
+- Fixed Enlightened or Fortuitous Amulet causing inflation of XP gain in some specific contexts when Clumps is installed.
+See https://github.com/terrarium-earth/Cognition/issues/35 for more info
+
+v2.4.5
+
+[Changes]
+- Added datapack support for infecting, filling & emptying recipes
+- Shifted enchanted golden apple recipe from metamorpher to filling via the fountain
+- Optimized infection spreading
+
 v2.4.4-beta
 
 This is a backport of v2.4.4 for NeoForge 1.21.1.
