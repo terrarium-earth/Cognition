@@ -5,13 +5,11 @@ import com.cyanogen.experienceobelisk.item.CognitiveBowItem;
 import com.cyanogen.experienceobelisk.item.FortuitousAmuletItem;
 import com.cyanogen.experienceobelisk.item.MemoryTabletItem;
 import com.cyanogen.experienceobelisk.item.NeurogelMendingItem;
-import net.minecraft.world.entity.monster.Husk;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.event.ItemStackedOnOtherEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingExperienceDropEvent;
-import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -43,15 +41,7 @@ public class EventHandler {
 
     @SubscribeEvent
     public void onPlayerRightClickBlock(PlayerInteractEvent.RightClickBlock event){
-        ExperienceFountainBlock.handleExperienceItem(event);
-    }
-
-    @SubscribeEvent
-    public void onEntityHurt(LivingHurtEvent event){
-//        if(event.getEntity() instanceof Husk
-//                && !event.getEntity().level().isClientSide) {
-//            System.out.println("Damage: " + event.getAmount());
-//        }
+        ExperienceFountainBlock.handleExperienceItemStack(event);
     }
 
 }

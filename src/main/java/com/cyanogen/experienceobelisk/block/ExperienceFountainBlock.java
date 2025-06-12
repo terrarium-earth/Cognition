@@ -2,12 +2,11 @@ package com.cyanogen.experienceobelisk.block;
 
 import com.cyanogen.experienceobelisk.block_entities.ExperienceFountainEntity;
 import com.cyanogen.experienceobelisk.block_entities.ExperienceObeliskEntity;
-import com.cyanogen.experienceobelisk.config.Config;
+import com.cyanogen.experienceobelisk.recipe.EmptyingRecipe;
+import com.cyanogen.experienceobelisk.recipe.FillingRecipe;
 import com.cyanogen.experienceobelisk.registries.RegisterBlockEntities;
 import com.cyanogen.experienceobelisk.registries.RegisterFluids;
-import com.cyanogen.experienceobelisk.utils.MiscUtils;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.sounds.SoundEvents;
@@ -15,7 +14,6 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.EntityBlock;
@@ -40,8 +38,6 @@ import net.minecraftforge.fluids.capability.IFluidHandlerItem;
 import net.minecraftforge.items.ItemHandlerHelper;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.Map;
 
 public class ExperienceFountainBlock extends ExperienceReceivingBlock implements EntityBlock {
 
@@ -70,17 +66,21 @@ public class ExperienceFountainBlock extends ExperienceReceivingBlock implements
 
             if(fountain.isBound && level.getBlockEntity(fountain.getBoundPos()) instanceof ExperienceObeliskEntity obelisk){
 
-                if(getXPforItem(heldItem) > 0){
-                    handleExperienceItem(heldItem, getXPforItem(heldItem), obelisk, player.isShiftKeyDown());
-                    return InteractionResult.sidedSuccess(true);
-                }
-                else if(heldItem.getItem() == Items.EXPERIENCE_BOTTLE || heldItem.getItem() == Items.GLASS_BOTTLE){
-                    handleExperienceBottle(heldItem, player, hand, obelisk);
-                    return InteractionResult.sidedSuccess(true);
-                }
-                else if(fluidHandler != null){
+                if(fluidHandler != null){
                     handleExperienceContainer(heldItem, fluidHandler, player, hand, obelisk);
                     return InteractionResult.sidedSuccess(true);
+                }
+
+                FillingRecipe fillingRecipe = FillingRecipe.getRecipe(level, heldItem);
+                if(fillingRecipe != null){
+                    handleFillingRecipe(heldItem, fillingRecipe, player, hand, obelisk, false);
+                    return InteractionResult.sidedSuccess(level.isClientSide);
+                }
+
+                EmptyingRecipe emptyingRecipe = EmptyingRecipe.getRecipe(level, heldItem);
+                if(emptyingRecipe != null){
+                    handleEmptyingRecipe(heldItem, emptyingRecipe, player, hand, obelisk, false);
+                    return InteractionResult.sidedSuccess(level.isClientSide);
                 }
             }
 
@@ -110,51 +110,6 @@ public class ExperienceFountainBlock extends ExperienceReceivingBlock implements
             case 3 -> message = Component.translatable("message.experienceobelisk.experience_fountain.hyper");
         }
         return message;
-    }
-
-    public static float getXPforItem(ItemStack stack){
-        String itemName = BuiltInRegistries.ITEM.getKey(stack.getItem()).toString();
-        Map<String, Float> xpItemsMap = MiscUtils.getExperienceItemMapFromList(Config.COMMON.allowedExperienceItems.get());
-        return xpItemsMap.containsKey(itemName) ? xpItemsMap.get(itemName) : 0;
-    }
-
-    public static void handleExperienceItem(PlayerInteractEvent.RightClickBlock event){
-        ItemStack heldItem = event.getEntity().getItemInHand(event.getHand());
-        BlockPos pos = event.getPos();
-        Level level = event.getLevel();
-
-        if(level.getBlockEntity(pos) instanceof ExperienceFountainEntity fountain
-                && fountain.isBound && fountain.getBoundObelisk() != null && !heldItem.isEmpty()
-                && getXPforItem(heldItem) > 0 && event.getEntity().isShiftKeyDown()){
-
-            ExperienceFountainBlock block = (ExperienceFountainBlock) level.getBlockState(pos).getBlock();
-            block.handleExperienceItem(heldItem, getXPforItem(heldItem), fountain.getBoundObelisk(), true);
-            event.setCancellationResult(InteractionResult.sidedSuccess(level.isClientSide));
-            event.setCanceled(true);
-        }
-    }
-
-    public void handleExperienceItem(ItemStack heldItem, float xp, ExperienceObeliskEntity obelisk, boolean shiftKeyDown){
-
-        int fillAmount = Math.round(xp * 20);
-
-        if(!shiftKeyDown){
-            if(obelisk.getSpace() >= fillAmount){
-                obelisk.fill(fillAmount);
-                heldItem.shrink(1);
-            }
-        }
-        else{
-            int maxFillCount = obelisk.getSpace() / fillAmount;
-            if(maxFillCount >= heldItem.getCount()){
-                obelisk.fill(fillAmount * heldItem.getCount());
-                heldItem.setCount(0);
-            }
-            else{
-                obelisk.fill(fillAmount * maxFillCount);
-                heldItem.shrink(maxFillCount);
-            }
-        }
     }
 
     public void handleExperienceContainer(ItemStack heldItem, IFluidHandlerItem fluidHandler, Player player, InteractionHand hand, ExperienceObeliskEntity obelisk){
@@ -202,43 +157,130 @@ public class ExperienceFountainBlock extends ExperienceReceivingBlock implements
         }
     }
 
-    public void handleExperienceBottle(ItemStack heldItem, Player player, InteractionHand hand, ExperienceObeliskEntity obelisk){
+    public void handleFillingRecipe(ItemStack heldItem, FillingRecipe recipe, Player player, InteractionHand hand,
+                                    ExperienceObeliskEntity obelisk, boolean shiftKeyDown){
 
-        ItemStack experienceBottle = new ItemStack(Items.EXPERIENCE_BOTTLE, 1);
-        ItemStack glassBottle = new ItemStack(Items.GLASS_BOTTLE, 1);
+        int drainAmount = recipe.getCognitiumCost();
+        ItemStack result = recipe.getResultItem(null);
+        int resultCount = result.getCount();
 
-        if(heldItem.is(Items.GLASS_BOTTLE) && obelisk.getFluidAmount() >= 250){
-
-            if(!player.isCreative()){
+        if(!shiftKeyDown){
+            if(obelisk.getFluidAmount() >= drainAmount){
+                obelisk.drain(drainAmount);
                 heldItem.shrink(1);
-
-                if(heldItem.isEmpty()){
-                    player.setItemInHand(hand, experienceBottle);
-                }
-                else if(!player.addItem(experienceBottle)){
-                    player.drop(experienceBottle, false);
-                }
-
             }
-
-            obelisk.drain(250);
-            player.playSound(SoundEvents.BOTTLE_FILL, 1f, 1f);
+            else{
+                return;
+            }
         }
-        else if(heldItem.is(Items.EXPERIENCE_BOTTLE) && obelisk.getSpace() >= 250){
+        else{
+            int maxDrainCount = obelisk.getFluidAmount() / drainAmount;
 
-            if(!player.isCreative()){
+            if(obelisk.getFluidAmount() < drainAmount){
+                return;
+            }
+            else if(maxDrainCount >= heldItem.getCount()){
+                obelisk.drain(drainAmount * heldItem.getCount());
+                resultCount = result.getCount() * heldItem.getCount();
+                heldItem.setCount(0);
+            }
+            else{
+                obelisk.drain(drainAmount * maxDrainCount);
+                resultCount = result.getCount() * maxDrainCount;
+                heldItem.shrink(maxDrainCount);
+            }
+        }
+
+        result.setCount(resultCount);
+        if(heldItem.isEmpty() && result.getCount() <= result.getMaxStackSize()){
+            player.setItemInHand(hand, result);
+        }
+        else if(!player.addItem(result)){
+            player.drop(result, false);
+        }
+
+        player.playSound(SoundEvents.BOTTLE_FILL, 1f, 1f);
+    }
+
+    public void handleEmptyingRecipe(ItemStack heldItem, EmptyingRecipe recipe, Player player, InteractionHand hand,
+                                     ExperienceObeliskEntity obelisk, boolean shiftKeyDown){
+
+        int fillAmount = recipe.getCognitiumGain();
+        ItemStack result = recipe.hasResultStack() ? recipe.getResultItem(null) : ItemStack.EMPTY;
+        int resultCount = result.getCount();
+
+        if(!shiftKeyDown){
+            if(obelisk.getSpace() >= fillAmount){
+                obelisk.fill(fillAmount);
                 heldItem.shrink(1);
+            }
+            else{
+                return;
+            }
+        }
+        else{
+            int maxFillCount = obelisk.getSpace() / fillAmount;
 
-                if(heldItem.isEmpty()){
-                    player.setItemInHand(hand, glassBottle);
-                }
-                else if(!player.addItem(glassBottle)){
-                    player.drop(glassBottle, false);
+            if(obelisk.getSpace() < fillAmount){
+                return;
+            }
+            if(maxFillCount >= heldItem.getCount()){
+                obelisk.fill(fillAmount * heldItem.getCount());
+                resultCount = result.getCount() * heldItem.getCount();
+                heldItem.setCount(0);
+            }
+            else{
+                obelisk.fill(fillAmount * maxFillCount);
+                resultCount = result.getCount() * maxFillCount;
+                heldItem.shrink(maxFillCount);
+            }
+        }
+
+        if(recipe.hasResultStack()){
+            result.setCount(resultCount);
+            if(heldItem.isEmpty() && result.getCount() <= result.getMaxStackSize()){
+                player.setItemInHand(hand, result);
+            }
+            else if(!player.addItem(result)){
+                player.drop(result, false);
+            }
+        }
+
+        player.playSound(SoundEvents.BOTTLE_EMPTY, 1f, 1f);
+    }
+
+    public static void handleExperienceItemStack(PlayerInteractEvent.RightClickBlock event){
+
+        //Shift right click functionality
+        //This is to step around useItemOn() not being called when the shift key is held down
+
+        Player player = event.getEntity();
+        InteractionHand hand = event.getHand();
+        ItemStack heldItem = player.getItemInHand(hand);
+        BlockPos pos = event.getPos();
+        Level level = event.getLevel();
+
+        if(level.getBlockEntity(pos) instanceof ExperienceFountainEntity fountain
+                && fountain.isBound && fountain.getBoundObelisk() != null && !heldItem.isEmpty()
+                && event.getEntity().isShiftKeyDown()){
+
+            ExperienceFountainBlock block = (ExperienceFountainBlock) level.getBlockState(pos).getBlock();
+
+            FillingRecipe fillingRecipe = FillingRecipe.getRecipe(level, heldItem);
+            if(fillingRecipe != null){
+                block.handleFillingRecipe(heldItem, fillingRecipe, player, hand, fountain.getBoundObelisk(), true);
+                event.setCancellationResult(InteractionResult.sidedSuccess(level.isClientSide));
+                event.setCanceled(true);
+            }
+            else{
+                EmptyingRecipe emptyingRecipe = EmptyingRecipe.getRecipe(level, heldItem);
+                if(emptyingRecipe != null){
+                    block.handleEmptyingRecipe(heldItem, emptyingRecipe, player, hand, fountain.getBoundObelisk(), true);
+                    event.setCancellationResult(InteractionResult.sidedSuccess(level.isClientSide));
+                    event.setCanceled(true);
                 }
             }
 
-            obelisk.fill(250);
-            player.playSound(SoundEvents.BOTTLE_EMPTY, 1f, 1f);
         }
     }
 
