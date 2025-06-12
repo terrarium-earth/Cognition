@@ -4,22 +4,22 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeType;
 
-public class InfectingRecipe extends AbstractInformationalRecipe {
+public class _InfectingRecipe extends _AbstractInformationalRecipe {
 
-    public InfectingRecipe(Ingredient input, Ingredient catalyst, ItemStack output, String id) {
+    public _InfectingRecipe(Ingredient input, Ingredient catalyst, ItemStack output, String id) {
         super(input, catalyst, output, id, 0);
     }
 
-    public InfectingRecipe(Ingredient input, Ingredient catalyst, ItemStack output, String id, int count) {
+    public _InfectingRecipe(Ingredient input, Ingredient catalyst, ItemStack output, String id, int count) {
         super(input, catalyst, output, id, count);
     }
 
     public RecipeType<?> getType() {
-        return InfectingRecipe.Type.INSTANCE;
+        return _InfectingRecipe.Type.INSTANCE;
     }
 
-    public static class Type implements RecipeType<InfectingRecipe>{
-        public static final InfectingRecipe.Type INSTANCE = new InfectingRecipe.Type();
+    public static class Type implements RecipeType<_InfectingRecipe>{
+        public static final _InfectingRecipe.Type INSTANCE = new _InfectingRecipe.Type();
         public static final String ID = "infecting";
     }
 

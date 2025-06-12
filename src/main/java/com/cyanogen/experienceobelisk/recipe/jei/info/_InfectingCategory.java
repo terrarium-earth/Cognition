@@ -22,7 +22,7 @@ import net.minecraft.world.item.ItemStack;
 import java.util.ArrayList;
 import java.util.List;
 
-public class InfectingCategory implements IRecipeCategory<InfectingRecipe>{
+public class _InfectingCategory implements IRecipeCategory<_InfectingRecipe>{
 
     IRecipeCategoryRegistration registration;
     IGuiHelper guiHelper;
@@ -30,10 +30,10 @@ public class InfectingCategory implements IRecipeCategory<InfectingRecipe>{
     private final IDrawableAnimated arrow;
     private final IDrawable counterArrow;
 
-    public static final RecipeType<InfectingRecipe> infectingType =
-            RecipeType.create(ExperienceObelisk.MOD_ID, InfectingRecipe.Type.ID, InfectingRecipe.class);
+    public static final RecipeType<_InfectingRecipe> infectingType =
+            RecipeType.create(ExperienceObelisk.MOD_ID, _InfectingRecipe.Type.ID, _InfectingRecipe.class);
 
-    public InfectingCategory(IRecipeCategoryRegistration registration){
+    public _InfectingCategory(IRecipeCategoryRegistration registration){
         this.registration = registration;
         this.guiHelper = registration.getJeiHelpers().getGuiHelper();
 
@@ -43,7 +43,7 @@ public class InfectingCategory implements IRecipeCategory<InfectingRecipe>{
     }
 
     @Override
-    public RecipeType<InfectingRecipe> getRecipeType() {
+    public RecipeType<_InfectingRecipe> getRecipeType() {
         return infectingType;
     }
 
@@ -59,7 +59,7 @@ public class InfectingCategory implements IRecipeCategory<InfectingRecipe>{
     }
 
     @Override
-    public void draw(InfectingRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY) {
+    public void draw(_InfectingRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY) {
 
         if(recipe.count > 0){
             counterArrow.draw(guiGraphics, 52, 8);
@@ -71,7 +71,7 @@ public class InfectingCategory implements IRecipeCategory<InfectingRecipe>{
     }
 
     @Override
-    public List<Component> getTooltipStrings(InfectingRecipe recipe, IRecipeSlotsView recipeSlotsView, double mouseX, double mouseY) {
+    public List<Component> getTooltipStrings(_InfectingRecipe recipe, IRecipeSlotsView recipeSlotsView, double mouseX, double mouseY) {
 
         List<Component> tooltipList = new ArrayList<>();
         Component desc = Component.translatable("jei.experienceobelisk.info.infecting.tooltip");
@@ -101,7 +101,7 @@ public class InfectingCategory implements IRecipeCategory<InfectingRecipe>{
     }
 
     @Override
-    public void setRecipe(IRecipeLayoutBuilder builder, InfectingRecipe recipe, IFocusGroup focuses) {
+    public void setRecipe(IRecipeLayoutBuilder builder, _InfectingRecipe recipe, IFocusGroup focuses) {
         builder.addSlot(RecipeIngredientRole.INPUT, 15,19).setSlotName("input").addIngredients(recipe.getInput());
         builder.addSlot(RecipeIngredientRole.CATALYST, 58,35).setSlotName("catalyst").addIngredients(recipe.getCatalyst());
         builder.addSlot(RecipeIngredientRole.OUTPUT, 99,19).setSlotName("output").addItemStack(recipe.getResultItem(null));

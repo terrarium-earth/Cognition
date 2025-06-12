@@ -3,6 +3,7 @@ package com.cyanogen.experienceobelisk.utils;
 import com.cyanogen.experienceobelisk.ExperienceObelisk;
 import com.cyanogen.experienceobelisk.recipe.MolecularMetamorpherRecipe;
 import com.cyanogen.experienceobelisk.recipe.jei.MolecularMetamorpherCategory;
+import com.cyanogen.experienceobelisk.registries.RegisterItems;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Tuple;
 import net.minecraft.world.item.Item;
@@ -115,6 +116,20 @@ public class RecipeUtils {
         }
 
         return list;
+    }
+
+    public static List<ItemStack> getCatalysts(){
+        List<ItemStack> catalysts = new ArrayList<>();
+
+        catalysts.add(RegisterItems.BIBLIOPHAGE.get().getDefaultInstance());
+        catalysts.add(RegisterItems.INFECTED_BOOKSHELF_ITEM.get().getDefaultInstance());
+        catalysts.add(RegisterItems.INFECTED_ARCHIVERS_BOOKSHELF_ITEM.get().getDefaultInstance());
+        catalysts.add(RegisterItems.INFECTED_ENCHANTED_BOOKSHELF_ITEM.get().getDefaultInstance());
+        catalysts.add(RegisterItems.NUTRIENT_AGAR_ITEM.get().getDefaultInstance());
+        catalysts.add(RegisterItems.INSIGHTFUL_AGAR_ITEM.get().getDefaultInstance());
+        catalysts.add(RegisterItems.EXTRAVAGANT_AGAR_ITEM.get().getDefaultInstance());
+
+        return catalysts;
     }
 
 

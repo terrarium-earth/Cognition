@@ -11,7 +11,7 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 
-public abstract class AbstractInformationalRecipe implements Recipe<SimpleContainer> {
+public abstract class _AbstractInformationalRecipe implements Recipe<SimpleContainer> {
 
     //this is a dummy recipe used to display in-game mechanics in JEI
 
@@ -21,7 +21,7 @@ public abstract class AbstractInformationalRecipe implements Recipe<SimpleContai
     private final String id;
     public final int count;
 
-    public AbstractInformationalRecipe(Ingredient input, Ingredient catalyst, ItemStack output, String id, int count){
+    public _AbstractInformationalRecipe(Ingredient input, Ingredient catalyst, ItemStack output, String id, int count){
         this.input = input;
         this.catalyst = catalyst;
         this.output = output;

@@ -20,16 +20,16 @@ import net.minecraft.world.item.ItemStack;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FillingCategory implements IRecipeCategory<FillingRecipe>{
+public class _FillingCategory implements IRecipeCategory<_FillingRecipe>{
 
     private final IGuiHelper guiHelper;
     private final ResourceLocation texture = new ResourceLocation("experienceobelisk:textures/gui/recipes/information_jei.png");
     private final IDrawableAnimated arrow;
 
-    public static final RecipeType<FillingRecipe> fillingType =
-            RecipeType.create(ExperienceObelisk.MOD_ID, FillingRecipe.Type.ID, FillingRecipe.class);
+    public static final RecipeType<_FillingRecipe> fillingType =
+            RecipeType.create(ExperienceObelisk.MOD_ID, _FillingRecipe.Type.ID, _FillingRecipe.class);
 
-    public FillingCategory(IRecipeCategoryRegistration registration){
+    public _FillingCategory(IRecipeCategoryRegistration registration){
         this.guiHelper = registration.getJeiHelpers().getGuiHelper();
 
         this.arrow = guiHelper.drawableBuilder(texture,0,66,41,7)
@@ -37,7 +37,7 @@ public class FillingCategory implements IRecipeCategory<FillingRecipe>{
     }
 
     @Override
-    public RecipeType<FillingRecipe> getRecipeType() {
+    public RecipeType<_FillingRecipe> getRecipeType() {
         return fillingType;
     }
 
@@ -53,14 +53,14 @@ public class FillingCategory implements IRecipeCategory<FillingRecipe>{
     }
 
     @Override
-    public void draw(FillingRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY) {
+    public void draw(_FillingRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY) {
 
         arrow.draw(guiGraphics, 46, 22);
         IRecipeCategory.super.draw(recipe, recipeSlotsView, guiGraphics, mouseX, mouseY);
     }
 
     @Override
-    public List<Component> getTooltipStrings(FillingRecipe recipe, IRecipeSlotsView recipeSlotsView, double mouseX, double mouseY) {
+    public List<Component> getTooltipStrings(_FillingRecipe recipe, IRecipeSlotsView recipeSlotsView, double mouseX, double mouseY) {
 
         List<Component> tooltipList = new ArrayList<>();
         Component tooltip = Component.translatable("jei.experienceobelisk.info.filling.tooltip");
@@ -79,7 +79,7 @@ public class FillingCategory implements IRecipeCategory<FillingRecipe>{
     }
 
     @Override
-    public void setRecipe(IRecipeLayoutBuilder builder, FillingRecipe recipe, IFocusGroup focuses) {
+    public void setRecipe(IRecipeLayoutBuilder builder, _FillingRecipe recipe, IFocusGroup focuses) {
         builder.addSlot(RecipeIngredientRole.INPUT, 15,19).setSlotName("input").addIngredients(recipe.getInput());
         builder.addSlot(RecipeIngredientRole.CATALYST, 58,35).setSlotName("catalyst").addIngredients(recipe.getCatalyst());
         builder.addSlot(RecipeIngredientRole.OUTPUT, 99,19).setSlotName("output").addItemStack(recipe.getResultItem(null));
