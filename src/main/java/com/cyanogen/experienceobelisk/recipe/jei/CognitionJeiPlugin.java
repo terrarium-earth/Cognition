@@ -1,6 +1,6 @@
 package com.cyanogen.experienceobelisk.recipe.jei;
 
-
+import com.cyanogen.experienceobelisk.ExperienceObelisk;
 import com.cyanogen.experienceobelisk.gui.MolecularMetamorpherScreen;
 import com.cyanogen.experienceobelisk.recipe.EmptyingRecipe;
 import com.cyanogen.experienceobelisk.recipe.FillingRecipe;
@@ -83,10 +83,13 @@ public class CognitionJeiPlugin implements IModPlugin {
     @Override
     public void registerRecipeCatalysts(IRecipeCatalystRegistration registration) {
 
-        registration.addRecipeCatalyst(RegisterItems.MOLECULAR_METAMORPHER_ITEM.get(), METAMORPHER_TYPE);
-        registration.addRecipeCatalyst(RegisterItems.EXPERIENCE_FOUNTAIN_ITEM.get(), FILLING_TYPE);
-        registration.addRecipeCatalyst(RegisterItems.EXPERIENCE_FOUNTAIN_ITEM.get(), EMPTYING_TYPE);
-        registration.addRecipeCatalysts(INFECTING_TYPE, VanillaTypes.ITEM_STACK, RecipeUtils.getCatalysts());
+        registration.addRecipeCatalyst(RegisterItems.MOLECULAR_METAMORPHER_ITEM.get().getDefaultInstance(), METAMORPHER_TYPE);
+        registration.addRecipeCatalyst(RegisterItems.EXPERIENCE_FOUNTAIN_ITEM.get().getDefaultInstance(), FILLING_TYPE);
+        registration.addRecipeCatalyst(RegisterItems.EXPERIENCE_FOUNTAIN_ITEM.get().getDefaultInstance(), EMPTYING_TYPE);
+
+        for(ItemStack catalyst : RecipeUtils.getCatalysts()){
+            registration.addRecipeCatalyst(catalyst, INFECTING_TYPE);
+        }
 
         IModPlugin.super.registerRecipeCatalysts(registration);
     }
@@ -109,7 +112,7 @@ public class CognitionJeiPlugin implements IModPlugin {
 
     @Override
     public ResourceLocation getPluginUid() {
-        return ResourceLocation.fromNamespaceAndPath(Cognition.MOD_ID, "jei_plugin");
+        return new ResourceLocation(ExperienceObelisk.MOD_ID, "jei_plugin");
     }
 
 }
