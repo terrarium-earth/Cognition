@@ -32,6 +32,7 @@ import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.templates.FluidTank;
+import net.minecraftforge.fml.ModList;
 import net.minecraftforge.registries.ForgeRegistries;
 import software.bernie.geckolib.animatable.GeoBlockEntity;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
@@ -52,12 +53,12 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
 
     public ExperienceObeliskEntity(BlockPos pos, BlockState state) {
         super(RegisterBlockEntities.EXPERIENCE_OBELISK_BE.get(), pos, state);
+        clumpsIsLoaded = ModList.get().isLoaded("clumps");
     }
 
     //-----------ANIMATIONS-----------//
 
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
-
     protected static final RawAnimation IDLE = RawAnimation.begin().thenPlay("idle");
     protected static final RawAnimation IDLE_INACTIVE = RawAnimation.begin().thenPlay("idle.inactive");
 
@@ -98,6 +99,7 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
 
     protected boolean redstoneEnabled = false;
     protected double radius = 2.5;
+    public final boolean clumpsIsLoaded;
 
     public static <T> void tick(Level level, BlockPos pos, BlockState state, T blockEntity) {
 
@@ -114,17 +116,15 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
 
                 List<ExperienceOrb> list = level.getEntitiesOfClass(ExperienceOrb.class, area);
 
-                if(!list.isEmpty()) for(int i = 0; i < Math.min(30,list.size()); i++){
+                if(!list.isEmpty()) for(int i = 0; i < Math.min(64,list.size()); i++){
 
                     ExperienceOrb orb = list.get(i);
                     CompoundTag tag = new CompoundTag();
                     orb.addAdditionalSaveData(tag);
 
-                    int value = orb.value;
-                    int count = tag.getInt("Count");
-
-                    int amount = value * 20 * count;
-                    if(space >= amount){
+                    int value = obelisk.clumpsIsLoaded ? getClumpedOrbValue(orb) : getOrbValue(orb);
+                    int amount = value * 20;
+                    if(space >= amount && !orb.isRemoved()){
                         obelisk.fill(amount);
                         space = space - amount;
                         orb.discard();

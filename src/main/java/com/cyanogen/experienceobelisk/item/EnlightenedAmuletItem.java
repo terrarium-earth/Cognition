@@ -3,6 +3,7 @@ package com.cyanogen.experienceobelisk.item;
 import com.cyanogen.experienceobelisk.config.Config;
 import com.cyanogen.experienceobelisk.registries.RegisterSounds;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.ExperienceOrb;
@@ -11,17 +12,22 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.fml.ModList;
 
 import java.util.List;
 import java.util.Objects;
 
 import static com.cyanogen.experienceobelisk.block_entities.ExperienceFountainEntity.FROM_FOUNTAIN;
 import static com.cyanogen.experienceobelisk.block_entities.bibliophage.bookshelves.AbstractInfectedBookshelfEntity.FROM_BOOKSHELF;
+import static com.cyanogen.experienceobelisk.utils.ExperienceUtils.*;
 
 public class EnlightenedAmuletItem extends ActivatableItem{
 
+    private final boolean clumpsIsLoaded;
+
     public EnlightenedAmuletItem(Properties p) {
         super(p);
+        clumpsIsLoaded = ModList.get().isLoaded("clumps");
     }
 
     @Override
@@ -53,8 +59,12 @@ public class EnlightenedAmuletItem extends ActivatableItem{
             List<ExperienceOrb> list = level.getEntitiesOfClass(ExperienceOrb.class, area);
 
             int totalValue = 0;
+            int valueLimit = Integer.MAX_VALUE - 1;
+            int collectionLimit = 64;
+            int collect = Math.min(collectionLimit, list.size());
+
             if(!list.isEmpty()){
-                for(int i = 0; i < Math.min(30,list.size()); i++) {
+                for(int i = 0; i < collect; i++) {
 
                     ExperienceOrb orb = list.get(i);
                     CompoundTag tag = new CompoundTag();
@@ -66,34 +76,37 @@ public class EnlightenedAmuletItem extends ActivatableItem{
                     boolean ignoreBookshelf = Config.COMMON.amuletIgnoresBookshelfOrbs.get();
                     boolean shouldCollect = !(ignoreFountain && spawnedFromFountain) && !(ignoreBookshelf && spawnedFromBookshelf);
 
-                    if(shouldCollect){
-                        int value = orb.value;
-                        int count = tag.getInt("Count");
-                        totalValue += value * count;
+                    if(shouldCollect && !orb.isRemoved()){
+                        int value = clumpsIsLoaded ? getClumpedOrbValue(orb) : getOrbValue(orb);
+                        if(totalValue + value > valueLimit) break;
+                        totalValue += value;
                         orb.discard();
                     }
                 }
 
                 ServerLevel server = (ServerLevel) level;
 
-                if(totalValue < 32768 && totalValue > 0){
+                if(totalValue > 0){
                     ExperienceOrb orb = new ExperienceOrb(server, pos.x(), pos.y(), pos.z(), totalValue);
                     server.addFreshEntity(orb);
                 }
-                else if(totalValue > 0){ //edge case if total value of orbs exceeds 32767
-                    while(totalValue > 0){
-                        int v = Math.min(totalValue, 32767);
-                        ExperienceOrb orb = new ExperienceOrb(server, pos.x(), pos.y(), pos.z(), v);
-                        server.addFreshEntity(orb);
-                        totalValue = totalValue - v;
-                    }
+
+                if(stack.getHoverName().getString().equals("Debug")){
+                    sendDebugMessage(player, collect, totalValue);
                 }
-                //case totalValue = 0 will result if all detected orbs are spawned from fountains
-                //in this case we ignore them
             }
         }
 
         super.inventoryTick(stack, level, entity, slot, isCurrentItem);
+    }
+
+    public void sendDebugMessage(Player player, int orbsCollected, int totalValue){
+        player.sendSystemMessage(Component.literal(
+                "----- [Amulet] -----" + "\n"
+                        + "Clumps installed: " + clumpsIsLoaded + "\n"
+                        + orbsCollected + " orbs collected with total value " + totalValue + " (" + xpToLevels(totalValue) + " levels)" + "\n"
+                        + "Player levels: " + player.experienceLevel
+        ));
     }
 
 }
