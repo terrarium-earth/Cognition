@@ -118,10 +118,10 @@ public class EmptyingRecipe implements Recipe<RecipeInput> {
             Ingredient ingredient = Ingredient.CONTENTS_STREAM_CODEC.decode(buffer);
             ItemStack result = ItemStack.STREAM_CODEC.decode(buffer);
             boolean hasResultStack = buffer.readBoolean();
-            int mBcost = buffer.readInt();
+            int mBgain = buffer.readInt();
             ResourceLocation id = ResourceLocation.STREAM_CODEC.decode(buffer);
 
-            return new EmptyingRecipe(ingredient, result, hasResultStack, mBcost, id);
+            return new EmptyingRecipe(ingredient, result, hasResultStack, mBgain, id);
         }
 
         public static void toNetwork(RegistryFriendlyByteBuf buffer, EmptyingRecipe recipe) {
