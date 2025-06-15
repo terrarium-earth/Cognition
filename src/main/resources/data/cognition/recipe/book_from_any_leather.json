@@ -12,7 +12,7 @@
       "item": "minecraft:paper"
     },
     {
-      "tag": "forge:leather"
+      "tag": "c:leathers"
     }
   ],
   "result": {
