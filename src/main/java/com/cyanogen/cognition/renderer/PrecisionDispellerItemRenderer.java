@@ -23,7 +23,7 @@ public class PrecisionDispellerItemRenderer extends GeoItemRenderer<PrecisionDis
 
             @Override
             public ResourceLocation getAnimationResource(PrecisionDispellerItem animatable) {
-                return ResourceLocation.fromNamespaceAndPath(Cognition.MOD_ID, "animations/precision_dispeller.json");
+                return ResourceLocation.fromNamespaceAndPath(Cognition.MOD_ID, "animations/precision_dispeller.animation.json");
             }
 
             @Override
