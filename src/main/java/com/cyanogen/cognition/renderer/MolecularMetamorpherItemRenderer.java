@@ -23,7 +23,7 @@ public class MolecularMetamorpherItemRenderer extends GeoItemRenderer<MolecularM
 
             @Override
             public ResourceLocation getAnimationResource(MolecularMetamorpherItem animatable) {
-                return ResourceLocation.fromNamespaceAndPath(Cognition.MOD_ID, "animations/molecular_metamorpher.json");
+                return ResourceLocation.fromNamespaceAndPath(Cognition.MOD_ID, "animations/molecular_metamorpher.animation.json");
             }
 
             @Override

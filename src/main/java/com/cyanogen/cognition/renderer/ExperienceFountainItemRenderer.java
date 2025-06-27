@@ -23,7 +23,7 @@ public class ExperienceFountainItemRenderer extends GeoItemRenderer<ExperienceFo
 
             @Override
             public ResourceLocation getAnimationResource(ExperienceFountainItem animatable) {
-                return ResourceLocation.fromNamespaceAndPath(Cognition.MOD_ID, "animations/experience_fountain.json");
+                return ResourceLocation.fromNamespaceAndPath(Cognition.MOD_ID, "animations/experience_fountain.animation.json");
             }
 
             @Override

@@ -25,7 +25,7 @@ public class ExperienceFountainBlockRenderer extends GeoBlockRenderer<Experience
 
             @Override
             public ResourceLocation getAnimationResource(ExperienceFountainEntity animatable) {
-                return ResourceLocation.fromNamespaceAndPath(Cognition.MOD_ID, "animations/experience_fountain.json");
+                return ResourceLocation.fromNamespaceAndPath(Cognition.MOD_ID, "animations/experience_fountain.animation.json");
             }
 
             @Override

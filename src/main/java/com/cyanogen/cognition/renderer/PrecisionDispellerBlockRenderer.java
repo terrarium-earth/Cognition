@@ -25,7 +25,7 @@ public class PrecisionDispellerBlockRenderer extends GeoBlockRenderer<PrecisionD
 
             @Override
             public ResourceLocation getAnimationResource(PrecisionDispellerEntity animatable) {
-                return ResourceLocation.fromNamespaceAndPath(Cognition.MOD_ID, "animations/precision_dispeller.json");
+                return ResourceLocation.fromNamespaceAndPath(Cognition.MOD_ID, "animations/precision_dispeller.animation.json");
             }
 
             @Override

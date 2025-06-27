@@ -25,7 +25,7 @@ public class ExperienceObeliskBlockRenderer extends GeoBlockRenderer<ExperienceO
 
             @Override
             public ResourceLocation getAnimationResource(ExperienceObeliskEntity animatable) {
-                return ResourceLocation.fromNamespaceAndPath(Cognition.MOD_ID, "animations/experience_obelisk.json");
+                return ResourceLocation.fromNamespaceAndPath(Cognition.MOD_ID, "animations/experience_obelisk.animation.json");
             }
 
             @Override

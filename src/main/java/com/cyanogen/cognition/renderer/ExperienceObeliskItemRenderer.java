@@ -23,7 +23,7 @@ public class ExperienceObeliskItemRenderer extends GeoItemRenderer<ExperienceObe
 
             @Override
             public ResourceLocation getAnimationResource(ExperienceObeliskItem animatable) {
-                return ResourceLocation.fromNamespaceAndPath(Cognition.MOD_ID, "animations/experience_obelisk.json");
+                return ResourceLocation.fromNamespaceAndPath(Cognition.MOD_ID, "animations/experience_obelisk.animation.json");
             }
 
             @Override
