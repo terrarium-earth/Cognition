@@ -7,6 +7,13 @@
       "entries": [
         {
           "type": "minecraft:item",
+          "functions": [
+            {
+              "enchantment": "minecraft:fortune",
+              "formula": "minecraft:ore_drops",
+              "function": "minecraft:apply_bonus"
+            }
+          ],
           "name": "cognition:forgotten_dust"
         }
       ]

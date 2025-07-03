@@ -3,6 +3,9 @@ v2.4.7
 [Content]
 - Added [zh_cn localizations](https://github.com/terrarium-earth/Cognition/pull/37) courtesy of moqyng. Thank you!
 
+[Changes]
+- Forgotten dust drops from infected bookshelves are now affected by fortune
+
 [Bugfixes]
 - Fixed invalid tag for book from any leather recipe
 - Fixed animation files not having ".animation" as the extension
