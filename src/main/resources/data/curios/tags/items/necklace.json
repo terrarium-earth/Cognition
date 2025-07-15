@@ -1,4 +1,7 @@
 {
-  "replace": "false",
-  "values": ["experienceobelisk:enlightened_amulet"]
+  "replace": false,
+  "values": [
+    "experienceobelisk:enlightened_amulet",
+    "experienceobelisk:fortuitous_amulet"
+  ]
 }

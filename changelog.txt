@@ -1,3 +1,8 @@
+v2.4.6.1
+
+[Bugfixes]
+- Fixed Fortuitous Amulet not being placeable in curios slot
+
 v2.4.6
 
 This is a backport of v2.4.6 for NeoForge 1.21.1.
