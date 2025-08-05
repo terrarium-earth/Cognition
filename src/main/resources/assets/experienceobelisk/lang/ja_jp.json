@@ -79,7 +79,7 @@
   "item.experienceobelisk.nightmare_bottle.description": "不眠度を大きく上昇させてファントムがほぼ確実にスポーンするようになる",
   "item.experienceobelisk.daydream_bottle.description": "不眠度をリセットしてファントムのスポーンを防ぐ",
   "item.experienceobelisk.bibliophage.description": "本棚に感染して分解し、その過程で経験値を生成する。有効な本棚にしか使用できない",
-  "item.experienceobelisk.fluorescent_jelly.description": "すぐに食べられる！消化に良い",
+  "item.experienceobelisk.experience_jelly.description": "すぐに食べられる！消化に良い",
   "item.experienceobelisk.mending_neurogel.description": "アイテムにクリックすることで耐久値を回復する。金床にも使用可能",
   "item.experienceobelisk.flask_of_poseidon.description": "経験値を消費して水を設置する",
   "item.experienceobelisk.flask_of_hades.description": "経験値を消費して溶岩を設置する",
