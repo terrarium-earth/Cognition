@@ -75,7 +75,7 @@
 
   "tooltip.experienceobelisk.shift_for_info": "§8§oSHIFT長押しで詳細表示",
   "item.experienceobelisk.attunement_staff.description": "このModのブロックを同期・照会・設定することができる",
-  "item.experienceobelisk.enlightened_amulet.description": "周囲の経験値オーブを引き寄せて統合し、より素早く吸収できるようなる。§nSHIFT + 右クリック§rで有効化/無効化。",
+  "item.experienceobelisk.enlightened_amulet.description": "周囲の経験値オーブを引き寄せて統合し、より素早く吸収できるようになる。§nSHIFT + 右クリック§rで有効化/無効化。",
   "item.experienceobelisk.nightmare_bottle.description": "不眠度を大きく上昇させてファントムがほぼ確実にスポーンするようになる",
   "item.experienceobelisk.daydream_bottle.description": "不眠度をリセットしてファントムのスポーンを防ぐ",
   "item.experienceobelisk.bibliophage.description": "本棚に感染して分解し、その過程で経験値を生成する。有効な本棚にしか使用できない",
