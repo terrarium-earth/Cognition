@@ -16,6 +16,14 @@ import java.util.List;
 
 public class AddSingleItem extends LootModifier {
 
+    //Adds a single kind of item to the specified loot tables.
+
+    //id -- the id of the item to add
+    //appear_chance -- the chance of any amount of the item appearing in a given chest
+    //min_quantity -- the minimum number of items to add
+    //max_quantity -- the maximum number of items to add
+    //paths -- the loot tables to add the item to. Any loot table whose path contains the specified string as a substring will be affected
+
     public static final Codec<AddSingleItem> CODEC =
             RecordCodecBuilder.create(instance -> codecStart(instance).and(instance.group(
                     ForgeRegistries.ITEMS.getCodec().fieldOf("id").forGetter(o -> o.item),
@@ -32,7 +40,7 @@ public class AddSingleItem extends LootModifier {
     public final int max;
     public final List<String> paths;
 
-    protected AddSingleItem(LootItemCondition[] conditionsIn, Item item, float appearChance, int min, int max, List<String> paths) {
+    public AddSingleItem(LootItemCondition[] conditionsIn, Item item, float appearChance, int min, int max, List<String> paths) {
         super(conditionsIn);
         this.item = item;
         this.appearChance = appearChance;
@@ -49,9 +57,11 @@ public class AddSingleItem extends LootModifier {
         for(String path : paths){
             if(contextPath.contains(path)){
                 int count = MiscUtils.randomIntInclusive(min, max);
-                for(int i = 0; i< count; i++){
+                for(int i = 0; i < count; i++){
                     generatedLoot.add(new ItemStack(item,1));
                 }
+
+                return generatedLoot;
             }
         }
 
@@ -62,6 +72,5 @@ public class AddSingleItem extends LootModifier {
     public Codec<AddSingleItem> codec() {
         return CODEC;
     }
-
 
 }

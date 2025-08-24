@@ -18,6 +18,8 @@ public class RegisterLootModifiers {
 
     public static final RegistryObject<Codec<AddSingleItem>> ADD_SINGLE_ITEM = GLMS.register("add_single_item", () -> AddSingleItem.CODEC);
 
-    public static void register(IEventBus eventBus){ GLMS.register(eventBus); }
+    public static void register(IEventBus eventBus){
+        GLMS.register(eventBus);
+    }
 
 }
