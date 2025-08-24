@@ -1,3 +1,8 @@
+v2.4.7
+
+[Changes]
+- Forgotten dust drops from infected bookshelves are now affected by fortune
+
 v2.4.6.1
 
 [Bugfixes]

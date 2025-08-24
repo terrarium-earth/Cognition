@@ -7,7 +7,14 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "experienceobelisk:forgotten_dust"
+          "functions": [
+            {
+              "enchantment": "minecraft:fortune",
+              "formula": "minecraft:ore_drops",
+              "function": "minecraft:apply_bonus"
+            }
+          ],
+          "name": "cognition:forgotten_dust"
         }
       ]
     }
