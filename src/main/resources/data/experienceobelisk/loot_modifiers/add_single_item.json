@@ -1,0 +1,9 @@
+{
+  "type": "experienceobelisk:add_single_item",
+  "conditions": [ ],
+  "paths": [ "ruined_portal" ],
+  "id": "experienceobelisk:cognitive_dust",
+  "appear_chance": 0.75,
+  "min_quantity": 6,
+  "max_quantity": 14
+}

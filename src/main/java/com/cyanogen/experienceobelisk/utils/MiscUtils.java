@@ -38,6 +38,10 @@ public class MiscUtils {
         return (float) (min + Math.random() * (max - min));
     }
 
+    public static int randomIntInclusive(int min, int max){
+        return (int) Math.floor(randomInRange(min, max + 1));
+    }
+
     public static float coinflip(float a, float b){
         return Math.random() <= 0.5 ? a : b;
     }
