@@ -1,7 +1,7 @@
 v2.4.8
 
 [Changes]
-- Certain materials now appear in chest loot
+- Certain materials now appear in chest loot:
   - Cognitive Flux may be found in ruined portal chests
   - Astute Assemblies may be found in desert temple chests
 
