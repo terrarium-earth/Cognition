@@ -38,8 +38,45 @@ public class MiscUtils {
         return (float) (min + Math.random() * (max - min));
     }
 
-    public static int randomIntInclusive(int min, int max){
+    public static int randomIntInRange(int min, int max){
         return (int) Math.floor(randomInRange(min, max + 1));
+    }
+
+    public static int weightedRandInt(int min, int max, float bias){
+
+        // P(max) / P(min) = 2 ^ bias
+        //bias of 1 --> P(max) = 2 * P(min)
+        //bias of -1 --> P(max) = 0.5 * P(min)
+        //bias of 0 --> P(max) = P(min)
+
+        if(min >= max) return min;
+
+        int range = max - min;
+        float step = (float) ((Math.pow(2, bias) - 1) / range);
+        float cumSum = 0;
+
+        for(int i = 0; i <= range; i++){
+            float weight = 1 + step * i;
+            System.out.println("Calculating weights: " + weight);
+            cumSum += weight;
+        }
+
+        System.out.println("Cumulative sum is " + cumSum);
+        float cumRand = randomInRange(0, cumSum);
+        System.out.println("Chose " + cumRand);
+
+        for(int j = 0; j <= range; j++){
+            float weight = 1 + step * j;
+            cumRand -= weight;
+
+            if(cumRand <= 0){
+                System.out.println("This number corresponds to " + j + "in the original integer set");
+                return j + min;
+            }
+        }
+
+        System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>> Something went wrong...");
+        return randomIntInRange(min, max);
     }
 
     public static float coinflip(float a, float b){

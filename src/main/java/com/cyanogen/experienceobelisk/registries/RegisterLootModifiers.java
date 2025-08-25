@@ -11,8 +11,6 @@ import net.minecraftforge.registries.RegistryObject;
 
 public class RegisterLootModifiers {
 
-    //-----REGISTRY-----//
-
     public static final DeferredRegister<Codec<? extends IGlobalLootModifier>> GLMS =
             DeferredRegister.create(ForgeRegistries.Keys.GLOBAL_LOOT_MODIFIER_SERIALIZERS, ExperienceObelisk.MOD_ID);
 

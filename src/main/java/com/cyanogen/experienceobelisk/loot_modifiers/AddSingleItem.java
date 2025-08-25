@@ -29,8 +29,7 @@ public class AddSingleItem extends LootModifier {
                     Codec.INT.fieldOf("min_quantity").forGetter(o -> o.min),
                     Codec.INT.fieldOf("max_quantity").forGetter(o -> o.max),
                     Codec.STRING.fieldOf("path").forGetter(o -> o.path)
-                    ))
-                    .apply(instance, AddSingleItem::new));
+                    )).apply(instance, AddSingleItem::new));
 
     public final Item item;
     public final float appearChance;
@@ -52,7 +51,7 @@ public class AddSingleItem extends LootModifier {
 
         String contextPath = context.getQueriedLootTableId().getPath();
         if(contextPath.contains(path) && Math.random() <= appearChance){
-            int count = MiscUtils.randomIntInclusive(min, max);
+            int count = MiscUtils.weightedRandInt(min, max, -1.0f);
             for(int i = 0; i < count; i++){
                 generatedLoot.add(new ItemStack(item,1));
             }
