@@ -4,6 +4,7 @@
   "id": "experienceobelisk:cognitive_flux",
   "appear_chance": 0.6,
   "min_quantity": 4,
-  "max_quantity": 24,
+  "max_quantity": 20,
+  "bias": -0.8,
   "path": "ruined_portal"
 }

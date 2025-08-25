@@ -20,6 +20,8 @@ public class AddSingleItem extends LootModifier {
     //appear_chance -- the chance of the item appearing in a given chest
     //min_quantity -- the minimum number of items to add
     //max_quantity -- the maximum number of items to add
+    //bias -- whether the distribution is skewed towards more or less items. See com.cyanogen.experienceobelisk.utils.MiscUtils.weightedRandInt.
+    // Set this to 0 for a uniform distribution
     //path -- the loot table to add the item to
 
     public static final Codec<AddSingleItem> CODEC =
@@ -28,6 +30,7 @@ public class AddSingleItem extends LootModifier {
                     Codec.FLOAT.fieldOf("appear_chance").forGetter(o -> o.appearChance),
                     Codec.INT.fieldOf("min_quantity").forGetter(o -> o.min),
                     Codec.INT.fieldOf("max_quantity").forGetter(o -> o.max),
+                    Codec.FLOAT.fieldOf("bias").forGetter(o -> o.bias),
                     Codec.STRING.fieldOf("path").forGetter(o -> o.path)
                     )).apply(instance, AddSingleItem::new));
 
@@ -35,14 +38,16 @@ public class AddSingleItem extends LootModifier {
     public final float appearChance;
     public final int min;
     public final int max;
+    public final float bias;
     public final String path;
 
-    public AddSingleItem(LootItemCondition[] conditionsIn, Item item, float appearChance, int min, int max, String path) {
+    public AddSingleItem(LootItemCondition[] conditionsIn, Item item, float appearChance, int min, int max, float bias, String path) {
         super(conditionsIn);
         this.item = item;
         this.appearChance = appearChance;
         this.min = min;
         this.max = max;
+        this.bias = bias;
         this.path = path;
     }
 
@@ -51,7 +56,7 @@ public class AddSingleItem extends LootModifier {
 
         String contextPath = context.getQueriedLootTableId().getPath();
         if(contextPath.contains(path) && Math.random() <= appearChance){
-            int count = MiscUtils.weightedRandInt(min, max, -1.0f);
+            int count = MiscUtils.weightedRandInt(min, max, bias);
             for(int i = 0; i < count; i++){
                 generatedLoot.add(new ItemStack(item,1));
             }

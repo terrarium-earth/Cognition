@@ -49,7 +49,13 @@ public class MiscUtils {
         //bias of -1 --> P(max) = 0.5 * P(min)
         //bias of 0 --> P(max) = P(min)
 
-        if(min >= max) return min;
+        boolean passthrough = (bias == 0) || (min == max);
+        boolean fail = (min > max) || (max - min >= 100) || (Math.abs(bias) >= 10);
+        String message = "[Cognition] Unable to use weighted randInt function, defaulting to unweighted ver. Check that all parameters are within bounds.";
+        if(fail || passthrough){
+            if(fail) System.out.println(message);
+            return randomIntInRange(min, max);
+        }
 
         int range = max - min;
         float step = (float) ((Math.pow(2, bias) - 1) / range);
@@ -57,25 +63,21 @@ public class MiscUtils {
 
         for(int i = 0; i <= range; i++){
             float weight = 1 + step * i;
-            System.out.println("Calculating weights: " + weight);
             cumSum += weight;
         }
 
-        System.out.println("Cumulative sum is " + cumSum);
         float cumRand = randomInRange(0, cumSum);
-        System.out.println("Chose " + cumRand);
 
         for(int j = 0; j <= range; j++){
             float weight = 1 + step * j;
             cumRand -= weight;
 
             if(cumRand <= 0){
-                System.out.println("This number corresponds to " + j + "in the original integer set");
                 return j + min;
             }
         }
 
-        System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>> Something went wrong...");
+        System.out.println(message);
         return randomIntInRange(min, max);
     }
 
