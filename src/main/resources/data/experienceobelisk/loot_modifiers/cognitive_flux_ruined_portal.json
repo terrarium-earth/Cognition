@@ -2,8 +2,8 @@
   "type": "experienceobelisk:add_single_item",
   "conditions": [ ],
   "id": "experienceobelisk:cognitive_flux",
-  "appear_chance": 0.35,
+  "appear_chance": 0.45,
   "min_quantity": 4,
   "max_quantity": 20,
-  "paths": [ "ruined_portal" ]
+  "path": "ruined_portal"
 }

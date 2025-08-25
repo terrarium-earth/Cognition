@@ -12,17 +12,15 @@ import net.minecraftforge.common.loot.LootModifier;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.List;
-
 public class AddSingleItem extends LootModifier {
 
-    //Adds a single kind of item to the specified loot tables.
+    //Adds a single kind of item to the specified loot table
 
     //id -- the id of the item to add
-    //appear_chance -- the chance of any amount of the item appearing in a given chest
+    //appear_chance -- the chance of the item appearing in a given chest
     //min_quantity -- the minimum number of items to add
     //max_quantity -- the maximum number of items to add
-    //paths -- the loot tables to add the item to. Any loot table whose path contains the specified string as a substring will be affected
+    //path -- the loot table to add the item to
 
     public static final Codec<AddSingleItem> CODEC =
             RecordCodecBuilder.create(instance -> codecStart(instance).and(instance.group(
@@ -30,7 +28,7 @@ public class AddSingleItem extends LootModifier {
                     Codec.FLOAT.fieldOf("appear_chance").forGetter(o -> o.appearChance),
                     Codec.INT.fieldOf("min_quantity").forGetter(o -> o.min),
                     Codec.INT.fieldOf("max_quantity").forGetter(o -> o.max),
-                    Codec.list(Codec.STRING).fieldOf("paths").forGetter(o -> o.paths)
+                    Codec.STRING.fieldOf("path").forGetter(o -> o.path)
                     ))
                     .apply(instance, AddSingleItem::new));
 
@@ -38,33 +36,29 @@ public class AddSingleItem extends LootModifier {
     public final float appearChance;
     public final int min;
     public final int max;
-    public final List<String> paths;
+    public final String path;
 
-    public AddSingleItem(LootItemCondition[] conditionsIn, Item item, float appearChance, int min, int max, List<String> paths) {
+    public AddSingleItem(LootItemCondition[] conditionsIn, Item item, float appearChance, int min, int max, String path) {
         super(conditionsIn);
         this.item = item;
         this.appearChance = appearChance;
         this.min = min;
         this.max = max;
-        this.paths = paths;
+        this.path = path;
     }
 
     @Override
     protected @NotNull ObjectArrayList<ItemStack> doApply(ObjectArrayList<ItemStack> generatedLoot, LootContext context) {
 
         String contextPath = context.getQueriedLootTableId().getPath();
-
-        for(String path : paths){
-            if(contextPath.contains(path)){
-                int count = MiscUtils.randomIntInclusive(min, max);
-                for(int i = 0; i < count; i++){
-                    generatedLoot.add(new ItemStack(item,1));
-                }
-
-                return generatedLoot;
+        if(contextPath.contains(path) && Math.random() <= appearChance){
+            int count = MiscUtils.randomIntInclusive(min, max);
+            for(int i = 0; i < count; i++){
+                generatedLoot.add(new ItemStack(item,1));
             }
-        }
 
+            return generatedLoot;
+        }
         return generatedLoot;
     }
 
