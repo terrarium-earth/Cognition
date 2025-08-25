@@ -1,0 +1,9 @@
+{
+  "type": "experienceobelisk:add_single_item",
+  "conditions": [ ],
+  "id": "experienceobelisk:astute_assembly",
+  "appear_chance": 0.233,
+  "min_quantity": 1,
+  "max_quantity": 2,
+  "paths": [ "desert_pyramid" ]
+}
