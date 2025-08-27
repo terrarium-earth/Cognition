@@ -5,6 +5,11 @@ v2.4.8
   - Cognitive Flux may be found in ruined portal chests
   - Astute Assemblies may be found in desert temple chests
 
+v2.4.7.1
+
+[Content]
+- Added [ja_jp localizations](https://github.com/terrarium-earth/Cognition/pull/41) courtesy of PExPE3. Thank you!
+
 v2.4.7
 
 [Content]
