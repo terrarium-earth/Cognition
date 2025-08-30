@@ -4,6 +4,7 @@ v2.4.8
 - Certain materials now appear in chest loot:
   - Cognitive Flux may be found in ruined portal chests
   - Astute Assemblies may be found in desert temple chests
+- Increased Cognitive toolset durability from 835 -> 921
 
 v2.4.7.1
 

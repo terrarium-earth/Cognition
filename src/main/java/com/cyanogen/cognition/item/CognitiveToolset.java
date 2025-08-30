@@ -76,7 +76,7 @@ public class CognitiveToolset {
 
         @Override
         public int getUses() {
-            return 835;
+            return 921;
         }
 
         @Override
