@@ -1,0 +1,10 @@
+{
+  "type": "cognition:add_single_item",
+  "conditions": [ ],
+  "id": "cognition:cognitive_flux",
+  "appear_chance": 0.5,
+  "min_quantity": 4,
+  "max_quantity": 16,
+  "bias": -0.4,
+  "path": "abandoned_mineshaft"
+}
