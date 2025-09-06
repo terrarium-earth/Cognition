@@ -45,12 +45,13 @@ public class BibliophageItem extends Item {
 
     public static boolean infectBlock(Level level, BlockPos pos, @NotNull BlockState newBlock){
 
-        if(level.getBlockEntity(pos) instanceof FluorescentAgarEntity fluorescentAgarEntity){
-            fluorescentAgarEntity.incrementInfectionProgress();
-            return true;
-        }
-
         if(!level.isClientSide){
+
+            if(level.getBlockEntity(pos) instanceof FluorescentAgarEntity fluorescentAgarEntity){
+                fluorescentAgarEntity.incrementInfectionProgress();
+                return true;
+            }
+
             boolean success = level.setBlockAndUpdate(pos, newBlock);
             if(success){
                 level.playSound(null, pos, SoundEvents.WART_BLOCK_BREAK, SoundSource.BLOCKS, 1f, 1f);
