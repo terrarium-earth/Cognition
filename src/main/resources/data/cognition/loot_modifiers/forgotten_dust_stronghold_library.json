@@ -1,10 +1,10 @@
 {
   "type": "cognition:add_single_item",
   "conditions": [ ],
-  "id": "cognition:cognitive_flux",
+  "id": "cognition:forgotten_dust",
   "appear_chance": 1.0,
   "min_quantity": 8,
-  "max_quantity": 32,
+  "max_quantity": 27,
   "bias": -0.4,
   "path": "stronghold_library"
 }

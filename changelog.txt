@@ -7,6 +7,9 @@ v2.4.8
   - Forgotten Dust may be found in stronghold library chests and abandoned mineshafts
 - Increased Cognitive toolset durability from 835 -> 921
 
+[Bugfixes]
+- Fixed client-server mismatch that happens sometimes during fluorescent agar infection
+
 v2.4.7.1
 
 [Content]

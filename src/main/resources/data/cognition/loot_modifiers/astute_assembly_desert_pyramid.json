@@ -2,7 +2,7 @@
   "type": "cognition:add_single_item",
   "conditions": [ ],
   "id": "cognition:astute_assembly",
-  "appear_chance": 0.234,
+  "appear_chance": 0.35,
   "min_quantity": 1,
   "max_quantity": 1,
   "bias": 0,
