@@ -1,7 +1,7 @@
 {
-  "type": "cognition:add_single_item",
+  "type": "experienceobelisk:add_single_item",
   "conditions": [ ],
-  "id": "cognition:forgotten_dust",
+  "id": "experienceobelisk:forgotten_dust",
   "appear_chance": 1.0,
   "min_quantity": 8,
   "max_quantity": 27,
