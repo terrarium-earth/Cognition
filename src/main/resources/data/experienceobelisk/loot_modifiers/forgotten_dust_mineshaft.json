@@ -1,0 +1,10 @@
+{
+  "type": "cognition:add_single_item",
+  "conditions": [ ],
+  "id": "cognition:forgotten_dust",
+  "appear_chance": 0.5,
+  "min_quantity": 2,
+  "max_quantity": 16,
+  "bias": 0.2,
+  "path": "abandoned_mineshaft"
+}

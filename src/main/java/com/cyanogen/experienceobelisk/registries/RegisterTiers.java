@@ -12,7 +12,7 @@ public class RegisterTiers {
     public static Tier COGNITIVE_TIER = new Tier() {
         @Override
         public int getUses() {
-            return 835;
+            return 921;
         }
 
         @Override
