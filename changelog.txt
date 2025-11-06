@@ -1,3 +1,8 @@
+v2.4.8.1
+
+[Content]
+- Added [ru_ru localizations](https://github.com/terrarium-earth/Cognition/pull/44) courtesy of BazZziliuS. Thank you!
+
 v2.4.8
 
 [Changes]
