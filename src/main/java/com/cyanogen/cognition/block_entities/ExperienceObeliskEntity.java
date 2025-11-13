@@ -114,7 +114,7 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
             int space = obelisk.getSpace();
 
             if(absorb && level.getGameTime() % 10 == 0 && space > 0){
-                List<ExperienceOrb> list = level.getEntitiesOfClass(ExperienceOrb.class, getAreaOfEffect(pos, radius));
+                List<ExperienceOrb> list = level.getEntitiesOfClass(ExperienceOrb.class, getAreaOfEffect(pos, radius+0.5));
 
                 if(!list.isEmpty()) for(int i = 0; i < Math.min(64,list.size()); i++){
 
@@ -140,12 +140,12 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
 
     public static AABB getAreaOfEffect(BlockPos pos, double radius){
         return new AABB(
-                pos.getX() - radius,
-                pos.getY() - radius,
-                pos.getZ() - radius,
-                pos.getX() + radius,
-                pos.getY() + radius,
-                pos.getZ() + radius);
+                pos.getX() - radius + 0.5,
+                pos.getY() - radius + 0.5,
+                pos.getZ() - radius + 0.5,
+                pos.getX() + radius + 0.5,
+                pos.getY() + radius + 0.5,
+                pos.getZ() + radius + 0.5);
     }
 
     public boolean isRedstoneEnabled(){
