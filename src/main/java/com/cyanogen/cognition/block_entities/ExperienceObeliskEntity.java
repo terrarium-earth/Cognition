@@ -120,8 +120,6 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
                 if(!list.isEmpty()) for(int i = 0; i < Math.min(64,list.size()); i++){
 
                     ExperienceOrb orb = list.get(i);
-                    CompoundTag tag = new CompoundTag();
-                    orb.addAdditionalSaveData(tag);
 
                     int value = obelisk.clumpsIsLoaded ? getClumpedOrbValue(orb) : getOrbValue(orb);
                     int amount = value * 20;
