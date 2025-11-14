@@ -27,6 +27,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
 import net.neoforged.fml.ModList;
 import net.neoforged.neoforge.capabilities.BlockCapability;
 import net.neoforged.neoforge.capabilities.Capabilities;
@@ -140,17 +141,15 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
 
     public static AABB getAreaOfEffect(BlockPos pos, double radius){
         radius = radius + 0.5;
-        double x = pos.getX() + 0.5;
-        double y = pos.getY() + 0.5;
-        double z = pos.getZ() + 0.5;
+        Vec3 ctr = pos.getCenter();
 
         return new AABB(
-                x - radius,
-                y - radius,
-                z - radius,
-                x + radius,
-                y + radius,
-                z + radius);
+                ctr.x - radius,
+                ctr.y - radius,
+                ctr.z - radius,
+                ctr.x + radius,
+                ctr.y + radius,
+                ctr.z + radius);
     }
 
     public boolean isRedstoneEnabled(){
