@@ -1,3 +1,8 @@
+v2.4.9
+
+[Bugfixes]
+- Fixed obelisk radius being centered around corner instead of middle of block
+
 v2.4.8.1
 
 [Content]
