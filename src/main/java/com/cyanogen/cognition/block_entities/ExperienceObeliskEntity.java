@@ -139,13 +139,18 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
     }
 
     public static AABB getAreaOfEffect(BlockPos pos, double radius){
+        radius = radius + 0.5;
+        double x = pos.getX() + 0.5;
+        double y = pos.getY() + 0.5;
+        double z = pos.getZ() + 0.5;
+
         return new AABB(
-                pos.getX() - radius,
-                pos.getY() - radius,
-                pos.getZ() - radius,
-                pos.getX() + radius,
-                pos.getY() + radius,
-                pos.getZ() + radius);
+                x - radius,
+                y - radius,
+                z - radius,
+                x + radius,
+                y + radius,
+                z + radius);
     }
 
     public boolean isRedstoneEnabled(){
