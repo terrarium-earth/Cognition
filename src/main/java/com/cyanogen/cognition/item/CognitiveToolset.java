@@ -1,5 +1,6 @@
 package com.cyanogen.cognition.item;
 
+import com.cyanogen.cognition.config.Config;
 import com.cyanogen.cognition.registries.RegisterItems;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.renderer.item.ItemProperties;
@@ -164,7 +165,7 @@ public class CognitiveToolset {
         public static void handleTooltip(ItemTooltipEvent event){
             List<Component> tooltipList = event.getToolTip();
 
-            if(event.getItemStack().getItem() instanceof CognitiveBowItem bow){
+            if(event.getItemStack().getItem() instanceof CognitiveBowItem bow && Config.COMMON.showAdditionalBowInfo.get()){
 
                 List<Component> tooltips = new ArrayList<>();
                 tooltips.add(Component.literal(""));

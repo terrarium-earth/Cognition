@@ -1,3 +1,8 @@
+v2.4.10
+
+[Content]
+- Added config option to disable additional tooltip information showing up for the Cognitive Bow
+
 v2.4.9
 
 [Bugfixes]

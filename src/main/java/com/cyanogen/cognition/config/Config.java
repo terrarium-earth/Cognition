@@ -19,6 +19,7 @@ public class Config {
         public final ModConfigSpec.ConfigValue<Boolean> formatting;
         public final ModConfigSpec.ConfigValue<Integer> jellyNutrition;
         public final ModConfigSpec.ConfigValue<Double> jellySaturation;
+        public final ModConfigSpec.ConfigValue<Boolean> showAdditionalBowInfo;
 
         public final ModConfigSpec.ConfigValue<Double> dropDustChance;
         public final ModConfigSpec.ConfigValue<Boolean> shelvesPermeableToDust;
@@ -91,6 +92,12 @@ public class Config {
                     .define("Nutrition", 2);
             this.jellySaturation = builder.comment("How much saturation Fluorescent Jelly gives the player. Default = 1.0")
                     .define("Saturation", 1.0);
+            builder.pop();
+
+            builder.push("Cognitive Bow");
+            this.showAdditionalBowInfo = builder.comment("Whether to show the projectile velocity & accuracy boost in the tooltip. Default = true")
+                    .comment("Disable this if tooltip components are being displayed in the wrong order.")
+                    .define("Show", true);
             builder.pop();
 
             builder.push("Bookshelf Settings");
