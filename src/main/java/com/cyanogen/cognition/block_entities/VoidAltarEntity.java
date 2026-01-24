@@ -1,5 +1,6 @@
 package com.cyanogen.cognition.block_entities;
 
+import com.cyanogen.cognition.registries.RegisterBlockEntities;
 import com.cyanogen.cognition.utils.MiscUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
@@ -14,7 +15,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.HashMap;
@@ -25,8 +25,8 @@ public class VoidAltarEntity extends BlockEntity {
     private final int base = 3;
     private final int max = 10;
 
-    public VoidAltarEntity(BlockEntityType<?> type, BlockPos pos, BlockState blockState) {
-        super(type, pos, blockState);
+    public VoidAltarEntity(BlockPos pos, BlockState blockState) {
+        super(RegisterBlockEntities.VOID_ALTAR.get(), pos, blockState);
     }
 
     public static <T> void tick(Level level, BlockPos pos, BlockState state, T blockEntity) {
@@ -146,7 +146,6 @@ public class VoidAltarEntity extends BlockEntity {
     protected void saveAdditional(CompoundTag tag, HolderLookup.Provider provider) {
 
         super.saveAdditional(tag, provider);
-
         tag.putInt("OrbValue", orbValue);
     }
 
@@ -154,7 +153,6 @@ public class VoidAltarEntity extends BlockEntity {
     public void handleUpdateTag(CompoundTag tag, HolderLookup.Provider provider) {
 
         super.handleUpdateTag(tag, provider);
-
         this.orbValue = tag.getInt("OrbValue");
     }
 
@@ -162,7 +160,6 @@ public class VoidAltarEntity extends BlockEntity {
     public CompoundTag getUpdateTag(HolderLookup.Provider provider) {
 
         CompoundTag tag = super.getUpdateTag(provider);
-
         tag.putInt("OrbValue", orbValue);
 
         return tag;

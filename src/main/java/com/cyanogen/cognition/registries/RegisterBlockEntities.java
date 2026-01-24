@@ -72,6 +72,10 @@ public class RegisterBlockEntities {
             BLOCK_ENTITIES.register("extravagant_agar",
             ()-> BlockEntityType.Builder.of(ExtravagantAgarEntity::new, RegisterBlocks.EXTRAVAGANT_AGAR.get()).build(Type));
 
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<VoidAltarEntity>> VOID_ALTAR =
+            BLOCK_ENTITIES.register("void_altar",
+                    ()-> BlockEntityType.Builder.of(VoidAltarEntity::new, RegisterBlocks.VOID_ALTAR.get()).build(Type));
+
     public static void register(IEventBus eventBus){
         BLOCK_ENTITIES.register(eventBus);
     }

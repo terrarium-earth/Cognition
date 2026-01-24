@@ -36,6 +36,7 @@ public class RegisterBlocks {
     public static final DeferredHolder<Block, NutrientAgarBlock> NUTRIENT_AGAR = BLOCKS.register("nutrient_agar", NutrientAgarBlock::new);
     public static final DeferredHolder<Block, InsightfulAgarBlock> INSIGHTFUL_AGAR = BLOCKS.register("insightful_agar", InsightfulAgarBlock::new);
     public static final DeferredHolder<Block, ExtravagantAgarBlock> EXTRAVAGANT_AGAR = BLOCKS.register("extravagant_agar", ExtravagantAgarBlock::new);
+    public static final DeferredHolder<Block, VoidAltarBlock> VOID_ALTAR = BLOCKS.register("void_altar", VoidAltarBlock::new);
 
     //-----DECORATIVE / CRAFTING-----//
 
