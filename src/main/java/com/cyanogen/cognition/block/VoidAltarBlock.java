@@ -1,6 +1,6 @@
 package com.cyanogen.cognition.block;
 
-import com.cyanogen.cognition.block_entities.ExperienceObeliskEntity;
+import com.cyanogen.cognition.block_entities.VoidAltarEntity;
 import com.cyanogen.cognition.registries.RegisterBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
@@ -28,11 +28,11 @@ public class VoidAltarBlock extends Block implements EntityBlock {
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> blockEntityType) {
-        return blockEntityType == RegisterBlockEntities.EXPERIENCE_OBELISK.get() ? ExperienceObeliskEntity::tick : null;
+        return blockEntityType == RegisterBlockEntities.VOID_ALTAR.get() ? VoidAltarEntity::tick : null;
     }
 
     @Override
     public @Nullable BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return RegisterBlockEntities.EXPERIENCE_OBELISK.get().create(pos, state);
+        return RegisterBlockEntities.VOID_ALTAR.get().create(pos, state);
     }
 }
