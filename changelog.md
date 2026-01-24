@@ -1,19 +1,25 @@
-v2.4.10
+# v2.5.0
+
+[Content]
+- Added the Void Altar
+- Added [pt_br localizations](https://github.com/terrarium-earth/Cognition/pull/47) courtesy of PrincessStelllar. Thank you!
+
+# v2.4.10
 
 [Content]
 - Added config option to disable additional tooltip information showing up for the Cognitive Bow
 
-v2.4.9
+# v2.4.9
 
 [Bugfixes]
 - Fixed obelisk radius being centered around corner instead of middle of block
 
-v2.4.8.1
+# v2.4.8.1
 
 [Content]
 - Added [ru_ru localizations](https://github.com/terrarium-earth/Cognition/pull/44) courtesy of BazZziliuS. Thank you!
 
-v2.4.8
+# v2.4.8
 
 [Changes]
 - Certain materials now appear in chest loot:
@@ -25,12 +31,12 @@ v2.4.8
 [Bugfixes]
 - Fixed client-server mismatch that happens sometimes during fluorescent agar infection
 
-v2.4.7.1
+# v2.4.7.1
 
 [Content]
 - Added [ja_jp localizations](https://github.com/terrarium-earth/Cognition/pull/41) courtesy of PExPE3. Thank you!
 
-v2.4.7
+# v2.4.7
 
 [Content]
 - Added [zh_cn localizations](https://github.com/terrarium-earth/Cognition/pull/37) courtesy of moqyng. Thank you!
@@ -42,7 +48,7 @@ v2.4.7
 - Fixed invalid tag for book from any leather recipe
 - Fixed animation files not having ".animation" as the extension
 
-v2.4.6
+# v2.4.6
 
 [Changes]
 - Removed unnecessary cap on the values of orbs spawned by the Amulet
@@ -54,14 +60,14 @@ v2.4.6
 - Fixed Enlightened or Fortuitous Amulet causing inflation of XP gain in some specific contexts when Clumps is installed.
 See https://github.com/terrarium-earth/Cognition/issues/35 for more info
 
-v2.4.5
+# v2.4.5
 
 [Changes]
 - Added datapack support for infecting, filling & emptying recipes
 - Shifted enchanted golden apple recipe from metamorpher to filling via the fountain
 - Optimized infection spreading
 
-v2.4.4-beta
+# v2.4.4-beta
 
 [Changes]
 - Memory Tablet range now conforms to the Staff of Attunement binding range set in the Config file
@@ -71,7 +77,7 @@ activated accelerators without being launched
 [Bugfixes]
 - Fixed Cognitive Shears not having increased mining speed for wool, cobwebs etc.
 
-v2.4.3-beta
+# v2.4.3-beta
 
 [Changes]
 - Big rework to Memory Tablet:
@@ -87,7 +93,7 @@ v2.4.3-beta
 - (1.21.1) Fixed Enlightened Amulet spawning zero value orbs
 - Removed unused files
 
-v2.4.2-beta
+# v2.4.2-beta
 
 [Content]
 - Added Blob of Mending Neurogel
@@ -105,7 +111,7 @@ v2.4.2-beta
 - Fixed Flint and Cognitive Alloy not igniting TNT
 - Fixed Transforming Foci being duped when used in name formatting recipes
 
-v2.4.1-beta
+# v2.4.1-beta
 
 [Content]
 - Added Cognitive Bow
@@ -121,7 +127,7 @@ v2.4.1-beta
 - (1.21.1) Fixed Cognitive tools and armor not accepting enchantments
 - (1.21.1) Fixed Cognitive armor not having durability values
 
-v2.4.0-beta
+# v2.4.0-beta
 
 [Content]
 - Added Fortuitous Amulet
@@ -135,11 +141,11 @@ v2.4.0-beta
 [Bugfixes]
 - Fixed game crashing upon placing a Supplementaries faucet on the Obelisk
 
-v2.3.7-beta
+# v2.3.7-beta
 
-[IMPORTANT]
+**[IMPORTANT]**
 - Experience Obelisk is now Cognition! The mod id has been changed from experienceobelisk --> cognition
-- This is a breaking change. If you're updating from the 1.21 alpha versions, **all modded items and blocks will be erased**.
+- This is a breaking change. If you're updating from the 1.21 alpha versions, **all items and blocks from this mod will be erased**.
 
 [Changes]
 - Buffed mending neurogel to compensate for its material cost
@@ -157,19 +163,19 @@ v2.3.7-beta
 - Stopped unbound Precision Dispellers from querying the Obelisks they were previously bound to
 - Stopped Metamorphers from continuing to display Obelisk experience level in the GUI even after obelisks are removed
 
-v2.3.6.2-alpha
+# v2.3.6.2-alpha
 
 [Bugfixes]
 - Fixed Molecular Metamorpher transfer handler
 - Fixed Metamorpher not saving remote slot changes
 
-v2.3.6.1-alpha
+# v2.3.6.1-alpha
 
 [Bugfixes]
 - Fixed Serializer inconsistency causing crash upon joining a server
 - Internal changes and optimizations
 
-v2.3.6
+# v2.3.6
 
 [Changes]
 - Enlightened Amulets now ignore orbs spawned by Fountains. This may be disabled in the config file
@@ -180,13 +186,13 @@ v2.3.6
 [Bugfixes]
 - Fixed Mending Neurogel opening anvil GUIs on use in-world
 
-v2.3.5
+# v2.3.5
 
 [Changes]
 - Added config option to make Infected Bookshelves & Agar permeable to Forgotten Dust items.
 This will allow Forgotten Dust to pass through bibliophage setups as if they aren't there. Option is false by default.
 
-v2.3.4
+# v2.3.4
 
 [Changes]
 - Added visual crafting information in JEI for mechanics such as infecting and filling
@@ -203,7 +209,7 @@ v2.3.4
 - Disabled taking fall damage from the top face of active accelerators
 - Disabled taking fall damage from all agar blocks
 
-v2.3.3
+# v2.3.3
 
 [Changes]
 - increased Transforming Focus durability 500 --> 512
@@ -218,7 +224,7 @@ v2.3.3
 - capped minimum orb spawn interval to 2 ticks
 - fixed Fluorescent Agar conversion using the wrong type of sound event
 
-v2.3.2
+# v2.3.2
 
 [Content]
 - added Transforming Focus
@@ -236,7 +242,7 @@ v2.3.2
 - Mending Neurogel may now be used to repair anvils, either in-inventory or in-world
 - other recipe additions, balances and removals
 
-v2.3.1
+# v2.3.1
 
 [Changes]
 - the buffs applied by Agar blocks now stack multiplicatively
@@ -253,7 +259,7 @@ v2.3.1
 - fixed a bug in the Metamorpher where recipes with an output item count of more than 1 would only increment the output item by 1 upon dispensing results
 - fixed flasks being unable to fill or empty modded fluid containers
 
-v2.3.0
+# v2.3.0
 
 [Content]
 - Added nutrient agar
@@ -275,18 +281,18 @@ v2.3.0
 - Recipe balances and additions
 - Added more information and entries to description tooltips
 
-v2.2.6
+# v2.2.6
 
 [Changes]
 - Added configuration options for bookshelf spawn rates, spawn value, and lifetimes
 - Shift-right-clicking bookshelves with the Staff of Attunement now toggles between redstone enabled / disabled
 
-v2.2.5
+# v2.2.5
 
 [Bugfixes]
 - fixed name formatting recipes showing up incorrectly in JEI
 
-v2.2.4
+# v2.2.4
 
 [Changes]
 - Metamorpher output may now be removed using hoppers or otherwise via the bottom face. Items may be fed into the input slots through any other face except the top face
@@ -294,7 +300,7 @@ v2.2.4
 - Standardized & cleaned up tooltips
 - Changed Precision Dispeller recipe -- such that only a single cognitive crystal is required rather than a whole block
 
-v2.2.3
+# v2.2.3
 
 [Changes]
 - Infected bookshelves now drop 4x Forgotten Dust upon decaying rather than remaining as blocks
@@ -305,7 +311,7 @@ v2.2.3
 - fixed infected bookshelves not invalidating the block entity immediately upon decaying, leading to block placement conflicts
 - (hopefully) fixed random stalls in the obelisk active animation
 
-v2.2.2
+# v2.2.2
 
 [Content]
 - Added crafting recipe to convert any block tagged forge:bookshelves into a vanilla bookshelf. For use with mods like quark, which add unique bookshelves for each wood type
@@ -321,7 +327,7 @@ v2.2.2
 - Fixed bug which caused bookshelves to generate extra XP & occasionally play the block breaking animation multiple times upon decaying
 - Fixed bug which caused yet-infected bookshelves to sometimes appear infected clientside
 
-v2.2.1
+# v2.2.1
 
 [Content]
 - Added Fluorescent Jelly
@@ -337,7 +343,7 @@ v2.2.1
 - Fixed Metamorpher not returning craft remainder items after recipes have concluded
 - Fixed Metamorpher active animation continuing to play even when slots contain an invalid recipe
 
-v2.2.0
+# v2.2.0
 
 [Content]
 - added Molecular Metamorpher
@@ -359,7 +365,7 @@ v2.2.0
 - Fountain no longer emits orbs with a random y velocity component
 - merged cognitive flux recipes 
 
-v2.1.0.1 (for 1.19.2)
+# v2.1.0.1 (for 1.19.2)
 
 [Bugfixes]
 - Fixed smithing recipes for Cognitive toolset and Precision Dispeller
@@ -367,7 +373,7 @@ v2.1.0.1 (for 1.19.2)
  - Set bottle o' enchanting to contain 250mB of cognitium
  - Obelisk item no longer displays fluid information if it does not contain block entity data
 
-v2.1.0
+# v2.1.0
 
 [Content]
 - Added Accelerator
@@ -382,7 +388,7 @@ v2.1.0
 - Fixed the positions of the widgets in the obelisk GUI not updating when changing the resolution of the minecraft window
 - Obelisk item no longer displays fluid information if it does not contain block entity data
 
-v2.0.4
+# v2.0.4
 
 [Content]
 - Added custom anvil recipe -- combining an item with dye in an anvil lets you change its name color
@@ -401,7 +407,7 @@ v2.0.4
 - Buffed stats for the Cognitive Toolset to compensate for increased material cost
 - Smelting / blasting Cognitive Flux now drops experience, similarly to smelting / blasting vanilla ores
 
-v2.0.3
+# v2.0.3
 
 !! Important Update !!
 
@@ -409,19 +415,19 @@ v2.0.3
 - Fixed a major bug arising from the Experience Obelisk and Enlightened Amulet not accounting for merged orbs
 - Fixed the Experience Obelisk animation sometimes freezing randomly
 
-v2.0.2.1
+# v2.0.2.1
 
 [Changes]
 - Fixed blocks not being able to be placed within Cognitium fluid (for 1.20.1)
 - Fixed the itemgroup having an incorrect localization tag (for 1.19.2 and 1.18.2)
 
-v2.0.2
+# v2.0.2
 
 [Changes]
 - Changed the textures for the Cognitive Alloy and Cognitive Crystal blocks
 - Cognitive Crystal blocks now emit light with a light level of 12
 
-v2.0.1
+# v2.0.1
 
 [Changes]
 - Fixed dispeller animation not refreshing for 1.20.1
@@ -429,7 +435,7 @@ v2.0.1
 - Fixed Cognitive tools not rendering properly when held
 - Updated Staff of Attunement messages
 
-v2.0.0
+# v2.0.0
 
 - Experience Obelisk is now Cognition!
 
