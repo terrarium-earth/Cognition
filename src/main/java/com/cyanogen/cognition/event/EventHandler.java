@@ -1,7 +1,7 @@
 package com.cyanogen.cognition.event;
 
 import com.cyanogen.cognition.block.ExperienceFountainBlock;
-import com.cyanogen.cognition.item.CognitiveToolset;
+import com.cyanogen.cognition.item.CognitiveBowItem;
 import com.cyanogen.cognition.item.FortuitousAmuletItem;
 import com.cyanogen.cognition.item.MemoryTabletItem;
 import com.cyanogen.cognition.item.NeurogelMendingItem;
@@ -21,7 +21,7 @@ public class EventHandler {
     @OnlyIn(Dist.CLIENT)
     public void onTooltip(ItemTooltipEvent event){
         DescriptionTooltips.handleTooltip(event);
-        CognitiveToolset.CognitiveBowItem.handleTooltip(event);
+        CognitiveBowItem.handleTooltip(event);
     }
 
     @SubscribeEvent

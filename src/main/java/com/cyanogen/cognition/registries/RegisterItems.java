@@ -77,8 +77,8 @@ public class RegisterItems {
             () -> new CognitiveArmorset.ExtraAttributeArmorItem(RegisterTiers.COGNITIVE_ARMOR_MATERIAL, ArmorItem.Type.BOOTS,
                     CognitiveArmorset.increasedReach(EquipmentSlotGroup.FEET), 250));
 
-    public static final DeferredHolder<Item, CognitiveToolset.CognitiveBowItem> COGNITIVE_BOW = ITEMS.register("cognitive_bow",
-            () -> new CognitiveToolset.CognitiveBowItem(921, 1.25f, 1.40f));
+    public static final DeferredHolder<Item, CognitiveBowItem> COGNITIVE_BOW = ITEMS.register("cognitive_bow",
+            () -> new CognitiveBowItem(921, 1.25f, 1.40f));
 
     public static final DeferredHolder<Item, FishingRodItem> COGNITIVE_ROD = ITEMS.register("cognitive_rod",
             () -> new FishingRodItem(createCustomAttributes(new Item.Properties(), null, increasedReach())
@@ -89,8 +89,8 @@ public class RegisterItems {
                     .durability(2200)
                     .component(DataComponents.TOOL, ShearsItem.createToolProperties())));
 
-    public static final DeferredHolder<Item, CognitiveToolset.FlintAndCognitiveAlloyItem> FLINT_AND_COGNITIVE_ALLOY = ITEMS.register("flint_and_cognitive_alloy",
-            () -> new CognitiveToolset.FlintAndCognitiveAlloyItem(2200));
+    public static final DeferredHolder<Item, FlintAndCognitiveAlloyItem> FLINT_AND_COGNITIVE_ALLOY = ITEMS.register("flint_and_cognitive_alloy",
+            () -> new FlintAndCognitiveAlloyItem(2200));
 
     //-----FUNCTIONAL ITEMS-----//
 
