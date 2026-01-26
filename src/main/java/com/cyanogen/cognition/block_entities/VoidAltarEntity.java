@@ -22,8 +22,9 @@ import java.util.HashMap;
 @SuppressWarnings("FieldCanBeLocal")
 public class VoidAltarEntity extends BlockEntity {
 
-    private final int base = 1;
+    private final int min = 1;
     private final int max = 10;
+    private final int target = 5345;
 
     public VoidAltarEntity(BlockPos pos, BlockState blockState) {
         super(RegisterBlockEntities.VOID_ALTAR.get(), pos, blockState);
@@ -34,7 +35,7 @@ public class VoidAltarEntity extends BlockEntity {
         if(blockEntity instanceof VoidAltarEntity altar && !level.isClientSide){
             int yLevel = pos.getY();
 
-            if(level.getGameTime() % 20 == 0){
+            if(level.getGameTime()+1 % 20 == 0){
 
                 System.out.println("=================");
                 System.out.println("stored value: " + altar.orbValue);
@@ -43,15 +44,14 @@ public class VoidAltarEntity extends BlockEntity {
                 System.out.println("increment: " + altar.getIncrement(yLevel, level, pos));
                 System.out.println("=================");
 
-                if(altar.orbValue >= 2048){
+                if(altar.orbValue >= altar.target){
 
                     ServerLevel server = (ServerLevel) level;
-                    ExperienceOrb orb = new ExperienceOrb(server, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 2048);
+                    ExperienceOrb orb = new ExperienceOrb(server, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, altar.target);
                     server.addFreshEntity(orb);
-                    altar.setOrbValue(Math.max(0, altar.orbValue - 2048));
+                    altar.setOrbValue(0);
                 }
                 else{
-                    //calculate boosts here
                     altar.incrementOrbValue(altar.getIncrement(yLevel, level, pos));
                 }
 
@@ -61,12 +61,12 @@ public class VoidAltarEntity extends BlockEntity {
     }
 
     public float getIncrement(int yLevel, Level level, BlockPos pos){
-        return Math.min(2048, getBaseRate(yLevel) * getBoost(level, pos));
+        return Math.min(target, getBaseRate(yLevel) * getBoost(level, pos));
     }
 
     public float getBaseRate(int yLevel){
         yLevel = Math.clamp(yLevel, -63, 0);
-        return base + (max - base) * (-yLevel / 63f);
+        return min + (max - min) * (-yLevel / 63f);
     }
 
     public float getBoost(Level level, BlockPos pos){
@@ -80,7 +80,8 @@ public class VoidAltarEntity extends BlockEntity {
         int z1 = pos.getZ() - radius;
         int z2 = pos.getZ() + radius + 1;
 
-        HashMap<Block, Float> multiplierMap = getMultiplierMap();
+        HashMap<Block, Float> multiplierMap = getPermanentMultiplierMap();
+        HashMap<Block, Float> consumableMap = getConsumableMap();
         float boost = 1;
 
         for(int i = x1; i <= x2; i++){
@@ -94,7 +95,7 @@ public class VoidAltarEntity extends BlockEntity {
                         if(multiplierMap.containsKey(block)){
                             boost = boost * multiplierMap.get(block);
 
-                            if(boost >= 2048f / base) return boost;
+                            if(boost >= (float) target / min) return target;
                         }
                     }
 
@@ -105,18 +106,36 @@ public class VoidAltarEntity extends BlockEntity {
         return boost;
     }
 
-    public HashMap<Block, Float> getMultiplierMap(){
+    public HashMap<Block, Float> getPermanentMultiplierMap(){
         HashMap<Block, Float> map = new HashMap<>();
 
-        map.put(Blocks.OBSIDIAN, 1.008f);
-        map.put(Blocks.CRYING_OBSIDIAN, 1.0085f);
-        map.put(Blocks.BEDROCK, 1.01f);
-        map.put(Blocks.REINFORCED_DEEPSLATE, 1.02f);
+        map.put(Blocks.OBSIDIAN, 1.008f); //0.8% production boost per block in range
+        map.put(Blocks.CRYING_OBSIDIAN, 1.0085f); //0.85% production boost per block in range
+        map.put(Blocks.BEDROCK, 1.01f); //1% production boost per block in range
+        map.put(Blocks.REINFORCED_DEEPSLATE, 1.025f); //2.5% production boost per block in range
 
         return map;
     }
 
-    // you may also sacrifice certain blocks in order to give a short production boost
+    public HashMap<Block, Float> getConsumableMap(){
+        HashMap<Block, Float> map = new HashMap<>();
+        //make this additive instead of multiplicative?
+
+        map.put(Blocks.DEEPSLATE_COAL_ORE, 0.2f);
+        map.put(Blocks.DEEPSLATE_REDSTONE_ORE, 0.1f);
+        map.put(Blocks.DEEPSLATE_LAPIS_ORE, 0.25f);
+        map.put(Blocks.DEEPSLATE_EMERALD_ORE, 0.4f);
+        map.put(Blocks.DEEPSLATE_DIAMOND_ORE, 0.8f);
+
+        //every second, altar will check for consumables in radius and consume all at once if present
+        //during the duration of the production boost (20000t), the altar will be unable to consume subsequent blocks
+
+        return map;
+    }
+
+    //Useful numbers:
+    //Average number of bedrock blocks within range of a void altar at y=-61 with default world gen: ~78
+    //Total number of blocks in range of a void altar: 104
 
     //-----------NBT-----------//
 
