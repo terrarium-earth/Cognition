@@ -10,12 +10,14 @@ import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.Tuple;
 import net.minecraft.world.entity.ExperienceOrb;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 
@@ -24,7 +26,7 @@ public class VoidAltarEntity extends BlockEntity {
 
     private final int min = 1;
     private final int max = 10;
-    private final int target = 5345;
+    private final int target = 5345; //this is 50Lv worth
 
     public VoidAltarEntity(BlockPos pos, BlockState blockState) {
         super(RegisterBlockEntities.VOID_ALTAR.get(), pos, blockState);
@@ -81,7 +83,6 @@ public class VoidAltarEntity extends BlockEntity {
         int z2 = pos.getZ() + radius + 1;
 
         HashMap<Block, Float> multiplierMap = getPermanentMultiplierMap();
-        HashMap<Block, Float> consumableMap = getConsumableMap();
         float boost = 1;
 
         for(int i = x1; i <= x2; i++){
@@ -95,10 +96,9 @@ public class VoidAltarEntity extends BlockEntity {
                         if(multiplierMap.containsKey(block)){
                             boost = boost * multiplierMap.get(block);
 
-                            if(boost >= (float) target / min) return target;
+                            if(boost * getBaseRate(pos.getY()) >= target) return target;
                         }
                     }
-
                 }
             }
         }
@@ -113,22 +113,6 @@ public class VoidAltarEntity extends BlockEntity {
         map.put(Blocks.CRYING_OBSIDIAN, 1.0085f); //0.85% production boost per block in range
         map.put(Blocks.BEDROCK, 1.01f); //1% production boost per block in range
         map.put(Blocks.REINFORCED_DEEPSLATE, 1.025f); //2.5% production boost per block in range
-
-        return map;
-    }
-
-    public HashMap<Block, Float> getConsumableMap(){
-        HashMap<Block, Float> map = new HashMap<>();
-        //make this additive instead of multiplicative?
-
-        map.put(Blocks.DEEPSLATE_COAL_ORE, 0.2f);
-        map.put(Blocks.DEEPSLATE_REDSTONE_ORE, 0.1f);
-        map.put(Blocks.DEEPSLATE_LAPIS_ORE, 0.25f);
-        map.put(Blocks.DEEPSLATE_EMERALD_ORE, 0.4f);
-        map.put(Blocks.DEEPSLATE_DIAMOND_ORE, 0.8f);
-
-        //every second, altar will check for consumables in radius and consume all at once if present
-        //during the duration of the production boost (20000t), the altar will be unable to consume subsequent blocks
 
         return map;
     }
@@ -189,7 +173,6 @@ public class VoidAltarEntity extends BlockEntity {
 
     @Override
     public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt, HolderLookup.Provider provider) {
-
         CompoundTag tag = pkt.getTag();
         this.orbValue = tag.getFloat("OrbValue");
         super.onDataPacket(net, pkt, provider);

@@ -68,89 +68,89 @@ public class Config {
             builder.pop();
 
             builder.push("Enlightened Amulet");
-            this.amuletRange = builder.comment("The range of the enlightened amulet in blocks. Accepts decimals. Default = 8.0.")
+            this.amuletRange = builder.comment("The range of the enlightened amulet in blocks. Accepts decimals.")
                     .defineInRange("Range", 8.0, 1, 16.0);
-            this.amuletIgnoresFountainOrbs = builder.comment("Whether the enlightened amulet ignores orbs spawned by Experience Fountains. Default = true")
+            this.amuletIgnoresFountainOrbs = builder.comment("Whether the enlightened amulet ignores orbs spawned by Experience Fountains.")
                     .define("IgnoresFountainOrbs", true);
-            this.amuletIgnoresBookshelfOrbs = builder.comment("Whether the enlightened amulet ignores orbs spawned by Infected Bookshelves. Default = false")
+            this.amuletIgnoresBookshelfOrbs = builder.comment("Whether the enlightened amulet ignores orbs spawned by Infected Bookshelves.")
                     .define("IgnoresBookshelfOrbs", false);
             builder.pop();
 
             builder.push("Binding Range");
-            this.bindingRange = builder.comment("The binding range of the Staff of Attunement & Memory Tablet in blocks. Accepts decimals. Default = 48.0.")
+            this.bindingRange = builder.comment("The binding range of the Staff of Attunement & Memory Tablet in blocks. Accepts decimals.")
                     .comment("Lower this if you experience issues with bound blocks not working correctly.")
                     .defineInRange("Range", 48.0, 4, 100.0);
             builder.pop();
 
             builder.push("Enable Name Formatting Recipes");
-            this.formatting = builder.comment("Whether custom recipes that allow for the changing of item name color & formatting are enabled. Default = true")
+            this.formatting = builder.comment("Whether custom recipes that allow for the changing of item name color & formatting are enabled.")
                     .define("Formatting", true);
             builder.pop();
 
             builder.push("Fluorescent Jelly");
-            this.jellyNutrition = builder.comment("How many hunger points Fluorescent Jelly gives the player. Set to 0 to disable eating completely. Default = 2")
+            this.jellyNutrition = builder.comment("How many hunger points Fluorescent Jelly gives the player. Set to 0 to disable eating completely.")
                     .define("Nutrition", 2);
-            this.jellySaturation = builder.comment("How much saturation Fluorescent Jelly gives the player. Default = 1.0")
+            this.jellySaturation = builder.comment("How much saturation Fluorescent Jelly gives the player.")
                     .define("Saturation", 1.0);
             builder.pop();
 
             builder.push("Cognitive Bow");
-            this.showAdditionalBowInfo = builder.comment("Whether to show the projectile velocity & accuracy boost in the tooltip. Default = true")
+            this.showAdditionalBowInfo = builder.comment("Whether to show the projectile velocity & accuracy boost in the tooltip.")
                     .comment("Disable this if tooltip components are being displayed in the wrong order.")
                     .define("Show", true);
             builder.pop();
 
             builder.push("Bookshelf Settings");
-            this.dropDustChance = builder.comment("The chance that infected bookshelves of any kind drop Forgotten Dust upon decaying. Default = 0.5")
+            this.dropDustChance = builder.comment("The chance that infected bookshelves of any kind drop Forgotten Dust upon decaying.")
                     .comment("Set this value to 0.0 to prevent drops from decaying bookshelves completely")
                     .defineInRange("DropDustChance", 0.5, 0.0, 1.0);
-            this.shelvesPermeableToDust = builder.comment("Whether Infected Bookshelves are permeable to Forgotten Dust item entities. Default = false")
+            this.shelvesPermeableToDust = builder.comment("Whether Infected Bookshelves are permeable to Forgotten Dust item entities.")
                     .define("ShelvesPermeableToDust", false);
 
             builder.push("Infected Bookshelves");
-            this.infectedSpawnDelayMin = builder.comment("The minimum spawn delay of Infected Bookshelves in ticks. Default = 300")
+            this.infectedSpawnDelayMin = builder.comment("The minimum spawn delay of Infected Bookshelves in ticks.")
                     .defineInRange("SpawnDelayMin", 300, 1, 10000);
-            this.infectedSpawnDelayMax = builder.comment("The maximum spawn delay of Infected Bookshelves in ticks. Default = 500")
+            this.infectedSpawnDelayMax = builder.comment("The maximum spawn delay of Infected Bookshelves in ticks.")
                     .defineInRange("SpawnDelayMax", 500, 1, 10000);
-            this.infectedOrbValue = builder.comment("The XP value of spawned orbs. Default = 12")
+            this.infectedOrbValue = builder.comment("The XP value of spawned orbs.")
                     .defineInRange("OrbValue", 12, 1, 32767);
-            this.infectedSpawns = builder.comment("The number of spawns until the bookshelf decays. Default = 50")
+            this.infectedSpawns = builder.comment("The number of spawns until the bookshelf decays.")
                     .defineInRange("Spawns", 50, 1, 10000);
             builder.pop();
 
             builder.push("Infected Enchanted Bookshelves");
-            this.enchantedSpawnDelayMin = builder.comment("The minimum spawn delay of Enchanted Bookshelves in ticks. Default = 100")
+            this.enchantedSpawnDelayMin = builder.comment("The minimum spawn delay of Enchanted Bookshelves in ticks.")
                     .defineInRange("SpawnDelayMin", 300, 1, 10000);
-            this.enchantedSpawnDelayMax = builder.comment("The maximum spawn delay of Enchanted Bookshelves in ticks. Default = 300")
+            this.enchantedSpawnDelayMax = builder.comment("The maximum spawn delay of Enchanted Bookshelves in ticks.")
                     .defineInRange("SpawnDelayMax", 500, 1, 10000);
-            this.enchantedOrbValue = builder.comment("The XP value of spawned orbs. Default = 24")
+            this.enchantedOrbValue = builder.comment("The XP value of spawned orbs.")
                     .defineInRange("OrbValue", 24, 1, 32767);
-            this.enchantedSpawns = builder.comment("The number of spawns until the bookshelf decays. Default = 100")
+            this.enchantedSpawns = builder.comment("The number of spawns until the bookshelf decays.")
                     .defineInRange("Spawns", 100, 1, 10000);
             builder.pop();
 
             builder.push("Infected Archiver's Bookshelves");
-            this.archiversSpawnDelayMin = builder.comment("The minimum spawn delay of Archiver's Bookshelves in ticks. Default = 180")
+            this.archiversSpawnDelayMin = builder.comment("The minimum spawn delay of Archiver's Bookshelves in ticks.")
                     .defineInRange("SpawnDelayMin", 300, 1, 10000);
-            this.archiversSpawnDelayMax = builder.comment("The maximum spawn delay of Archiver's Bookshelves in ticks. Default = 220")
+            this.archiversSpawnDelayMax = builder.comment("The maximum spawn delay of Archiver's Bookshelves in ticks.")
                     .defineInRange("SpawnDelayMax", 500, 1, 10000);
-            this.archiversOrbValue = builder.comment("The XP value of spawned orbs. Default = 12")
+            this.archiversOrbValue = builder.comment("The XP value of spawned orbs.")
                     .defineInRange("OrbValue", 12, 1, 32767);
-            this.archiversSpawns = builder.comment("The number of spawns until the bookshelf decays. Default = 50")
+            this.archiversSpawns = builder.comment("The number of spawns until the bookshelf decays.")
                     .defineInRange("Spawns", 100, 1, 10000);
             builder.pop();
             builder.pop();
 
             builder.push("Agar Settings");
-            this.agarFaceBonus = builder.comment("The bonus that Insightful & Extravagant Agar apply to bookshelves sharing a face. Default = 1.35")
+            this.agarFaceBonus = builder.comment("The bonus that Insightful & Extravagant Agar apply to bookshelves sharing a face.")
                     .defineInRange("AgarFaceBonus", 1.35, 0.0, 4);
-            this.agarEdgeBonus = builder.comment("The bonus that Insightful & Extravagant Agar apply to bookshelves sharing an edge. Default = 1.15")
+            this.agarEdgeBonus = builder.comment("The bonus that Insightful & Extravagant Agar apply to bookshelves sharing an edge.")
                     .defineInRange("AgarEdgeBonus", 1.15, 0.0, 4);
-            this.agarVertexBonus = builder.comment("The bonus that Insightful & Extravagant Agar apply to bookshelves sharing a vertex. Default = 1.10")
+            this.agarVertexBonus = builder.comment("The bonus that Insightful & Extravagant Agar apply to bookshelves sharing a vertex.")
                     .defineInRange("AgarVertexBonus", 1.10, 0.0, 4);
-            this.agarEmitsLight = builder.comment("Whether Agar blocks emit light. Default = true. Set this to false if you are using intensive shader settings and are experiencing fps drops.")
+            this.agarEmitsLight = builder.comment("Whether Agar blocks emit light. Set this to false if you are using intensive shader settings and are experiencing fps drops.")
                     .define("AgarEmitsLight", true);
-            this.agarPermeableToDust = builder.comment("Whether Agar blocks are permeable to Forgotten Dust item entities. Default = false")
+            this.agarPermeableToDust = builder.comment("Whether Agar blocks are permeable to Forgotten Dust item entities.")
                     .define("AgarPermeableToDust", false);
             builder.pop();
         }
