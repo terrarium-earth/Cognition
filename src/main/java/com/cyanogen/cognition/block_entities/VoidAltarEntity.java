@@ -10,14 +10,12 @@ import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.util.Tuple;
 import net.minecraft.world.entity.ExperienceOrb;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 
@@ -63,6 +61,9 @@ public class VoidAltarEntity extends BlockEntity {
     }
 
     public float getIncrement(int yLevel, Level level, BlockPos pos){
+        if(getFoundationMap().containsKey(level.getBlockState(pos.below()).getBlock())){
+            return 0; //altar must be placed upon a foundation block to function
+        }
         return Math.min(target, getBaseRate(yLevel) * getBoost(level, pos));
     }
 
@@ -82,8 +83,10 @@ public class VoidAltarEntity extends BlockEntity {
         int z1 = pos.getZ() - radius;
         int z2 = pos.getZ() + radius + 1;
 
-        HashMap<Block, Float> multiplierMap = getPermanentMultiplierMap();
-        float boost = 1;
+        HashMap<Block, Float> foundationMap = getFoundationMap();
+        HashMap<Block, Float> multiplierMap = getMultiplierMap();
+        float foundation = 1;
+        float multiplier = 1;
 
         for(int i = x1; i <= x2; i++){
             for(int j = y1; j <= y2; j++){
@@ -93,33 +96,38 @@ public class VoidAltarEntity extends BlockEntity {
                     if(MiscUtils.straightLineDistance(pos, posToCheck) <= 4){
                         Block block = level.getBlockState(posToCheck).getBlock();
 
-                        if(multiplierMap.containsKey(block)){
-                            boost = boost * multiplierMap.get(block);
-
-                            if(boost * getBaseRate(pos.getY()) >= target) return target;
+                        if(foundationMap.containsKey(block)){
+                            foundation += foundationMap.get(block);
                         }
+                        else if(multiplierMap.containsKey(block)){
+                            multiplier = multiplier * multiplierMap.get(block);;
+                        }
+
+                        if(foundation * multiplier * getBaseRate(pos.getY()) >= target) return target;
                     }
                 }
             }
         }
 
-        return boost;
+        return foundation * multiplier;
     }
 
-    public HashMap<Block, Float> getPermanentMultiplierMap(){
+    public HashMap<Block, Float> getFoundationMap(){
+        //boosts from foundation blocks are additive
         HashMap<Block, Float> map = new HashMap<>();
 
-        map.put(Blocks.OBSIDIAN, 1.008f); //0.8% production boost per block in range
-        map.put(Blocks.CRYING_OBSIDIAN, 1.0085f); //0.85% production boost per block in range
-        map.put(Blocks.BEDROCK, 1.01f); //1% production boost per block in range
-        map.put(Blocks.REINFORCED_DEEPSLATE, 1.025f); //2.5% production boost per block in range
-
+        map.put(Blocks.BEDROCK, 0.05f);
+        map.put(Blocks.REINFORCED_DEEPSLATE, 0.1f);
         return map;
     }
 
-    //Useful numbers:
-    //Average number of bedrock blocks within range of a void altar at y=-61 with default world gen: ~78
-    //Total number of blocks in range of a void altar: 104
+    public HashMap<Block, Float> getMultiplierMap(){
+        HashMap<Block, Float> map = new HashMap<>();
+
+        map.put(Blocks.OBSIDIAN, 0.025f);
+        map.put(Blocks.CRYING_OBSIDIAN, 0.03f);
+        return map;
+    }
 
     //-----------NBT-----------//
 
