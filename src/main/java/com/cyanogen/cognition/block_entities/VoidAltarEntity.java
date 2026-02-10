@@ -117,7 +117,7 @@ public class VoidAltarEntity extends BlockEntity {
         HashMap<Block, Float> map = new HashMap<>();
 
         map.put(Blocks.BEDROCK, 0.05f);
-        map.put(Blocks.REINFORCED_DEEPSLATE, 0.1f);
+        map.put(Blocks.REINFORCED_DEEPSLATE, 0.2f);
         return map;
     }
 
