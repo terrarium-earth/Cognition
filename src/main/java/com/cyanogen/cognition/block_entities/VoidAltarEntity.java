@@ -61,7 +61,7 @@ public class VoidAltarEntity extends BlockEntity {
     }
 
     public float getIncrement(int yLevel, Level level, BlockPos pos){
-        if(getFoundationMap().containsKey(level.getBlockState(pos.below()).getBlock())){
+        if(!getFoundationMap().containsKey(level.getBlockState(pos.below()).getBlock())){
             return 0; //altar must be placed upon a foundation block to function
         }
         return Math.min(target, getBaseRate(yLevel) * getBoost(level, pos));
