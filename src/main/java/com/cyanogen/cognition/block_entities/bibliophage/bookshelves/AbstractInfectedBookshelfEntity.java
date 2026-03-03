@@ -27,7 +27,7 @@ import java.util.List;
 public abstract class AbstractInfectedBookshelfEntity extends AbstractInfectiveEntity {
 
     public AbstractInfectedBookshelfEntity(BlockEntityType<?> type, BlockPos pos, BlockState state,
-                                           int spawnDelayMin, int spawnDelayMax, int orbValue, int spawns) {
+                                           int spawnDelayMin, int spawnDelayMax, int orbValue, int spawns, float infectivity) {
 
         super(type, pos, state);
 
@@ -35,6 +35,7 @@ public abstract class AbstractInfectedBookshelfEntity extends AbstractInfectiveE
         this.spawnDelayMax = spawnDelayMax;
         this.orbValue = orbValue;
         this.spawns = spawns;
+        this.infectivity = infectivity;
     }
 
     int timeTillSpawn = -99; //the current time in ticks until the bookshelf is due to spawn an orb
@@ -43,7 +44,7 @@ public abstract class AbstractInfectedBookshelfEntity extends AbstractInfectiveE
     final int orbValue; //the value of orbs to spawn
     final int spawns; //the number of times a bookshelf can spawn an orb before decaying
     int decayValue = 0; //the number of times a bookshelf has spawned an orb
-    double infectivity = 0.02; //the chance for a bookshelf to infect another adjacent bookshelf every second
+    final float infectivity; //the chance for a bookshelf to infect another adjacent bookshelf every second
     boolean redstoneEnabled = false; //whether the bookshelf is sensitive to redstone. Disabled bookshelves will not infect adjacents, produce XP, or decay
 
     public static final Component FROM_BOOKSHELF = Component.literal("SpawnedFromBookshelf");

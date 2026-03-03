@@ -23,27 +23,30 @@ public class Config {
 
         public final ModConfigSpec.ConfigValue<Double> dropDustChance;
         public final ModConfigSpec.ConfigValue<Boolean> shelvesPermeableToDust;
-        public final ModConfigSpec.ConfigValue<Boolean> agarPermeableToDust;
 
         public final ModConfigSpec.ConfigValue<Integer> infectedSpawnDelayMin;
         public final ModConfigSpec.ConfigValue<Integer> infectedSpawnDelayMax;
         public final ModConfigSpec.ConfigValue<Integer> infectedOrbValue;
         public final ModConfigSpec.ConfigValue<Integer> infectedSpawns;
+        public final ModConfigSpec.ConfigValue<Float> infectedInfectivity;
 
         public final ModConfigSpec.ConfigValue<Integer> enchantedSpawnDelayMin;
         public final ModConfigSpec.ConfigValue<Integer> enchantedSpawnDelayMax;
         public final ModConfigSpec.ConfigValue<Integer> enchantedOrbValue;
         public final ModConfigSpec.ConfigValue<Integer> enchantedSpawns;
+        public final ModConfigSpec.ConfigValue<Float> enchantedInfectivity;
 
         public final ModConfigSpec.ConfigValue<Integer> archiversSpawnDelayMin;
         public final ModConfigSpec.ConfigValue<Integer> archiversSpawnDelayMax;
         public final ModConfigSpec.ConfigValue<Integer> archiversOrbValue;
         public final ModConfigSpec.ConfigValue<Integer> archiversSpawns;
+        public final ModConfigSpec.ConfigValue<Float> archiversInfectivity;
 
         public final ModConfigSpec.ConfigValue<Double> agarFaceBonus;
         public final ModConfigSpec.ConfigValue<Double> agarEdgeBonus;
         public final ModConfigSpec.ConfigValue<Double> agarVertexBonus;
         public final ModConfigSpec.ConfigValue<Boolean> agarEmitsLight;
+        public final ModConfigSpec.ConfigValue<Boolean> agarPermeableToDust;
 
         public List<String> defaultAllowedFluids = new ArrayList<>();
 
@@ -116,6 +119,8 @@ public class Config {
                     .defineInRange("OrbValue", 12, 1, 32767);
             this.infectedSpawns = builder.comment("The number of spawns until the bookshelf decays.")
                     .defineInRange("Spawns", 50, 1, 10000);
+            this.infectedInfectivity = builder.comment("The chance for an Infected Bookshelf to infect a valid adjacent block every second.")
+                    .define("Infectivity", 0.02f);
             builder.pop();
 
             builder.push("Infected Enchanted Bookshelves");
@@ -127,6 +132,8 @@ public class Config {
                     .defineInRange("OrbValue", 24, 1, 32767);
             this.enchantedSpawns = builder.comment("The number of spawns until the bookshelf decays.")
                     .defineInRange("Spawns", 100, 1, 10000);
+            this.enchantedInfectivity = builder.comment("The chance for an Enchanted Bookshelf to infect a valid adjacent block every second.")
+                    .define("Infectivity", 0.02f);
             builder.pop();
 
             builder.push("Infected Archiver's Bookshelves");
@@ -138,6 +145,8 @@ public class Config {
                     .defineInRange("OrbValue", 12, 1, 32767);
             this.archiversSpawns = builder.comment("The number of spawns until the bookshelf decays.")
                     .defineInRange("Spawns", 100, 1, 10000);
+            this.archiversInfectivity = builder.comment("The chance for an Archiver's Bookshelf to infect a valid adjacent block every second.")
+                    .define("Infectivity", 0.02f);
             builder.pop();
             builder.pop();
 
