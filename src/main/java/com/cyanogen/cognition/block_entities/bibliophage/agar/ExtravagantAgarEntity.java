@@ -13,7 +13,7 @@ public class ExtravagantAgarEntity extends AbstractAgarEntity {
 
     public ExtravagantAgarEntity(BlockPos pos, BlockState state) {
         super(RegisterBlockEntities.EXTRAVAGANT_AGAR.get(), pos, state,
-                Config.COMMON.insightfulAgarInfectivity.get());
+                Config.COMMON.extravagantAgarInfectivity.get());
     }
 
     public static <T> void tick(Level level, BlockPos pos, BlockState state, T blockEntity) {

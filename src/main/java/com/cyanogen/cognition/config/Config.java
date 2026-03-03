@@ -28,28 +28,28 @@ public class Config {
         public final ModConfigSpec.ConfigValue<Integer> infectedSpawnDelayMax;
         public final ModConfigSpec.ConfigValue<Integer> infectedOrbValue;
         public final ModConfigSpec.ConfigValue<Integer> infectedSpawns;
-        public final ModConfigSpec.ConfigValue<Float> infectedInfectivity;
+        public final ModConfigSpec.ConfigValue<Double> infectedInfectivity;
 
         public final ModConfigSpec.ConfigValue<Integer> enchantedSpawnDelayMin;
         public final ModConfigSpec.ConfigValue<Integer> enchantedSpawnDelayMax;
         public final ModConfigSpec.ConfigValue<Integer> enchantedOrbValue;
         public final ModConfigSpec.ConfigValue<Integer> enchantedSpawns;
-        public final ModConfigSpec.ConfigValue<Float> enchantedInfectivity;
+        public final ModConfigSpec.ConfigValue<Double> enchantedInfectivity;
 
         public final ModConfigSpec.ConfigValue<Integer> archiversSpawnDelayMin;
         public final ModConfigSpec.ConfigValue<Integer> archiversSpawnDelayMax;
         public final ModConfigSpec.ConfigValue<Integer> archiversOrbValue;
         public final ModConfigSpec.ConfigValue<Integer> archiversSpawns;
-        public final ModConfigSpec.ConfigValue<Float> archiversInfectivity;
+        public final ModConfigSpec.ConfigValue<Double> archiversInfectivity;
 
         public final ModConfigSpec.ConfigValue<Double> agarFaceBonus;
         public final ModConfigSpec.ConfigValue<Double> agarEdgeBonus;
         public final ModConfigSpec.ConfigValue<Double> agarVertexBonus;
         public final ModConfigSpec.ConfigValue<Boolean> agarEmitsLight;
         public final ModConfigSpec.ConfigValue<Boolean> agarPermeableToDust;
-        public final ModConfigSpec.ConfigValue<Float> nutrientAgarInfectivity;
-        public final ModConfigSpec.ConfigValue<Float> insightfulAgarInfectivity;
-        public final ModConfigSpec.ConfigValue<Float> extravagantAgarInfectivity;
+        public final ModConfigSpec.ConfigValue<Double> nutrientAgarInfectivity;
+        public final ModConfigSpec.ConfigValue<Double> insightfulAgarInfectivity;
+        public final ModConfigSpec.ConfigValue<Double> extravagantAgarInfectivity;
 
 
         public List<String> defaultAllowedFluids = new ArrayList<>();
