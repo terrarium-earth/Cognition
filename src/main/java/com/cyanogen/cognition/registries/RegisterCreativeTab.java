@@ -13,7 +13,7 @@ public class RegisterCreativeTab {
 
     public static final DeferredRegister<CreativeModeTab> TABS = DeferredRegister.create(BuiltInRegistries.CREATIVE_MODE_TAB, Cognition.MOD_ID);
 
-    public static final DeferredHolder<CreativeModeTab, CreativeModeTab> EXPERIENCE_OBELISK_TAB = TABS.register("cognition_tab",
+    public static final DeferredHolder<CreativeModeTab, CreativeModeTab> COGNITION = TABS.register("cognition_tab",
             () -> CreativeModeTab.builder()
                     .title(Component.translatable("itemGroup.cognition"))
                     .icon(RegisterItems.EXPERIENCE_OBELISK_ITEM.get()::getDefaultInstance)
@@ -82,7 +82,7 @@ public class RegisterCreativeTab {
                         output.accept(RegisterItems.NUTRIENT_AGAR_ITEM.get());
                         output.accept(RegisterItems.INSIGHTFUL_AGAR_ITEM.get());
                         output.accept(RegisterItems.EXTRAVAGANT_AGAR_ITEM.get());
-                        output.accept(RegisterItems.VOID_ALTAR_ITEM.get());
+                        //output.accept(RegisterItems.VOID_ALTAR_ITEM.get());
                     })
                     .build());
 
