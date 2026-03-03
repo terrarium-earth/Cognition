@@ -1,5 +1,6 @@
 package com.cyanogen.cognition.block_entities.bibliophage.agar;
 
+import com.cyanogen.cognition.config.Config;
 import com.cyanogen.cognition.registries.RegisterBlockEntities;
 import com.cyanogen.cognition.utils.MiscUtils;
 import net.minecraft.core.BlockPos;
@@ -11,8 +12,8 @@ import net.minecraft.world.phys.Vec3;
 public class ExtravagantAgarEntity extends AbstractAgarEntity {
 
     public ExtravagantAgarEntity(BlockPos pos, BlockState state) {
-        super(RegisterBlockEntities.EXTRAVAGANT_AGAR.get(), pos, state);
-        infectivity = 0.02;
+        super(RegisterBlockEntities.EXTRAVAGANT_AGAR.get(), pos, state,
+                Config.COMMON.insightfulAgarInfectivity.get());
     }
 
     public static <T> void tick(Level level, BlockPos pos, BlockState state, T blockEntity) {

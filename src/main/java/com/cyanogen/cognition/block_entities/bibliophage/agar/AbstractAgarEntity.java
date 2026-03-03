@@ -8,11 +8,13 @@ import net.minecraft.world.level.block.state.BlockState;
 
 public class AbstractAgarEntity extends AbstractInfectiveEntity {
 
-    public AbstractAgarEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
+    public AbstractAgarEntity(BlockEntityType<?> type, BlockPos pos, BlockState state, float infectivity) {
         super(type, pos, state);
+
+        this.infectivity = infectivity;
     }
 
-    double infectivity = 0.004;
+    private final float infectivity;
 
     public static <T> void tick(Level level, BlockPos pos, BlockState state, T blockEntity) {
 
