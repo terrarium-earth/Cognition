@@ -47,6 +47,10 @@ public class Config {
         public final ModConfigSpec.ConfigValue<Double> agarVertexBonus;
         public final ModConfigSpec.ConfigValue<Boolean> agarEmitsLight;
         public final ModConfigSpec.ConfigValue<Boolean> agarPermeableToDust;
+        public final ModConfigSpec.ConfigValue<Float> nutrientAgarInfectivity;
+        public final ModConfigSpec.ConfigValue<Float> insightfulAgarInfectivity;
+        public final ModConfigSpec.ConfigValue<Float> extravagantAgarInfectivity;
+
 
         public List<String> defaultAllowedFluids = new ArrayList<>();
 
@@ -161,6 +165,13 @@ public class Config {
                     .define("AgarEmitsLight", true);
             this.agarPermeableToDust = builder.comment("Whether Agar blocks are permeable to Forgotten Dust item entities.")
                     .define("AgarPermeableToDust", false);
+            this.nutrientAgarInfectivity = builder.comment("The chance for a Nutrient Agar block to infect a valid adjacent block every second.")
+                    .define("Infectivity", 0.005f);
+            this.insightfulAgarInfectivity = builder.comment("The chance for an Insightful Agar block to infect a valid adjacent block every second.")
+                    .define("Infectivity", 0.01f);
+            this.extravagantAgarInfectivity = builder.comment("The chance for an Extravagant Agar block to infect a valid adjacent block every second.")
+                    .define("Infectivity", 0.02f);
+
             builder.pop();
         }
 
