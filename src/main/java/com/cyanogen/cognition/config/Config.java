@@ -124,7 +124,7 @@ public class Config {
             this.infectedSpawns = builder.comment("The number of spawns until the bookshelf decays.")
                     .defineInRange("Spawns", 50, 1, 10000);
             this.infectedInfectivity = builder.comment("The chance for an Infected Bookshelf to infect a valid adjacent block every second.")
-                    .define("Infectivity", 0.02f);
+                    .defineInRange("Infectivity", 0.02, 0, 1);
             builder.pop();
 
             builder.push("Infected Enchanted Bookshelves");
@@ -137,7 +137,7 @@ public class Config {
             this.enchantedSpawns = builder.comment("The number of spawns until the bookshelf decays.")
                     .defineInRange("Spawns", 100, 1, 10000);
             this.enchantedInfectivity = builder.comment("The chance for an Enchanted Bookshelf to infect a valid adjacent block every second.")
-                    .define("Infectivity", 0.02f);
+                    .defineInRange("Infectivity", 0.02, 0, 1);
             builder.pop();
 
             builder.push("Infected Archiver's Bookshelves");
@@ -150,7 +150,7 @@ public class Config {
             this.archiversSpawns = builder.comment("The number of spawns until the bookshelf decays.")
                     .defineInRange("Spawns", 100, 1, 10000);
             this.archiversInfectivity = builder.comment("The chance for an Archiver's Bookshelf to infect a valid adjacent block every second.")
-                    .define("Infectivity", 0.02f);
+                    .defineInRange("Infectivity", 0.02, 0, 1);
             builder.pop();
             builder.pop();
 
@@ -166,11 +166,11 @@ public class Config {
             this.agarPermeableToDust = builder.comment("Whether Agar blocks are permeable to Forgotten Dust item entities.")
                     .define("AgarPermeableToDust", false);
             this.nutrientAgarInfectivity = builder.comment("The chance for a Nutrient Agar block to infect a valid adjacent block every second.")
-                    .define("NutrientAgarInfectivity", 0.005f);
+                    .defineInRange("NutrientAgarInfectivity", 0.005,0, 1);
             this.insightfulAgarInfectivity = builder.comment("The chance for an Insightful Agar block to infect a valid adjacent block every second.")
-                    .define("InsightfulAgarInfectivity", 0.01f);
+                    .defineInRange("InsightfulAgarInfectivity", 0.01, 0, 1);
             this.extravagantAgarInfectivity = builder.comment("The chance for an Extravagant Agar block to infect a valid adjacent block every second.")
-                    .define("ExtravagantAgarInfectivity", 0.02f);
+                    .defineInRange("ExtravagantAgarInfectivity", 0.02,0, 1);
 
             builder.pop();
         }
