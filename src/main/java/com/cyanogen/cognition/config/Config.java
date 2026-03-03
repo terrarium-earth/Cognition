@@ -166,11 +166,11 @@ public class Config {
             this.agarPermeableToDust = builder.comment("Whether Agar blocks are permeable to Forgotten Dust item entities.")
                     .define("AgarPermeableToDust", false);
             this.nutrientAgarInfectivity = builder.comment("The chance for a Nutrient Agar block to infect a valid adjacent block every second.")
-                    .define("Infectivity", 0.005f);
+                    .define("NutrientAgarInfectivity", 0.005f);
             this.insightfulAgarInfectivity = builder.comment("The chance for an Insightful Agar block to infect a valid adjacent block every second.")
-                    .define("Infectivity", 0.01f);
+                    .define("InsightfulAgarInfectivity", 0.01f);
             this.extravagantAgarInfectivity = builder.comment("The chance for an Extravagant Agar block to infect a valid adjacent block every second.")
-                    .define("Infectivity", 0.02f);
+                    .define("ExtravagantAgarInfectivity", 0.02f);
 
             builder.pop();
         }
