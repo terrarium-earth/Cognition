@@ -1,7 +1,7 @@
-# v2.5.0
+# v2.4.11
 
 [Content]
-- Added the Void Altar
+- Added config options for Infected Bookshelf & Agar infectivity.
 - Added [pt_br localizations](https://github.com/terrarium-earth/Cognition/pull/47) courtesy of PrincessStelllar. Thank you!
 
 # v2.4.10
