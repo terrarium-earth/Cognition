@@ -12,7 +12,8 @@ public class InfectedBookshelfEntity extends AbstractInfectedBookshelfEntity {
                 Config.COMMON.infectedSpawnDelayMin.get(),
                 Config.COMMON.infectedSpawnDelayMax.get(),
                 Config.COMMON.infectedOrbValue.get(),
-                Config.COMMON.infectedSpawns.get());
+                Config.COMMON.infectedSpawns.get(),
+                Config.COMMON.infectedInfectivity.get());
     }
 
 }

@@ -12,7 +12,8 @@ public class InfectedArchiversBookshelfEntity extends AbstractInfectedBookshelfE
                 Config.COMMON.archiversSpawnDelayMin.get(),
                 Config.COMMON.archiversSpawnDelayMax.get(),
                 Config.COMMON.archiversOrbValue.get(),
-                Config.COMMON.archiversSpawns.get());
+                Config.COMMON.archiversSpawns.get(),
+                Config.COMMON.archiversInfectivity.get());
 
     }
 

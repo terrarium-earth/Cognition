@@ -12,7 +12,8 @@ public class InfectedEnchantedBookshelfEntity extends AbstractInfectedBookshelfE
                 Config.COMMON.enchantedSpawnDelayMin.get(),
                 Config.COMMON.enchantedSpawnDelayMax.get(),
                 Config.COMMON.enchantedOrbValue.get(),
-                Config.COMMON.enchantedSpawns.get());
+                Config.COMMON.enchantedSpawns.get(),
+                Config.COMMON.enchantedInfectivity.get());
     }
 
 }
