@@ -1,5 +1,6 @@
 package com.cyanogen.experienceobelisk.item;
 
+import com.cyanogen.experienceobelisk.config.Config;
 import com.cyanogen.experienceobelisk.registries.RegisterItems;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.renderer.item.ItemProperties;
@@ -128,7 +129,7 @@ public class CognitiveBowItem extends BowItem {
     public static void handleTooltip(ItemTooltipEvent event){
         List<Component> tooltipList = event.getToolTip();
 
-        if(event.getItemStack().getItem() instanceof CognitiveBowItem bow){
+        if(event.getItemStack().getItem() instanceof CognitiveBowItem bow && Config.COMMON.showAdditionalBowInfo.get()){
 
             List<Component> tooltips = new ArrayList<>();
             tooltips.add(Component.literal(""));
