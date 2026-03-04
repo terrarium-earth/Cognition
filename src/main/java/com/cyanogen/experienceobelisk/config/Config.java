@@ -22,30 +22,35 @@ public class Config {
         public final ForgeConfigSpec.ConfigValue<Double> jellySaturation;
         public final ForgeConfigSpec.ConfigValue<Boolean> showAdditionalBowInfo;
 
-
         public final ForgeConfigSpec.ConfigValue<Double> dropDustChance;
         public final ForgeConfigSpec.ConfigValue<Boolean> shelvesPermeableToDust;
-        public final ForgeConfigSpec.ConfigValue<Boolean> agarPermeableToDust;
 
         public final ForgeConfigSpec.ConfigValue<Integer> infectedSpawnDelayMin;
         public final ForgeConfigSpec.ConfigValue<Integer> infectedSpawnDelayMax;
         public final ForgeConfigSpec.ConfigValue<Integer> infectedOrbValue;
         public final ForgeConfigSpec.ConfigValue<Integer> infectedSpawns;
+        public final ForgeConfigSpec.ConfigValue<Double> infectedInfectivity;
 
         public final ForgeConfigSpec.ConfigValue<Integer> enchantedSpawnDelayMin;
         public final ForgeConfigSpec.ConfigValue<Integer> enchantedSpawnDelayMax;
         public final ForgeConfigSpec.ConfigValue<Integer> enchantedOrbValue;
         public final ForgeConfigSpec.ConfigValue<Integer> enchantedSpawns;
+        public final ForgeConfigSpec.ConfigValue<Double> enchantedInfectivity;
 
         public final ForgeConfigSpec.ConfigValue<Integer> archiversSpawnDelayMin;
         public final ForgeConfigSpec.ConfigValue<Integer> archiversSpawnDelayMax;
         public final ForgeConfigSpec.ConfigValue<Integer> archiversOrbValue;
         public final ForgeConfigSpec.ConfigValue<Integer> archiversSpawns;
+        public final ForgeConfigSpec.ConfigValue<Double> archiversInfectivity;
 
         public final ForgeConfigSpec.ConfigValue<Double> agarFaceBonus;
         public final ForgeConfigSpec.ConfigValue<Double> agarEdgeBonus;
         public final ForgeConfigSpec.ConfigValue<Double> agarVertexBonus;
         public final ForgeConfigSpec.ConfigValue<Boolean> agarEmitsLight;
+        public final ForgeConfigSpec.ConfigValue<Boolean> agarPermeableToDust;
+        public final ForgeConfigSpec.ConfigValue<Double> nutrientAgarInfectivity;
+        public final ForgeConfigSpec.ConfigValue<Double> insightfulAgarInfectivity;
+        public final ForgeConfigSpec.ConfigValue<Double> extravagantAgarInfectivity;
 
         public final List<String> defaultAllowedFluids = new ArrayList<>();
         public List<String> defaultAllowedExperienceItems = new ArrayList<>();
@@ -129,6 +134,8 @@ public class Config {
                     .defineInRange("OrbValue", 12, 1, 32767);
             this.infectedSpawns = builder.comment("The number of spawns until the bookshelf decays. Default = 50")
                     .defineInRange("Spawns", 50, 1, 10000);
+            this.infectedInfectivity = builder.comment("The chance for an Infected Bookshelf to infect a valid adjacent block every second.")
+                    .defineInRange("Infectivity", 0.02, 0, 1);
             builder.pop();
 
             builder.push("Infected Enchanted Bookshelves");
@@ -140,6 +147,8 @@ public class Config {
                     .defineInRange("OrbValue", 24, 1, 32767);
             this.enchantedSpawns = builder.comment("The number of spawns until the bookshelf decays. Default = 100")
                     .defineInRange("Spawns", 100, 1, 10000);
+            this.enchantedInfectivity = builder.comment("The chance for an Enchanted Bookshelf to infect a valid adjacent block every second.")
+                    .defineInRange("Infectivity", 0.02, 0, 1);
             builder.pop();
 
             builder.push("Infected Archiver's Bookshelves");
@@ -151,6 +160,8 @@ public class Config {
                     .defineInRange("OrbValue", 12, 1, 32767);
             this.archiversSpawns = builder.comment("The number of spawns until the bookshelf decays. Default = 50")
                     .defineInRange("Spawns", 100, 1, 10000);
+            this.archiversInfectivity = builder.comment("The chance for an Archiver's Bookshelf to infect a valid adjacent block every second.")
+                    .defineInRange("Infectivity", 0.02, 0, 1);
             builder.pop();
             builder.pop();
 
@@ -166,6 +177,12 @@ public class Config {
                     .define("AgarEmitsLight", true);
             this.agarPermeableToDust = builder.comment("Whether Agar blocks are permeable to Forgotten Dust item entities. Default = false")
                     .define("ShelvesPermeableToDust", false);
+            this.nutrientAgarInfectivity = builder.comment("The chance for a Nutrient Agar block to infect a valid adjacent block every second.")
+                    .defineInRange("NutrientAgarInfectivity", 0.005,0, 1);
+            this.insightfulAgarInfectivity = builder.comment("The chance for an Insightful Agar block to infect a valid adjacent block every second.")
+                    .defineInRange("InsightfulAgarInfectivity", 0.01, 0, 1);
+            this.extravagantAgarInfectivity = builder.comment("The chance for an Extravagant Agar block to infect a valid adjacent block every second.")
+                    .defineInRange("ExtravagantAgarInfectivity", 0.02,0, 1);
             builder.pop();
         }
 
