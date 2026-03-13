@@ -1,0 +1,17 @@
+{
+  "values": [
+    "cognition:cognitive_sword",
+    "cognition:cognitive_shovel",
+    "cognition:cognitive_pickaxe",
+    "cognition:cognitive_axe",
+    "cognition:cognitive_hoe",
+    "cognition:cognitive_helmet",
+    "cognition:cognitive_chestplate",
+    "cognition:cognitive_leggings",
+    "cognition:cognitive_boots",
+    "cognition:cognitive_bow",
+    "cognition:cognitive_rod",
+    "cognition:cognitive_shears",
+    "cognition:flint_and_cognitive_alloy"
+  ]
+}

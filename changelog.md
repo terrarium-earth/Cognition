@@ -1,3 +1,11 @@
+# v2.5.0
+
+[Content]
+- Added Void Altar
+
+[Changes]
+- Mending Neurogel is now 20% more effective on Cognitive tools and armor
+
 # v2.4.11
 
 [Content]

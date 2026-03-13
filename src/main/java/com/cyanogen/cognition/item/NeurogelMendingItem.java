@@ -1,6 +1,7 @@
 package com.cyanogen.cognition.item;
 
 import com.cyanogen.cognition.registries.RegisterSounds;
+import com.cyanogen.cognition.registries.RegisterTags;
 import com.cyanogen.cognition.utils.MiscUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionResult;
@@ -39,7 +40,8 @@ public class NeurogelMendingItem extends Item {
             if(itemToRepair.isDamaged()){
                 int maxDurability = itemToRepair.getMaxDamage();
                 int damage = itemToRepair.getDamageValue();
-                int repairAmount = (int) Math.max(maxDurability * neurogel.maxRepairPercentage(), neurogel.maxRepairPoints());
+                float repairFactor = itemToRepair.is(RegisterTags.Items.COGNITIVE_SET) ? 1.2f : 1.0f;
+                int repairAmount = (int) (Math.max(maxDurability * neurogel.maxRepairPercentage(), neurogel.maxRepairPoints()) * repairFactor);
 
                 itemBeingCarried.shrink(1);
                 itemToRepair.setDamageValue(Math.max(damage - repairAmount, 0));
