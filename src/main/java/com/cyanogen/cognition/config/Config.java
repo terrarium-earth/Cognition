@@ -110,7 +110,7 @@ public class Config {
             builder.push("Bookshelf Settings");
             this.dropDustChance = builder.comment("The chance that infected bookshelves of any kind drop Forgotten Dust upon decaying.")
                     .comment("Set this value to 0.0 to prevent drops from decaying bookshelves completely")
-                    .defineInRange("DropDustChance", 0.5, 0.0, 1.0);
+                    .defineInRange("DropDustChance", 0.33, 0.0, 1.0);
             this.shelvesPermeableToDust = builder.comment("Whether Infected Bookshelves are permeable to Forgotten Dust item entities.")
                     .define("ShelvesPermeableToDust", false);
 

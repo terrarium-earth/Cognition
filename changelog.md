@@ -4,7 +4,9 @@
 - Added Void Altar
 
 [Changes]
-- Mending Neurogel is now 20% more effective on Cognitive tools and armor
+- Increased effectiveness of Mending Neurogel on Cognitive tools and armor by 20%
+- Increased Forgotten Dust drop rates from breaking all varieties of Infected Bookshelves
+- Reduced Forgotten Dust drop rates from the decay of all varieties of Infected Bookshelves
 
 # v2.4.11
 

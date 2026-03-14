@@ -16,6 +16,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.ExperienceOrb;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -135,7 +136,8 @@ public abstract class AbstractInfectedBookshelfEntity extends AbstractInfectiveE
             ItemStack drops = new ItemStack(RegisterItems.FORGOTTEN_DUST.get());
 
             if(Math.random() <= chance){
-                Block.dropResources(getBlockState(), level, pos, this, null, drops);
+                ServerLevel server = (ServerLevel) level;
+                server.addFreshEntity(new ItemEntity(server, pos.getCenter().x, pos.getCenter().y, pos.getCenter().z, drops));
             }
 
             level.playSound(null, pos, SoundEvents.WART_BLOCK_BREAK, SoundSource.BLOCKS, 1f,1f); //play break sound
