@@ -37,7 +37,7 @@ public class NeurogelMendingItem extends Item {
 
         if(itemBeingCarried.getItem() instanceof NeurogelMendingItem neurogel){
 
-            if(itemToRepair.isDamaged()){
+            if(itemToRepair.isDamaged() && !itemToRepair.is(RegisterTags.Items.NEUROGEL_BLACKLISTED)){
                 int maxDurability = itemToRepair.getMaxDamage();
                 int damage = itemToRepair.getDamageValue();
                 float repairFactor = itemToRepair.is(RegisterTags.Items.COGNITIVE_SET) ? 1.2f : 1.0f;

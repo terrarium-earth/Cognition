@@ -13,6 +13,8 @@ public class RegisterTags {
     public static class Items{
         public static final TagKey<Item> COGNITIVE_SET =
                 TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath(Cognition.MOD_ID, "cognitive_set"));
+        public static final TagKey<Item> NEUROGEL_BLACKLISTED =
+                TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath(Cognition.MOD_ID, "neurogel_blacklisted"));
     }
 
     public static class Fluids{
