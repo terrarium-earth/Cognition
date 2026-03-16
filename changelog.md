@@ -2,7 +2,7 @@
 
 [Content]
 - Added Void Altar
-- Added item tag neurogel_blacklisted, granting the ability to blacklist items from being repaired with Mending Neurogel
+- Added item tag neurogel_blacklisted, for datapack makers to blacklist items from being repaired with Mending Neurogel
 
 [Changes]
 - Increased effectiveness of Mending Neurogel on Cognitive tools and armor by 20%

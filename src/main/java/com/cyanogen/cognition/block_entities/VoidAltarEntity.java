@@ -22,8 +22,10 @@ import java.util.HashMap;
 @SuppressWarnings("FieldCanBeLocal")
 public class VoidAltarEntity extends BlockEntity {
 
-    private final int min = 1;
-    private final int max = 10;
+    // rates are in XP/s
+
+    private final int baseRateMin = 1;
+    private final int baseRateMax = 10;
     private final int target = 5345; //this is 50Lv worth
 
     public VoidAltarEntity(BlockPos pos, BlockState blockState) {
@@ -61,15 +63,12 @@ public class VoidAltarEntity extends BlockEntity {
     }
 
     public float getIncrement(int yLevel, Level level, BlockPos pos){
-        if(!getFoundationMap().containsKey(level.getBlockState(pos.below()).getBlock())){
-            return 0; //altar must be placed upon a foundation block to function
-        }
         return Math.min(target, getBaseRate(yLevel) * getBoost(level, pos));
     }
 
     public float getBaseRate(int yLevel){
         yLevel = Math.clamp(yLevel, -63, 0);
-        return min + (max - min) * (-yLevel / 63f);
+        return baseRateMin + (baseRateMax - baseRateMin) * (-yLevel / 63f);
     }
 
     public float getBoost(Level level, BlockPos pos){
@@ -117,11 +116,12 @@ public class VoidAltarEntity extends BlockEntity {
         HashMap<Block, Float> map = new HashMap<>();
 
         map.put(Blocks.BEDROCK, 0.05f);
-        map.put(Blocks.REINFORCED_DEEPSLATE, 0.2f);
+        map.put(Blocks.REINFORCED_DEEPSLATE, 0.15f);
         return map;
     }
 
     public HashMap<Block, Float> getMultiplierMap(){
+        //boosts from these blocks are multiplicative
         HashMap<Block, Float> map = new HashMap<>();
 
         map.put(Blocks.OBSIDIAN, 0.025f);
