@@ -40,7 +40,7 @@ public class NeurogelMendingItem extends Item {
             if(itemToRepair.isDamaged() && !itemToRepair.is(RegisterTags.Items.NEUROGEL_BLACKLISTED)){
                 int maxDurability = itemToRepair.getMaxDamage();
                 int damage = itemToRepair.getDamageValue();
-                float repairFactor = itemToRepair.is(RegisterTags.Items.COGNITIVE_SET) ? 1.2f : 1.0f;
+                float repairFactor = itemToRepair.is(RegisterTags.Items.COGNITIVE_SET) ? 1.25f : 1.0f;
                 int repairAmount = (int) (Math.max(maxDurability * neurogel.maxRepairPercentage(), neurogel.maxRepairPoints()) * repairFactor);
 
                 itemBeingCarried.shrink(1);

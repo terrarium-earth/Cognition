@@ -1,11 +1,10 @@
-# v2.5.0
+# v2.4.12
 
 [Content]
-- Added Void Altar
 - Added item tag neurogel_blacklisted, for datapack makers to blacklist items from being repaired with Mending Neurogel
 
 [Changes]
-- Increased effectiveness of Mending Neurogel on Cognitive tools and armor by 20%
+- Mending Neurogel now gets a 25% performance boost when used on Cognitive tools and armor
 - Increased Forgotten Dust drop rates from breaking all varieties of Infected Bookshelves
 - Reduced Forgotten Dust drop rates from the decay of all varieties of Infected Bookshelves
 
