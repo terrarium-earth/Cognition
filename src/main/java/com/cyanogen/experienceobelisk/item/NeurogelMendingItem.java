@@ -1,6 +1,7 @@
 package com.cyanogen.experienceobelisk.item;
 
 import com.cyanogen.experienceobelisk.registries.RegisterSounds;
+import com.cyanogen.experienceobelisk.registries.RegisterTags;
 import com.cyanogen.experienceobelisk.utils.MiscUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionResult;
@@ -40,10 +41,11 @@ public class NeurogelMendingItem extends Item {
 
         if(holding.getItem() instanceof NeurogelMendingItem neurogel){
 
-            if(itemToRepair.isDamaged()){
+            if(itemToRepair.isDamaged() && !itemToRepair.is(RegisterTags.Items.NEUROGEL_BLACKLISTED)){
                 int maxDurability = itemToRepair.getMaxDamage();
                 int damage = itemToRepair.getDamageValue();
-                int repairAmount = (int) Math.max(maxDurability * neurogel.maxRepairPercentage(), neurogel.maxRepairPoints());
+                float repairFactor = itemToRepair.is(RegisterTags.Items.COGNITIVE_SET) ? 1.25f : 1.0f;
+                int repairAmount = (int) (Math.max(maxDurability * neurogel.maxRepairPercentage(), neurogel.maxRepairPoints()) * repairFactor);
 
                 holding.shrink(1);
                 itemToRepair.setDamageValue(Math.max(damage - repairAmount, 0));

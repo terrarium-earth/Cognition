@@ -4,10 +4,18 @@ import com.cyanogen.experienceobelisk.ExperienceObelisk;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.material.Fluid;
 
 public class RegisterTags {
+
+    public static class Items{
+        public static final TagKey<Item> COGNITIVE_SET =
+                TagKey.create(Registries.ITEM, new ResourceLocation(ExperienceObelisk.MOD_ID, "cognitive_set"));
+        public static final TagKey<Item> NEUROGEL_BLACKLISTED =
+                TagKey.create(Registries.ITEM, new ResourceLocation(ExperienceObelisk.MOD_ID, "neurogel_blacklisted"));
+    }
 
     public static class Fluids{
         public static final TagKey<Fluid> EXPERIENCE = TagKey.create(Registries.FLUID, new ResourceLocation("forge", "experience"));
