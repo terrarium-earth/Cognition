@@ -7,6 +7,10 @@
 - Mending Neurogel now gets a 25% performance boost when used on Cognitive tools and armor
 - Increased Forgotten Dust drop rates from breaking all varieties of Infected Bookshelves
 - Reduced Forgotten Dust drop rates from the decay of all varieties of Infected Bookshelves
+- Infected Archiver's Bookshelves in particular now drop up to 8x as much Forgotten Dust upon being broken
+
+[Bugfixes]
+- Fixed Obelisk causing a crash upon being assembled into a Create contraption
 
 # v2.4.11
 
