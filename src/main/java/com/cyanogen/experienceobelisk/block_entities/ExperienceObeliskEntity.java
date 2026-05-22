@@ -312,13 +312,6 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
                     return 0;
                 }
             }
-
-            @Override
-            public void setFluid(FluidStack stack)
-            {
-                this.fluid = stack;
-                onContentsChanged();
-            }
         };
     }
 
@@ -333,7 +326,8 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
 
     public void setFluid(int amount)
     {
-        tank.setFluid(new FluidStack(cognitium, amount));
+        drain(capacity);
+        fill(amount);
     }
 
     public int getFluidAmount(){
