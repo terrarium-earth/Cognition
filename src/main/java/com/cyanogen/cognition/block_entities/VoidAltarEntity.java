@@ -12,39 +12,36 @@ import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.ExperienceOrb;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-
-import java.util.HashMap;
+import net.neoforged.neoforge.common.Tags;
 
 @SuppressWarnings("FieldCanBeLocal")
 public class VoidAltarEntity extends BlockEntity {
 
     // rates are in XP/s
 
-    private final int baseRateMin = 1;
-    private final int baseRateMax = 10;
-    private final int target = 5345; //this is 50Lv worth
+    private final float baseRate = 12;
+    private final int target = 720;
+    private final int xpStep = 20;
+    private final int gardenStep = 20;
 
     public VoidAltarEntity(BlockPos pos, BlockState blockState) {
         super(RegisterBlockEntities.VOID_ALTAR.get(), pos, blockState);
     }
 
+    //-----------BEHAVIOR-----------//
+
     public static <T> void tick(Level level, BlockPos pos, BlockState state, T blockEntity) {
 
         if(blockEntity instanceof VoidAltarEntity altar && !level.isClientSide){
-            int yLevel = pos.getY();
 
-            if(level.getGameTime()+1 % 20 == 0){
+            if(level.getGameTime() % altar.xpStep == 0){
 
-                System.out.println("=================");
-                System.out.println("stored value: " + altar.orbValue);
-                System.out.println("base rate: " + altar.getBaseRate(yLevel));
-                System.out.println("boost: " + altar.getBoost(level, pos));
-                System.out.println("increment: " + altar.getIncrement(yLevel, level, pos));
-                System.out.println("=================");
+//                System.out.println("=================");
+//                System.out.println("stored value: " + altar.orbValue);
+//                System.out.println("=================");
 
                 if(altar.orbValue >= altar.target){
 
@@ -54,79 +51,64 @@ public class VoidAltarEntity extends BlockEntity {
                     altar.setOrbValue(0);
                 }
                 else{
-                    altar.incrementOrbValue(altar.getIncrement(yLevel, level, pos));
+                    altar.incrementOrbValue(altar.baseRate);
                 }
 
+            }
+            if(level.getGameTime() % altar.gardenStep == 0){
+                altar.gardenStep(pos, level);
             }
         }
 
     }
 
-    public float getIncrement(int yLevel, Level level, BlockPos pos){
-        return Math.min(target, getBaseRate(yLevel) * getBoost(level, pos));
+    //-----------GARDEN-----------//
+
+    public void gardenStep(BlockPos pos, Level level){
+        double multiplier = scanGarden(pos.below(), level);
     }
 
-    public float getBaseRate(int yLevel){
-        yLevel = Math.clamp(yLevel, -63, 0);
-        return baseRateMin + (baseRateMax - baseRateMin) * (-yLevel / 63f);
-    }
-
-    public float getBoost(Level level, BlockPos pos){
-        //evaluates blocks in the lower hemisphere centered around the altar
+    public double scanGarden(BlockPos center, Level level){ //usable area of 56 blocks
 
         int radius = 4;
-        int x1 = pos.getX() - radius;
-        int x2 = pos.getX() + radius + 1;
-        int y1 = pos.getY() - radius;
-        int y2 = pos.getY() - 1;
-        int z1 = pos.getZ() - radius;
-        int z2 = pos.getZ() + radius + 1;
+        double radiusInternal = 4.15;
 
-        HashMap<Block, Float> foundationMap = getFoundationMap();
-        HashMap<Block, Float> multiplierMap = getMultiplierMap();
-        float foundation = 1;
-        float multiplier = 1;
+        int x1 = center.getX() - radius;
+        int x2 = center.getX() + radius;
+        int z1 = center.getZ() - radius;
+        int z2 = center.getZ() + radius;
+        int y = center.getY();
 
-        for(int i = x1; i <= x2; i++){
-            for(int j = y1; j <= y2; j++){
-                for(int k = z1; k <= z2; k++){
+        for(int x = x1; x <= x2; x++){
+            for(int z = z1; z <= z2; z++){
 
-                    BlockPos posToCheck = new BlockPos(i,j,k);
-                    if(MiscUtils.straightLineDistance(pos, posToCheck) <= 4){
-                        Block block = level.getBlockState(posToCheck).getBlock();
+                BlockPos target = new BlockPos(x,y,z);
+                if(MiscUtils.straightLineDistance(target, center) <= radiusInternal){
 
-                        if(foundationMap.containsKey(block)){
-                            foundation += foundationMap.get(block);
-                        }
-                        else if(multiplierMap.containsKey(block)){
-                            multiplier = multiplier * multiplierMap.get(block);;
-                        }
-
-                        if(foundation * multiplier * getBaseRate(pos.getY()) >= target) return target;
+                    //1. spawn crystals
+                    if(level.getBlockState(target).is(Tags.Blocks.OBSIDIANS) && level.getBlockState(target.above()).isEmpty()){
+                        spawnCluster(target.above(), level);
                     }
+                    //2. age existing crystals
                 }
+
             }
+
         }
-
-        return foundation * multiplier;
+        return 1;
     }
 
-    public HashMap<Block, Float> getFoundationMap(){
-        //boosts from foundation blocks are additive
-        HashMap<Block, Float> map = new HashMap<>();
+    public void spawnCluster(BlockPos pos, Level level){
 
-        map.put(Blocks.BEDROCK, 0.05f);
-        map.put(Blocks.REINFORCED_DEEPSLATE, 0.15f);
-        return map;
-    }
+        double resonantSpawnChance = 0.2 / 56;
+        double interferenceSpawnChance = 0.75 / 56;
 
-    public HashMap<Block, Float> getMultiplierMap(){
-        //boosts from these blocks are multiplicative
-        HashMap<Block, Float> map = new HashMap<>();
-
-        map.put(Blocks.OBSIDIAN, 0.025f);
-        map.put(Blocks.CRYING_OBSIDIAN, 0.03f);
-        return map;
+        if(Math.random() <= resonantSpawnChance){
+            level.setBlockAndUpdate(pos, Blocks.AMETHYST_CLUSTER.defaultBlockState());
+        }
+        else if(Math.random() <= interferenceSpawnChance){
+            level.setBlockAndUpdate(pos, Blocks.YELLOW_CANDLE.defaultBlockState());
+        }
     }
 
     //-----------NBT-----------//
