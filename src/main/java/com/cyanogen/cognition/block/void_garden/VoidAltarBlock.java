@@ -1,4 +1,4 @@
-package com.cyanogen.cognition.block;
+package com.cyanogen.cognition.block.void_garden;
 
 import com.cyanogen.cognition.block_entities.VoidAltarEntity;
 import com.cyanogen.cognition.registries.RegisterBlockEntities;

@@ -10,6 +10,7 @@ import com.cyanogen.cognition.block.bibliophage.bookshelves.BookshelfBlock;
 import com.cyanogen.cognition.block.bibliophage.bookshelves.InfectedArchiversBookshelfBlock;
 import com.cyanogen.cognition.block.bibliophage.bookshelves.InfectedBookshelfBlock;
 import com.cyanogen.cognition.block.bibliophage.bookshelves.InfectedEnchantedBookshelfBlock;
+import com.cyanogen.cognition.block.void_garden.VoidAltarBlock;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.LiquidBlock;

@@ -21,7 +21,6 @@ public class ProtectionSalveItem extends Item {
 
         CompoundTag tag = new CompoundTag();
         entity.save(tag);
-        System.out.println(tag);
 
     }
 }
