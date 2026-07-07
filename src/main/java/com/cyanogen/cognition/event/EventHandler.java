@@ -44,7 +44,7 @@ public class EventHandler {
 
     @SubscribeEvent
     public void onPlayerRightClickEntity(PlayerInteractEvent.EntityInteractSpecific event){
-        ProtectionSalveItem.handleEntity(event);
+        //ProtectionSalveItem.handleEntity(event);
     }
 
 }

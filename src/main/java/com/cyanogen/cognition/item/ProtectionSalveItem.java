@@ -1,6 +1,5 @@
 package com.cyanogen.cognition.item;
 
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -19,8 +18,8 @@ public class ProtectionSalveItem extends Item {
 
         //"Owner" or "Trusted"
 
-        CompoundTag tag = new CompoundTag();
-        entity.save(tag);
+       // CompoundTag tag = new CompoundTag();
+       // entity.save(tag);
 
     }
 }
