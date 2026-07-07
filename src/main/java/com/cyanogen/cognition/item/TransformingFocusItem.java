@@ -36,7 +36,7 @@ public class TransformingFocusItem extends Item {
 
     @Override
     public boolean supportsEnchantment(ItemStack stack, Holder<Enchantment> enchantment) {
-        return enchantment.is(Enchantments.UNBREAKING);
+        return enchantment.is(Enchantments.UNBREAKING) || enchantment.is(Enchantments.MENDING);
     }
 
     @Override

@@ -1,3 +1,11 @@
+# v2.4.13
+
+[Changes]
+- Transforming Foci enchanted with mending no longer lose durability
+
+[Bugfixes]
+- Removed leftover printout to console upon entity being interacted with
+
 # v2.4.12
 
 [Content]

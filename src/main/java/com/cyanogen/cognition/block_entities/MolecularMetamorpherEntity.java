@@ -8,6 +8,7 @@ import com.cyanogen.cognition.registries.RegisterBlockEntities;
 import com.cyanogen.cognition.registries.RegisterItems;
 import com.cyanogen.cognition.registries.RegisterRecipes;
 import com.cyanogen.cognition.registries.RegisterSounds;
+import com.cyanogen.cognition.utils.EnchantmentUtils;
 import com.cyanogen.cognition.utils.RecipeUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
@@ -27,6 +28,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeInput;
+import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.capabilities.BlockCapability;
@@ -355,7 +357,7 @@ public class MolecularMetamorpherEntity extends ExperienceReceivingEntity implem
                             stack.shrink(1);
                         }
                         else{
-                            if(level != null && !level.isClientSide){
+                            if(level != null && !level.isClientSide && EnchantmentUtils.getEnchantmentLevel(stack, Enchantments.MENDING) == 0){
                                 stack.hurtAndBreak(1, (ServerLevel) level, null, (onBreak) -> {});
                             }
                         }
