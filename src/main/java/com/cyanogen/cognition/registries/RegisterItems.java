@@ -186,8 +186,8 @@ public class RegisterItems {
     public static final DeferredHolder<Item, BlockItem> EXTRAVAGANT_AGAR_ITEM = ITEMS.register("extravagant_agar",
             () -> new BlockItem(RegisterBlocks.EXTRAVAGANT_AGAR.get(), new Item.Properties()));
 
-    public static final DeferredHolder<Item, BlockItem> VOID_ALTAR_ITEM = ITEMS.register("void_altar",
-            () -> new BlockItem(RegisterBlocks.VOID_ALTAR.get(), new Item.Properties()));
+//    public static final DeferredHolder<Item, BlockItem> VOID_ALTAR_ITEM = ITEMS.register("void_altar",
+//            () -> new BlockItem(RegisterBlocks.VOID_ALTAR.get(), new Item.Properties()));
 
     //-----BLOCK ITEMS-----//
 
