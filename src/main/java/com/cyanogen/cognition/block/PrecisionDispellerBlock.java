@@ -41,6 +41,8 @@ import org.jetbrains.annotations.Nullable;
 
 public class PrecisionDispellerBlock extends ExperienceReceivingBlock implements EntityBlock {
 
+    public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
+
     public PrecisionDispellerBlock() {
         super(BlockBehaviour.Properties.of()
                 .strength(9f)
@@ -53,8 +55,6 @@ public class PrecisionDispellerBlock extends ExperienceReceivingBlock implements
         );
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH));
     }
-
-    public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {

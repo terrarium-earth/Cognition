@@ -10,9 +10,9 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 
-public class ResonanceClusterBlock extends AbstractClusterBlock implements EntityBlock {
+public class InterferenceClusterBlock extends AbstractClusterBlock implements EntityBlock {
 
-    public ResonanceClusterBlock() {
+    public InterferenceClusterBlock() {
         super();
     }
 

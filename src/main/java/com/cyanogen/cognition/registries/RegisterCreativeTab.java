@@ -82,7 +82,10 @@ public class RegisterCreativeTab {
                         output.accept(RegisterItems.NUTRIENT_AGAR_ITEM.get());
                         output.accept(RegisterItems.INSIGHTFUL_AGAR_ITEM.get());
                         output.accept(RegisterItems.EXTRAVAGANT_AGAR_ITEM.get());
-                        //output.accept(RegisterItems.VOID_ALTAR_ITEM.get());
+
+                        output.accept(RegisterItems.VOID_ALTAR_ITEM.get());
+                        output.accept(RegisterItems.RESONANCE_CLUSTER_ITEM.get());
+                        output.accept(RegisterItems.INTERFERENCE_CLUSTER_ITEM.get());
                     })
                     .build());
 

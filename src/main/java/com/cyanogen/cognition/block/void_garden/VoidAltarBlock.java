@@ -1,16 +1,21 @@
 package com.cyanogen.cognition.block.void_garden;
 
-import com.cyanogen.cognition.block_entities.VoidAltarEntity;
+import com.cyanogen.cognition.block_entities.void_garden.VoidAltarEntity;
 import com.cyanogen.cognition.registries.RegisterBlockEntities;
+import com.cyanogen.cognition.utils.MiscUtils;
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.BlockHitResult;
 import org.jetbrains.annotations.Nullable;
 
 public class VoidAltarBlock extends Block implements EntityBlock {
@@ -35,4 +40,16 @@ public class VoidAltarBlock extends Block implements EntityBlock {
     public @Nullable BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
         return RegisterBlockEntities.VOID_ALTAR.get().create(pos, state);
     }
+
+    @Override
+    protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
+
+        for(BlockPos position : MiscUtils.get2DAreaOfEffect(pos.below(), 4, 4.15f)){
+            level.setBlockAndUpdate(position, Blocks.OBSIDIAN.defaultBlockState());
+        }
+    //todo: rmb to remove
+        return super.useWithoutItem(state, level, pos, player, hitResult);
+    }
+
+
 }

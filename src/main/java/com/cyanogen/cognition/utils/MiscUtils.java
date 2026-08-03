@@ -102,6 +102,29 @@ public class MiscUtils {
         return new Vec3(x,y,z);
     }
 
+    public static List<BlockPos> get2DAreaOfEffect(BlockPos pos, int boxBound, float circularBound){
+
+        int x1 = pos.getX() - boxBound;
+        int x2 = pos.getX() + boxBound;
+        int z1 = pos.getZ() - boxBound;
+        int z2 = pos.getZ() + boxBound;
+        int y = pos.getY();
+
+        List<BlockPos> posList = new ArrayList<>();
+
+        for(int x = x1; x <= x2; x++){
+            for(int z = z1; z <= z2; z++){
+
+                BlockPos target = new BlockPos(x,y,z);
+                if(MiscUtils.straightLineDistance(target, pos) <= circularBound){
+                    posList.add(target);
+                }
+            }
+
+        }
+        return posList;
+    }
+
     //----- DATA CONVERSION -----//
 
     public static List<String> getLinesFromString(String input, int lineWidth, Font font){

@@ -10,6 +10,8 @@ import com.cyanogen.cognition.block.bibliophage.bookshelves.BookshelfBlock;
 import com.cyanogen.cognition.block.bibliophage.bookshelves.InfectedArchiversBookshelfBlock;
 import com.cyanogen.cognition.block.bibliophage.bookshelves.InfectedBookshelfBlock;
 import com.cyanogen.cognition.block.bibliophage.bookshelves.InfectedEnchantedBookshelfBlock;
+import com.cyanogen.cognition.block.void_garden.InterferenceClusterBlock;
+import com.cyanogen.cognition.block.void_garden.ResonanceClusterBlock;
 import com.cyanogen.cognition.block.void_garden.VoidAltarBlock;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.level.block.Block;
@@ -38,6 +40,8 @@ public class RegisterBlocks {
     public static final DeferredHolder<Block, InsightfulAgarBlock> INSIGHTFUL_AGAR = BLOCKS.register("insightful_agar", InsightfulAgarBlock::new);
     public static final DeferredHolder<Block, ExtravagantAgarBlock> EXTRAVAGANT_AGAR = BLOCKS.register("extravagant_agar", ExtravagantAgarBlock::new);
     public static final DeferredHolder<Block, VoidAltarBlock> VOID_ALTAR = BLOCKS.register("void_altar", VoidAltarBlock::new);
+    public static final DeferredHolder<Block, ResonanceClusterBlock> RESONANCE_CLUSTER = BLOCKS.register("resonance_cluster", ResonanceClusterBlock::new);
+    public static final DeferredHolder<Block, InterferenceClusterBlock> INTERFERENCE_CLUSTER = BLOCKS.register("interference_cluster", InterferenceClusterBlock::new);
 
     //-----DECORATIVE / CRAFTING-----//
 
