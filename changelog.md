@@ -1,3 +1,15 @@
+# v2.5.0
+
+[Content]
+- Added Void Altar (wip)
+- Added Resonance Clusters (wip)
+- Added Interference Clusters (wip)
+- Added Emeraldite Cores (nyi)
+- Added Tellurite Cores (nyi)
+- Added Experience Vault (nyi)
+- Added Fluorescent Gummy Bears (nyi)
+- Added [uk_ua localizations](https://github.com/terrarium-earth/Cognition/pull/50) courtesy of Tenwoc. Thank you!
+
 # v2.4.13
 
 [Changes]

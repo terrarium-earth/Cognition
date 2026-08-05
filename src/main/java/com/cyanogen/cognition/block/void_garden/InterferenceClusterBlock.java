@@ -1,5 +1,6 @@
 package com.cyanogen.cognition.block.void_garden;
 
+import com.cyanogen.cognition.block_entities.void_garden.InterferenceClusterEntity;
 import com.cyanogen.cognition.registries.RegisterBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
@@ -18,11 +19,11 @@ public class InterferenceClusterBlock extends AbstractClusterBlock implements En
 
     @Override
     public @Nullable BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return RegisterBlockEntities.VOID_ALTAR.get().create(pos, state);
+        return RegisterBlockEntities.INTERFERENCE_CLUSTER.get().create(pos, state);
     }
 
     @Override
     public @Nullable <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> blockEntityType) {
-        return EntityBlock.super.getTicker(level, state, blockEntityType);
+        return blockEntityType == RegisterBlockEntities.INTERFERENCE_CLUSTER.get() ? InterferenceClusterEntity::tick : null;
     }
 }
