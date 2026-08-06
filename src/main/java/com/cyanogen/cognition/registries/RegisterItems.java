@@ -22,6 +22,9 @@ public class RegisterItems {
     public static Item baseItem(){
         return new Item(new Item.Properties());
     }
+    public static Item stacksTo1(){
+        return new Item(new Item.Properties().stacksTo(1));
+    }
 
     //-----CRAFTING INGREDIENTS-----//
 
@@ -38,8 +41,8 @@ public class RegisterItems {
         }
     });
     public static final DeferredHolder<Item, Item> CALCARINE_MATRIX = ITEMS.register("calcarine_matrix", RegisterItems::baseItem);
-    public static final DeferredHolder<Item, Item> EMERALDINE_CORE = ITEMS.register("emeraldine_core", RegisterItems::baseItem);
-    public static final DeferredHolder<Item, Item> TELLURITE_CORE = ITEMS.register("tellurite_core", RegisterItems::baseItem);
+    public static final DeferredHolder<Item, Item> EMERALDINE_CORE = ITEMS.register("emeraldine_core", RegisterItems::stacksTo1);
+    public static final DeferredHolder<Item, Item> TELLURITE_CORE = ITEMS.register("tellurite_core", RegisterItems::stacksTo1);
 
     //-----COGNITIVE TOOLSET-----//
 

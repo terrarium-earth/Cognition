@@ -3,6 +3,7 @@ package com.cyanogen.cognition.block_entities.void_garden;
 import com.cyanogen.cognition.block.void_garden.AbstractClusterBlock;
 import com.cyanogen.cognition.registries.RegisterBlockEntities;
 import com.cyanogen.cognition.registries.RegisterBlocks;
+import com.cyanogen.cognition.registries.RegisterItems;
 import com.cyanogen.cognition.utils.MiscUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -75,6 +76,7 @@ public class VoidAltarEntity extends BlockEntity {
             }
             if((level.getGameTime() + 3) % altar.gardenStep == 0){ //garden handling
                 altar.updateGarden();
+                altar.decrementCooldown();
             }
         }
 
@@ -157,7 +159,8 @@ public class VoidAltarEntity extends BlockEntity {
 
             @Override
             public boolean isItemValid(int slot, ItemStack input) {
-                return true;
+                return input.getItem().equals(RegisterItems.EMERALDINE_CORE.get()) ||
+                        input.getItem().equals(RegisterItems.TELLURITE_CORE.get());
             }
 
             @Override
@@ -168,9 +171,18 @@ public class VoidAltarEntity extends BlockEntity {
         };
     }
 
+    public ItemStack getHeldItem(){
+        return coreHandler.getStackInSlot(0);
+    }
+
+    public void setHeldItem(ItemStack stack){
+        coreHandler.setStackInSlot(0, stack);
+    }
+
     //-----------NBT-----------//
 
     private int buffer = 0;
+    private int cooldown = 0;
 
     public void incrementBuffer(int increment){
         buffer += increment;
@@ -186,11 +198,33 @@ public class VoidAltarEntity extends BlockEntity {
         return buffer;
     }
 
+    public void decrementCooldown(){
+        if(cooldown > 0){
+            cooldown--;
+            setChanged();
+        }
+        else if(cooldown < 0){ //for whatever reason
+            cooldown = 0;
+            setChanged();
+        }
+    }
+
+    public void setCooldown(int value){
+        cooldown = value;
+        setChanged();
+    }
+
+    public int getCooldown(){
+        return cooldown;
+    }
+
+
     @Override
     protected void loadAdditional(CompoundTag tag, HolderLookup.Provider provider) {
 
         super.loadAdditional(tag, provider);
         this.buffer = tag.getInt("Buffer");
+        this.cooldown = tag.getInt("Cooldown");
         coreHandler.deserializeNBT(provider, tag.getCompound("Core"));
     }
 
@@ -199,6 +233,7 @@ public class VoidAltarEntity extends BlockEntity {
 
         super.saveAdditional(tag, provider);
         tag.putInt("Buffer", buffer);
+        tag.putInt("Cooldown", cooldown);
         tag.put("Core", coreHandler.serializeNBT(provider));
     }
 
@@ -207,6 +242,7 @@ public class VoidAltarEntity extends BlockEntity {
 
         super.handleUpdateTag(tag, provider);
         this.buffer = tag.getInt("Buffer");
+        this.cooldown = tag.getInt("Cooldown");
         coreHandler.deserializeNBT(provider, tag.getCompound("Core"));
     }
 
@@ -215,6 +251,7 @@ public class VoidAltarEntity extends BlockEntity {
 
         CompoundTag tag = super.getUpdateTag(provider);
         tag.putInt("Buffer", buffer);
+        tag.putInt("Cooldown", cooldown);
         tag.put("Core", coreHandler.serializeNBT(provider));
 
         return tag;
@@ -230,6 +267,7 @@ public class VoidAltarEntity extends BlockEntity {
     public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt, HolderLookup.Provider provider) {
         CompoundTag tag = pkt.getTag();
         this.buffer = tag.getInt("Buffer");
+        this.cooldown = tag.getInt("Cooldown");
         coreHandler.deserializeNBT(provider, tag.getCompound("Core"));
         super.onDataPacket(net, pkt, provider);
     }
