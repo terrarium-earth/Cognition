@@ -60,6 +60,6 @@ public abstract class AbstractClusterBlock extends Block {
     @Nullable
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext context) {
-        return this.defaultBlockState().setValue(STAGE, 4);
+        return this.defaultBlockState().setValue(STAGE, 1);
     }
 }
