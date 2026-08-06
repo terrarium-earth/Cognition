@@ -188,6 +188,8 @@
   "message.cognition.memory_tablet.out_of_range": "§b[ⓘ]§r Linked obelisk out of range",
   "message.cognition.experience_obelisk.experience_recovered": "§a[✔]§r Successfully recovered %s levels",
 
+  "message.cognition.void_altar.on_cooldown": "§c[✖]§f Unable to add / swap core as the Void Altar is on cooldown (%s seconds remaining)",
+
   "============ SOUND SUBTITLES ===================": "=====================",
 
   "sounds.cognition.enlightened_amulet_activate": "Amulet activates",

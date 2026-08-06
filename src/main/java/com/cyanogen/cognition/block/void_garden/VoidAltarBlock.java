@@ -4,7 +4,9 @@ import com.cyanogen.cognition.block_entities.void_garden.VoidAltarEntity;
 import com.cyanogen.cognition.registries.RegisterBlockEntities;
 import com.cyanogen.cognition.registries.RegisterItems;
 import com.cyanogen.cognition.utils.MiscUtils;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.ItemInteractionResult;
@@ -52,7 +54,7 @@ public class VoidAltarBlock extends Block implements EntityBlock {
         if(level.isClientSide){
             return ItemInteractionResult.sidedSuccess(true);
         }
-        else if(level.getBlockEntity(pos) instanceof VoidAltarEntity altar && altar.getCooldown() == 0){
+        else if(level.getBlockEntity(pos) instanceof VoidAltarEntity altar ){
 
             ItemStack altarHeldItem = altar.getHeldItem();
             if(!player.addItem(altarHeldItem)){
@@ -61,9 +63,17 @@ public class VoidAltarBlock extends Block implements EntityBlock {
             altar.setHeldItem(ItemStack.EMPTY);
 
             if(stack.getItem().equals(RegisterItems.EMERALDINE_CORE.get()) || stack.getItem().equals(RegisterItems.TELLURITE_CORE.get())){
-                altar.setHeldItem(stack);
-                player.setItemInHand(hand, ItemStack.EMPTY);
-                altar.setCooldown(300);
+
+                if(altar.getCooldown() == 0){
+                    altar.setHeldItem(stack);
+                    player.setItemInHand(hand, ItemStack.EMPTY);
+                    altar.setCooldown(300);
+                }
+                else{
+                    player.displayClientMessage(Component.translatable("message.cognition.void_altar.on_cooldown",
+                            Component.literal(String.valueOf(altar.getCooldown())).withStyle(ChatFormatting.GREEN)), true);
+                }
+
             }
 
             return ItemInteractionResult.CONSUME;
@@ -78,7 +88,7 @@ public class VoidAltarBlock extends Block implements EntityBlock {
         if(level.isClientSide){
             return InteractionResult.sidedSuccess(true);
         }
-        else if(level.getBlockEntity(pos) instanceof VoidAltarEntity altar && altar.getCooldown() == 0){
+        else if(level.getBlockEntity(pos) instanceof VoidAltarEntity altar){
 
             ItemStack altarHeldItem = altar.getHeldItem();
             if(!player.addItem(altarHeldItem)){
@@ -92,6 +102,7 @@ public class VoidAltarBlock extends Block implements EntityBlock {
         for(BlockPos position : MiscUtils.get2DAreaOfEffect(pos.below(), 4, 4.15f)){
             level.setBlockAndUpdate(position, Blocks.OBSIDIAN.defaultBlockState());
         } //todo: rmb to remove
+
         return super.useWithoutItem(state, level, pos, player, hitResult);
     }
 
