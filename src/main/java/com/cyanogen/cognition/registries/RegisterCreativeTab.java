@@ -86,6 +86,8 @@ public class RegisterCreativeTab {
                         output.accept(RegisterItems.VOID_ALTAR_ITEM.get());
                         output.accept(RegisterItems.RESONANCE_CLUSTER_ITEM.get());
                         output.accept(RegisterItems.INTERFERENCE_CLUSTER_ITEM.get());
+                        output.accept(RegisterItems.EMERALDINE_CORE.get());
+                        output.accept(RegisterItems.TELLURITE_CORE.get());
                     })
                     .build());
 

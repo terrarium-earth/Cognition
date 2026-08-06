@@ -352,7 +352,7 @@ public class MolecularMetamorpherEntity extends ExperienceReceivingEntity implem
 
                 if(ingredient.test(stack)){
 
-                    if(stack.is(RegisterItems.TRANSFORMING_FOCUS.get())){ //todo: replace this with a tag check
+                    if(stack.is(RegisterItems.TRANSFORMING_FOCUS.get())){
                         if(stack.getDamageValue() >= TransformingFocusItem.durability - 1 || recipe.isNameFormatting()){
                             stack.shrink(1);
                         }

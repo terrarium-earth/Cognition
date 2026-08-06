@@ -5,6 +5,7 @@ import com.cyanogen.cognition.registries.RegisterBlockEntities;
 import com.cyanogen.cognition.registries.RegisterBlocks;
 import com.cyanogen.cognition.utils.MiscUtils;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
@@ -13,11 +14,17 @@ import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.ExperienceOrb;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.neoforged.neoforge.capabilities.BlockCapability;
+import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.common.Tags;
+import net.neoforged.neoforge.items.IItemHandler;
+import net.neoforged.neoforge.items.ItemStackHandler;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -131,6 +138,36 @@ public class VoidAltarEntity extends BlockEntity {
         //Resonance clusters take precedence over interference clusters
     }
 
+    //-----------ITEM HANDLER-----------//
+
+    public static final BlockCapability<IItemHandler, Direction> ITEM_HANDLER = Capabilities.ItemHandler.BLOCK;
+    protected ItemStackHandler coreHandler = coreHandler();
+
+    public static @Nullable IItemHandler getCapability(VoidAltarEntity altar, Direction direction){
+        if(direction == null || direction.equals(Direction.UP)){
+            return null;
+        }
+        else{
+            return altar.coreHandler;
+        }
+    }
+
+    public ItemStackHandler coreHandler() {
+        return new ItemStackHandler(1){
+
+            @Override
+            public boolean isItemValid(int slot, ItemStack input) {
+                return true;
+            }
+
+            @Override
+            protected void onContentsChanged(int slot) {
+                setChanged();
+                super.onContentsChanged(slot);
+            }
+        };
+    }
+
     //-----------NBT-----------//
 
     private int buffer = 0;
@@ -154,6 +191,7 @@ public class VoidAltarEntity extends BlockEntity {
 
         super.loadAdditional(tag, provider);
         this.buffer = tag.getInt("Buffer");
+        coreHandler.deserializeNBT(provider, tag.getCompound("Core"));
     }
 
     @Override
@@ -161,6 +199,7 @@ public class VoidAltarEntity extends BlockEntity {
 
         super.saveAdditional(tag, provider);
         tag.putInt("Buffer", buffer);
+        tag.put("Core", coreHandler.serializeNBT(provider));
     }
 
     @Override
@@ -168,6 +207,7 @@ public class VoidAltarEntity extends BlockEntity {
 
         super.handleUpdateTag(tag, provider);
         this.buffer = tag.getInt("Buffer");
+        coreHandler.deserializeNBT(provider, tag.getCompound("Core"));
     }
 
     @Override
@@ -175,6 +215,7 @@ public class VoidAltarEntity extends BlockEntity {
 
         CompoundTag tag = super.getUpdateTag(provider);
         tag.putInt("Buffer", buffer);
+        tag.put("Core", coreHandler.serializeNBT(provider));
 
         return tag;
     }
@@ -189,6 +230,7 @@ public class VoidAltarEntity extends BlockEntity {
     public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt, HolderLookup.Provider provider) {
         CompoundTag tag = pkt.getTag();
         this.buffer = tag.getInt("Buffer");
+        coreHandler.deserializeNBT(provider, tag.getCompound("Core"));
         super.onDataPacket(net, pkt, provider);
     }
 

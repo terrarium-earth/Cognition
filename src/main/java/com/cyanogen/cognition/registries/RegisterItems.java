@@ -38,6 +38,8 @@ public class RegisterItems {
         }
     });
     public static final DeferredHolder<Item, Item> CALCARINE_MATRIX = ITEMS.register("calcarine_matrix", RegisterItems::baseItem);
+    public static final DeferredHolder<Item, Item> EMERALDINE_CORE = ITEMS.register("emeraldine_core", RegisterItems::baseItem);
+    public static final DeferredHolder<Item, Item> TELLURITE_CORE = ITEMS.register("tellurite_core", RegisterItems::baseItem);
 
     //-----COGNITIVE TOOLSET-----//
 
