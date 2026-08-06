@@ -22,6 +22,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static com.cyanogen.cognition.block.void_garden.AbstractClusterBlock.STAGE;
+
 @SuppressWarnings("FieldCanBeLocal")
 public class VoidAltarEntity extends BlockEntity {
 
@@ -87,7 +89,7 @@ public class VoidAltarEntity extends BlockEntity {
 
         for(BlockPos pos : MiscUtils.get2DAreaOfEffect(getBlockPos(), 4, 4.15f)){
             if(level.getBlockEntity(pos) instanceof AbstractClusterEntity cluster){
-                Optional<Integer> stage = level.getBlockState(pos).getOptionalValue(AbstractClusterBlock.STAGE);
+                Optional<Integer> stage = level.getBlockState(pos).getOptionalValue(STAGE);
 
                 if(stage.isPresent()){
                     effect *= AbstractClusterBlock.stageMultiplier(stage.get(), cluster.isResonance);
@@ -116,10 +118,10 @@ public class VoidAltarEntity extends BlockEntity {
 
             targetPos = validLocations.get(MiscUtils.randomIntInRange(0, validLocations.size() - 1));
             if(resonantToSpawn){
-                level.setBlockAndUpdate(targetPos, RegisterBlocks.RESONANCE_CLUSTER.get().defaultBlockState());
+                level.setBlockAndUpdate(targetPos, RegisterBlocks.RESONANCE_CLUSTER.get().defaultBlockState().setValue(STAGE, 1));
             }
             else {
-                level.setBlockAndUpdate(targetPos, RegisterBlocks.INTERFERENCE_CLUSTER.get().defaultBlockState());
+                level.setBlockAndUpdate(targetPos, RegisterBlocks.INTERFERENCE_CLUSTER.get().defaultBlockState().setValue(STAGE, 1));
             }
 
             printGardenStatus(resonantToSpawn, interferenceToSpawn, validLocations.size(), targetPos); //todo

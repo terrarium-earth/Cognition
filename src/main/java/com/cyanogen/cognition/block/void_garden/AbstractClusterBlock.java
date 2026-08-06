@@ -19,6 +19,7 @@ public abstract class AbstractClusterBlock extends Block {
     //4 -- Fully grown (100% effect)
     //5 -- Decaying
     // stages 1,2,3 and 5 each account for 5% of total lifespan
+    // decaying clusters provide the same boost but may drop special items when broken
 
     public AbstractClusterBlock() {
         super(Properties.of()

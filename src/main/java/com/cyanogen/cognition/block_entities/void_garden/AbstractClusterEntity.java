@@ -16,6 +16,10 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 
+import java.util.Optional;
+
+import static com.cyanogen.cognition.block.void_garden.AbstractClusterBlock.STAGE;
+
 public abstract class AbstractClusterEntity extends BlockEntity {
 
     public final boolean isResonance;
@@ -29,24 +33,46 @@ public abstract class AbstractClusterEntity extends BlockEntity {
 
         if(blockEntity instanceof AbstractClusterEntity cluster && !level.isClientSide && (level.getGameTime() + 3) % 20 == 0){
 
-            if(cluster.willDecay(cluster.isResonance)){
-                cluster.decay(level, pos, cluster.isResonance);
+            if(cluster.willDecay()){
+                cluster.decay(level, pos);
             }
             else{
                 cluster.incrementAge();
+
+                if(cluster.getBlockstateStage(level) != cluster.getStageFromAge()){
+                    level.setBlockAndUpdate(pos, state.setValue(STAGE, cluster.getStageFromAge()));
+
+                }
             }
 
         }
     }
 
-    public boolean willDecay(boolean isResonance){
-        return isResonance ? age >= VoidAltarEntity.resonanceLifespan : age >= VoidAltarEntity.interferenceLifespan;
+    public int getStageFromAge(){
+        int lifespan = getLifespan();
+        int age = getAge();
+
+        int stage = 10 * age / lifespan;
+        if(stage == 0) return 1;
+        if (stage == 1) return 2;
+        if (stage == 2) return 3;
+        if (stage == 9) return 5;
+        return 4;
+    }
+
+    public int getBlockstateStage(Level level){
+        Optional<Integer> stage = level.getBlockState(getBlockPos()).getOptionalValue(STAGE);
+        return stage.orElse(4);
+    }
+
+    public boolean willDecay(){
+        return age >= getLifespan();
     }
 
 
-    public void decay(Level level, BlockPos pos, boolean isResonance){
+    public void decay(Level level, BlockPos pos){
 
-        Block type = isResonance ? RegisterBlocks.RESONANCE_CLUSTER.get() : RegisterBlocks.INTERFERENCE_CLUSTER.get();
+        Block type = this.isResonance ? RegisterBlocks.RESONANCE_CLUSTER.get() : RegisterBlocks.INTERFERENCE_CLUSTER.get();
 
         level.playSound(null, pos, SoundEvents.AMETHYST_CLUSTER_BREAK, SoundSource.BLOCKS, 1f,1f); //play break sound
         level.levelEvent(null, 2001, pos, Block.getId(type.defaultBlockState())); //spawn destroy particles
@@ -65,6 +91,10 @@ public abstract class AbstractClusterEntity extends BlockEntity {
 
     public int getAge(){
         return age;
+    }
+
+    public int getLifespan(){
+        return isResonance ? VoidAltarEntity.resonanceLifespan : VoidAltarEntity.interferenceLifespan;
     }
 
     @Override
