@@ -23,6 +23,7 @@ import static com.cyanogen.cognition.block.void_garden.AbstractClusterBlock.STAG
 public abstract class AbstractClusterEntity extends BlockEntity {
 
     public final boolean isResonance;
+    public int clusterStep = 20;
 
     public AbstractClusterEntity(BlockEntityType<?> type, BlockPos pos, BlockState blockState, boolean isResonance) {
         super(type, pos, blockState);
@@ -31,7 +32,7 @@ public abstract class AbstractClusterEntity extends BlockEntity {
 
     public static <T> void tick(Level level, BlockPos pos, BlockState state, T blockEntity) {
 
-        if(blockEntity instanceof AbstractClusterEntity cluster && !level.isClientSide && (level.getGameTime() + 3) % 20 == 0){
+        if(blockEntity instanceof AbstractClusterEntity cluster && !level.isClientSide && (level.getGameTime() + 3) % cluster.clusterStep == 0){
 
             if(cluster.willDecay()){
                 cluster.decay(level, pos);

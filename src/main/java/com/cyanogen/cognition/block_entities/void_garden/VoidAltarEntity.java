@@ -47,6 +47,9 @@ public class VoidAltarEntity extends ObeliskBindingEntity {
     public static final int resonanceLifespan = 720; //lifetime of a resonance cluster in seconds. (720s = 12 mins)
     public static final int interferenceLifespan = 2400; //lifetime of an interference cluster in seconds (2400s = 40 mins)
 
+    //todo shift these to AbstractClusterEntity once settled
+    //todo break all surrounding clusters if altar destroyed
+
     public VoidAltarEntity(BlockPos pos, BlockState blockState) {
         super(RegisterBlockEntities.VOID_ALTAR.get(), pos, blockState);
     }
@@ -78,6 +81,9 @@ public class VoidAltarEntity extends ObeliskBindingEntity {
             if((level.getGameTime() + 3) % altar.gardenStep == 0){ //garden handling
                 altar.updateGarden();
                 altar.decrementCooldown();
+            }
+            if((level.getGameTime() + 3) % (altar.gardenStep * altar.getCoreModifier()) == 0){ //cluster spawning
+                altar.spawnCluster();
             }
         }
 
@@ -112,33 +118,44 @@ public class VoidAltarEntity extends ObeliskBindingEntity {
 
     public void updateGarden(){
 
+        if(level != null && hasCore()){
+
+            for(BlockPos pos : MiscUtils.get2DAreaOfEffect(getBlockPos(), 4, 4.15f)){
+
+                if(level.getBlockEntity(pos) instanceof AbstractClusterEntity cluster){ //scan for clusters and update clusterstep
+                    cluster.clusterStep = (int) Math.clamp(cluster.clusterStep * getCoreModifier(), 10, 40);
+                }
+            }
+        }
+    }
+
+    public void spawnCluster(){
         boolean resonantToSpawn = Math.random() <= resonantSpawnChance;
         boolean interferenceToSpawn = Math.random() <= interferenceSpawnChance;
         boolean toSpawn = resonantToSpawn || interferenceToSpawn;
         List<BlockPos> validLocations = new ArrayList<>();
         BlockPos targetPos;
 
-        if(toSpawn && level != null){
+        if(level != null && (hasCore() || toSpawn)){
 
-            for(BlockPos pos : MiscUtils.get2DAreaOfEffect(getBlockPos().below(), 4, 4.15f)){
-                if(level.getBlockState(pos).is(Tags.Blocks.OBSIDIANS) && level.getBlockState(pos.above()).canBeReplaced()){
-                    validLocations.add(pos.above());
+            for(BlockPos pos : MiscUtils.get2DAreaOfEffect(getBlockPos(), 4, 4.15f)){
+                if(level.getBlockState(pos.below()).is(Tags.Blocks.OBSIDIANS) && level.getBlockState(pos).canBeReplaced()){
+                    validLocations.add(pos);
                 }
             }
 
-            targetPos = validLocations.get(MiscUtils.randomIntInRange(0, validLocations.size() - 1));
-            if(resonantToSpawn){
-                level.setBlockAndUpdate(targetPos, RegisterBlocks.RESONANCE_CLUSTER.get().defaultBlockState().setValue(STAGE, 1));
+            if(!validLocations.isEmpty()){
+                targetPos = validLocations.get(MiscUtils.randomIntInRange(0, validLocations.size() - 1));
+                if(resonantToSpawn){
+                    level.setBlockAndUpdate(targetPos, RegisterBlocks.RESONANCE_CLUSTER.get().defaultBlockState().setValue(STAGE, 1));
+                }
+                else {
+                    level.setBlockAndUpdate(targetPos, RegisterBlocks.INTERFERENCE_CLUSTER.get().defaultBlockState().setValue(STAGE, 1));
+                }
+                //Only spawn a maximum of one cluster per step
+                //Resonance clusters take precedence over interference clusters
             }
-            else {
-                level.setBlockAndUpdate(targetPos, RegisterBlocks.INTERFERENCE_CLUSTER.get().defaultBlockState().setValue(STAGE, 1));
-            }
-
-            printGardenStatus(resonantToSpawn, interferenceToSpawn, validLocations.size(), targetPos); //todo
         }
-
-        //Only spawn a maximum of one cluster per step
-        //Resonance clusters take precedence over interference clusters
     }
 
     //-----------ITEM HANDLER-----------//
@@ -151,7 +168,10 @@ public class VoidAltarEntity extends ObeliskBindingEntity {
             return null;
         }
         else{
-            return altar.coreHandler;
+            if(altar.getCooldown() != 0){
+                return null;
+            }
+            return altar.coreHandler();
         }
     }
 
@@ -179,6 +199,18 @@ public class VoidAltarEntity extends ObeliskBindingEntity {
     public void setHeldItem(ItemStack stack){
         coreHandler.setStackInSlot(0, stack);
     }
+
+    public boolean hasCore(){
+        return !getHeldItem().isEmpty();
+    }
+
+    public float getCoreModifier(){
+        if(!hasCore()) return 1f;
+        return getHeldItem().is(RegisterItems.EMERALDINE_CORE) ? 2.0f : 0.5f;
+    }
+
+    //Emeraldine cores increase lifespan of all clusters by 2x and decrease spawn rate by 2x
+    //Tellurite cores decrease lifespan of all clusters by 2x and increase spawn rate by 2x
 
     //-----------NBT-----------//
 
