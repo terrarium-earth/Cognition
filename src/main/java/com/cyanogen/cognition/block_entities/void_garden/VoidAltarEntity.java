@@ -1,6 +1,7 @@
 package com.cyanogen.cognition.block_entities.void_garden;
 
 import com.cyanogen.cognition.block.void_garden.AbstractClusterBlock;
+import com.cyanogen.cognition.block_entities.ObeliskBindingEntity;
 import com.cyanogen.cognition.registries.RegisterBlockEntities;
 import com.cyanogen.cognition.registries.RegisterBlocks;
 import com.cyanogen.cognition.registries.RegisterItems;
@@ -33,7 +34,7 @@ import java.util.Optional;
 import static com.cyanogen.cognition.block.void_garden.AbstractClusterBlock.STAGE;
 
 @SuppressWarnings("FieldCanBeLocal")
-public class VoidAltarEntity extends BlockEntity {
+public class VoidAltarEntity extends ObeliskBindingEntity {
 
     private final int minBaseRate = 10; //base rate of production, in XP/s, at y levels above 60
     private final int maxBaseRate = 16; //maximum base rate of production, in XP/s, at y = -63

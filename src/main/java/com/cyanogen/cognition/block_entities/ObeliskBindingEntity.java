@@ -12,11 +12,11 @@ import net.minecraft.world.level.block.state.BlockState;
 
 import javax.annotation.Nullable;
 
-public abstract class ExperienceReceivingEntity extends BlockEntity {
+public abstract class ObeliskBindingEntity extends BlockEntity {
 
-    //Generic block entity for appliances that use XP
+    //Generic block entity for appliances that may be bound to an Obelisk, in order to receive Cognitium or otherwise
 
-    public ExperienceReceivingEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
+    public ObeliskBindingEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
         super(type, pos, state);
     }
 

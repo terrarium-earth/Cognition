@@ -38,7 +38,7 @@ import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import net.neoforged.neoforge.fluids.capability.IFluidHandlerItem;
 import org.jetbrains.annotations.Nullable;
 
-public class ExperienceFountainBlock extends ExperienceReceivingBlock implements EntityBlock {
+public class ExperienceFountainBlock extends ObeliskBindingBlock implements EntityBlock {
 
     private static final FluidStack cognitium = new FluidStack(RegisterFluids.COGNITIUM_SOURCE.get(), 1000);
 

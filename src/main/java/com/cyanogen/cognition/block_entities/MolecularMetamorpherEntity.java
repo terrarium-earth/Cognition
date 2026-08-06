@@ -45,7 +45,7 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Optional;
 
-public class MolecularMetamorpherEntity extends ExperienceReceivingEntity implements GeoBlockEntity {
+public class MolecularMetamorpherEntity extends ObeliskBindingEntity implements GeoBlockEntity {
 
     public MolecularMetamorpherEntity(BlockPos pos, BlockState state) {
         super(RegisterBlockEntities.MOLECULAR_METAMORPHER.get(), pos, state);

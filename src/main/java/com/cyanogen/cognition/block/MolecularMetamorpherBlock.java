@@ -35,7 +35,7 @@ import net.neoforged.neoforge.items.ItemStackHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class MolecularMetamorpherBlock extends ExperienceReceivingBlock implements EntityBlock {
+public class MolecularMetamorpherBlock extends ObeliskBindingBlock implements EntityBlock {
 
     public MolecularMetamorpherBlock() {
         super(Properties.of()

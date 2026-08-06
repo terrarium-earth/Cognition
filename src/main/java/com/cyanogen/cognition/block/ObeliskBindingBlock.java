@@ -1,7 +1,7 @@
 package com.cyanogen.cognition.block;
 
 import com.cyanogen.cognition.block_entities.ExperienceObeliskEntity;
-import com.cyanogen.cognition.block_entities.ExperienceReceivingEntity;
+import com.cyanogen.cognition.block_entities.ObeliskBindingEntity;
 import com.cyanogen.cognition.registries.RegisterItems;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
@@ -21,9 +21,11 @@ import net.minecraft.world.phys.BlockHitResult;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class ExperienceReceivingBlock extends Block {
+public abstract class ObeliskBindingBlock extends Block {
 
-    public ExperienceReceivingBlock(Properties p) {
+    //Generic block for appliances that may be bound to an Obelisk, in order to receive Cognitium or otherwise
+
+    public ObeliskBindingBlock(Properties p) {
         super(p);
     }
 
@@ -31,7 +33,7 @@ public abstract class ExperienceReceivingBlock extends Block {
     protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
 
         if(stack.is(RegisterItems.ATTUNEMENT_STAFF.get()) && !player.isShiftKeyDown()
-                && level.getBlockEntity(pos) instanceof ExperienceReceivingEntity receiver){
+                && level.getBlockEntity(pos) instanceof ObeliskBindingEntity receiver){
 
             handleInfoRequest(receiver, player, level);
             return ItemInteractionResult.sidedSuccess(true);
@@ -39,7 +41,7 @@ public abstract class ExperienceReceivingBlock extends Block {
         return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
     }
 
-    public void handleInfoRequest(ExperienceReceivingEntity entity, Player player, Level level){
+    public void handleInfoRequest(ObeliskBindingEntity entity, Player player, Level level){
 
         if(entity.isBound()){
 

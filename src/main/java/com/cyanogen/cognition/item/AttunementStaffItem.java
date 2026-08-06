@@ -2,7 +2,7 @@ package com.cyanogen.cognition.item;
 
 import com.cyanogen.cognition.block_entities.AbstractAcceleratorEntity;
 import com.cyanogen.cognition.block_entities.ExperienceObeliskEntity;
-import com.cyanogen.cognition.block_entities.ExperienceReceivingEntity;
+import com.cyanogen.cognition.block_entities.ObeliskBindingEntity;
 import com.cyanogen.cognition.block_entities.bibliophage.bookshelves.AbstractInfectedBookshelfEntity;
 import com.cyanogen.cognition.config.Config;
 import com.cyanogen.cognition.registries.RegisterItems;
@@ -62,7 +62,7 @@ public class AttunementStaffItem extends Item {
                 handleObelisk(obelisk, stack, player);
                 return InteractionResult.sidedSuccess(level.isClientSide);
             }
-            else if(entity instanceof ExperienceReceivingEntity receiver){
+            else if(entity instanceof ObeliskBindingEntity receiver){
                 handleExperienceReceivingBlock(receiver, stack, player, level);
                 return InteractionResult.sidedSuccess(level.isClientSide);
             }
@@ -93,7 +93,7 @@ public class AttunementStaffItem extends Item {
         player.displayClientMessage(Component.translatable("message.cognition.binding_wand.bind_obelisk"), true);
     }
 
-    public void handleExperienceReceivingBlock(ExperienceReceivingEntity receiver, ItemStack stack, Player player, Level level){
+    public void handleExperienceReceivingBlock(ObeliskBindingEntity receiver, ItemStack stack, Player player, Level level){
 
         final double range = Config.COMMON.bindingRange.get();
 

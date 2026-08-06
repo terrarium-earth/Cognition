@@ -1,5 +1,6 @@
 package com.cyanogen.cognition.block.void_garden;
 
+import com.cyanogen.cognition.block.ObeliskBindingBlock;
 import com.cyanogen.cognition.block_entities.void_garden.VoidAltarEntity;
 import com.cyanogen.cognition.registries.RegisterBlockEntities;
 import com.cyanogen.cognition.registries.RegisterItems;
@@ -13,7 +14,6 @@ import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.SoundType;
@@ -24,7 +24,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import org.jetbrains.annotations.Nullable;
 
-public class VoidAltarBlock extends Block implements EntityBlock {
+public class VoidAltarBlock extends ObeliskBindingBlock implements EntityBlock {
     public VoidAltarBlock() {
         super(Properties.of()
                 .strength(9f)

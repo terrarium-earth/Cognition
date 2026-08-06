@@ -12,7 +12,7 @@ import software.bernie.geckolib.animation.PlayState;
 import software.bernie.geckolib.animation.RawAnimation;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
-public class PrecisionDispellerEntity extends ExperienceReceivingEntity implements GeoBlockEntity{
+public class PrecisionDispellerEntity extends ObeliskBindingEntity implements GeoBlockEntity{
 
     public PrecisionDispellerEntity(BlockPos pos, BlockState state) {
         super(RegisterBlockEntities.PRECISION_DISPELLER.get(), pos, state);

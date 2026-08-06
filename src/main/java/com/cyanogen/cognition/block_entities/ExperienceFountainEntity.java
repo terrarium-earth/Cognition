@@ -26,7 +26,7 @@ import software.bernie.geckolib.util.GeckoLibUtil;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class ExperienceFountainEntity extends ExperienceReceivingEntity implements GeoBlockEntity{
+public class ExperienceFountainEntity extends ObeliskBindingEntity implements GeoBlockEntity{
 
     public ExperienceFountainEntity(BlockPos pos, BlockState state) {
         super(RegisterBlockEntities.EXPERIENCE_FOUNTAIN.get(), pos, state);

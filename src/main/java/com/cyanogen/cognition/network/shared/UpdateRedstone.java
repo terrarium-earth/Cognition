@@ -2,7 +2,7 @@ package com.cyanogen.cognition.network.shared;
 
 import com.cyanogen.cognition.Cognition;
 import com.cyanogen.cognition.block_entities.ExperienceObeliskEntity;
-import com.cyanogen.cognition.block_entities.ExperienceReceivingEntity;
+import com.cyanogen.cognition.block_entities.ObeliskBindingEntity;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.codec.ByteBufCodecs;
@@ -95,7 +95,7 @@ public class UpdateRedstone implements CustomPacketPayload {
                 if(serverEntity instanceof ExperienceObeliskEntity obelisk){
                     obelisk.setRedstoneEnabled(packet.isControllable);
                 }
-                else if(serverEntity instanceof ExperienceReceivingEntity receiver){
+                else if(serverEntity instanceof ObeliskBindingEntity receiver){
                     receiver.setRedstoneEnabled(packet.isControllable);
                 }
             }

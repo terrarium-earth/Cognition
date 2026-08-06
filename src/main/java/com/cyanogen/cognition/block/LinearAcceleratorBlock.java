@@ -27,7 +27,7 @@ import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.phys.BlockHitResult;
 import org.jetbrains.annotations.Nullable;
 
-public class LinearAcceleratorBlock extends ExperienceReceivingBlock implements EntityBlock {
+public class LinearAcceleratorBlock extends ObeliskBindingBlock implements EntityBlock {
 
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
     public static final BooleanProperty ACTIVE = BooleanProperty.create("active");

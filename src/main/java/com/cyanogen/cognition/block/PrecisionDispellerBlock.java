@@ -39,7 +39,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class PrecisionDispellerBlock extends ExperienceReceivingBlock implements EntityBlock {
+public class PrecisionDispellerBlock extends ObeliskBindingBlock implements EntityBlock {
 
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
 
